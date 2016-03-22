@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "1aae1d618c7f262b2f5120a0f9cd79cc",
-    "content-hash": "d2b86dc45fcedb7d1079dcc3ef6633ad",
+    "hash": "028d77294e31f5d295e9bb5406ffa122",
+    "content-hash": "0d5744add84b1aa7a407ea6eb60a0b13",
     "packages": [
         {
             "name": "barryvdh/laravel-ide-helper",
@@ -579,6 +579,85 @@
                 "storage"
             ],
             "time": "2016-03-14 21:54:11"
+        },
+        {
+            "name": "monkey/environment",
+            "version": "1.0.5",
+            "source": {
+                "type": "git",
+                "url": "git@gitlab.monkeydata.com:composer/environment.git",
+                "reference": "19ec2b0bb2a5c2793f9d97adae8d04f6e92832ae"
+            },
+            "dist": {
+                "type": "tar",
+                "url": "https://composer:uxJ4EhTaf61fo3pnTvK5@composer.monkeydata.com/dist/monkey-environment-1.0.5-6ed155.tar",
+                "reference": "19ec2b0bb2a5c2793f9d97adae8d04f6e92832ae",
+                "shasum": "e6f2e6ec76b95ef2aebbb99c8abadaf3849194cf"
+            },
+            "require": {
+                "php": ">=5.5.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "*",
+                "phpunit/phpunit": "3.7.*"
+            },
+            "type": "package",
+            "autoload": {
+                "psr-4": {
+                    "Monkey\\Environment\\": "src/"
+                }
+            },
+            "notification-url": "https://composer:uxJ4EhTaf61fo3pnTvK5@composer.monkeydata.com/notify-download/",
+            "authors": [
+                {
+                    "name": "henry",
+                    "email": "root@monkeydata.com"
+                }
+            ],
+            "description": "package for composer",
+            "time": "2016-02-25 10:50:16"
+        },
+        {
+            "name": "monkey/vardump",
+            "version": "1.0.4",
+            "source": {
+                "type": "git",
+                "url": "git@gitlab.monkeydata.com:composer/vardump.git",
+                "reference": "0a65dc40602e39992c94f1ca5ef4024b113c4822"
+            },
+            "dist": {
+                "type": "tar",
+                "url": "https://composer:uxJ4EhTaf61fo3pnTvK5@composer.monkeydata.com/dist/monkey-vardump-1.0.4-69be9d.tar",
+                "reference": "0a65dc40602e39992c94f1ca5ef4024b113c4822",
+                "shasum": "4405e25e556c87293caa3c332c845de10dee217e"
+            },
+            "require": {
+                "monkey/environment": "1.0.*",
+                "php": ">=5.5.0",
+                "symfony/var-dumper": "~2.6|~3.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "*",
+                "phpunit/phpunit": "3.7.*"
+            },
+            "type": "package",
+            "autoload": {
+                "files": [
+                    "functions/vardump.php"
+                ],
+                "psr-4": {
+                    "Monkey\\Vardump\\": "src/"
+                }
+            },
+            "notification-url": "https://composer:uxJ4EhTaf61fo3pnTvK5@composer.monkeydata.com/notify-download/",
+            "authors": [
+                {
+                    "name": "henry",
+                    "email": "root@monkeydata.com"
+                }
+            ],
+            "description": "package for composer",
+            "time": "2016-03-14 08:39:36"
         },
         {
             "name": "monolog/monolog",

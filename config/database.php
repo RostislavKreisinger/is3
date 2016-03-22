@@ -26,7 +26,7 @@ return [
     |
     */
 
-    'default' => env('DB_CONNECTION', 'monkeydata_import_support'),
+    'default' => env('DB_CONNECTION', 'mysql-import-support'),
 
     /*
     |--------------------------------------------------------------------------
