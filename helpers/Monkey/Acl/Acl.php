@@ -19,7 +19,8 @@ class Acl {
     
     public function hasAcl($aclString) {
         foreach($this->getAclList() as $acl){
-            if($acl == $aclString){
+            $regex ="/^".str_replace(['.', '*'], ['\.', '.+'], $acl)."(\..+)*$/";
+            if(preg_match($regex, $aclString)){
                 return true;
             }
         }

@@ -8,7 +8,7 @@
 
 namespace Monkey\Acl;
 
-use App\Models\User;
+use App\Model\User;
 
 /**
  * Description of AclManager
@@ -31,10 +31,16 @@ class AclManager {
 
     public function __construct(User $user, Acl $acl) {
         $this->setUser($user);
-        $this->setAlc($alc);
+        $this->setAlc($acl);
+        $this->init();
     }
     
-    
+    public function init() {
+        $aclList = $this->getUser()->getAcl();
+        foreach( $aclList as $acl ){
+            $this->getAlc()->addAcl($acl->key);
+        }
+    }
 
     public function getUser() {
         return $this->user;
@@ -47,6 +53,11 @@ class AclManager {
 
     public function getAlc() {
         return $this->alc;
+    }
+    
+    public function hasAcl($aclString) {
+        
+        return $this->getAlc()->hasAcl($aclString);
     }
 
     public function setAlc(Acl $alc) {

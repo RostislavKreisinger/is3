@@ -8,20 +8,22 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
+use App\Model\User;
+use \Exception;
 
 /**
  * Description of HomepageController
  *
  * @author Tomas
  */
-class HomepageController extends BaseController {
+class HomepageController extends Controller {
     
-    public function getIndex() {
+    
+    
+    public function index() {
         $user = User::find(1);
-        vd($user);
-        vde($user)
-        return "TEST";
+        $view = new \Monkey\View\View('home');
+        // return view('');//$view->render();
     }
     
     
