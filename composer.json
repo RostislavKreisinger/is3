@@ -7,7 +7,10 @@
     "require": {
         "php": ">=5.5.9",
         "laravel/framework": "5.2.*",
-        "barryvdh/laravel-ide-helper": "^2.1"
+        "barryvdh/laravel-ide-helper": "^2.1",
+        "monkey/vardump": "1.0.*",
+        "doctrine/dbal": "^2.5",
+        "latte/latte": "^2.3"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
@@ -21,7 +24,8 @@
             "database"
         ],
         "psr-4": {
-            "App\\": "app/"
+            "App\\": "app/",
+            "": "helpers/"
         }
     },
     "autoload-dev": {
@@ -47,5 +51,11 @@
     },
     "config": {
         "preferred-install": "dist"
-    }
+    },
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://composer:uxJ4EhTaf61fo3pnTvK5@composer.monkeydata.com"
+        }
+    ]
 }
