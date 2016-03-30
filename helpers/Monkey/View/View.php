@@ -96,11 +96,11 @@ class View extends BaseView {
             }
         });
         
-        $assetsArray = array('js', 'img', 'css');
-        foreach ($assetsArray as $asset){
-            $set->addMacro($asset, function($node, $writer) use ($asset){
+        $assetsArray = array('assets'=> '', 'js'=>'js/', 'img' => 'img/', 'css' => 'css/');
+        foreach ($assetsArray as $name => $asset){
+            $set->addMacro($name, function($node, $writer) use ($asset){
                 $args = explode(',', $node->args);
-                return $writer->write("echo asset('assets/{$asset}/'.$args[0]);");
+                return $writer->write("echo asset('assets/{$asset}'.$args[0]);");
             });
         }
         
