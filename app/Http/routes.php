@@ -10,9 +10,7 @@ Route::group(['middleware' => 'web'], function () {
         Route::auth();
     });
     
-    
     Route::group(['middleware' => 'auth'], function (){
-        // Route::get('/', HomepageController::routeMethod('getIndex'));
         Route::get('/', HomepageController::routeMethod('index'));
     });
     

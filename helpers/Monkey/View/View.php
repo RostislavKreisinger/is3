@@ -27,11 +27,6 @@ class View extends BaseView {
     private $template = null;
     
 
-
-
-
-
-
     public function __construct($template = array(), $parameters = array()) {
         $this->setTemplate($template);
         $this->setParameters($parameters);
@@ -74,16 +69,33 @@ class View extends BaseView {
         $this->template = $template;
         return $this;
     }
+    
+    public function __toString() {
+        return $this->render();
+    }
 
     
     private function addMacros(Engine &$latte) {
         $set = new MacroSet($latte->getCompiler());
-        // $set->addMacro("isses", 'isset(%node.array[0])? %node.array[0] : "");');
         
-        // $set->addMacro("isset", 'isset(%node.array[0])? %node.array[0] : (isset(%node.array[1])? %node.array[1]: "");');
         $set->addMacro("isset", function($node, $writer) {
             $args = explode(',', $node->args);
             return $writer->write("echo Latte\Runtime\Filters::escapeHtml(isset($args[0]) ? $args[0] : '') ;");
-        });//'isset(%node.array[0])? %node.array[0] : (isset(%node.array[1])? %node.array[1]: "");');
+        });
+        
+        $set->addMacro("view", function($node, $writer) {
+            $args = explode(',', $node->args);
+            if($args[0][0] == '$' ){
+                return $writer->write("echo {$args[0]};");
+            }else{
+                if(isset($args[1])){
+                    return $writer->write("echo new Monkey\View\View({$args[0]}, {$args[1]});");
+                }else{
+                    return $writer->write("echo new Monkey\View\View({$args[0]});");
+                }
+            }
+        });
+        
+        
     }
 }

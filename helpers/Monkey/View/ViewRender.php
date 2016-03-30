@@ -9,6 +9,7 @@
 namespace Monkey\View;
 
 use Exception;
+use Illuminate\Contracts\Support\Renderable;
 use Monkey\View\View;
 
 
@@ -18,10 +19,12 @@ use Monkey\View\View;
  *
  * @author Tomas
  */
-class ViewRender implements \Illuminate\Contracts\Support\Renderable {
+class ViewRender {
 
     static $instance = null;
-    private $layoutsBasePath = 'authentication';
+    
+    
+    private $layoutsBasePath = '';
     private $defaultLayoutName = 'index';
     private $baseLayout = null;
     
@@ -35,23 +38,41 @@ class ViewRender implements \Illuminate\Contracts\Support\Renderable {
     protected function __construct($route) {
         $this->initView($route);
     }
-    
+  
     protected function initView($route) {
-        $route = array_merge([$this->layoutsBasePath], $route);
-        
-        $this->baseLayout = new View($this->getViewName('html'));
-        
+        $route = $this->initRoute($route);
+        $this->baseLayout = new View($this->getViewName('@html'));
+        $this->baseLayout->addParameter('errors', $this->errors);
+        $this->baseLayout->addParameter('messages', $this->messages);
+       
         $layoutPath = $this->findLayout($route);
         $this->layout = new View($layoutPath);
+        $this->layout->addParameter('errors', $this->errors);
+        $this->layout->addParameter('messages', $this->messages);
         $this->baseLayout->addParameter('layout', $this->layout);
+        
         
         $headPath = $this->findHead($route);
         $this->head = new View($headPath);
-        $this->baseLayout->addParameter('head', $this->head);
-        
+        $this->head->addParameter('errors', $this->errors);
+        $this->head->addParameter('messages', $this->messages);
+        $this->layout->addParameter('head', $this->head);
         
         $this->body = new View($route);
+        $this->body->addParameter('errors', $this->errors);
+        $this->body->addParameter('messages', $this->messages);
         $this->layout->addParameter('body', $this->body);
+         
+    }
+    
+    protected function initRoute($route) {
+        $templateName = array_merge([$this->layoutsBasePath], $route);
+        foreach ($templateName as $key => $value){
+            if(empty($value)){
+                unset($templateName[$key]);
+            }
+        }
+        return $templateName;
     }
 
     /**
@@ -98,24 +119,25 @@ class ViewRender implements \Illuminate\Contracts\Support\Renderable {
     }
     
     protected function findView($route, $viewName) {
-        $tmpRoute = $route;
-        // vd($tmpRoute);
+        $tmpRoute = array_values( $route );
         unset($tmpRoute[count($tmpRoute) - 1]);
-        while (count($tmpRoute) > 0) {
+        $count = count($tmpRoute);
+        while ($count >= 0) {
             if (ViewFinder::existView(implode('.', $tmpRoute) . "." . $viewName)) {
                 return array_merge($tmpRoute, [$viewName]);
             }
             unset($tmpRoute[count($tmpRoute) - 1]);
+            $count--;
         }
         return false;
     }
 
     protected function findLayout($route) {
-        return $this->findView($route, 'layout');
+        return $this->findView($route, '@layout');
     }
     
     protected function findHead($route) {
-        return $this->findView($route, 'head');
+        return $this->findView($route, '@head');
     }
 
     public function render() {
