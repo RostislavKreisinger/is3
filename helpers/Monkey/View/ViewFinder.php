@@ -35,7 +35,10 @@ class ViewFinder {
     }
     
     
-   
+    public static function existFile($path) {
+        $object = static::getInstance();
+        return $object->exists($path);
+    }
     
     public static function existView($name){
         if(is_array($name)){

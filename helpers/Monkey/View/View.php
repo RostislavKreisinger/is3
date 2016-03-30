@@ -8,6 +8,7 @@
 
 namespace Monkey\View;
 
+use Exception;
 use Latte\Engine;
 use Latte\Macros\MacroSet;
 
@@ -41,17 +42,22 @@ class View extends BaseView {
         return base_path('resources/views/').  implode('/', $name). '.latte';
     }
     
+    public function viewExists() {
+        $viewPath = $this->getPathByName($this->template);
+        return ViewFinder::existFile($viewPath);
+    }
+    
     public function render() {
         $latte = new Engine();
         $this->addMacros($latte);
         $latte->setTempDirectory(base_path('storage/framework/latte/'));
         
-        if( !ViewFinder::existView($this->template) ){
-            vde('view not exist');
-            return '';
-        }
         
         $viewPath = $this->getPathByName($this->template);
+        if( !$this->viewExists() ){
+            throw new Exception("View not exists: {$viewPath}");
+        }
+        
         $view = $latte->renderToString($viewPath, $this->getParametersToView());
         
         return $view;
