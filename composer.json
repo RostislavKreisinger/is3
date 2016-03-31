@@ -9,6 +9,7 @@
         "laravel/framework": "5.2.*",
         "barryvdh/laravel-ide-helper": "^2.1",
         "monkey/vardump": "1.0.*",
+        "monkey/environment": "1.0.*",
         "doctrine/dbal": "^2.5",
         "latte/latte": "^2.3"
     },
