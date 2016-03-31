@@ -108,6 +108,15 @@ class View extends BaseView {
             });
         }
         
+        $set->addMacro("action", function($node, $writer) {
+            $args = explode(',', $node->args);
+            if(isset($args[1])){
+                return $writer->write("echo action('App\\\\Http\\\\Controllers\\\\'.{$args[0]}, {$args[1]});");
+            }else{
+                return $writer->write("echo action('App\\\\Http\\\\Controllers\\\\'.{$args[0]});");
+            }
+        });
+        
         
         
     }

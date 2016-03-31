@@ -11,7 +11,8 @@ Route::group(['middleware' => 'web'], function () {
     });
     
     Route::group(['middleware' => 'auth'], function (){
-        Route::get('/', HomepageController::routeMethod('index'));
+        // Route::get('/', HomepageController::routeMethod('index'));
+        Route::controller('/', HomepageController::class);
     });
     
     
