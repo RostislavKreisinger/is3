@@ -44,6 +44,8 @@ function runCommand()
     fi
 }
 
+runCommand "rm -f compiled.php" "bootstrap/cache"
+
 if [ "$JUST_GRUNT" = "0" ]
 then
     runCommand "composer install"
