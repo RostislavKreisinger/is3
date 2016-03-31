@@ -46,7 +46,7 @@ function runCommand()
 
 if [ "$JUST_GRUNT" = "0" ]
 then
-    runCommand "composer update"
+    runCommand "composer install"
 fi
 
 #runCommand "npm install" "build/authentication"
