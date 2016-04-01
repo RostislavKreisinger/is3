@@ -44,7 +44,10 @@ function runCommand()
     fi
 }
 
-runCommand "chown daemon. cache/ -R" "bootstrap"
+if [ "$USER" != "jenkins" ]
+then
+   runCommand "chown daemon. cache/ -R" "bootstrap"
+fi
 
 runCommand "rm -f compiled.php" "bootstrap/cache"
 
