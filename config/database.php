@@ -26,7 +26,7 @@ return [
     |
     */
 
-    'default' => env('DB_CONNECTION', 'mysql'),
+    'default' => env('DB_CONNECTION', 'mysql-import-support'),
 
     /*
     |--------------------------------------------------------------------------
@@ -45,38 +45,111 @@ return [
     */
 
     'connections' => [
-
-        'sqlite' => [
-            'driver' => 'sqlite',
-            'database' => database_path('database.sqlite'),
-            'prefix' => '',
-        ],
-
-        'mysql' => [
+        'mysql-import-support' => [
             'driver' => 'mysql',
-            'host' => env('DB_HOST', 'localhost'),
-            'port' => env('DB_PORT', '3306'),
-            'database' => env('DB_DATABASE', 'forge'),
-            'username' => env('DB_USERNAME', 'forge'),
-            'password' => env('DB_PASSWORD', ''),
+            'host' => env('DB_IMPORT_SUPPORT_HOST', 'localhost'),
+            'port' => env('DB_IMPORT_SUPPORT_PORT', '3306'),
+            'database' => env('DB_IMPORT_SUPPORT_DATABASE', 'monkeydata_import_support'),
+            'username' => env('DB_IMPORT_SUPPORT_USERNAME', 'root'),
+            'password' => env('DB_IMPORT_SUPPORT_PASSWORD', ''),
             'charset' => 'utf8',
             'collation' => 'utf8_unicode_ci',
-            'prefix' => '',
-            'strict' => false,
-            'engine' => null,
+            'options' => array(
+                PDO::ATTR_PERSISTENT => false,
+            ),
         ],
-
-        'pgsql' => [
-            'driver' => 'pgsql',
-            'host' => env('DB_HOST', 'localhost'),
-            'port' => env('DB_PORT', '5432'),
-            'database' => env('DB_DATABASE', 'forge'),
-            'username' => env('DB_USERNAME', 'forge'),
-            'password' => env('DB_PASSWORD', ''),
+        'mysql-app-support' => [
+            'driver' => 'mysql',
+            'host' => env('DB_APP_SUPPORT_HOST', 'localhost'),
+            'port' => env('DB_APP_SUPPORT_PORT', '3306'),
+            'database' => env('DB_APP_SUPPORT_DATABASE', 'monkeydata_import_support'),
+            'username' => env('DB_APP_SUPPORT_USERNAME', 'root'),
+            'password' => env('DB_APP_SUPPORT_PASSWORD', ''),
             'charset' => 'utf8',
-            'prefix' => '',
-            'schema' => 'public',
+            'collation' => 'utf8_unicode_ci',
+            'options' => array(
+                PDO::ATTR_PERSISTENT => false,
+            ),
         ],
+        'mysql-master-app' => array(
+            'driver' => 'mysql',
+            'host' => env('DB_MASTER_APP_HOST', 'localhost'),
+            'port' => env('DB_MASTER_APP_PORT', '3306'),
+            'database' => env('DB_MASTER_APP_PORT', 'monkeydata'),
+            'username' => env('DB_MASTER_APP_USERNAME', 'root'),
+            'password' => env('DB_MASTER_APP_PASSWORD', ''),
+            'charset' => 'utf8',
+            'collation' => 'utf8_general_ci',
+            'options' => array(
+                PDO::ATTR_PERSISTENT => false,
+            ),
+        ),
+        'mysql-import' => array(
+            'driver' => 'mysql',
+            'host' => env('DB_IMPORT_HOST', 'localhost'),
+            'port' => env('DB_IMPORT_PORT', '3306'),
+            'database' => env('DB_IMPORT_PORT', 'monkeydata'),
+            'username' => env('DB_IMPORT_USERNAME', 'root'),
+            'password' => env('DB_IMPORT_PASSWORD', ''),
+            'charset' => 'utf8',
+            'collation' => 'utf8_general_ci',
+            'options' => array(
+                PDO::ATTR_PERSISTENT => false,
+            ),
+        ),
+        'mysql-import-dw' => array(
+            'driver' => 'mysql',
+            'host' => env('DB_IMPORT_DW_HOST', 'localhost'),
+            'port' => env('DB_IMPORT_DW_PORT', '3306'),
+            'database' => env('DB_IMPORT_DW_PORT', 'monkeydata'),
+            'username' => env('DB_IMPORT_DW_USERNAME', 'root'),
+            'password' => env('DB_IMPORT_DW_PASSWORD', ''),
+            'charset' => 'utf8',
+            'collation' => 'utf8_general_ci',
+            'options' => array(
+                PDO::ATTR_PERSISTENT => false,
+            ),
+        ),
+        'mysql-import-anal' => array(
+            'driver' => 'mysql',
+            'host' => env('DB_IMPORT_ANAL_HOST', 'localhost'),
+            'port' => env('DB_IMPORT_ANAL_PORT', '3306'),
+            'database' => env('DB_IMPORT_ANAL_PORT', 'monkeydata'),
+            'username' => env('DB_IMPORT_ANAL_USERNAME', 'root'),
+            'password' => env('DB_IMPORT_ANAL_PASSWORD', ''),
+            'charset' => 'utf8',
+            'collation' => 'utf8_general_ci',
+            'options' => array(
+                PDO::ATTR_PERSISTENT => false,
+            ),
+        ),
+        'mysql-import-pools' => array(
+            'driver' => 'mysql',
+            'host' => env('DB_IMPORT_POOLS_HOST', 'localhost'),
+            'port' => env('DB_IMPORT_POOLS_PORT', '3306'),
+            'database' => env('DB_IMPORT_POOLS_PORT', 'monkeydata'),
+            'username' => env('DB_IMPORT_POOLS_USERNAME', 'root'),
+            'password' => env('DB_IMPORT_POOLS_PASSWORD', ''),
+            'charset' => 'utf8',
+            'collation' => 'utf8_general_ci',
+            'options' => array(
+                PDO::ATTR_PERSISTENT => false,
+            ),
+        ),
+        'mysql-select' => array(
+            'driver' => 'mysql',
+            'host' => env('DB_SELECT_HOST', 'localhost'),
+            'port' => env('DB_SELECT_PORT', '3306'),
+            'database' => env('DB_SELECT_PORT', 'monkeydata'),
+            'username' => env('DB_SELECT_USERNAME', 'root'),
+            'password' => env('DB_SELECT_PASSWORD', ''),
+            'charset' => 'utf8',
+            'collation' => 'utf8_general_ci',
+            'options' => array(
+                PDO::ATTR_PERSISTENT => false,
+            ),
+        ),
+
 
     ],
 

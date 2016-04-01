@@ -1,0 +1,72 @@
+{
+    "name": "MonkeyData",
+    "version": "1.0.0",
+    "authors": [
+        "Vojtěch Seidler <vojtech.seidler@icloud.com>"
+    ],
+    "license": "MIT",
+    "private": true,
+    "ignore": [
+        "**/.*",
+        "node_modules",
+        "bower_components",
+        "test",
+        "tests"
+    ],
+    "dependencies": {
+        "startbootstrap-sb-admin-2": "v1.0.4",
+        "bootstrap": "3.3.1" 
+    },
+    "exportsOverride": {
+        "startbootstrap-sb-admin-2": {
+            "js": "dist/js/sb-admin-2.js",
+            "less": "*.less",
+            "css": "**/*.css"
+        },
+        "bootstrap": {
+            "js": "dist/js/bootstrap.min.js",
+            "less": "*",
+            "fonts": "dist/fonts/*",
+            "css": "dist/css/bootstrap.min.css"
+        },
+        "jquery": {
+            "js": "dist/jquery.min.js"
+        },
+        "datatables": {
+            "js": "media/js/jquery.dataTables.min.js"
+        },
+        "datatables-plugins": {
+            "js": "integration/bootstrap/3/dataTables.bootstrap.min.js"
+        },
+        "datatables-responsive": {
+            "js": "js/dataTables.responsive.js"
+        },
+        "flot": {
+            "js" : "jquery.flot.js"
+        },
+        "font-awesome": {
+            "css": "css/font-awesome.min.css",
+            "fonts" : "fonts/*"
+        },
+        "holderjs": {
+            "js": "holder.js"
+        },
+        "metisMenu": {
+            "js": "dist/metisMenu.min.js",
+            "css": "dist/metisMenu.min.css"
+        },
+        "morrisjs": {
+            "js": "morris.min.js",
+            "css": "morris.css"
+        },
+        "bootstrap-social": {
+            "css" : "bootstrap-social.css"
+        },
+        "flot.tooltip": {
+            "js": "js/jquery.flot.tooltip"
+        },
+        "raphael": {
+            "js": "raphael-min.js"
+        }
+    }
+}
