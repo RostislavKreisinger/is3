@@ -12,6 +12,7 @@ module.exports = function (grunt) {
     var libsJavaScript = {
         '../../public/assets/default/js/build/libs/libs.min.js': [
             '../../public/assets/default/libs/jquery/js/jquery.min.js',
+            '../../public/assets/default/libs/bootstrap/js/bootstrap.min.js',
             '../../public/assets/default/libs/**/*.js'
         ]
     };

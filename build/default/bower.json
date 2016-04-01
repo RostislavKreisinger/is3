@@ -14,7 +14,8 @@
         "tests"
     ],
     "dependencies": {
-        "startbootstrap-sb-admin-2": "v1.0.8"
+        "startbootstrap-sb-admin-2": "v1.0.4",
+        "bootstrap": "3.3.1" 
     },
     "exportsOverride": {
         "startbootstrap-sb-admin-2": {
