@@ -44,6 +44,8 @@ function runCommand()
     fi
 }
 
+runCommand "chown daemon. cache/ -R" "bootstrap"
+
 runCommand "rm -f compiled.php" "bootstrap/cache"
 
 if [ "$JUST_GRUNT" = "0" ]
