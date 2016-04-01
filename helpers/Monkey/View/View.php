@@ -71,7 +71,11 @@ class View extends BaseView {
     }
     
     public function __toString() {
-        return $this->render();
+        try{
+            return $this->render();
+        }catch(Exception $e){
+            vde($e);
+        }
     }
 
     
@@ -96,13 +100,22 @@ class View extends BaseView {
             }
         });
         
-        $assetsArray = array('js', 'img', 'css');
-        foreach ($assetsArray as $asset){
-            $set->addMacro($asset, function($node, $writer) use ($asset){
+        $assetsArray = array('assets'=> '', 'js'=>'js/', 'img' => 'img/', 'css' => 'css/');
+        foreach ($assetsArray as $name => $asset){
+            $set->addMacro($name, function($node, $writer) use ($asset){
                 $args = explode(',', $node->args);
-                return $writer->write("echo asset('assets/{$asset}/'.$args[0]);");
+                return $writer->write("echo asset('assets/{$asset}'.$args[0]);");
             });
         }
+        
+        $set->addMacro("action", function($node, $writer) {
+            $args = explode(',', $node->args);
+            if(isset($args[1])){
+                return $writer->write("echo action('App\\\\Http\\\\Controllers\\\\'.{$args[0]}, {$args[1]});");
+            }else{
+                return $writer->write("echo action('App\\\\Http\\\\Controllers\\\\'.{$args[0]});");
+            }
+        });
         
         
         

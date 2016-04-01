@@ -24,7 +24,7 @@ class ViewRender {
     static $instance = null;
     
     
-    private $layoutsBasePath = '';
+    private $layoutsBasePath = 'default';
     private $defaultLayoutName = 'index';
     private $baseLayout = null;
     
@@ -56,7 +56,7 @@ class ViewRender {
         $this->head = new View($headPath);
         $this->head->addParameter('errors', $this->errors);
         $this->head->addParameter('messages', $this->messages);
-        $this->layout->addParameter('head', $this->head);
+        $this->baseLayout->addParameter('head', $this->head);
         
         $this->body = new View($route);
         $this->body->addParameter('errors', $this->errors);
