@@ -53,13 +53,9 @@ then
     runCommand "composer install"
 fi
 
-#runCommand "npm install" "build/authentication"
+runCommand "npm install" "build/default"
 
-#runCommand "grunt build" "build/authentication"
-
-#runCommand "npm install" "build/frontend"
-
-#runCommand "grunt build" "build/frontend"
+runCommand "grunt build" "build/default"
 
 if [ "$JUST_GRUNT" = "0" ]
 then
