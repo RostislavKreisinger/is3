@@ -38,7 +38,8 @@ module.exports = function (grunt) {
                     compress: true
                 },
                 files: {
-                    "../../public/assets/default/css/build.min.css": "../../public/assets/default/less/build.less"
+                    "../../public/assets/default/css/app.min.css": "../../public/assets/default/less/app/build.less",
+                    "../../public/assets/default/css/bootstrap.min.css": "../../public/assets/default/less/bootstrap/bootstrap.less"
                 }
             }
         },
@@ -46,8 +47,7 @@ module.exports = function (grunt) {
             options: {force: true},
             app: ['../../public/assets/default/js/build/app'],
             app_css: ['../../public/assets/default/css/build/app'],
-            libs: ['../../public/assets/default/js/build/libs'],
-            libs_css: ['../../public/assets/default/css/build/libs']
+            libs: ['../../public/assets/default/js/build/libs']
         },
         uglify: {
             libs: {
@@ -68,9 +68,9 @@ module.exports = function (grunt) {
                 dest: '../../resources/views/default/build/scripts/libs/scripts.latte',
                 options: {data: {timestamp: timestamp}}
             },
-            libs_css: {
-                src: '../../resources/views/default/build/css/libs/css.html',
-                dest: '../../resources/views/default/build/css/libs/css.latte',
+            bootstrap_css: {
+                src: '../../resources/views/default/build/css/app/bootstrap.html',
+                dest: '../../resources/views/default/build/css/app/bootstrap.latte',
                 options: {data: {timestamp: timestamp}}
             },
             app_css: {
@@ -110,8 +110,8 @@ module.exports = function (grunt) {
 
     grunt.registerTask('watch', ['watch']);
     grunt.registerTask('build', ['bower', 'clean', 'uglify', 'cssmin', 'htmlbuild', 'less']);
-    grunt.registerTask('build:app', ['clean:app', 'uglify:app', 'htmlbuild:app', 'htmlbuild:app_css', 'less']);
-    grunt.registerTask('build:libs', ['clean:libs', 'uglify:libs', 'cssmin', 'htmlbuild:libs', 'htmlbuild:libs_css']);
+    grunt.registerTask('build:app', ['clean:app', 'uglify:app', 'htmlbuild:app', 'htmlbuild:app_css', 'htmlbuild:bootstrap_css', 'less']);
+    grunt.registerTask('build:libs', ['clean:libs', 'uglify:libs', 'cssmin', 'htmlbuild:libs']);
 
     grunt.loadNpmTasks('grunt-contrib-cssmin');
     grunt.loadNpmTasks('grunt-bower-task');
