@@ -30,8 +30,8 @@
 
 <script>
     $(document).ready(function () {
-        if($('#dataTables-example').length){
-            $('#dataTables-example').DataTable({
+        if($('.table-projects').length){
+            $('.table-projects').DataTable({
                 responsive: false,
                 paging:   true,
                 ordering: true,
@@ -39,6 +39,11 @@
                 searching: false,
                 ordering:  false,
                 keys: false,
+                "autoWidth": false,
+                "columns": [
+                    { "width": "20px" },
+                    null
+                  ],
                 language: {
                     lengthMenu: "",// "Display _MENU_ recordsss",
                     paginate: {
