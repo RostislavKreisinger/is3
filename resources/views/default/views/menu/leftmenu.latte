@@ -1,0 +1,35 @@
+<!-- Left menu -->
+<div class="navbar-default sidebar" role="navigation">
+    <div class="sidebar-nav navbar-collapse">
+        <ul class="nav" id="side-menu">
+            {view 'default.views.menu.leftmenu.user_info'}
+
+            <li class="active">
+                <a href="#">
+                    Invalid projects
+                    <span class="fa arrow"></span>
+                </a>
+                <ul class="nav nav-second-level collapse">
+                    <li n:for="$k = 0; $k<10; $k++">
+                        <a href="{action 'Search\ProjectController@getIndex', ['search'=>$k]}"><i class="fa fw {$k%2 == 0? 'fa-dollar': ''}"></i> Project {$k}</a>
+                    </li>
+
+                </ul>
+            </li>
+
+            <li class="">
+                <a href="#">
+                    New projects
+                    <span class="fa arrow"></span>
+                </a>
+                <ul class="nav nav-second-level collapse">
+                    <li n:for="$k = 0; $k<10; $k++">
+                        <a href="index.html"><i class="fa fw {$k%2 == 0? 'fa-dollar': ''}"></i> Project {$k}</a>
+                    </li>
+
+                </ul>
+            </li>
+        </ul>
+    </div>
+
+</div>

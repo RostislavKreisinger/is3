@@ -22,6 +22,7 @@ class ProjectController extends Controller {
     }
     
     public function show($id) {
+        vd($id);
         $user = User::find(1);    
     }
 }
