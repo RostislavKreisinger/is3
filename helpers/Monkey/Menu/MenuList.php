@@ -15,7 +15,7 @@ namespace Monkey\Menu;
  */
 class MenuList {
 
-    private $list;
+    private $list = array();
     
     public function __construct() {
         

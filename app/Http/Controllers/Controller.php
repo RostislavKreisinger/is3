@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Project\DetailController;
 use App\Model\ImportSupport\User;
 use Auth;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -10,6 +11,7 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 use Monkey\Menu\Menu;
 use Monkey\Menu\MenuList;
+use Monkey\View\View;
 use Monkey\View\ViewRender;
 use Redirect;
 use Route;
@@ -30,10 +32,10 @@ class Controller extends BaseController {
     
     /**
      *
-     * @var Menu 
+     * @var MenuList 
      */
     private $menu;
-
+    
     public function __construct() {
         if(Auth::check()){
             $this->setUser(User::find(Auth::user()->id));
@@ -42,9 +44,41 @@ class Controller extends BaseController {
         $currentRouteAction = Route::currentRouteAction();
         $route = $this->cleanRoute($currentRouteAction);
         $this->view = ViewRender::getInstance($route);
-        $this->menu = new MenuList();
+        
+        $this->initMenu();
+    }
+    
+    private function initMenu() {
+        $menu = $this->prepareMenu();
+        $this->getView()->addParameter('menu', $menu);
+        View::share('menu', $menu);
+        $this->setMenu($menu);
     }
 
+    /**
+     * 
+     * @return MenuList
+     */
+    protected function prepareMenu() {
+        $menu = $this->getMenu();
+        
+        $invalidProjects = new Menu('Invalid projects', '#');
+        $invalidProjects->setOpened(true);
+        for($k = 0; $k < 10; $k++){
+            $invalidProjects->addMenuItem(new Menu("Project {$k}", action(DetailController::routeMethod('getIndex'), ['project_id'=>$k])));
+        }
+        $menu->addMenuItem($invalidProjects);
+        
+        
+        $newProjects = new Menu('New projects', '#');
+        for($k = 10; $k < 20; $k++){
+            $newProjects->addMenuItem(new Menu("Project {$k}", action(DetailController::routeMethod('getIndex'), ['project_id'=>$k])));
+        }
+        $menu->addMenuItem($newProjects);
+        
+        return $menu;
+    }
+    
     public function callAction($method, $parameters) {
         $result = parent::callAction($method, $parameters);
         if ($result === null) {
@@ -110,6 +144,27 @@ class Controller extends BaseController {
      */
     public function setUser(User $user) {
         $this->user = $user;
+        return $this;
+    }
+
+    /**
+     * 
+     * @return MenuList
+     */
+    public function getMenu() {
+        if($this->menu === null){
+            $this->menu = new MenuList();
+        }
+        return $this->menu;
+    }
+
+    /**
+     * 
+     * @param MenuList $menu
+     * @return Controller
+     */
+    public function setMenu(MenuList $menu) {
+        $this->menu = $menu;
         return $this;
     }
 

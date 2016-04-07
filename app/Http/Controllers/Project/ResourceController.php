@@ -16,13 +16,19 @@ use App\Model\User;
  *
  * @author Tomas
  */
-class DetailController extends Controller {
+class ResourceController extends Controller {
 
-    public function getIndex($projectId) {
-        $project = \App\Model\Project::find($projectId);
-        $this->getView()->addParameter('project', $project);
+    public function getIndex($project_id) {
+        if(!$this->can('resource.list')){
+            return $this->redirectToRoot();
+        }
+        $project = \App\Model\Project::find($project_id);
+        $resources = $project->getResources();
+        $this->getView()->addParameter('resources', $resources);
         
         $this->prepareMenu($project);
+        
+        
     }
 
 }

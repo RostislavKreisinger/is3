@@ -8,7 +8,7 @@
 
 namespace App\Http\Controllers\User;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\User\Controller;
 use App\Model\User;
 
 /**
@@ -21,6 +21,8 @@ class DetailController extends Controller {
     public function getIndex($userId) {
         $user = User::find($userId);
         $this->getView()->addParameter('user', $user);
+        
+        $this->prepareMenu($user);
     }
 
 }

@@ -12,15 +12,13 @@
                 <thead>
                     <tr>
                         <td>id</td>
-                        <td>Project name</td>
-                        <td>User id</td>
+                        <td>Resource name</td>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr n:foreach="$projects as $project">
-                        <td>{$project->id}</td>
-                        <td>{$project->name}</td>
-                        <td>{$project->user_id}</td>
+                    <tr n:foreach="$resources as $resource">
+                        <td>{$resource->id}</td>
+                        <td>{$resource->btf_name}</td>
                     </tr>
                 </tbody>
             </table>

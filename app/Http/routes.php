@@ -19,13 +19,19 @@ Route::group(['middleware' => 'web'], function () {
         });
         
         Route::group(['prefix' => 'project'], function(){
-            Route::controller('/{project_id}', App\Http\Controllers\Project\DetailController::class);
-            Route::controller('/', \App\Http\Controllers\Project\ListController::class);
+            Route::group(['prefix' => '{project_id}'], function(){
+                Route::group(['prefix' => 'resource'], function(){
+                    Route::controller('/{resource_id}', App\Http\Controllers\Project\Resource\DetailController::class);
+                    Route::controller('/', \App\Http\Controllers\Project\ResourceController::class);
+                });
+                Route::controller('/', App\Http\Controllers\Project\DetailController::class);
+            });
+            Route::controller('/', \App\Http\Controllers\ProjectController::class);
         });
         
         Route::group(['prefix' => 'user'], function(){
             Route::controller('/{user_id}', App\Http\Controllers\User\DetailController::class);
-            Route::controller('/', \App\Http\Controllers\User\ListController::class);
+            Route::controller('/', \App\Http\Controllers\UserController::class);
         });
         
         

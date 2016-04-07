@@ -3,7 +3,7 @@
 namespace App\Model\ImportSupport;
 
 use App\Model\ImportSupport\Acl as AclModel;
-use Eloquent;
+use App\Model\Model;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
@@ -14,7 +14,7 @@ use Monkey\Acl\Acl;
 use Monkey\Acl\AclManager;
 use Monkey\Acl\IAclUser;
 
-class User extends Eloquent implements
+class User extends Model implements
     AuthenticatableContract,
     AuthorizableContract,
     CanResetPasswordContract,

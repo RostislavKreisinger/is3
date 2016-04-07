@@ -8,6 +8,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Controller;
 use App\Model\User;
 
 /**
@@ -16,9 +17,16 @@ use App\Model\User;
  * @author Tomas
  */
 class ProjectController extends Controller {
-    
+
     public function getIndex() {
-        $user = User::find(1);    
+        if(!$this->can('project.list')){
+            return $this->redirectToRoot();
+        }
+        
+        $projects = \App\Model\Project::whereNull('deleted_at')->limit(40)->orderBy('created_at', 'desc')->get();
+        $this->getView()->addParameter('projects', $projects);
+        
+        
     }
-    
+
 }

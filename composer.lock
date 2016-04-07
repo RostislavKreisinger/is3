@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "e9c85696f27be4e72622b987e957495e",
-    "content-hash": "5b1adb47577890422f3d8c2853164df8",
+    "hash": "58f4164e28a4bcd2f701ac38f9849a41",
+    "content-hash": "588b8b13c2e5fb04ca6002477f9d1eae",
     "packages": [
         {
             "name": "barryvdh/laravel-ide-helper",
@@ -1073,6 +1073,42 @@
             ],
             "description": "package for composer",
             "time": "2016-02-25 10:50:16"
+        },
+        {
+            "name": "monkey/translator",
+            "version": "1.0.2",
+            "source": {
+                "type": "git",
+                "url": "git@gitlab.monkeydata.com:composer/translator.git",
+                "reference": "818b6c6406fcfdc8cb8af1f96bb82b3985e86eb0"
+            },
+            "dist": {
+                "type": "tar",
+                "url": "https://composer:uxJ4EhTaf61fo3pnTvK5@composer.monkeydata.com/dist/monkey-translator-1.0.2-5faee5.tar",
+                "reference": "818b6c6406fcfdc8cb8af1f96bb82b3985e86eb0",
+                "shasum": "c9cfe84dbe0172e8a3c83257f66b5e4f70fa4a3c"
+            },
+            "require": {
+                "php": ">=5.5.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "3.7.*"
+            },
+            "type": "package",
+            "autoload": {
+                "psr-4": {
+                    "Monkey\\Translator\\": "src/"
+                }
+            },
+            "notification-url": "https://composer:uxJ4EhTaf61fo3pnTvK5@composer.monkeydata.com/notify-download/",
+            "authors": [
+                {
+                    "name": "henry",
+                    "email": "root@monkeydata.com"
+                }
+            ],
+            "description": "package for composer",
+            "time": "2016-02-16 16:44:26"
         },
         {
             "name": "monkey/vardump",

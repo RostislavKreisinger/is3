@@ -4,7 +4,7 @@ namespace App\Model;
 
 use Eloquent;
 
-class User extends Eloquent {
+class User extends Model {
 
     use \Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -14,9 +14,7 @@ class User extends Eloquent {
     protected $guarded = [];
     
     public function getProjects() {
-        $projects = $this->hasMany(Project::class, 'user_id')
-                ->get()
-                ;
+        $projects = $this->hasMany(Project::class, 'user_id');
         return $projects;
         
     }

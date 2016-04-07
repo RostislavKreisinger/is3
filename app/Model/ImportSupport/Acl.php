@@ -8,6 +8,8 @@
 
 namespace App\Model\ImportSupport;
 
+use App\Model\Model;
+
 
 
 /**
@@ -20,7 +22,7 @@ namespace App\Model\ImportSupport;
  * @method static \Illuminate\Database\Query\Builder|\App\Model\Acl whereKey($value)
  * @mixin \Eloquent
  */
-class Acl extends \Eloquent {
+class Acl extends Model {
     
     // use \Illuminate\Database\Eloquent\SoftDeletes;
     

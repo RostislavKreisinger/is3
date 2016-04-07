@@ -19,6 +19,8 @@ class Menu extends MenuList {
     
     private $link;
     
+    private $opened = false;
+    
     public function __construct($name, $link) {
         parent::__construct();
         $this->setName($name);
@@ -42,5 +44,16 @@ class Menu extends MenuList {
         $this->link = $link;
         return $this;
     }
+    
+    public function getOpened() {
+        return $this->opened;
+    }
+
+    public function setOpened($opened) {
+        $this->opened = $opened;
+        return $this;
+    }
+
+
     
 }
