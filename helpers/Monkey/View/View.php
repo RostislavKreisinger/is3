@@ -26,6 +26,9 @@ class View extends BaseView {
      */
     private $template = null;
     
+    
+
+
 
     public function __construct($template = array(), $parameters = array()) {
         $this->setTemplate($template);
@@ -33,6 +36,7 @@ class View extends BaseView {
     }
     
     
+
     private function getPathByName($name) {
         return base_path('resources/views/').  implode('/', $name). '.latte';
     }
@@ -87,24 +91,26 @@ class View extends BaseView {
             return $writer->write("echo Latte\Runtime\Filters::escapeHtml(isset($args[0]) ? $args[0] : '') ;");
         });
         
+      
+        
         $set->addMacro("view", function($node, $writer) {
             $args = explode(',', $node->args);
             if($args[0][0] == '$' ){
                 return $writer->write("echo {$args[0]};");
             }else{
                 if(isset($args[1])){
-                    return $writer->write("echo new Monkey\View\View({$args[0]}, {$args[1]});");
+                    return $writer->write("echo new Monkey\View\View({$args[0]}, array_merge({$args[1]}, \$_parrams));");
                 }else{
-                    return $writer->write("echo new Monkey\View\View({$args[0]});");
+                    return $writer->write("echo new Monkey\View\View({$args[0]}, \$_parrams);");
                 }
             }
         });
         
-        $assetsArray = array('assets'=> '', 'js'=>'js/', 'img' => 'img/', 'css' => 'css/');
+        $assetsArray = array('assets'=> '', 'js'=>'js/', 'img' => 'images/', 'css' => 'css/');
         foreach ($assetsArray as $name => $asset){
             $set->addMacro($name, function($node, $writer) use ($asset){
                 $args = explode(',', $node->args);
-                return $writer->write("echo asset('assets/{$asset}'.$args[0]);");
+                return $writer->write("echo asset('assets/default/{$asset}'.$args[0]);");
             });
         }
         

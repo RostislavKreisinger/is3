@@ -17,9 +17,17 @@ use Exception;
  */
 abstract class BaseView implements \Illuminate\Contracts\Support\Renderable {
 
+    public static $sharedParrameters = array();
+    
     private $parameters = array();
+    
     protected function __construct() {
     }
+    
+    public static function share($name, $value) {
+        static::$sharedParrameters[$name] = $value;
+    }
+
 
 
     public function with($name, $value) {
@@ -34,12 +42,12 @@ abstract class BaseView implements \Illuminate\Contracts\Support\Renderable {
         $preparedParameters = array();
         foreach($this->getParameters() as $key => $parametr){
             if($parametr instanceof BaseView){
-                $preparedParameters[$key] = $parametr->render();
+                $preparedParameters[$key] = $parametr; //->render();
             }else{
                 $preparedParameters[$key] = $parametr;
             }
         }
-        return $preparedParameters;
+        return array_merge(static::$sharedParrameters, $preparedParameters, array('_parrams' => $this->getParameters()));
     }
 
     public function addParameter($name, $value) {
