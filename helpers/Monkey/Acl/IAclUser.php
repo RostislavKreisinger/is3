@@ -6,14 +6,12 @@
  * and open the template in the editor.
  */
 
-namespace App\Http\Controllers\Search;
+namespace Monkey\Acl;
 
 /**
- * Description of HomepageController
  *
  * @author Tomas
  */
-class ClientController extends BaseController {
-    
-    
+interface IAclUser {
+    public function getAcl();
 }

@@ -2,7 +2,7 @@
 
 namespace App;
 
-use App\Model\User as UserModel;
+use App\Model\ImportSupport\User as UserModel;
 
 /**
  * App\User

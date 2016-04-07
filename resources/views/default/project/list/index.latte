@@ -18,9 +18,9 @@
                 </thead>
                 <tbody>
                     <tr n:foreach="$projects as $project">
-                        <td><a href="{action 'Project\DetailController@getIndex', ['project_id'=>$project->id]}">{$project->id}</a></td>
-                        <td><a href="{action 'Project\DetailController@getIndex', ['project_id'=>$project->id]}">{$project->name}</a></td>
-                        <td><a href="{action 'User\DetailController@getIndex', ['user_id'=>$project->user_id]}">{$project->user_id}</a></td>
+                        <td>{$project->id}</td>
+                        <td>{$project->name}</td>
+                        <td>{$project->user_id}</td>
                     </tr>
                 </tbody>
             </table>

@@ -2,11 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Model\ImportSupport\User;
+use Auth;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
+use Monkey\Menu\Menu;
+use Monkey\Menu\MenuList;
 use Monkey\View\ViewRender;
+use Redirect;
 use Route;
 
 class Controller extends BaseController {
@@ -16,11 +21,28 @@ class Controller extends BaseController {
         ValidatesRequests;
 
     private $view;
+    
+    /**
+     *
+     * @var User 
+     */
+    private $user;
+    
+    /**
+     *
+     * @var Menu 
+     */
+    private $menu;
 
     public function __construct() {
+        if(Auth::check()){
+            $this->setUser(User::find(Auth::user()->id));
+        }
+        
         $currentRouteAction = Route::currentRouteAction();
         $route = $this->cleanRoute($currentRouteAction);
         $this->view = ViewRender::getInstance($route);
+        $this->menu = new MenuList();
     }
 
     public function callAction($method, $parameters) {
@@ -64,5 +86,33 @@ class Controller extends BaseController {
     protected function getView() {
         return $this->view;
     }
+    
+    protected function can($acl) {
+        return $this->getUser()->can($acl);
+    }
+    
+    protected function redirectToRoot() {
+        return Redirect::to('/');
+    }
+    
+    /**
+     * 
+     * @return User
+     */
+    public function getUser() {
+        return $this->user;
+    }
+
+    /**
+     * 
+     * @param User $user
+     * @return Controller
+     */
+    public function setUser(User $user) {
+        $this->user = $user;
+        return $this;
+    }
+
+
 
 }

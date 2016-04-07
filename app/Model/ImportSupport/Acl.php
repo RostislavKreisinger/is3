@@ -6,7 +6,7 @@
  * and open the template in the editor.
  */
 
-namespace App\Model;
+namespace App\Model\ImportSupport;
 
 
 

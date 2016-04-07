@@ -6,8 +6,9 @@
  * and open the template in the editor.
  */
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Project;
 
+use App\Http\Controllers\Controller;
 use App\Model\User;
 
 /**
@@ -15,10 +16,11 @@ use App\Model\User;
  *
  * @author Tomas
  */
-class ProjectController extends Controller {
-    
-    public function getIndex() {
-        $user = User::find(1);    
+class DetailController extends Controller {
+
+    public function getIndex($projectId) {
+        $project = \App\Model\Project::find($projectId);
+        $this->getView()->addParameter('project', $project);
     }
-    
+
 }

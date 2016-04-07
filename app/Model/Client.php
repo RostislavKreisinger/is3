@@ -4,12 +4,12 @@ namespace App\Model;
 
 use Eloquent;
 
-class User extends Eloquent {
+class Client extends Eloquent {
 
     use \Illuminate\Database\Eloquent\SoftDeletes;
 
     protected $connection = 'mysql-master-app';
-    protected $table = 'user';
+    protected $table = 'client';
     
     protected $guarded = [];
     
@@ -18,14 +18,6 @@ class User extends Eloquent {
                 ->get()
                 ;
         return $projects;
-        
-    }
-    
-    public function getClient() {
-        $client = $this->hasMany(Client::class, 'user_id')
-                ->first()
-                ;
-        return $client;
         
     }
 
