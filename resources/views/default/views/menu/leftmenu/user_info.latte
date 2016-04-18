@@ -1,12 +1,13 @@
 <li n:if="isset($project)" class="sidebar-search">
     <div class="row">
-        <div class="col-lg-2 col-md-2 col-sm-2">
-            UID
+        <div class="col-lg-4 col-md-4 col-sm-4">
+            U_ID
         </div>
-        <div class="col-lg-10 col-md-10 col-sm-10">
-            <a href="{action 'User\DetailController@getIndex', ['user_id' => $project->getUser()->id ]}"> {$project->getUser()->id}</a>
+        <div class="col-lg-8 col-md-8 col-sm-8">
+            <strong><a href="{action 'User\DetailController@getIndex', ['user_id' => $project->getUser()->id ]}"> {$project->getUser()->id}</a></strong>
         </div>
     </div>
+        {*
     <div class="row">
         <div class="col-lg-2 col-md-2 col-sm-2">
             CID
@@ -15,12 +16,13 @@
             {$project->getUser()->getClient()->id}
         </div>
     </div>
+        *}
     <div class="row">
-        <div class="col-lg-2 col-md-2 col-sm-2">
-            PID
+        <div class="col-lg-4 col-md-4 col-sm-4">
+            P_ID
         </div>
-        <div class="col-lg-10 col-md-10 col-sm-10">
-            {$project->id}
+        <div class="col-lg-8 col-md-8 col-sm-8">
+            <strong><a href="{action 'Project\DetailController@getIndex', ['user_id' => $project->id ]}"> {$project->id}</a></strong>
         </div>
-    </div>
+    </div> 
 </li>
