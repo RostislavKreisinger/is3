@@ -15,7 +15,7 @@ use App\Model\User;
  *
  * @author Tomas
  */
-class HomepageController extends Controller {
+class IndexController extends Controller {
     
     public function getIndex() {
         $user = User::find(1); 

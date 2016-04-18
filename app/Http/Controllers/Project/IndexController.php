@@ -6,9 +6,8 @@
  * and open the template in the editor.
  */
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Project;
 
-use App\Http\Controllers\Controller;
 use App\Model\User;
 
 /**
@@ -16,15 +15,15 @@ use App\Model\User;
  *
  * @author Tomas
  */
-class UserController extends Controller {
+class IndexController extends Controller {
 
     public function getIndex() {
-        if(!$this->can('user.list')){
+        if(!$this->can('project.list')){
             return $this->redirectToRoot();
         }
         
-        $users = \App\Model\User::whereNull('deleted_at')->limit(40)->orderBy('created_at', 'desc')->get();
-        $this->getView()->addParameter('users', $users);
+        $projects = \App\Model\Project::whereNull('deleted_at')->limit(40)->orderBy('created_at', 'desc')->get();
+        $this->getView()->addParameter('projects', $projects);
         
         
     }

@@ -11,6 +11,7 @@ namespace Monkey\View;
 use Exception;
 use Latte\Engine;
 use Latte\Macros\MacroSet;
+use Latte\PhpWriter;
 
 
 /**
@@ -114,13 +115,16 @@ class View extends BaseView {
             });
         }
         
-        $set->addMacro("action", function($node, $writer) {
+        $set->addMacro("action", function($node, PhpWriter $writer) {
             $args = explode(',', $node->args);
+            $write = "";
+            $write .= "\$method = {$args[0]}; if(!strpos(\$method, '@')) { \$method .= '@getIndex' } ";
             if(isset($args[1])){
-                return $writer->write("echo action('App\\\\Http\\\\Controllers\\\\'.{$args[0]}, {$args[1]});");
+                $write .= "echo action('App\\\\Http\\\\Controllers\\\\'.\$method, {$args[1]});";
             }else{
-                return $writer->write("echo action('App\\\\Http\\\\Controllers\\\\'.{$args[0]});");
+                $write .= "echo action('App\\\\Http\\\\Controllers\\\\'.\$method );";
             }
+            return $writer->write($write);
         });
         
         

@@ -16,7 +16,7 @@ use App\Model\User;
  *
  * @author Tomas
  */
-class ResourceController extends Controller {
+class IndexController extends Controller {
 
     public function getIndex($project_id) {
         if(!$this->can('resource.list')){

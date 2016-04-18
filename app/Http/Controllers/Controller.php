@@ -102,7 +102,7 @@ class Controller extends BaseController {
         $file = $this->setCalledMethodName($file);
 
         $route = $folder;
-        $route[] = $file;
+        // $route[] = $file;
         return $route;
     }
 
