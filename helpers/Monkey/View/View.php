@@ -92,6 +92,15 @@ class View extends BaseView {
             return $writer->write("echo Latte\Runtime\Filters::escapeHtml(isset($args[0]) ? $args[0] : '') ;");
         });
         
+        $set->addMacro("n", function($node, $writer) {
+            $args = explode(',', $node->args);
+            return $writer->write(  "if (is_null({$args[0]})) {
+                                        echo '<span class=\'not-set-value\'>" . (isset($args[1])?$args[1]:'NULL') . "</span>';
+                                    }else{
+                                        echo Latte\Runtime\Filters::escapeHtml({$args[0]});
+                                    }");
+        });
+        
       
         
         $set->addMacro("view", function($node, $writer) {

@@ -8,7 +8,8 @@
 
 namespace App\Http\Controllers\Project;
 
-use App\Model\User;
+use App\Model\Project;
+use Monkey\Breadcrump\BreadcrumbItem;
 
 /**
  * Description of HomepageController
@@ -22,10 +23,12 @@ class IndexController extends Controller {
             return $this->redirectToRoot();
         }
         
-        $projects = \App\Model\Project::whereNull('deleted_at')->limit(40)->orderBy('created_at', 'desc')->get();
+        $projects = Project::whereNull('deleted_at')->limit(40)->orderBy('created_at', 'desc')->get();
         $this->getView()->addParameter('projects', $projects);
         
         
     }
-
+    
+   
+    
 }

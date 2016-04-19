@@ -46,5 +46,6 @@ class Controller extends BaseController {
         }
         return $menu;
     }
+
     
 }

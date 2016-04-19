@@ -8,7 +8,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Model\User;
+use App\Model\Project;
+use Monkey\View\View;
 
 /**
  * Description of HomepageController
@@ -18,7 +19,13 @@ use App\Model\User;
 class IndexController extends Controller {
     
     public function getIndex() {
-        $user = User::find(1); 
-        $user->getClient();
+        View::share('invalidProjects', $this->getInvalidProjects());
+        
+    }
+    
+    protected function getInvalidProjects() {
+        $projects = Project::where($column, $operator, $value)->limit(10);
+        
+        return $projects;
     }
 }

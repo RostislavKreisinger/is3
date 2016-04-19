@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "58f4164e28a4bcd2f701ac38f9849a41",
-    "content-hash": "588b8b13c2e5fb04ca6002477f9d1eae",
+    "hash": "77784b1ccf4f7f81207b38ce23aff400",
+    "content-hash": "146bc58f4b06a5771a1474276c1dd470",
     "packages": [
         {
             "name": "barryvdh/laravel-ide-helper",
@@ -776,7 +776,7 @@
             "version": "v5.2.27",
             "source": {
                 "type": "git",
-                "url": "https://github.com/laravel/framework.git",
+                "url": "git@gitlab.monkeydata.com:laravel/framework.git",
                 "reference": "ccda783ffa253ed27dd1d4b41dbbc95e76e48a2a"
             },
             "dist": {
@@ -1038,6 +1038,81 @@
             "time": "2016-03-14 21:54:11"
         },
         {
+            "name": "monkey/abstract-domain-model",
+            "version": "1.0.7",
+            "source": {
+                "type": "git",
+                "url": "git@gitlab.monkeydata.com:composer/abstract-domain-model.git",
+                "reference": "d8f4ff13321b2eb7321b0b48a3101d33228ba66a"
+            },
+            "dist": {
+                "type": "tar",
+                "url": "https://composer:uxJ4EhTaf61fo3pnTvK5@composer.monkeydata.com/dist/monkey-abstract-domain-model-1.0.7-340a68.tar",
+                "reference": "d8f4ff13321b2eb7321b0b48a3101d33228ba66a",
+                "shasum": "522c8eaf9e895aec3a7ae54b3ab0cc38be9c5d34"
+            },
+            "require": {
+                "php": ">=5.5.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "*",
+                "phpunit/phpunit": "3.7.*"
+            },
+            "type": "package",
+            "autoload": {
+                "psr-4": {
+                    "Monkey\\AbstractDomainModel\\": "src/"
+                }
+            },
+            "notification-url": "https://composer:uxJ4EhTaf61fo3pnTvK5@composer.monkeydata.com/notify-download/",
+            "authors": [
+                {
+                    "name": "henry",
+                    "email": "root@monkeydata.com"
+                }
+            ],
+            "description": "package for composer",
+            "time": "2016-03-31 07:15:39"
+        },
+        {
+            "name": "monkey/domain-model",
+            "version": "1.0.6",
+            "source": {
+                "type": "git",
+                "url": "git@gitlab.monkeydata.com:composer/domain-model.git",
+                "reference": "8767a983338217103ee1b2757fe93070776dd706"
+            },
+            "dist": {
+                "type": "tar",
+                "url": "https://composer:uxJ4EhTaf61fo3pnTvK5@composer.monkeydata.com/dist/monkey-domain-model-1.0.6-938f3f.tar",
+                "reference": "8767a983338217103ee1b2757fe93070776dd706",
+                "shasum": "9ab8db92bbd5a1d06db3b37f44e210e8247a5aca"
+            },
+            "require": {
+                "monkey/abstract-domain-model": "1.0.7",
+                "php": ">=5.5.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "*",
+                "phpunit/phpunit": "3.7.*"
+            },
+            "type": "package",
+            "autoload": {
+                "psr-4": {
+                    "Monkey\\DomainModel\\": "src/"
+                }
+            },
+            "notification-url": "https://composer:uxJ4EhTaf61fo3pnTvK5@composer.monkeydata.com/notify-download/",
+            "authors": [
+                {
+                    "name": "henry",
+                    "email": "root@monkeydata.com"
+                }
+            ],
+            "description": "package for composer",
+            "time": "2016-03-31 07:17:04"
+        },
+        {
             "name": "monkey/environment",
             "version": "1.0.5",
             "source": {
@@ -1073,6 +1148,50 @@
             ],
             "description": "package for composer",
             "time": "2016-02-25 10:50:16"
+        },
+        {
+            "name": "monkey/old-monkey",
+            "version": "1.0.10",
+            "source": {
+                "type": "git",
+                "url": "git@gitlab.monkeydata.com:composer/old-monkey.git",
+                "reference": "e492835988e438a68aedabb1f487b7f2a4130285"
+            },
+            "dist": {
+                "type": "tar",
+                "url": "https://composer:uxJ4EhTaf61fo3pnTvK5@composer.monkeydata.com/dist/monkey-old-monkey-1.0.10-20ec8f.tar",
+                "reference": "e492835988e438a68aedabb1f487b7f2a4130285",
+                "shasum": "af3c5abf6aeec859dd0a23a1c74e3beb64d08d1c"
+            },
+            "require": {
+                "monkey/domain-model": "1.0.*",
+                "monkey/environment": "1.0.*",
+                "monkey/vardump": "1.0.*",
+                "php": ">=5.5.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "*",
+                "phpunit/phpunit": "3.7.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Monkey\\": "src/"
+                }
+            },
+            "notification-url": "https://composer:uxJ4EhTaf61fo3pnTvK5@composer.monkeydata.com/notify-download/",
+            "authors": [
+                {
+                    "name": "henry",
+                    "email": "root@monkeydata.com"
+                }
+            ],
+            "description": "Package Monkey",
+            "keywords": [
+                "monkey",
+                "old-monkey"
+            ],
+            "time": "2016-04-12 09:29:11"
         },
         {
             "name": "monkey/translator",

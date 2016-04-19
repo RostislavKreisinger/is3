@@ -9,7 +9,9 @@
 namespace App\Http\Controllers\Project;
 
 use App\Http\Controllers\Project\Controller;
-use App\Model\User;
+use App\Http\Controllers\User\DetailController as UserDetailController;
+use App\Model\Project;
+use Monkey\Breadcrump\BreadcrumbItem;
 
 /**
  * Description of HomepageController
@@ -17,12 +19,20 @@ use App\Model\User;
  * @author Tomas
  */
 class DetailController extends Controller {
+    
+    private $project;
 
     public function getIndex($projectId) {
-        $project = \App\Model\Project::find($projectId);
+        $this->project = $project = Project::find($projectId);
         $this->getView()->addParameter('project', $project);
         
         $this->prepareMenu($project);
+    }
+
+    protected function breadcrumbAfterAction($parameters = array()) {
+        $breadcrumbs = parent::breadcrumbAfterAction();
+        $breadcrumbs->addBreadcrumbItem(new BreadcrumbItem('user', 'User', \Monkey\action(UserDetailController::class, ['user_id' => $this->project->user_id ])));
+        $breadcrumbs->addBreadcrumbItem(new BreadcrumbItem('project', 'Project', \Monkey\action(self::class, ['project_id' =>$this->project->id ])));
     }
 
 }

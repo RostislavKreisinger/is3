@@ -13,18 +13,23 @@ class User extends Model {
     
     protected $guarded = [];
     
+    
+    /**
+     * 
+     * @return Project[]
+     */
     public function getProjects() {
         $projects = $this->hasMany(Project::class, 'user_id');
         return $projects;
         
     }
     
+    /**
+     * 
+     * @return Client
+     */
     public function getClient() {
-        $client = $this->hasMany(Client::class, 'user_id')
-                ->first()
-                ;
-        return $client;
-        
+        return $this->hasMany(Client::class, 'user_id')->first();
     }
 
 }
