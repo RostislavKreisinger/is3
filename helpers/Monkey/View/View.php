@@ -11,6 +11,7 @@ namespace Monkey\View;
 use Exception;
 use Latte\Engine;
 use Latte\Macros\MacroSet;
+use Latte\PhpWriter;
 
 
 /**
@@ -91,6 +92,15 @@ class View extends BaseView {
             return $writer->write("echo Latte\Runtime\Filters::escapeHtml(isset($args[0]) ? $args[0] : '') ;");
         });
         
+        $set->addMacro("n", function($node, $writer) {
+            $args = explode(',', $node->args);
+            return $writer->write(  "if (is_null({$args[0]})) {
+                                        echo '<span class=\'not-set-value\'>" . (isset($args[1])?$args[1]:'NULL') . "</span>';
+                                    }else{
+                                        echo Latte\Runtime\Filters::escapeHtml({$args[0]});
+                                    }");
+        });
+        
       
         
         $set->addMacro("view", function($node, $writer) {
@@ -114,13 +124,16 @@ class View extends BaseView {
             });
         }
         
-        $set->addMacro("action", function($node, $writer) {
+        $set->addMacro("action", function($node, PhpWriter $writer) {
             $args = explode(',', $node->args);
+            $write = "";
+            $write .= "\$method = {$args[0]}; if(!strpos(\$method, '@')) { \$method .= '@getIndex'; } ";
             if(isset($args[1])){
-                return $writer->write("echo action('App\\\\Http\\\\Controllers\\\\'.{$args[0]}, {$args[1]});");
+                $write .= "echo action('App\\\\Http\\\\Controllers\\\\'.\$method, {$args[1]});";
             }else{
-                return $writer->write("echo action('App\\\\Http\\\\Controllers\\\\'.{$args[0]});");
+                $write .= "echo action('App\\\\Http\\\\Controllers\\\\'.\$method );";
             }
+            return $writer->write($write);
         });
         
         

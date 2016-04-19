@@ -9,6 +9,8 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
+use Monkey\Breadcrump\Breadcrumbs;
+use Monkey\Breadcrump\BreadcrumbItem;
 use Monkey\Menu\Menu;
 use Monkey\Menu\MenuList;
 use Monkey\View\View;
@@ -36,6 +38,9 @@ class Controller extends BaseController {
      */
     private $menu;
     
+    private $breadcrumbs;
+
+
     public function __construct() {
         if(Auth::check()){
             $this->setUser(User::find(Auth::user()->id));
@@ -44,6 +49,8 @@ class Controller extends BaseController {
         $currentRouteAction = Route::currentRouteAction();
         $route = $this->cleanRoute($currentRouteAction);
         $this->view = ViewRender::getInstance($route);
+        
+        View::share('breadcrumbs', $this->getBreadcrumbs());
         
         $this->initMenu();
     }
@@ -80,7 +87,10 @@ class Controller extends BaseController {
     }
     
     public function callAction($method, $parameters) {
+        $this->breadcrumbBeforeAction($parameters);
         $result = parent::callAction($method, $parameters);
+        $this->breadcrumbAfterAction($parameters);
+        
         if ($result === null) {
             $result = $this->getView()->render();
         }
@@ -102,7 +112,7 @@ class Controller extends BaseController {
         $file = $this->setCalledMethodName($file);
 
         $route = $folder;
-        $route[] = $file;
+        // $route[] = $file;
         return $route;
     }
 
@@ -168,6 +178,37 @@ class Controller extends BaseController {
         return $this;
     }
 
+    /**
+     * 
+     * @return Breadcrumbs
+     */
+    protected function getBreadcrumbs() {
+        if($this->breadcrumbs == null){
+            $this->breadcrumbs = new Breadcrumbs();
+        }
+        return $this->breadcrumbs;
+    }
+
+    
+    /**
+     * 
+     * @param array $parameters
+     * @return Breadcrumbs
+     */
+    protected function breadcrumbBeforeAction($parameters = array()) {
+        $breadcrumbs = $this->getBreadcrumbs();
+        $breadcrumbs->addBreadcrumbItem(new BreadcrumbItem('home', 'Home', \Monkey\action(IndexController::class)));
+        return $breadcrumbs;
+    }
+    /**
+     * 
+     * @param array $parameters
+     * @return Breadcrumbs
+     */
+    protected function breadcrumbAfterAction($parameters = array()) {
+        $breadcrumbs = $this->getBreadcrumbs();
+        return $breadcrumbs;
+    }
 
 
 }

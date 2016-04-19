@@ -12,7 +12,8 @@
         "monkey/environment": "1.0.*",
         "doctrine/dbal": "^2.5",
         "latte/latte": "^2.3",
-        "monkey/translator": "1.0.*"
+        "monkey/translator": "1.0.*",
+        "monkey/old-monkey": "^1.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
@@ -28,7 +29,11 @@
         "psr-4": {
             "App\\": "app/",
             "": "helpers/"
-        }
+        }, 
+        "files": [
+            "app/helpers.php",
+            "vendor/monkey/old-monkey/helpers.php"
+        ]
     },
     "autoload-dev": {
         "classmap": [

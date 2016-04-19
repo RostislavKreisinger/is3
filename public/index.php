@@ -6,7 +6,7 @@
  * @package  Laravel
  * @author   Taylor Otwell <taylorotwell@gmail.com>
  */
-
+define('LARAVEL_FRAMEWORK_5', true);
 /*
 |--------------------------------------------------------------------------
 | Register The Auto Loader
