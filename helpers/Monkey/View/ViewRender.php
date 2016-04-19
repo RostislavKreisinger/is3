@@ -160,6 +160,15 @@ class ViewRender {
         return $this->layoutName;
     }
     
+    public function setBody($view) {
+        if($view instanceof View){
+            $this->body = $view;
+        }
+        $this->body = new View($view);
+        $this->layout->addParameter('body', $this->body);
+        
+    }
+    
     protected function getViewName($name, $path = array()) {
         if(!is_array($path)){
             $path = explode('.', $path);

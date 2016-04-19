@@ -21,9 +21,9 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr n:for="$k=1; $k<100; $k++">
-                                <td>{$k+10000}</td>
-                                <td>Project {$k}</td>
+                            <tr n:foreach="$invalidProjects as $project">
+                                <td>{$project->id}</td>
+                                <td>{$project->name}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -46,9 +46,9 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr n:for="$k=1; $k<100; $k++">
-                                <td>{$k}</td>
-                                <td>Project {$k}</td>
+                            <tr n:foreach="$historyProjects as $project">
+                                <td>{$project->id}</td>
+                                <td>{$project->name}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -71,9 +71,9 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr n:for="$k=1; $k<100; $k++">
-                                <td>{$k}</td>
-                                <td>Project {$k}</td>
+                            <tr n:foreach="$continuityProjects as $project">
+                                <td>{$project->id}</td>
+                                <td>{$project->name}</td>
                             </tr>
                         </tbody>
                     </table>

@@ -2,213 +2,61 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Project\DetailController;
-use App\Model\ImportSupport\User;
-use Auth;
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use Illuminate\Foundation\Bus\DispatchesJobs;
-use Illuminate\Foundation\Validation\ValidatesRequests;
-use Illuminate\Routing\Controller as BaseController;
-use Monkey\Breadcrump\Breadcrumbs;
-use Monkey\Breadcrump\BreadcrumbItem;
+use App\Model\Project;
 use Monkey\Menu\Menu;
-use Monkey\Menu\MenuList;
-use Monkey\View\View;
-use Monkey\View\ViewRender;
-use Redirect;
-use Route;
+use App\Http\Controllers\Project\DetailController as ProjectDetailController;
 
-class Controller extends BaseController {
+class Controller extends BaseViewController {
 
-    use AuthorizesRequests,
-        DispatchesJobs,
-        ValidatesRequests;
+    private $invalidProjects;
+    private $newProjects;
 
-    private $view;
-    
-    /**
-     *
-     * @var User 
-     */
-    private $user;
-    
-    /**
-     *
-     * @var MenuList 
-     */
-    private $menu;
-    
-    private $breadcrumbs;
-
-
-    public function __construct() {
-        if(Auth::check()){
-            $this->setUser(User::find(Auth::user()->id));
-        }
-        
-        $currentRouteAction = Route::currentRouteAction();
-        $route = $this->cleanRoute($currentRouteAction);
-        $this->view = ViewRender::getInstance($route);
-        
-        View::share('breadcrumbs', $this->getBreadcrumbs());
-        
-        $this->initMenu();
-    }
-    
-    private function initMenu() {
-        $menu = $this->prepareMenu();
-        $this->getView()->addParameter('menu', $menu);
-        View::share('menu', $menu);
-        $this->setMenu($menu);
-    }
-
-    /**
-     * 
-     * @return MenuList
-     */
     protected function prepareMenu() {
         $menu = $this->getMenu();
-        
-        $invalidProjects = new Menu('Invalid projects', '#');
+
+        $invalidProjects = new Menu('Invalid projects (' . count($this->getInvalidProjects()) . ')', '#');
         $invalidProjects->setOpened(true);
-        for($k = 0; $k < 10; $k++){
-            $invalidProjects->addMenuItem(new Menu("Project {$k}", action(DetailController::routeMethod('getIndex'), ['project_id'=>$k])));
+        $k = 0;
+        foreach ($this->getInvalidProjects() as $project) {
+            $invalidProjects->addMenuItem(new Menu($project->name, action(ProjectDetailController::routeMethod('getIndex'), ['project_id' => $project->id])));
+            if (++$k == 10) {
+                break;
+            }
         }
         $menu->addMenuItem($invalidProjects);
-        
-        
+
         $newProjects = new Menu('New projects', '#');
-        for($k = 10; $k < 20; $k++){
-            $newProjects->addMenuItem(new Menu("Project {$k}", action(DetailController::routeMethod('getIndex'), ['project_id'=>$k])));
+        foreach ($this->getNewProjects() as $project) {
+            $newProjects->addMenuItem(new Menu($project->name, action(ProjectDetailController::routeMethod('getIndex'), ['project_id' => $project->id])));
+            // $newProjects->addMenuItem(new Menu("Project {$k}", action(DetailController::routeMethod('getIndex'), ['project_id'=>$k])));
         }
         $menu->addMenuItem($newProjects);
-        
+
         return $menu;
     }
-    
-    public function callAction($method, $parameters) {
-        $this->breadcrumbBeforeAction($parameters);
-        $result = parent::callAction($method, $parameters);
-        $this->breadcrumbAfterAction($parameters);
-        
-        if ($result === null) {
-            $result = $this->getView()->render();
+
+    protected function getInvalidProjects() {
+        if ($this->invalidProjects) {
+            return $this->invalidProjects;
         }
-
-        return $result;
+        return $this->invalidProjects = Project::limit(50)->get();
     }
 
-    public static function routeMethod($methodName) {
-        return static::class . "@{$methodName}";
-    }
-
-    protected function cleanRoute($route) {
-        $route = str_replace('App\\Http\\Controllers\\', '', $route);
-        list($folder, $file) = explode('@', $route);
-
-        $folder = strtolower(str_replace('Controller', '', $folder));
-        $folder = explode('\\', $folder);
-
-        $file = $this->setCalledMethodName($file);
-
-        $route = $folder;
-        // $route[] = $file;
-        return $route;
-    }
-
-    protected function setCalledMethodName($methodName) {
-        $methodName = preg_replace('/^get/', '', $methodName);
-        $methodName = preg_replace('/^post/', '', $methodName);
-        $methodName = preg_replace('/^action/', '', $methodName);
-        return strtolower($methodName);
-    }
-    
-    /**
-     * 
-     * @return ViewRender
-     */
-    protected function getView() {
-        return $this->view;
-    }
-    
-    protected function can($acl) {
-        return $this->getUser()->can($acl);
-    }
-    
-    protected function redirectToRoot() {
-        return Redirect::to('/');
-    }
-    
-    /**
-     * 
-     * @return User
-     */
-    public function getUser() {
-        return $this->user;
-    }
-
-    /**
-     * 
-     * @param User $user
-     * @return Controller
-     */
-    public function setUser(User $user) {
-        $this->user = $user;
-        return $this;
-    }
-
-    /**
-     * 
-     * @return MenuList
-     */
-    public function getMenu() {
-        if($this->menu === null){
-            $this->menu = new MenuList();
+    protected function getNewProjects() {
+        if ($this->newProjects) {
+            return $this->newProjects;
         }
-        return $this->menu;
+        return $this->newProjects = Project::limit(10)->orderBy('created_at', 'DESC')->get();
     }
 
-    /**
-     * 
-     * @param MenuList $menu
-     * @return Controller
-     */
-    public function setMenu(MenuList $menu) {
-        $this->menu = $menu;
-        return $this;
+    protected function getHistoryProjects() {
+        $projects = Project::limit(50)->get();
+        return $projects;
     }
 
-    /**
-     * 
-     * @return Breadcrumbs
-     */
-    protected function getBreadcrumbs() {
-        if($this->breadcrumbs == null){
-            $this->breadcrumbs = new Breadcrumbs();
-        }
-        return $this->breadcrumbs;
+    protected function getContinuityProjects() {
+        $projects = Project::limit(50)->get();
+        return $projects;
     }
-
-    
-    /**
-     * 
-     * @param array $parameters
-     * @return Breadcrumbs
-     */
-    protected function breadcrumbBeforeAction($parameters = array()) {
-        $breadcrumbs = $this->getBreadcrumbs();
-        $breadcrumbs->addBreadcrumbItem(new BreadcrumbItem('home', 'Home', \Monkey\action(IndexController::class)));
-        return $breadcrumbs;
-    }
-    /**
-     * 
-     * @param array $parameters
-     * @return Breadcrumbs
-     */
-    protected function breadcrumbAfterAction($parameters = array()) {
-        $breadcrumbs = $this->getBreadcrumbs();
-        return $breadcrumbs;
-    }
-
 
 }

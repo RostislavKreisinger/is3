@@ -8,7 +8,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Project\DetailController as ProjectDetailController;
 use App\Model\Project;
+use Monkey\Menu\Menu;
 use Monkey\View\View;
 
 /**
@@ -18,14 +20,17 @@ use Monkey\View\View;
  */
 class IndexController extends Controller {
     
+   
+    
     public function getIndex() {
         View::share('invalidProjects', $this->getInvalidProjects());
-        
+        View::share('newProjects', $this->getNewProjects());
+        View::share('historyProjects', $this->getHistoryProjects());
+        View::share('continuityProjects', $this->getContinuityProjects());
     }
     
-    protected function getInvalidProjects() {
-        $projects = Project::where($column, $operator, $value)->limit(10);
-        
-        return $projects;
-    }
+    
+    
+    
+            
 }
