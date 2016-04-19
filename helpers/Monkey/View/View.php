@@ -118,7 +118,7 @@ class View extends BaseView {
         $set->addMacro("action", function($node, PhpWriter $writer) {
             $args = explode(',', $node->args);
             $write = "";
-            $write .= "\$method = {$args[0]}; if(!strpos(\$method, '@')) { \$method .= '@getIndex' } ";
+            $write .= "\$method = {$args[0]}; if(!strpos(\$method, '@')) { \$method .= '@getIndex'; } ";
             if(isset($args[1])){
                 $write .= "echo action('App\\\\Http\\\\Controllers\\\\'.\$method, {$args[1]});";
             }else{
