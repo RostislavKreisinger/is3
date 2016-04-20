@@ -54,7 +54,7 @@ class Controller extends BaseViewController {
         return $projects;
     }
 
-    protected function getContinuityProjects() {
+    protected function getAutomattestProjects() {
         $projects = Project::limit(50)->get();
         return $projects;
     }

@@ -23,10 +23,24 @@ class IndexController extends Controller {
    
     
     public function getIndex() {
+        vde(\Monkey\ImportSupport\Project::getAllInvalidProjects());
+        
+        $p = new \Monkey\ImportSupport\Project(1087);
+        
+        // $r = \Monkey\ImportSupport\Resource::factory(4);
+        
+        foreach($p->getProjectResources() as $resource){
+            echo $resource->getResource()->id; vd($resource->isValid());
+        }
+        
+        
+        vde($p->getProjectResources());
+        
+        
         View::share('invalidProjects', $this->getInvalidProjects());
         View::share('newProjects', $this->getNewProjects());
         View::share('historyProjects', $this->getHistoryProjects());
-        View::share('continuityProjects', $this->getContinuityProjects());
+        View::share('automattestProjects', $this->getAutomattestProjects());
     }
     
     

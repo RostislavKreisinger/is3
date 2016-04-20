@@ -24,5 +24,7 @@ class Resource extends Model {
     
     
     
+    
+    
 
 }
