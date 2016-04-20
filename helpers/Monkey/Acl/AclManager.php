@@ -8,7 +8,6 @@
 
 namespace Monkey\Acl;
 
-use App\Model\User;
 
 /**
  * Description of AclManager
@@ -19,7 +18,7 @@ class AclManager {
 
     /**
      *
-     * @var User
+     * @var IAclUser
      */
     protected $user;
 
@@ -29,7 +28,7 @@ class AclManager {
      */
     protected $alc;
 
-    public function __construct(User $user, Acl $acl) {
+    public function __construct(IAclUser $user, Acl $acl) {
         $this->setUser($user);
         $this->setAlc($acl);
         $this->init();
@@ -46,7 +45,7 @@ class AclManager {
         return $this->user;
     }
 
-    public function setUser(User $user) {
+    public function setUser(IAclUser $user) {
         $this->user = $user;
         return $this;
     }

@@ -2,67 +2,61 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use Illuminate\Foundation\Bus\DispatchesJobs;
-use Illuminate\Foundation\Validation\ValidatesRequests;
-use Illuminate\Routing\Controller as BaseController;
-use Monkey\View\ViewRender;
-use Route;
+use App\Model\Project;
+use Monkey\Menu\Menu;
+use App\Http\Controllers\Project\DetailController as ProjectDetailController;
 
-class Controller extends BaseController {
+class Controller extends BaseViewController {
 
-    use AuthorizesRequests,
-        DispatchesJobs,
-        ValidatesRequests;
+    private $invalidProjects;
+    private $newProjects;
 
-    private $view;
+    protected function prepareMenu() {
+        $menu = $this->getMenu();
 
-    public function __construct() {
-        $currentRouteAction = Route::currentRouteAction();
-        $route = $this->cleanRoute($currentRouteAction);
-        $this->view = ViewRender::getInstance($route);
-    }
-
-    public function callAction($method, $parameters) {
-        $result = parent::callAction($method, $parameters);
-        if ($result === null) {
-            $result = $this->getView()->render();
+        $invalidProjects = new Menu('Invalid projects (' . count($this->getInvalidProjects()) . ')', '#');
+        $invalidProjects->setOpened(true);
+        $k = 0;
+        foreach ($this->getInvalidProjects() as $project) {
+            $invalidProjects->addMenuItem(new Menu($project->name, action(ProjectDetailController::routeMethod('getIndex'), ['project_id' => $project->id])));
+            if (++$k == 10) {
+                break;
+            }
         }
+        $menu->addMenuItem($invalidProjects);
 
-        return $result;
+        $newProjects = new Menu('New projects', '#');
+        foreach ($this->getNewProjects() as $project) {
+            $newProjects->addMenuItem(new Menu($project->name, action(ProjectDetailController::routeMethod('getIndex'), ['project_id' => $project->id])));
+            // $newProjects->addMenuItem(new Menu("Project {$k}", action(DetailController::routeMethod('getIndex'), ['project_id'=>$k])));
+        }
+        $menu->addMenuItem($newProjects);
+
+        return $menu;
     }
 
-    public static function routeMethod($methodName) {
-        return static::class . "@{$methodName}";
+    protected function getInvalidProjects() {
+        if ($this->invalidProjects) {
+            return $this->invalidProjects;
+        }
+        return $this->invalidProjects = Project::limit(50)->get();
     }
 
-    protected function cleanRoute($route) {
-        $route = str_replace('App\\Http\\Controllers\\', '', $route);
-        list($folder, $file) = explode('@', $route);
-
-        $folder = strtolower(str_replace('Controller', '', $folder));
-        $folder = explode('\\', $folder);
-
-        $file = $this->setCalledMethodName($file);
-
-        $route = $folder;
-        $route[] = $file;
-        return $route;
+    protected function getNewProjects() {
+        if ($this->newProjects) {
+            return $this->newProjects;
+        }
+        return $this->newProjects = Project::limit(10)->orderBy('created_at', 'DESC')->get();
     }
 
-    protected function setCalledMethodName($methodName) {
-        $methodName = preg_replace('/^get/', '', $methodName);
-        $methodName = preg_replace('/^post/', '', $methodName);
-        $methodName = preg_replace('/^action/', '', $methodName);
-        return strtolower($methodName);
+    protected function getHistoryProjects() {
+        $projects = Project::limit(50)->get();
+        return $projects;
     }
-    
-    /**
-     * 
-     * @return ViewRender
-     */
-    protected function getView() {
-        return $this->view;
+
+    protected function getContinuityProjects() {
+        $projects = Project::limit(50)->get();
+        return $projects;
     }
 
 }

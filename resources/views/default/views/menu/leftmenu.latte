@@ -1,0 +1,24 @@
+<!-- Left menu -->
+<div class="navbar-default sidebar" role="navigation">
+    <div class="sidebar-nav navbar-collapse">
+        <ul class="nav" id="side-menu">
+            {view 'default.views.menu.leftmenu.user_info'}           
+            
+            <li n:foreach="$menu->getList() as $menuItem" class="{$menuItem->getOpened()?'active'}" >
+                <a href="{$menuItem->getLink()}">
+                    {$menuItem->getName()}
+                    <span class="fa arrow"></span>
+                </a>
+                <ul n:if="$menuItem->hasSubList()" class="nav nav-second-level collapse">
+                    <li n:foreach="$menuItem->getList() as $subMenuItem">
+                        <a href="{$subMenuItem->getLink()}">
+                            {$subMenuItem->getName()}
+                        </a>
+                    </li>
+
+                </ul>
+            </li>
+        </ul>
+    </div>
+
+</div>

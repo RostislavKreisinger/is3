@@ -8,6 +8,12 @@
 
 namespace App\Http\Controllers\Search;
 
+use App\Http\Controllers\User\DetailController;
+use App\Model\User;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Input;
+use Redirect;
+
 /**
  * Description of HomepageController
  *
@@ -15,5 +21,22 @@ namespace App\Http\Controllers\Search;
  */
 class UserController extends BaseController {
     
+    public function getIndex() {
+        $search = Input::get('search', null);
+        if(intValue($search)){
+            $user = User::find($search);
+            if($user){
+                return Redirect::action(DetailController::routeMethod('getIndex'), ['project_id' => $user->id]);
+            }
+        }
+        
+        $users = User::where(function(Builder $where) use ($search) {
+                    $where->orWhere('email', 'like', "%$search%");
+                })
+                ->get();
+                
+        $this->getView()->addParameter('users', $users);
+        
+    }
     
 }
