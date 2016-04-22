@@ -25,7 +25,9 @@ class ResourceV2 extends Resource {
                                 ->select('*')
                                 ->where('project_id', '=', $this->getProject_id())
                                 ->where('resource_id', '=', $this->getResource()->id)
-                                ->first();
+                                ->whereRaw('COALESCE(`next_check_date`, 0) < NOW()')
+                                ->first()
+                                ;
             $this->getResourceStats()->setResourceSetting($resourceSetting);
         }
 
@@ -41,7 +43,7 @@ class ResourceV2 extends Resource {
             return Resource::STATUS_ACTIVE;
         }
         
-        if($resourceSetting->active == 1 && $resourceSetting->ttl >= 5){
+        if($resourceSetting->active == 1 && $resourceSetting->ttl > 0){
             return Resource::STATUS_DONE;
         }
         
@@ -83,7 +85,7 @@ class ResourceV2 extends Resource {
         if($importPrepareStart === null){
             $importPrepareStart = \DB::connection('mysql-select')
                                 ->table('monkeydata_pools.import_prepare_start')
-                                ->select('*')
+                                ->select(['*', \DB::raw('IF(date_to <= date_from, 1, 0) as date_check ') ])
                                 ->where('project_id', '=', $this->getProject_id())
                                 ->where('resource_id', '=', $this->getResource()->id)
                                 ->first();
@@ -105,7 +107,7 @@ class ResourceV2 extends Resource {
             }
         }
         
-        if($importPrepareStart->active == 2){
+        if($importPrepareStart->active == 0 && $importPrepareStart->ttl > 0 && $importPrepareStart->date_check == 1){
             return Resource::STATUS_DONE;
         }
         

@@ -20,10 +20,10 @@
                                 <th>name</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody> 
                             <tr n:foreach="$invalidProjects as $project">
-                                <td>{$project->id}</td>
-                                <td>{$project->name}</td>
+                                <td><a href="{action 'Project\DetailController', ['project_id' => $project->getId()]}">{$project->getId()}</a></td>
+                                <td>{$project->getName()}</td>
                             </tr>
                         </tbody>
                     </table>

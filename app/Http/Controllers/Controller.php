@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Model\Project;
-use Monkey\Menu\Menu;
 use App\Http\Controllers\Project\DetailController as ProjectDetailController;
+use App\Model\Project;
+use Monkey\ImportSupport\InvalidProject\ProjectRepository;
+use Monkey\Menu\Menu;
 
 class Controller extends BaseViewController {
 
@@ -18,7 +19,7 @@ class Controller extends BaseViewController {
         $invalidProjects->setOpened(true);
         $k = 0;
         foreach ($this->getInvalidProjects() as $project) {
-            $invalidProjects->addMenuItem(new Menu($project->name, action(ProjectDetailController::routeMethod('getIndex'), ['project_id' => $project->id])));
+            $invalidProjects->addMenuItem(new Menu($project->getName(), action(ProjectDetailController::routeMethod('getIndex'), ['project_id' => $project->getId()])));
             if (++$k == 10) {
                 break;
             }
@@ -28,7 +29,6 @@ class Controller extends BaseViewController {
         $newProjects = new Menu('New projects', '#');
         foreach ($this->getNewProjects() as $project) {
             $newProjects->addMenuItem(new Menu($project->name, action(ProjectDetailController::routeMethod('getIndex'), ['project_id' => $project->id])));
-            // $newProjects->addMenuItem(new Menu("Project {$k}", action(DetailController::routeMethod('getIndex'), ['project_id'=>$k])));
         }
         $menu->addMenuItem($newProjects);
 
@@ -36,10 +36,7 @@ class Controller extends BaseViewController {
     }
 
     protected function getInvalidProjects() {
-        if ($this->invalidProjects) {
-            return $this->invalidProjects;
-        }
-        return $this->invalidProjects = Project::limit(50)->get();
+        return ProjectRepository::getAllInvalidProjects();
     }
 
     protected function getNewProjects() {

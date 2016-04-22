@@ -25,6 +25,8 @@ class Resource {
     const STATUS_ACTIVE = 'active';
     const STATUS_DONE = 'done';
     const STATUS_RUNNING = 'runnig';
+    
+    const RESOURCE_SETTING = 'resource_setting_v2';
 
 
     private $project_id = null;

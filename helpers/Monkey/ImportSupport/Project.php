@@ -11,6 +11,7 @@ namespace Monkey\ImportSupport;
 use App\Model\Project as ProjectModel;
 use DB;
 use Illuminate\Database\Query\Builder;
+use Illuminate\Database\Query\JoinClause;
 
 /**
  * Description of Project
@@ -19,6 +20,9 @@ use Illuminate\Database\Query\Builder;
  */
 class Project {
     
+   
+
+
     /**
      *
      * @var ProjectModel
@@ -66,20 +70,26 @@ class Project {
         }
         $this->project = $project;
     }
-
-
     
-    public static function getAllInvalidProjects() {
-        $builder = DB::connection('mysql-select')->table('monkeydata.resource_setting as rs')
-                                ->select(['rs.project_id', 'rs.resource_id', DB::raw('IF(rs.active = 0 AND rs.ttl <= 0,0,1) as resource_setting')])
-//                                ->where(function(Builder $where){
-//                                    $where->orWhere(DB::raw('rs.active = 0 AND rs.ttl <= 0,0,1'), '=', 0);
-//                                })
-                ;
-        vdQuery($builder);
-        vde($builder->get());
-        return $builder->get();
-    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     
 }

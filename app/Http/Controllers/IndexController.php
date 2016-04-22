@@ -8,9 +8,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Project\DetailController as ProjectDetailController;
-use App\Model\Project;
-use Monkey\Menu\Menu;
+use Monkey\ImportSupport\InvalidProject\ProjectRepository;
 use Monkey\View\View;
 
 /**
@@ -23,18 +21,6 @@ class IndexController extends Controller {
    
     
     public function getIndex() {
-        vde(\Monkey\ImportSupport\Project::getAllInvalidProjects());
-        
-        $p = new \Monkey\ImportSupport\Project(1087);
-        
-        // $r = \Monkey\ImportSupport\Resource::factory(4);
-        
-        foreach($p->getProjectResources() as $resource){
-            echo $resource->getResource()->id; vd($resource->isValid());
-        }
-        
-        
-        vde($p->getProjectResources());
         
         
         View::share('invalidProjects', $this->getInvalidProjects());
