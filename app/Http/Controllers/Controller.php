@@ -41,7 +41,7 @@ class Controller extends BaseViewController {
      * @return Project2[]
      */
     protected function getInvalidProjects() {
-        return ProjectRepository::getDailyInvalidProjects();
+        return ProjectRepository::getAllInvalidProjects();
     }
     
 
@@ -50,6 +50,10 @@ class Controller extends BaseViewController {
             return $this->newProjects;
         }
         return $this->newProjects = Project::limit(10)->orderBy('created_at', 'DESC')->get();
+    }
+    
+    protected function getDailyProjects() {
+        return ProjectRepository::getDailyInvalidProjects();
     }
 
     protected function getHistoryProjects() {

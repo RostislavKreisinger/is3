@@ -44,7 +44,7 @@
             <div class="panel-heading">
                 <i class="fa fa-bell fa-fw"></i>
                 Daily import
-                ({count($invalidProjects)})
+                ({count($dailyProjects)})
             </div>
             <div class="panel-body">
                 <div class="dataTable_wrapper">
@@ -56,7 +56,7 @@
                             </tr>
                         </thead>
                         <tbody> 
-                            <tr n:foreach="$invalidProjects as $project">
+                            <tr n:foreach="$dailyProjects as $project">
                                 <td><a href="{action 'Project\DetailController', ['project_id' => $project->getId()]}">{$project->getId()}</a></td>
                                 <td>{$project->getName()}
                                     [
