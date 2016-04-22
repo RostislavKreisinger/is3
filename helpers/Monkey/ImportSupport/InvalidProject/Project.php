@@ -52,8 +52,21 @@ class Project {
     public function setName($name) {
         $this->name = $name;
     }
-
     
+    public function getInvalidResourceCount() {
+        return count($this->getResources());
+    }
+    
+    public function getResourceModels() {
+        $resourceList = ProjectRepository::getResourceList();
+        return array_map(function(Resource $resource) use ($resourceList) { return $resourceList[$resource->getId()]; }, $this->getResources());
+    }
+    
+
+    /**
+     * 
+     * @return Resource
+     */
     public function getResources() {
         return $this->resources;
     }

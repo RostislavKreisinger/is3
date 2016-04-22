@@ -7,9 +7,44 @@
 <!-- /.row -->
 <div class="row">
     <div class="col-lg-4 col-md-6">
+        <div class="panel panel-yellow panel-error-project-list">
+            <div class="panel-heading">
+                <i class="fa fa-bell fa-fw"></i> 
+                Automattest import
+                ({count($automattestProjects)})
+            </div>
+            <div class="panel-body">
+                <div class="dataTable_wrapper">
+                    <table width="100%" class="table table-striped table-bordered table-hover table-projects">
+                        <thead hidden="">
+                            <tr>
+                                <th>id</th>
+                                <th>name</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr n:foreach="$automattestProjects as $project">
+                                <td><a href="{action 'Project\DetailController', ['project_id' => $project->getId()]}">{$project->getId()}</a></td>
+                                <td>{$project->getName()}
+                                    [
+                                    <a n:foreach="$project->getResourceModels() as $resource" href="{action 'Project\Resource\DetailController', ['project_id' => $project->getId(), 'resource_id' => $resource->id] }">
+                                        {$resource->name}<span class="link-delimiter" n:if="!$iterator->last"> | </span>
+                                    </a>
+                                    ]
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4 col-md-6">
         <div class="panel panel-primary panel-error-project-list">
             <div class="panel-heading">
-                <i class="fa fa-bell fa-fw"></i> Daily import
+                <i class="fa fa-bell fa-fw"></i>
+                Daily import
+                ({count($invalidProjects)})
             </div>
             <div class="panel-body">
                 <div class="dataTable_wrapper">
@@ -23,7 +58,13 @@
                         <tbody> 
                             <tr n:foreach="$invalidProjects as $project">
                                 <td><a href="{action 'Project\DetailController', ['project_id' => $project->getId()]}">{$project->getId()}</a></td>
-                                <td>{$project->getName()}</td>
+                                <td>{$project->getName()}
+                                    [
+                                    <a n:foreach="$project->getResourceModels() as $resource" href="{action 'Project\Resource\DetailController', ['project_id' => $project->getId(), 'resource_id' => $resource->id] }">
+                                        {$resource->name} <span n:if="!$iterator->last">, </span>
+                                    </a>
+                                    ]
+                                </td>
                             </tr>
                         </tbody>
                     </table>
@@ -34,7 +75,9 @@
     <div class="col-lg-4 col-md-6">
         <div class="panel panel-green panel-error-project-list">
             <div class="panel-heading">
-                <i class="fa fa-bell fa-fw"></i> Notifications Panel
+                <i class="fa fa-bell fa-fw"></i> 
+                History import
+                ({count($historyProjects)})
             </div>
             <div class="panel-body">
                 <div class="dataTable_wrapper">
@@ -47,8 +90,14 @@
                         </thead>
                         <tbody>
                             <tr n:foreach="$historyProjects as $project">
-                                <td>{$project->id}</td>
-                                <td>{$project->name}</td>
+                                <td><a href="{action 'Project\DetailController', ['project_id' => $project->getId()]}">{$project->getId()}</a></td>
+                                <td>{$project->getName()}
+                                    [
+                                    <a n:foreach="$project->getResourceModels() as $resource" href="{action 'Project\Resource\DetailController', ['project_id' => $project->getId(), 'resource_id' => $resource->id] }">
+                                        {$resource->name} <span n:if="!$iterator->last">, </span>
+                                    </a>
+                                    ]
+                                </td>
                             </tr>
                         </tbody>
                     </table>
@@ -56,30 +105,6 @@
             </div>
         </div>
     </div>
-    <div class="col-lg-4 col-md-6">
-        <div class="panel panel-yellow panel-error-project-list">
-            <div class="panel-heading">
-                <i class="fa fa-bell fa-fw"></i> Notifications Panel
-            </div>
-            <div class="panel-body">
-                <div class="dataTable_wrapper">
-                    <table width="100%" class="table table-striped table-bordered table-hover table-projects">
-                        <thead hidden="">
-                            <tr>
-                                <th>id</th>
-                                <th>name</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr n:foreach="$automattestProjects as $project">
-                                <td>{$project->id}</td>
-                                <td>{$project->name}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
+
 </div>
 

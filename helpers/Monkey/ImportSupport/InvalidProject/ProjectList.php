@@ -55,6 +55,9 @@ class ProjectList implements Iterator, Countable {
         if(!isset($this->projects[$project->getId()])){
             $this->keys[] = $project->getId();
         }
+        if(isset($this->projects[$project->getId()])){
+            return $this->projects[$project->getId()];
+        }
         $this->projects[$project->getId()] = &$project;
         return $project;
     }

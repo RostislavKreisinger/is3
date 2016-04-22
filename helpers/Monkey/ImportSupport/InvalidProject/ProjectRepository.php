@@ -22,12 +22,18 @@ class ProjectRepository {
 
     const DAYS_AFTER_TARIFF_EXPIRATE = 14;
     
+    /**
+     *
+     * @var ProjectRepository 
+     */
+    private static $instance = null;
+    
+    private $resourceList;
+    
+    
     public function __construct() {
         
     }
-    
-    private static $instance = null;
-    
     /**
      * 
      * @return ProjectRepository
@@ -38,8 +44,80 @@ class ProjectRepository {
         }
         return static::$instance;
     }
+    
+    
+    public static function getDailyInvalidProjects() {
+        $invalidProjects = static::getAllInvalidProjects();
+        $dailyInvalidProjects = new ProjectList();
+        foreach ($invalidProjects as $project) {
+            foreach($project->getResources() as $resource){
+                if($resource->getImportPrepareNew() == 1){
+                    $tmp = $dailyInvalidProjects->addProject(new Project($project->getId(), $project->getName()));
+                    $tmp->addResource($resource);
+                }
+            }
+        }
+        return $dailyInvalidProjects;
+    }
+    
+    
+    public static function getHistoryInvalidProjects() {
+        $invalidProjects = static::getAllInvalidProjects();
+        $historyInvalidProjects = new ProjectList();
+        foreach ($invalidProjects as $project) {
+            foreach($project->getResources() as $resource){
+                if($resource->getImportPrepareStart() == 1){
+                    $tmp = $historyInvalidProjects->addProject(new Project($project->getId(), $project->getName()));
+                    $tmp->addResource($resource);
+                }
+            }
+        }
+        return $historyInvalidProjects;
+    }
+    
+    public static function getAutomattestInvalidProjects() {
+        $invalidProjects = static::getAllInvalidProjects();
+        $automattestInvalidProjects = new ProjectList();
+        foreach ($invalidProjects as $project) {
+            foreach($project->getResources() as $resource){
+                if($resource->getResourceSetting() == 1){
+                    $tmp = $automattestInvalidProjects->addProject(new Project($project->getId(), $project->getName()));
+                    $tmp->addResource($resource);
+                }
+            }
+        }
+        return $automattestInvalidProjects;
+    }
+    
+    
+    
+    
+    public static function getResourceList() {
+        $instance = static::getInstance();
+        if($instance->resourceList === null){
+            $instance->resourceList = array();
+            $resourceList = \App\Model\Resource::all();
+            foreach($resourceList as $resource){
+                $instance->resourceList[$resource->id] = $resource;
+            }
+        }
+        return $instance->resourceList;
+    }
 
 
+    
+    
+    
+    
+    
+    
+    
+    
+
+    /**
+     * 
+     * @return \Monkey\ImportSupport\InvalidProject\Project
+     */
     public static function getAllInvalidProjects() {
         $instance = static::getInstance();
         $whereFunctions = array();
@@ -56,6 +134,7 @@ class ProjectRepository {
         $projectList = new ProjectList($data);
         return $projectList;
     }
+    
 
     protected function getInvalidProjectsBuilder() {
         $builder = DB::connection('mysql-select')->table('monkeydata.project as p')
