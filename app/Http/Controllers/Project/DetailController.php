@@ -10,8 +10,8 @@ namespace App\Http\Controllers\Project;
 
 use App\Http\Controllers\Project\Controller;
 use App\Http\Controllers\User\DetailController as UserDetailController;
-use App\Model\Project;
 use Monkey\Breadcrump\BreadcrumbItem;
+use Monkey\ImportSupport\Project;
 
 /**
  * Description of HomepageController

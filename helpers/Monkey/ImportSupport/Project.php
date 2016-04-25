@@ -16,18 +16,11 @@ use Illuminate\Database\Query\JoinClause;
 /**
  * Description of Project
  *
+ * @method Project find($id, $columns = array()) 
  * @author Tomas
  */
-class Project {
+class Project extends ProjectModel {
     
-   
-
-
-    /**
-     *
-     * @var ProjectModel
-     */
-    private $project;
     
     /**
      *
@@ -37,22 +30,34 @@ class Project {
     
     
     
-    
-    
+    /*
     public function __construct($project) {
         $this->setProject($project);
     }
-    
+    */
+    /**
+     * 
+     * @return Resource[]
+     */
     public function getProjectResources() {
+        return $this->getResources();
+    }
+    
+     /**
+     * 
+     * @return Resource[]
+     */
+    public function getResources() {
         if($this->resources === null){
-            $data = $this->getProject()->getResources()->where('allow_link', '!=', 0);
+            $data = parent::getResources()->where('allow_link', '!=', 0);
             $this->resources = array();
             foreach ($data->get() as $resource){
-                $this->resources[$resource->id] = Resource::factory($resource, $this->getProject()->id);
+                $this->resources[$resource->id] = Resource::factory($resource, $this->id);
             }
         }
         return $this->resources;
     }
+    
     
     
     
@@ -61,21 +66,22 @@ class Project {
      * @return ProjectModel
      */
     public function getProject() {
-        return $this->project;
+        return $this;
     }
-
+/*
     public function setProject($project) {
         if(!($project instanceof ProjectModel)){
             $project = ProjectModel::find($project);
         }
         $this->project = $project;
     }
+    */
     
+    public function getModel() {
+        return $this;
+    }
     
-    
-    
-    
-    
+   
     
     
     

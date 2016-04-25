@@ -10,15 +10,16 @@ namespace Monkey\ImportSupport;
 
 use App\Model\Resource as ResourceModel;
 use Exception;
-use Illuminate\Database\Query\JoinClause;
-use Illuminate\Support\Facades\DB;
+use Monkey\ImportSupport\Resource\Button\BaseButton;
+use Monkey\ImportSupport\Resource\Button\ShowButton;
+use Monkey\ImportSupport\Resource\Button\TestButton;
 use Monkey\ImportSupport\Resource\ResourceStats;
 /**
  * Description of Resource
  *
  * @author Tomas
  */
-class Resource {
+class Resource extends ResourceModel {
     
     const STATUS_ERROR = 'error';
     const STATUS_DEACTIVE = 'deactive';
@@ -31,11 +32,6 @@ class Resource {
 
     private $project_id = null;
     
-    /**
-     *
-     * @var ResourceModel
-     */
-    private $resource;
     
     /**
      *
@@ -43,11 +39,21 @@ class Resource {
      */
     private $resourceStats;
     
+    private $buttons = array();
     
-    public function __construct($resource, $project_id) {
-        $this->setResource($resource);
+    /*
+    public function __construct(ResourceModel $resource, $project_id) {
+        $this->fill($resource->getAttributes());
         $this->setProject_id($project_id);
         $this->resourceStats = new ResourceStats();
+        $this->addDefaultButtons();
+    }*/
+    
+    public function __construct(array $attributes = array(), $project_id = null) {
+        parent::__construct($attributes);
+        $this->setProject_id($project_id);
+        $this->resourceStats = new ResourceStats();
+        $this->addDefaultButtons();
     }
     
     public static function factory($resource, $project_id) {
@@ -63,13 +69,13 @@ class Resource {
             $className = $tmpClassName;
         }
         if($className !== false){
-            return new $className($resource, $project_id);
+            return new $className($resource->getAttributes(), $project_id);
         }
         throw new Exception("Resource class not found for {$resource->codename}");
     }
     
     public function getResource() {
-        return $this->resource;
+        return $this;
     }
 
     public function setResource($resource) {
@@ -136,7 +142,27 @@ class Resource {
         
     }
     
+    private function addDefaultButtons() {
+        $this->addButton(new ShowButton($this->project_id, $this->id));
+        $this->addButton(new TestButton());
+    }
     
+    
+    public function getButtons(){
+        return $this->buttons;
+    }
+    
+    /**
+     * 
+     * @param BaseButton $button
+     */
+    public function addButton(BaseButton $button) {
+        $this->buttons[] = $button; 
+    }
+    
+    public function getModel() {
+        return $this->resource;
+    }
     
 
 
