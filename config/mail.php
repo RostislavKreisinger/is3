@@ -55,7 +55,7 @@ return [
     |
     */
 
-    'from' => ['address' => null, 'name' => null],
+    'from' => ['address' => 'import-suport@monkeydata.com', 'name' => 'import-suport'],
 
     /*
     |--------------------------------------------------------------------------

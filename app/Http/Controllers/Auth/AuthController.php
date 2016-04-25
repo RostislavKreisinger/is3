@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Model\User;
+use App\User;
 use \Validator;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
@@ -38,10 +38,6 @@ use AuthenticatesAndRegistersUsers,
         $this->middleware($this->guestMiddleware(), ['except' => 'logout']);
     }
     
-    public function getIndex() {
-        return "LOGIN";
-    }
-
     /**
      * Get a validator for an incoming registration request.
      *
@@ -51,7 +47,7 @@ use AuthenticatesAndRegistersUsers,
     protected function validator(array $data) {
         return Validator::make($data, [
                     'name' => 'required|max:255',
-                    'email' => 'required|email|max:255|unique:users',
+                    'email' => 'required|email|max:255|unique:user',
                     'password' => 'required|min:6|confirmed',
         ]);
     }
