@@ -19,8 +19,11 @@ class BaseButton {
     
     private $name;
     
+    private $class = 'btn-default';
+    
     public function __construct($name, $url) {
-        
+        $this->setName($name);
+        $this->setUrl($url);
     }
     
     public function getUrl() {
@@ -37,6 +40,14 @@ class BaseButton {
 
     public function setName($name) {
         $this->name = $name;
+    }
+
+    public function getClass() {
+        return $this->class;
+    }
+
+    public function setClass($class) {
+        $this->class .= ' '.$class;
     }
 
 

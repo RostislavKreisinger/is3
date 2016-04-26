@@ -11,7 +11,7 @@
                 </a>
                 <ul n:if="$menuItem->hasSubList()" class="nav nav-second-level collapse">
                     <li n:foreach="$menuItem->getList() as $subMenuItem" class="{$subMenuItem->getClass()}">
-                        <a href="{$subMenuItem->getLink()}" title="{$subMenuItem->getTitle()}">
+                        <a {if $subMenuItem->getLink()} href="{$subMenuItem->getLink()}" {/if} title="{$subMenuItem->getTitle()}">
                             {$subMenuItem->getName()}
                         </a>
                     </li>

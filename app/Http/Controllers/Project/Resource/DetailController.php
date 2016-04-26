@@ -43,9 +43,13 @@ class DetailController extends Controller {
         if( ViewFinder::existView($viewName) ){
             $this->getView()->setBody($viewName);
         }
+        $resource->getStateTester();
+        $resourceCurrency = \App\Model\Currency::find( $resource->getResourceStats()->getResourceSetting()->currency_id );
         
         $this->getView()->addParameter('project', $project);
         $this->getView()->addParameter('resource', $resource);
+        $this->getView()->addParameter('resourceDetail', $resource->getResourceDetail());
+        $this->getView()->addParameter('resourceCurrency', $resourceCurrency);
         
         $this->prepareMenu($project);
         

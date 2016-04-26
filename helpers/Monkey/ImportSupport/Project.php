@@ -59,6 +59,11 @@ class Project extends ProjectModel {
     }
     
     
+    /**
+     * 
+     * @param type $resourceId
+     * @return Resource
+     */
     public function getResource($resourceId) {
         return $this->getResources()[$resourceId];
     }

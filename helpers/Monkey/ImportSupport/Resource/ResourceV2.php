@@ -61,8 +61,8 @@ class ResourceV2 extends Resource {
                                 ->first();
             $this->getResourceStats()->setImportPrepareNew($importPrepareNew);
         }
-        if($this->isValidTester() && is_null($importPrepareNew)){
-            return Resource::STATUS_ERROR;
+        if( is_null($importPrepareNew)){
+            return Resource::STATUS_MISSING_RECORD;
         }
         if($importPrepareNew->ttl <= 0){
             return Resource::STATUS_ERROR;
@@ -81,7 +81,7 @@ class ResourceV2 extends Resource {
     
     
     public function getStateHistory() {
-        $importPrepareStart = $this->getResourceStats()->getImportPrepareNew();
+        $importPrepareStart = $this->getResourceStats()->getImportPrepareStart();
         if($importPrepareStart === null){
             $importPrepareStart = \DB::connection('mysql-select')
                                 ->table('monkeydata_pools.import_prepare_start')
@@ -89,11 +89,11 @@ class ResourceV2 extends Resource {
                                 ->where('project_id', '=', $this->getProject_id())
                                 ->where('resource_id', '=', $this->getResource()->id)
                                 ->first();
-            $this->getResourceStats()->setImportPrepareNew($importPrepareStart);
+            $this->getResourceStats()->setImportPrepareStart($importPrepareStart);
         }
         
-        if($this->isValidTester() && is_null($importPrepareStart)){
-            return Resource::STATUS_ERROR;
+        if( is_null($importPrepareStart)){
+            return Resource::STATUS_MISSING_RECORD;
         }
         if($importPrepareStart->ttl <= 0){
             return Resource::STATUS_ERROR;

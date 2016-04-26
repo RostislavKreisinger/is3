@@ -8,19 +8,18 @@
 
 namespace Monkey\ImportSupport\Resource\Button;
 
-use \DateTime;
+
 /**
  * Description of ShowButton
  *
  * @author Tomas
  */
-class TestButton extends BaseButton {
+class DeleteDataButton extends BaseButton {
     
     public function __construct($projectId, $resourceId) {
-        $date = (new DateTime())->format('Y-m-d');
         parent::__construct(
-                'Test', 
-                "https://import.monkeydata.com/importgoogle.monkeydata.cz/import_prepare_manual.php?project_id={$projectId}&resource_id={$resourceId}&date={$date}&repair=1&rostik=maslo"
+                'Automat test', 
+                "https://import.monkeydata.com/importgoogle.monkeydata.cz/import-support-extra-save-functions/cleanEshopDataLoader.php?project_id={$projectId}&client_id=1008"
                 );
     }
     

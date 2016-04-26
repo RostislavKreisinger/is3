@@ -1,0 +1,33 @@
+<div class="table-responsive">
+    <h4 class="resource-subcaption {$resource->getStateDaily()}">Daily import <span>[{$resource->getStateDaily()}]</span></h4>                
+    {var $dailySetting = $resource->getResourceStats()->getImportPrepareNew()}
+    <span n:if="!$dailySetting"> Missing record </span>
+    <table n:if="$dailySetting" class="table table-hover">
+        <tbody>
+            <tr>
+                <td>active</td>
+                <td>
+                    <span>{$dailySetting->active}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>ttl</td>
+                <td>
+                    <span>{$dailySetting->ttl}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>created_at</td>
+                <td>
+                    <span>{$dailySetting->created_at}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>updated_at</td>
+                <td>
+                    <span>{$dailySetting->updated_at}</span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

@@ -9,8 +9,12 @@
 namespace Monkey\ImportSupport;
 
 use App\Model\Resource as ResourceModel;
+use DB;
 use Exception;
+use Monkey\ImportSupport\Resource\Button\AutomatTestButton;
 use Monkey\ImportSupport\Resource\Button\BaseButton;
+use Monkey\ImportSupport\Resource\Button\DisconnectButton;
+use Monkey\ImportSupport\Resource\Button\ResetHistoryButton;
 use Monkey\ImportSupport\Resource\Button\ShowButton;
 use Monkey\ImportSupport\Resource\Button\TestButton;
 use Monkey\ImportSupport\Resource\ResourceStats;
@@ -27,6 +31,8 @@ class Resource extends ResourceModel {
     const STATUS_ACTIVE = 'active';
     const STATUS_DONE = 'done';
     const STATUS_RUNNING = 'runnig';
+    const STATUS_MISSING_RECORD = 'missing';
+    
     
     const RESOURCE_SETTING = 'resource_setting_v2';
 
@@ -40,6 +46,10 @@ class Resource extends ResourceModel {
      */
     private $resourceStats;
     
+    /**
+     *
+     * @var BaseButton
+     */
     private $buttons = array();
     
     /*
@@ -78,6 +88,16 @@ class Resource extends ResourceModel {
     public function getResource() {
         return $this;
     }
+    
+    public function getResourceDetail() {
+        $builder =  DB::connection('mysql-select')
+                    ->table('resource_setting as rs')
+                    ->join($this->tbl_setting.' as crs', 'rs.id', '=', 'crs.resource_setting_id')
+                    ->select('*')
+                    ;
+        // vdQuery($builder);
+        return $builder->first();
+    }
 
     public function setResource($resource) {
         if(!($resource instanceof ResourceModel)){
@@ -91,19 +111,19 @@ class Resource extends ResourceModel {
     }
     
     public function isValidTester() {
-        return $this->getStateTester() !== Resource::STATUS_ERROR;
+        return $this->isStateValid($this->getStateTester());
     }
 
     public function isValidDaily() {
-        return $this->getStateDaily() !== Resource::STATUS_ERROR;
+        return $this->isStateValid($this->getStateDaily());
     }
     
     public function isValidHistory() {
-        return $this->getStateHistory() !== Resource::STATUS_ERROR;
+        return $this->isStateValid($this->getStateHistory()); 
     }
     
     public function isValidContinuity() {
-        return $this->getStateContinuity() !== Resource::STATUS_ERROR;
+        return $this->isStateValid($this->getStateContinuity());
     }
     
     public function getStateTester() {
@@ -145,10 +165,16 @@ class Resource extends ResourceModel {
     
     private function addDefaultButtons() {
         $this->addButton(new ShowButton($this->project_id, $this->id));
-        $this->addButton(new TestButton());
+        $this->addButton(new AutomatTestButton($this->project_id, $this->id));
+        $this->addButton(new TestButton($this->project_id, $this->id));
+        $this->addButton(new ResetHistoryButton($this->project_id, $this->id));
+        $this->addButton(new DisconnectButton($this->project_id, $this->id));
     }
     
-    
+    /**
+     * 
+     * @return BaseButton
+     */
     public function getButtons(){
         return $this->buttons;
     }
@@ -163,6 +189,10 @@ class Resource extends ResourceModel {
     
     public function getModel() {
         return $this->resource;
+    }
+    
+    protected function isStateValid($state) {
+        return !in_array($state, array(self::STATUS_ERROR, self::STATUS_MISSING_RECORD));
     }
     
 

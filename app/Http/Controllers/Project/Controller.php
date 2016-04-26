@@ -37,7 +37,7 @@ class Controller extends BaseController {
                 $resources->addMenuItem($menuItem);
             }
             if(count($projectResources) == 0){
-                $resources->addMenuItem(new Menu("nothing", ""));
+                $resources->addMenuItem(new Menu("-- EMPTY --", ""));
             }
             $menu->addMenuItem($resources);
             
@@ -52,6 +52,9 @@ class Controller extends BaseController {
                     $menuItem->addClass('invalid');
                 }
                 $userProjects->addMenuItem($menuItem);
+            }
+            if(count($userProjects->getList()) == 0){
+                $userProjects->addMenuItem(new Menu("-- EMPTY --", null));
             }
             $menu->addMenuItem($userProjects);
         }
