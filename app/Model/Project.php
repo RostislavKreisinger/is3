@@ -25,5 +25,9 @@ class Project extends Model {
         $user = User::find($this->user_id); 
         return $user; //  $this->hasOne(User::class)->first();
     }
+    
+    public function getAutomattestInvalidProject() {
+        // $this->join('resource_setting', $one, $operator, $two)
+    }
 
 }

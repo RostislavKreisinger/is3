@@ -2,7 +2,7 @@
 
 namespace App\Model;
 
-use Eloquent;
+use Monkey\ImportSupport\Project as ImportSupportProject;
 
 class User extends Model {
 
@@ -16,10 +16,10 @@ class User extends Model {
     
     /**
      * 
-     * @return Project[]
+     * @return ImportSupportProject[]
      */
     public function getProjects() {
-        $projects = $this->hasMany(Project::class, 'user_id');
+        $projects = $this->hasMany(ImportSupportProject::class, 'user_id');
         return $projects;
         
     }

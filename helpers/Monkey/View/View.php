@@ -126,13 +126,37 @@ class View extends BaseView {
         
         $set->addMacro("action", function($node, PhpWriter $writer) {
             $args = explode(',', $node->args);
+            $secondParam = array();
+            $add = false;
+            foreach($args as $arg){
+                if(trim($arg)[0] == '['){
+                    if(count($secondParam) == 0 ){
+                        $add = true;
+                    }
+                }
+                if($add){
+                    $secondParam[] = $arg;
+                }
+                
+                if(trim($arg)[strlen(trim($arg))-1] == ']'){
+                    $add = false;
+                }
+            }
+            if(count($secondParam) == 0){
+                if(isset($args[1])){
+                    $secondParam = $args[1];
+                }else{
+                    $secondParam = '[]';
+                }
+            }else{
+                $secondParam = implode(', ', $secondParam);
+            }
+            
             $write = "";
             $write .= "\$method = {$args[0]}; if(!strpos(\$method, '@')) { \$method .= '@getIndex'; } ";
-            if(isset($args[1])){
-                $write .= "echo action('App\\\\Http\\\\Controllers\\\\'.\$method, {$args[1]});";
-            }else{
-                $write .= "echo action('App\\\\Http\\\\Controllers\\\\'.\$method );";
-            }
+            
+            $write .= "echo action('App\\\\Http\\\\Controllers\\\\'.\$method, {$secondParam});";
+            
             return $writer->write($write);
         });
         

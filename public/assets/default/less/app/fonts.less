@@ -1,0 +1,44 @@
+@STATUS_ERROR : #FF0000;
+@STATUS_DONE :  #b4b4b4;
+@STATUS_ACTIVE : #00b40c;
+@STATUS_RUNNING : #f6d300;
+@STATUS_DEACTIVE : @STATUS_DONE;
+@STATUS_MISSING_RECORD : @STATUS_ERROR;
+
+.statuses(@prefix: ~'', @subelement: ~''){
+    &.@{prefix}error @{subelement} {
+        color: @STATUS_ERROR;
+    }
+    
+    &.@{prefix}missing @{subelement}{
+        color: @STATUS_MISSING_RECORD;
+    }
+    
+    &.@{prefix}running @{subelement}{
+        color: @STATUS_RUNNING;
+    }
+    
+    &.@{prefix}done @{subelement}{
+        color: @STATUS_DONE;
+    }
+    
+    &.@{prefix}deactive @{subelement}{
+        color: @STATUS_DEACTIVE;
+    }
+    &.@{prefix}active @{subelement}{
+        color: @STATUS_ACTIVE;
+    }
+}
+
+
+
+h4.resource-subcaption {
+    &{}
+    .statuses();
+}
+
+.nav.nav-tabs {
+    li {
+        .statuses(state-, a);
+    }
+}

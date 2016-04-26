@@ -19,6 +19,10 @@ class Menu extends MenuList {
     
     private $link;
     
+    private $title;
+    
+    private $class = array();
+    
     private $opened = false;
     
     public function __construct($name, $link) {
@@ -53,6 +57,24 @@ class Menu extends MenuList {
         $this->opened = $opened;
         return $this;
     }
+    
+    public function getClass() {
+        return implode(' ', $this->class);
+    }
+
+    public function addClass($class) {
+        $this->class[$class] = $class;
+    }
+
+    public function getTitle() {
+        return $this->title;
+    }
+
+    public function setTitle($title) {
+        $this->title = $title;
+    }
+
+
 
 
     

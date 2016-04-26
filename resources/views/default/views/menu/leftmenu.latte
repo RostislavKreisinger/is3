@@ -4,14 +4,14 @@
         <ul class="nav" id="side-menu">
             {view 'default.views.menu.leftmenu.user_info'}           
             
-            <li n:foreach="$menu->getList() as $menuItem" class="{$menuItem->getOpened()?'active'}" >
-                <a href="{$menuItem->getLink()}">
+            <li n:foreach="$menu->getList() as $menuItem" class="{$menuItem->getOpened()?'active'} {$menuItem->getClass()}" >
+                <a href="{$menuItem->getLink()}" title="{$menuItem->getTitle()}">
                     {$menuItem->getName()}
                     <span class="fa arrow"></span>
                 </a>
                 <ul n:if="$menuItem->hasSubList()" class="nav nav-second-level collapse">
-                    <li n:foreach="$menuItem->getList() as $subMenuItem">
-                        <a href="{$subMenuItem->getLink()}">
+                    <li n:foreach="$menuItem->getList() as $subMenuItem" class="{$subMenuItem->getClass()}">
+                        <a {if $subMenuItem->getLink()} href="{$subMenuItem->getLink()}" {/if} title="{$subMenuItem->getTitle()}">
                             {$subMenuItem->getName()}
                         </a>
                     </li>

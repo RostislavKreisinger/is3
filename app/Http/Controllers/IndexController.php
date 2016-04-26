@@ -8,9 +8,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Project\DetailController as ProjectDetailController;
-use App\Model\Project;
-use Monkey\Menu\Menu;
+use Monkey\ImportSupport\InvalidProject\ProjectRepository;
 use Monkey\View\View;
 
 /**
@@ -23,10 +21,13 @@ class IndexController extends Controller {
    
     
     public function getIndex() {
+        
+        
         View::share('invalidProjects', $this->getInvalidProjects());
         View::share('newProjects', $this->getNewProjects());
+        View::share('dailyProjects', $this->getDailyProjects());
         View::share('historyProjects', $this->getHistoryProjects());
-        View::share('continuityProjects', $this->getContinuityProjects());
+        View::share('automattestProjects', $this->getAutomattestProjects());
     }
     
     

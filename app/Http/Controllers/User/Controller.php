@@ -22,7 +22,14 @@ class Controller extends BaseController {
             $userProjects = new Menu('Projects', '#');
             $userProjects->setOpened(true);
             foreach ($user->getProjects()->get() as $project){
-                $userProjects->addMenuItem(new Menu($project->name, action(DetailController::routeMethod('getIndex'), ['project_id'=>$project->id])));
+                $menuItem = new Menu(
+                                    $project->name,
+                                    action(DetailController::routeMethod('getIndex'), ['project_id'=>$project->id])
+                                );
+                if(!$project->isValid()){
+                    $menuItem->addClass('invalid');
+                }
+                $userProjects->addMenuItem($menuItem);
             }
             $menu->addMenuItem($userProjects);
         }

@@ -1,12 +1,13 @@
 <div class="row">
     <div class="col-lg-12">
-        <h2 class="page-header">Resource</h2>
+        <h2 class="page-header">{$resource->name}</h2>
     </div>
 </div>
 
 <div class="row buttons">
     <div class="col-lg-12">
-        <a href="#" class="btn btn-outline btn-default">Test</a>
+        
+        <a n:foreach="$resource->getButtons() as $button" href="{$button->getUrl()}" class="btn btn-outline {$button->getClass()}">{$button->getName()}</a>
     </div>
 </div>
 
@@ -16,14 +17,77 @@
             <table class="table table-hover">
                 <tbody>
                     <tr>
-                        <td>Project ID</td>
+                        <td>resource_id</td>
                         <td>
                             <span>{$resource->id}</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>currency</td>
+                        <td>
+                            <span>{n $resourceCurrency->code}</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>created_at ID</td>
+                        <td>
+                            <span>{n $resource->getResourceStats()->getResourceSetting()->created_at}</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>last_import</td>
+                        <td>
+                            <span>{n $resourceDetail->last_import_at}</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>last_successful_import</td>
+                        <td>
+                            <span>{n $resourceDetail->last_successful_import_at}</span>
                         </td>
                     </tr>
                 </tbody>
             </table>
         </div>
+
+
+        {php $statuses = array(
+                ['code' => 'Daily',  'value' => (int) $resource->isValidDaily()*10 + 1],
+                ['code' => 'History',  'value' => (int) $resource->isValidHistory()*10 + 2],
+                ['code' => 'Tester',  'value' => (int) $resource->isValidTester()*10 + 3],
+            );
+            usort($statuses, function($item1,$item2){ if ($item1['value'] == $item2['value']) return 0;  return ($item1['value'] > $item2['value']) ? 1 : -1; });
+        }
+        <div>
+            <ul class="nav nav-tabs">
+                <li n:foreach="$statuses as $status" class="{first}active{/first} state-{$resource->{'getState'.$status['code']}()}">
+                    <a href="#{$status['code']|lower}" data-toggle="tab" aria-expanded="true">{$status['code']}</a>
+                </li>
+                {*
+                <li class="state-{$resource->getStateTester()}">
+                    <a href="#tester" data-toggle="tab" aria-expanded="false">Tester</a>
+                </li>
+                <li class="state-{$resource->getStateHistory()}">
+                    <a href="#history" data-toggle="tab" aria-expanded="false">History</a>
+                </li>
+                *}
+            </ul>        
+            <div class="tab-content">
+                <div class="tab-pane active in" id="daily">
+                     {view 'default.project.resource.template.daily'}
+                </div>
+                <div class="tab-pane" id="tester">
+                     {view 'default.project.resource.template.tester'}
+                </div>
+                <div class="tab-pane" id="history">
+                     {view 'default.project.resource.template.history'}
+                </div>
+            </div>
+        </div>
+
+
+
+
     </div>
     <div class="col-lg-6 col-md-6">
         <!-- Nav tabs -->
@@ -32,9 +96,7 @@
             </li>
             <li class=""><a href="#other" data-toggle="tab" aria-expanded="false">Other</a>
             </li>
-        </ul>
-
-        <!-- Tab panes -->
+        </ul>        
         <div class="tab-content">
             <div class="tab-pane active in" id="tariff">
                 <h4>Home Tab</h4>

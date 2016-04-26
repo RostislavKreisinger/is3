@@ -11,9 +11,9 @@ namespace App\Http\Controllers\Project\Resource;
 use App\Http\Controllers\Project\Controller;
 use App\Http\Controllers\Project\DetailController as ProjectDetailController;
 use App\Http\Controllers\User\DetailController as UserDetailController;
-use App\Model\Project;
 use App\Model\Resource;
 use Monkey\Breadcrump\BreadcrumbItem;
+use Monkey\ImportSupport\Project;
 use Monkey\View\ViewFinder;
 
 /**
@@ -37,15 +37,19 @@ class DetailController extends Controller {
 
     public function getIndex($projectId, $resourceId) {
         $this->project = $project = Project::find($projectId);
-        $this->resource = $resource = $project->getResources()->where('resource.id', $resourceId)->first();
+        $this->resource = $resource = $project->getResource( $resourceId );
         
         $viewName = 'default.project.resource.detail.'.$resource->codename;
         if( ViewFinder::existView($viewName) ){
             $this->getView()->setBody($viewName);
         }
+        $resource->getStateTester();
+        $resourceCurrency = \App\Model\Currency::find( $resource->getResourceStats()->getResourceSetting()->currency_id );
         
         $this->getView()->addParameter('project', $project);
         $this->getView()->addParameter('resource', $resource);
+        $this->getView()->addParameter('resourceDetail', $resource->getResourceDetail());
+        $this->getView()->addParameter('resourceCurrency', $resourceCurrency);
         
         $this->prepareMenu($project);
         

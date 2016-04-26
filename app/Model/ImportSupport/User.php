@@ -25,6 +25,7 @@ class User extends Model implements
     
     protected $aclManager;
 
+    protected $table = 'user';
 
     protected $guarded = [];
 
