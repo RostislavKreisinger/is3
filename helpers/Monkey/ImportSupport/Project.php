@@ -59,6 +59,10 @@ class Project extends ProjectModel {
     }
     
     
+    public function getResource($resourceId) {
+        return $this->getResources()[$resourceId];
+    }
+    
     
     
     /**
@@ -82,6 +86,14 @@ class Project extends ProjectModel {
     }
     
    
+    public function isValid() {
+        foreach($this->getResources() as $resource){
+            if(!$resource->isValid()){
+                return false;
+            }
+        }
+        return true;
+    }
     
     
     

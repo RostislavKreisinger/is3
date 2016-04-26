@@ -52,6 +52,15 @@ class ProjectList implements Iterator, Countable {
     }
 
     public function addProject(Project $project) {
+        
+        if(array_key_exists($project->getId(), $this->keys)){
+            return $this->projects[$this->keys[$project->getId()]];
+        }
+        
+        $this->projects[] = &$project;
+        $this->keys[$project->getId()] = count($this->projects)-1;
+        return $project;
+        /*
         if(!isset($this->projects[$project->getId()])){
             $this->keys[] = $project->getId();
         }
@@ -60,6 +69,7 @@ class ProjectList implements Iterator, Countable {
         }
         $this->projects[$project->getId()] = &$project;
         return $project;
+         */
     }
     
     
@@ -68,7 +78,7 @@ class ProjectList implements Iterator, Countable {
     }
 
     function current() {
-        return $this->projects[ $this->keys[$this->position] ];
+        return $this->projects[ $this->position ];
     }
 
     function key() {
@@ -80,7 +90,7 @@ class ProjectList implements Iterator, Countable {
     }
 
     function valid() {
-        return isset($this->keys[$this->position]) && isset( $this->projects[ $this->keys[$this->position] ] );
+        return isset($this->projects[$this->position]);
     }
 
     public function count($mode = 'COUNT_NORMAL') {

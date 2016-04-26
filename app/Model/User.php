@@ -19,7 +19,7 @@ class User extends Model {
      * @return Project[]
      */
     public function getProjects() {
-        $projects = $this->hasMany(Project::class, 'user_id');
+        $projects = $this->hasMany(\Monkey\ImportSupport\Project::class, 'user_id');
         return $projects;
         
     }

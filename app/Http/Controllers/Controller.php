@@ -20,7 +20,12 @@ class Controller extends BaseViewController {
         $invalidProjects->setOpened(true);
         $k = 0;
         foreach ($this->getInvalidProjects() as $project) {
-            $invalidProjects->addMenuItem(new Menu("{$project->getName()} [{$project->getInvalidResourceCount()}]", action(ProjectDetailController::routeMethod('getIndex'), ['project_id' => $project->getId()])));
+            $menuItem = new Menu(
+                                "{$project->getName()} [{$project->getInvalidResourceCount()}]",
+                                action(ProjectDetailController::routeMethod('getIndex'), ['project_id' => $project->getId()])
+                            );
+            $menuItem->setTitle($project->getId());
+            $invalidProjects->addMenuItem($menuItem);
             if (++$k == 10) {
                 break;
             }
@@ -29,7 +34,15 @@ class Controller extends BaseViewController {
 
         $newProjects = new Menu('New projects', '#');
         foreach ($this->getNewProjects() as $project) {
-            $newProjects->addMenuItem(new Menu($project->name, action(ProjectDetailController::routeMethod('getIndex'), ['project_id' => $project->id])));
+            $menuItem = new Menu(
+                        $project->name,
+                        action(ProjectDetailController::routeMethod('getIndex'), ['project_id' => $project->id])
+                    );
+            $menuItem->setTitle($project->id);
+            if(!$project->isValid()){
+                $menuItem->addClass('invalid');
+            }
+            $newProjects->addMenuItem($menuItem);
         }
         $menu->addMenuItem($newProjects);
 
@@ -45,11 +58,15 @@ class Controller extends BaseViewController {
     }
     
 
+    /**
+     * 
+     * @return \Monkey\ImportSupport\Project
+     */
     protected function getNewProjects() {
         if ($this->newProjects) {
             return $this->newProjects;
         }
-        return $this->newProjects = Project::limit(10)->orderBy('created_at', 'DESC')->get();
+        return $this->newProjects = \Monkey\ImportSupport\Project::limit(10)->orderBy('created_at', 'DESC')->get();
     }
     
     protected function getDailyProjects() {

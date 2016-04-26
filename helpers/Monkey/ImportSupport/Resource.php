@@ -17,6 +17,7 @@ use Monkey\ImportSupport\Resource\ResourceStats;
 /**
  * Description of Resource
  *
+ * @method Resource find($id, $columns = array()) 
  * @author Tomas
  */
 class Resource extends ResourceModel {
