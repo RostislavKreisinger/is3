@@ -18,6 +18,7 @@ class DeleteDataButton extends BaseButton {
     
     public function __construct($projectId, $resourceId) {
         parent::__construct(
+                'update_orders',
                 'Update orders', 
                 "https://import-support.monkeydata.com/resource/update-order-updated-at/{$projectId}{$resourceId}"
                 );

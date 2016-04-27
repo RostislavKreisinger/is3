@@ -1,5 +1,7 @@
 <?php
 
+$queryLog = array();
+
 /**
  * Laravel - A PHP Framework For Web Artisans
  *
@@ -56,3 +58,6 @@ $response = $kernel->handle(
 $response->send();
 
 $kernel->terminate($request, $response);
+if(isset($_GET['dbdebug'])){
+    queryLog();
+}

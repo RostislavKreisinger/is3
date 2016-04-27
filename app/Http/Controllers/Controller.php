@@ -15,11 +15,12 @@ class Controller extends BaseViewController {
 
     protected function prepareMenu() {
         $menu = $this->getMenu();
-
+        
         $invalidProjects = new Menu('Invalid projects (' . count($this->getInvalidProjects()) . ')', '#');
         $invalidProjects->setOpened(true);
         $k = 0;
-        foreach ($this->getInvalidProjects() as $project) {
+        $invalidProjectList = $this->getInvalidProjects();
+        foreach ($invalidProjectList as $project) {
             $menuItem = new Menu(
                                 "{$project->getName()} [{$project->getInvalidResourceCount()}]",
                                 action(ProjectDetailController::routeMethod('getIndex'), ['project_id' => $project->getId()])
@@ -31,7 +32,7 @@ class Controller extends BaseViewController {
             }
         }
         $menu->addMenuItem($invalidProjects);
-
+        
         $newProjects = new Menu('New projects', '#');
         foreach ($this->getNewProjects() as $project) {
             $menuItem = new Menu(
@@ -39,13 +40,16 @@ class Controller extends BaseViewController {
                         action(ProjectDetailController::routeMethod('getIndex'), ['project_id' => $project->id])
                     );
             $menuItem->setTitle($project->id);
-            if(!$project->isValid()){
+            
+            $invalidProject = $invalidProjectList->getProject($project->id);
+            if($invalidProject){
+                $menuItem->setName("{$invalidProject->getName()} [{$invalidProject->getInvalidResourceCount()}]");
                 $menuItem->addClass('invalid');
             }
+            
             $newProjects->addMenuItem($menuItem);
         }
         $menu->addMenuItem($newProjects);
-
         return $menu;
     }
 

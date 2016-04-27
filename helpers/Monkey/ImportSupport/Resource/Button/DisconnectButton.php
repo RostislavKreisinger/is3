@@ -18,9 +18,11 @@ class DisconnectButton extends BaseButton {
     
     public function __construct($projectId, $resourceId) {
         parent::__construct(
+                'disconnect',
                 'Disconnect', 
-                "https://import:vX1P8c@import.monkeydata.com/prehled/disconnectResource.php?project_id={$projectId}&resource_id={$resourceId}&client_id=1008"
+                "https://import:vX1P8c@import.monkeydata.com/set_remove_rows.php?project_id={$projectId}&resource_id={$resourceId}"
                 );
+        $this->setClass('btn-danger');
     }
     
 }

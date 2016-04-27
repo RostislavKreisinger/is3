@@ -18,7 +18,8 @@ class ResetHistoryButton extends BaseButton {
     
     public function __construct($projectId, $resourceId) {
         parent::__construct(
-                'Automat test', 
+                'reset_history',
+                'Reset history', 
                 "https://import-support.monkeydata.com/resource/reset-date-ttl/{$projectId}/{$resourceId}"
                 );
     }

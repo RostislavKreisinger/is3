@@ -42,7 +42,7 @@ class Controller extends BaseController {
             $menu->addMenuItem($resources);
             
             $userProjects = new Menu('Projects', '#');
-            foreach ($project->getUser()->getProjects()->get() as $userProject){
+            foreach ($project->getUser()->getProjects() as $userProject){
                 if($project->id == $userProject->id) continue;
                 $menuItem = new Menu(
                             $userProject->name, 

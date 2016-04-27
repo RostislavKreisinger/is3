@@ -5,6 +5,7 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller as BaseController;
 use App\Http\Controllers\Project\DetailController;
 use App\Model\User;
+use Monkey\ImportSupport\InvalidProject\ProjectRepository;
 use Monkey\Menu\Menu;
 
 class Controller extends BaseController {
@@ -21,12 +22,17 @@ class Controller extends BaseController {
         if($user !== null){
             $userProjects = new Menu('Projects', '#');
             $userProjects->setOpened(true);
-            foreach ($user->getProjects()->get() as $project){
+            $invalidProjectList = ProjectRepository::getAllInvalidProjectsOfUser($user->id);
+            foreach ($user->getProjects() as $project){
+                
                 $menuItem = new Menu(
                                     $project->name,
                                     action(DetailController::routeMethod('getIndex'), ['project_id'=>$project->id])
                                 );
-                if(!$project->isValid()){
+                
+                $invalidProject = $invalidProjectList->getProject($project->id);
+                if($invalidProject){
+                    $menuItem->setName("{$invalidProject->getName()} [{$invalidProject->getInvalidResourceCount()}]");
                     $menuItem->addClass('invalid');
                 }
                 $userProjects->addMenuItem($menuItem);

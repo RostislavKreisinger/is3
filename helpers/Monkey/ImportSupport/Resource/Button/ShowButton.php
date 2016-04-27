@@ -18,6 +18,7 @@ class ShowButton extends BaseButton {
     
     public function __construct($projectId, $resourceId) {
         parent::__construct(
+                'show_data',
                 'Show data', 
                 '#'
                 );

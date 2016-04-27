@@ -43,20 +43,20 @@ class BaseViewController extends BaseController {
 
     public function __construct() {
         if(Auth::check()){
-            $this->setUser(User::find(Auth::user()->id));
+            $this->setUser(Auth::user());
         }
-        
         $currentRouteAction = Route::currentRouteAction();
         $route = $this->cleanRoute($currentRouteAction);
         $this->view = ViewRender::getInstance($route);
         
         View::share('breadcrumbs', $this->getBreadcrumbs());
-        
         $this->initMenu();
     }
     
     private function initMenu() {
+        // clearQueryLog();
         $menu = $this->prepareMenu();
+        //queryLog();
         $this->getView()->addParameter('menu', $menu);
         View::share('menu', $menu);
         $this->setMenu($menu);
@@ -67,23 +67,7 @@ class BaseViewController extends BaseController {
      * @return MenuList
      */
     protected function prepareMenu() {
-        $menu = $this->getMenu();
-        
-        $invalidProjects = new Menu('Invalid projects', '#');
-        $invalidProjects->setOpened(true);
-        for($k = 0; $k < 10; $k++){
-            $invalidProjects->addMenuItem(new Menu("Project {$k}", action(DetailController::routeMethod('getIndex'), ['project_id'=>$k])));
-        }
-        $menu->addMenuItem($invalidProjects);
-        
-        
-        $newProjects = new Menu('New projects', '#');
-        for($k = 10; $k < 20; $k++){
-            $newProjects->addMenuItem(new Menu("Project {$k}", action(DetailController::routeMethod('getIndex'), ['project_id'=>$k])));
-        }
-        $menu->addMenuItem($newProjects);
-        
-        return $menu;
+        return $this->getMenu(); 
     }
     
     public function callAction($method, $parameters) {

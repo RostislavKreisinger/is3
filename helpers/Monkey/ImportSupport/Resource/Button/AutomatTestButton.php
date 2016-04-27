@@ -21,6 +21,7 @@ class AutomatTestButton extends BaseButton {
     public function __construct($projectId, $resourceId) {
         $date = (new DateTime())->format('Y-m-d');
         parent::__construct(
+                'show_data',
                 'Automat test', 
                 "https://import.monkeydata.com/importgoogle.monkeydata.cz/import_prepare_manual.php?project_id={$projectId}&resource_id={$resourceId}&date={$date}&reset=1"
                 );

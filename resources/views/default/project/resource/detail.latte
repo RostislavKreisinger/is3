@@ -6,8 +6,9 @@
 
 <div class="row buttons">
     <div class="col-lg-12">
-        
-        <a n:foreach="$resource->getButtons() as $button" href="{$button->getUrl()}" class="btn btn-outline {$button->getClass()}">{$button->getName()}</a>
+        {foreach $resource->getButtons()->getList() as $button }
+            {view $button->getView()}
+        {/foreach}
     </div>
 </div>
 

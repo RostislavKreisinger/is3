@@ -66,6 +66,11 @@
                                 <td>Remaining orders</td>
                                 <td>{n $client->remaining_orders} / {n $tariff->order_limit}</td>
                             </tr>
+                            
+                            <tr>
+                                <td>Remaining orders</td>
+                                <td>{n $client->remaining_orders} / {n $tariff->project_limit}</td>
+                            </tr>
                             <tr>
                                 <td>Tariff expired</td>
                                 <td>{n $client->tariff_expired}</td>
