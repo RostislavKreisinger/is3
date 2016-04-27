@@ -11,6 +11,16 @@ Route::group(['middleware' => 'web'], function () {
     
     Route::group(['middleware' => 'auth'], function (){
         
+        Route::group(['prefix' => 'button'], function(){
+//            Route::get('/{arg0?}/{arg1?}/{arg2?}/{arg3?}/{arg4?}/{arg5?}/{arg6?}', function(){
+//                $class = App\Http\Controllers\Button\Controller::getButtonClass(func_get_args());
+//                return $class->getIndex();
+//            });
+            
+            Route::group(['prefix' => 'resource'], function(){
+                Route::controller('/b1-reset-automat-test', App\Http\Controllers\Button\Resource\B1_ResetAutomatTestButtonController::class);
+            });
+        });
         
         Route::group(['prefix' => 'search'], function(){
             Route::controller('user', \App\Http\Controllers\Search\UserController::class);

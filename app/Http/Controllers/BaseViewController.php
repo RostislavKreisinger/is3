@@ -18,19 +18,11 @@ use Monkey\View\ViewRender;
 use Redirect;
 use Route;
 
-class BaseViewController extends BaseController {
+class BaseViewController extends BaseAuthController {
 
-    use AuthorizesRequests,
-        DispatchesJobs,
-        ValidatesRequests;
+  
 
     private $view;
-    
-    /**
-     *
-     * @var User 
-     */
-    private $user;
     
     /**
      *
@@ -42,9 +34,7 @@ class BaseViewController extends BaseController {
 
 
     public function __construct() {
-        if(Auth::check()){
-            $this->setUser(Auth::user());
-        }
+        parent::__construct();
         $currentRouteAction = Route::currentRouteAction();
         $route = $this->cleanRoute($currentRouteAction);
         $this->view = ViewRender::getInstance($route);
@@ -82,9 +72,7 @@ class BaseViewController extends BaseController {
         return $result;
     }
 
-    public static function routeMethod($methodName) {
-        return static::class . "@{$methodName}";
-    }
+    
 
     protected function cleanRoute($route) {
         $route = str_replace('App\\Http\\Controllers\\', '', $route);
@@ -115,32 +103,6 @@ class BaseViewController extends BaseController {
         return $this->view;
     }
     
-    protected function can($acl) {
-        return $this->getUser()->can($acl);
-    }
-    
-    protected function redirectToRoot() {
-        return Redirect::to('/');
-    }
-    
-    /**
-     * 
-     * @return User
-     */
-    public function getUser() {
-        return $this->user;
-    }
-
-    /**
-     * 
-     * @param User $user
-     * @return Controller
-     */
-    public function setUser(User $user) {
-        $this->user = $user;
-        return $this;
-    }
-
     /**
      * 
      * @return MenuList
