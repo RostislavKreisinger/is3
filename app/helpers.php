@@ -14,10 +14,15 @@ namespace {
     
     function queryLog(){
         global $queryLog;
+        $time = 0;
+        foreach($queryLog as $query){
+            $time += $query->time;
+        }
+        vd($time);
         vde($queryLog); 
     }
     
-    function emptyQueryLog(){
+    function clearQueryLog(){
         global $queryLog;
         $queryLog = array(); 
     }

@@ -59,5 +59,5 @@ $response->send();
 
 $kernel->terminate($request, $response);
 if(isset($_GET['dbdebug'])){
-    vde($queryLog);
+    queryLog();
 }

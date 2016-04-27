@@ -35,6 +35,11 @@ class ProjectRepository {
      * @var ProjectList 
      */
     private $invalidProjects;
+    /**
+     *
+     * @var ProjectList 
+     */
+    private $userInvalidProjects;
     
     
     public function __construct() {
@@ -117,9 +122,32 @@ class ProjectRepository {
     
     
     
-    
+    public static function getAllInvalidProjectsOfUser($userId) {
+        $instance = static::getInstance();
+        if(!$instance->userInvalidProjects){
+            $whereFunctions = array();
+            $builder = $instance->getInvalidProjectsBuilder();
+            $builder->where('p.user_id', '=', $userId);
+            $builder = $instance->addTestToResourceSetting($builder, $whereFunctions);
+            $builder = $instance->addTestToImportPrepareNew($builder, $whereFunctions);
+            $builder = $instance->addTestToImportPrepareStart($builder, $whereFunctions);
+            $builder->where(function(Builder $where) use ($whereFunctions) {
+                foreach ($whereFunctions as $whereFnc) {
+                    $where->orWhere($whereFnc);
+                }
+            });
+            $builder->orderBy('rs.next_check_date', 'ASC')->orderBy('p.created_at', 'desc');
+             // vdQuery($builder);
+            $data = $builder->get();
+            $projectList = new ProjectList($data);
+            $instance->userInvalidProjects = $projectList;
+        }
+        return $instance->userInvalidProjects;
+    }
     
 
+    
+    
     /**
      * 
      * @return \Monkey\ImportSupport\InvalidProject\Project
@@ -138,7 +166,7 @@ class ProjectRepository {
                 }
             });
             $builder->orderBy('rs.next_check_date', 'ASC')->orderBy('p.created_at', 'desc');
-            // vdQuery($builder);
+             // vdQuery($builder);
             $data = $builder->get();
             $projectList = new ProjectList($data);
             $instance->invalidProjects = $projectList;

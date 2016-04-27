@@ -16,6 +16,9 @@ use Monkey\Breadcrump\BreadcrumbItem;
  */
 class DetailController extends Controller {
 
+    
+
+    
     public function getIndex($userId) {
         $user = User::find($userId);
         $client = $user->getClient();
@@ -24,10 +27,10 @@ class DetailController extends Controller {
         $this->getView()->addParameter('client', $client);
         $this->getView()->addParameter('tariff', $tariff);
         
-        
         $this->prepareMenu($user);
     }
     
+
     protected function breadcrumbBeforeAction($parameters = array()) {
         $breadcrumbs = parent::breadcrumbBeforeAction();
         $breadcrumbs->addBreadcrumbItem(new BreadcrumbItem('user', 'User', \Monkey\action(self::class, ['user_id' => $parameters['user_id'] ])));

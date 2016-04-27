@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use DB;
+use Illuminate\Database\Events\QueryExecuted;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -14,13 +15,15 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        DB::listen(function ($query) {
-            global $queryLog;
-            $queryLog[] = $query;
-            // $query->sql
-            // $query->bindings
-            // $query->time
-        });
+        if(isset($_GET['dbdebug'])){
+            DB::listen(function (QueryExecuted $query) {
+                global $queryLog;
+                $queryLog[] = $query;
+                // $query->sql
+                // $query->bindings
+                // $query->time
+            });
+        }
     }
 
     /**

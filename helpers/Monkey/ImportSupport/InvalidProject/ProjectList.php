@@ -72,6 +72,13 @@ class ProjectList implements Iterator, Countable {
          */
     }
     
+    public function getProject($projectId) {
+        if( array_key_exists($projectId, $this->keys)){
+            return $this->projects[$this->keys[$projectId]];
+        }
+        return null;
+    }
+    
     
     function rewind() {
         $this->position = 0;
