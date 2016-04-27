@@ -11,6 +11,16 @@ namespace {
         }
         return action($name, $parameters, $absolute);
     }
+    
+    function queryLog(){
+        global $queryLog;
+        vde($queryLog); 
+    }
+    
+    function emptyQueryLog(){
+        global $queryLog;
+        $queryLog = array(); 
+    }
 
 }
 

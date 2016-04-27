@@ -13,6 +13,7 @@ use DB;
 use Exception;
 use Monkey\ImportSupport\Resource\Button\AutomatTestButton;
 use Monkey\ImportSupport\Resource\Button\BaseButton;
+use Monkey\ImportSupport\Resource\Button\ButtonList;
 use Monkey\ImportSupport\Resource\Button\DisconnectButton;
 use Monkey\ImportSupport\Resource\Button\ResetHistoryButton;
 use Monkey\ImportSupport\Resource\Button\ShowButton;
@@ -48,7 +49,7 @@ class Resource extends ResourceModel {
     
     /**
      *
-     * @var BaseButton
+     * @var ButtonList
      */
     private $buttons = array();
     
@@ -64,6 +65,8 @@ class Resource extends ResourceModel {
         parent::__construct($attributes);
         $this->setProject_id($project_id);
         $this->resourceStats = new ResourceStats();
+        
+        $this->buttons = new ButtonList();
         $this->addDefaultButtons();
     }
     
@@ -173,7 +176,7 @@ class Resource extends ResourceModel {
     
     /**
      * 
-     * @return BaseButton
+     * @return ButtonList
      */
     public function getButtons(){
         return $this->buttons;
@@ -181,10 +184,18 @@ class Resource extends ResourceModel {
     
     /**
      * 
+     * @return BaseButton
+     */
+    public function getButton($code){
+        return $this->getButtons()->getButton($code);
+    }
+    
+    /**
+     * 
      * @param BaseButton $button
      */
     public function addButton(BaseButton $button) {
-        $this->buttons[] = $button; 
+        $this->getButtons()->addButton($button); 
     }
     
     public function getModel() {

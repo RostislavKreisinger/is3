@@ -17,12 +17,9 @@ use Monkey\View\View;
  * @author Tomas
  */
 class IndexController extends Controller {
-    
    
     
     public function getIndex() {
-        
-        
         View::share('invalidProjects', $this->getInvalidProjects());
         View::share('newProjects', $this->getNewProjects());
         View::share('dailyProjects', $this->getDailyProjects());

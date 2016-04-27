@@ -21,7 +21,7 @@ class Controller extends BaseController {
         if($user !== null){
             $userProjects = new Menu('Projects', '#');
             $userProjects->setOpened(true);
-            foreach ($user->getProjects()->get() as $project){
+            foreach ($user->getProjects() as $project){
                 $menuItem = new Menu(
                                     $project->name,
                                     action(DetailController::routeMethod('getIndex'), ['project_id'=>$project->id])

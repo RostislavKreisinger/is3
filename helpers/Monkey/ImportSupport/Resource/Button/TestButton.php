@@ -19,6 +19,7 @@ class TestButton extends BaseButton {
     public function __construct($projectId, $resourceId) {
         $date = (new DateTime())->format('Y-m-d');
         parent::__construct(
+                'test',
                 'Test', 
                 "https://import.monkeydata.com/importgoogle.monkeydata.cz/import_prepare_manual.php?project_id={$projectId}&resource_id={$resourceId}&date={$date}&repair=1&rostik=maslo"
                 );

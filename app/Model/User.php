@@ -13,15 +13,32 @@ class User extends Model {
     
     protected $guarded = [];
     
+    /**
+     *
+     * @var ImportSupportProject 
+     */
+    protected $projects;
+    
+    /**
+     *
+     * @var Client 
+     */
+    protected $client;
+    
     
     /**
      * 
      * @return ImportSupportProject[]
      */
     public function getProjects() {
-        $projects = $this->hasMany(ImportSupportProject::class, 'user_id');
-        return $projects;
-        
+        if($this->projects === null){
+            $this->projects = $this->builderProjects()->get();
+        }
+        return $this->projects;
+    }
+    
+    public function builderProjects() {
+        return $this->hasMany(ImportSupportProject::class, 'user_id');
     }
     
     /**
@@ -29,7 +46,10 @@ class User extends Model {
      * @return Client
      */
     public function getClient() {
-        return $this->hasMany(Client::class, 'user_id')->first();
+        if($this->client === null){
+            $this->client = $this->hasMany(Client::class, 'user_id')->first();
+        }
+        return $this->client;
     }
-
+    
 }

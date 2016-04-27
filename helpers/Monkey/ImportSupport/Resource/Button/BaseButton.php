@@ -8,6 +8,8 @@
 
 namespace Monkey\ImportSupport\Resource\Button;
 
+use Monkey\View\View;
+
 /**
  * Description of Button
  *
@@ -15,15 +17,22 @@ namespace Monkey\ImportSupport\Resource\Button;
  */
 class BaseButton {
     
+    private $code;
+    
     private $url;
     
     private $name;
     
     private $class = 'btn-default';
     
-    public function __construct($name, $url) {
+    public function __construct($code, $name, $url) {
+        $this->setCode($code);
         $this->setName($name);
         $this->setUrl($url);
+    }
+    
+    public function getCode() {
+        return $this->code;
     }
     
     public function getUrl() {
@@ -46,10 +55,25 @@ class BaseButton {
         return $this->class;
     }
 
-    public function setClass($class) {
+    public function addClass($class) {
         $this->class .= ' '.$class;
     }
+    
+    public function setClass($class) {
+        $this->class = $class;
+    }
+    
+    protected function setCode($code) {
+        $this->code = $code;
+    }
 
+    
+    public function getView() {
+        $view = new View('default.project.resource.template.button');
+        $view->addParameter('button', $this);
+        
+        return $view;
+    }
 
     
 }

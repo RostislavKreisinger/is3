@@ -14,13 +14,31 @@ class Client extends Eloquent {
     protected $guarded = [];
     
     /**
+     *
+     * @var ImportSupportProject 
+     */
+    protected $projects;
+    
+    /**
+     *
+     * @var Tariff 
+     */
+    protected $tariff;
+    
+    
+    /**
      * 
-     * @return Project[]
+     * @return ImportSupportProject[]
      */
     public function getProjects() {
-        $projects = $this->hasMany(Project::class, 'user_id');
-        return $projects;
-        
+        if($this->projects === null){
+            $this->projects = $this->builderProjects()->get();
+        }
+        return $this->projects;
+    }
+    
+    public function builderProjects() {
+        return $this->hasMany(ImportSupportProject::class, 'user_id');
     }
     
     /**
@@ -28,7 +46,10 @@ class Client extends Eloquent {
      * @return Tariff
      */
     public function getTariff() {
-        return Tariff::find($this->tariff_id);
+        if($this->tariff === null){
+            $this->tariff = Tariff::find($this->tariff_id);
+        }
+        return $this->tariff;
     }
 
 }

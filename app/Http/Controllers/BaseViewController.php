@@ -43,20 +43,27 @@ class BaseViewController extends BaseController {
 
     public function __construct() {
         if(Auth::check()){
-            $this->setUser(User::find(Auth::user()->id));
+            $this->setUser(Auth::user());
         }
+        
         
         $currentRouteAction = Route::currentRouteAction();
         $route = $this->cleanRoute($currentRouteAction);
         $this->view = ViewRender::getInstance($route);
         
+        
+        
         View::share('breadcrumbs', $this->getBreadcrumbs());
         
         $this->initMenu();
+        
+        
     }
     
     private function initMenu() {
+        // emptyQueryLog();
         $menu = $this->prepareMenu();
+        //queryLog();
         $this->getView()->addParameter('menu', $menu);
         View::share('menu', $menu);
         $this->setMenu($menu);

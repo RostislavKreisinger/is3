@@ -18,9 +18,11 @@ class DeleteDataButton extends BaseButton {
     
     public function __construct($projectId, $resourceId) {
         parent::__construct(
-                'Automat test', 
+                'delete_data',
+                'Delete data', 
                 "https://import.monkeydata.com/importgoogle.monkeydata.cz/import-support-extra-save-functions/cleanEshopDataLoader.php?project_id={$projectId}&client_id=1008"
                 );
+        $this->setClass('btn-danger');
     }
     
 }
