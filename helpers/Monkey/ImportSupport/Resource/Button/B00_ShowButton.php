@@ -8,22 +8,20 @@
 
 namespace Monkey\ImportSupport\Resource\Button;
 
-use \DateTime;
-
 
 /**
  * Description of ShowButton
  *
  * @author Tomas
  */
-class AutomatTestButton extends BaseButton {
+class B00_ShowButton extends BaseButton {
     
     public function __construct($projectId, $resourceId) {
-        $date = (new DateTime())->format('Y-m-d');
         parent::__construct(
-                'show_data',
-                'Automat test', 
-                "https://import.monkeydata.com/importgoogle.monkeydata.cz/import_prepare_manual.php?project_id={$projectId}&resource_id={$resourceId}&date={$date}&reset=1"
+                BaseButton::BUTTON_TYPE_TEST,
+                'B00_show_data',
+                'Show data', 
+                '#'
                 );
     }
     

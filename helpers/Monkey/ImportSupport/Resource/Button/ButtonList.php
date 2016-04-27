@@ -16,16 +16,53 @@ namespace Monkey\ImportSupport\Resource\Button;
 class ButtonList implements \ArrayAccess {
     /**
      *
-     * @var BaseButton 
+     * @var BaseButton[] 
      */
     private $list;
+    
+    
+    
     
     public function __construct() {
         ;
     }
     
+    /**
+     * 
+     * @return BaseButton[]
+     */
     public function getList() {
         return $this->list;
+    }
+    
+    public function getTestButtons() {
+        $result = array();
+        foreach($this->getList() as $button){
+            if($button->getType() == BaseButton::BUTTON_TYPE_TEST){
+                $result[] = $button; 
+            }
+        }
+        return $result;
+    }
+    
+    public function getRepairButtons() {
+        $result = array();
+        foreach($this->getList() as $button){
+            if($button->getType() == BaseButton::BUTTON_TYPE_REPAIR){
+                $result[] = $button; 
+            }
+        }
+        return $result;
+    }
+    
+    public function getDeleteButtons() {
+        $result = array();
+        foreach($this->getList() as $button){
+            if($button->getType() == BaseButton::BUTTON_TYPE_DELETE){
+                $result[] = $button; 
+            }
+        }
+        return $result;
     }
 
     public function setList(BaseButton $list) {

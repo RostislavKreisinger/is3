@@ -11,13 +11,16 @@ namespace Monkey\ImportSupport;
 use App\Model\Resource as ResourceModel;
 use DB;
 use Exception;
-use Monkey\ImportSupport\Resource\Button\AutomatTestButton;
+use Monkey\ImportSupport\Resource\Button\B00_ShowButton;
+use Monkey\ImportSupport\Resource\Button\B0_TestButton;
+use Monkey\ImportSupport\Resource\Button\B1_ResetAutomatTestButton;
+use Monkey\ImportSupport\Resource\Button\B2_RepairAutomatTestButton;
+use Monkey\ImportSupport\Resource\Button\B3_RepairDailyButton;
+use Monkey\ImportSupport\Resource\Button\B4_RepairHistoryButton;
+use Monkey\ImportSupport\Resource\Button\B5_ResetDailyButton;
+use Monkey\ImportSupport\Resource\Button\B6_ResetHistoryButton;
 use Monkey\ImportSupport\Resource\Button\BaseButton;
 use Monkey\ImportSupport\Resource\Button\ButtonList;
-use Monkey\ImportSupport\Resource\Button\DisconnectButton;
-use Monkey\ImportSupport\Resource\Button\ResetHistoryButton;
-use Monkey\ImportSupport\Resource\Button\ShowButton;
-use Monkey\ImportSupport\Resource\Button\TestButton;
 use Monkey\ImportSupport\Resource\ResourceStats;
 /**
  * Description of Resource
@@ -167,11 +170,15 @@ class Resource extends ResourceModel {
     }
     
     private function addDefaultButtons() {
-        $this->addButton(new ShowButton($this->project_id, $this->id));
-        $this->addButton(new AutomatTestButton($this->project_id, $this->id));
-        $this->addButton(new TestButton($this->project_id, $this->id));
-        $this->addButton(new ResetHistoryButton($this->project_id, $this->id));
-        $this->addButton(new DisconnectButton($this->project_id, $this->id));
+        $this->addButton(new B00_ShowButton($this->project_id, $this->id));
+        $this->addButton(new B0_TestButton($this->project_id, $this->id));
+        $this->addButton(new B1_ResetAutomatTestButton($this->project_id, $this->id));
+        $this->addButton(new B2_RepairAutomatTestButton($this->project_id, $this->id));
+        $this->addButton(new B3_RepairDailyButton($this->project_id, $this->id));
+        $this->addButton(new B4_RepairHistoryButton($this->project_id, $this->id));
+        $this->addButton(new B5_ResetDailyButton($this->project_id, $this->id));
+        $this->addButton(new B6_ResetHistoryButton($this->project_id, $this->id));
+        
     }
     
     /**

@@ -8,19 +8,20 @@
 
 namespace Monkey\ImportSupport\Resource\Button;
 
-
+use \DateTime;
 /**
  * Description of ShowButton
  *
  * @author Tomas
  */
-class ShowButton extends BaseButton {
+class B6_ResetHistoryButton extends BaseButton {
     
     public function __construct($projectId, $resourceId) {
         parent::__construct(
-                'show_data',
-                'Show data', 
-                '#'
+                BaseButton::BUTTON_TYPE_TEST,
+                'B6_reset_history',
+                'Reset History', 
+                "#"
                 );
     }
     

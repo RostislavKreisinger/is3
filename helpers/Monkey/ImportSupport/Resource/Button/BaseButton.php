@@ -17,6 +17,12 @@ use Monkey\View\View;
  */
 class BaseButton {
     
+    const BUTTON_TYPE_TEST = 'test';
+    const BUTTON_TYPE_REPAIR = 'repair';
+    const BUTTON_TYPE_DELETE = 'delete';
+    
+    private $type = self::BUTTON_TYPE_TEST;
+    
     private $code;
     
     private $url;
@@ -25,7 +31,8 @@ class BaseButton {
     
     private $class = 'btn-default';
     
-    public function __construct($code, $name, $url) {
+    public function __construct($type, $code, $name, $url) {
+        $this->setType($type);
         $this->setCode($code);
         $this->setName($name);
         $this->setUrl($url);
@@ -74,6 +81,26 @@ class BaseButton {
         
         return $view;
     }
+
+    public function getType() {
+        return $this->type;
+    }
+
+    public function setType($type) {
+        $this->type = $type;
+        switch ($type){
+            case self::BUTTON_TYPE_TEST: 
+                $this->setClass('btn-default');
+                break;
+            case self::BUTTON_TYPE_REPAIR: 
+                $this->setClass('btn-info');
+                break;
+            case self::BUTTON_TYPE_DELETE: 
+                $this->setClass('btn-danger');
+                break;
+        }
+    }
+
 
     
 }
