@@ -21,7 +21,7 @@ class B2_RepairAutomatTestButton extends BaseButton {
                 BaseButton::BUTTON_TYPE_REPAIR,
                 'B2_repair_automat_test',
                 'Repair Automattest', 
-                "https://import.monkeydata.com/importgoogle.monkeydata.cz/import_suppport_b2.php?project_id={$projectId}&resource_id={$resourceId}"
+                "https://import.monkeydata.com/importgoogle.monkeydata.cz/import_support_b2.php?project_id={$projectId}&resource_id={$resourceId}"
                 );
     }
     
