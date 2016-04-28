@@ -21,7 +21,7 @@ class B3_RepairDailyButton extends BaseButton {
                 BaseButton::BUTTON_TYPE_REPAIR,
                 'B3_repair_daily',
                 'Repair Daily', 
-                "https://import.monkeydata.com/importgoogle.monkeydata.cz/import_suppport_b3.php?project_id={$projectId}&resource_id={$resourceId}"
+                "https://import.monkeydata.com/importgoogle.monkeydata.cz/import_support_b3.php?project_id={$projectId}&resource_id={$resourceId}"
                 );
     }
     

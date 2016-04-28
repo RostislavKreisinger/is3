@@ -21,7 +21,7 @@ class B4_RepairHistoryButton extends BaseButton {
                 BaseButton::BUTTON_TYPE_REPAIR,
                 'B4_repair_history',
                 'Repair History', 
-                "https://import.monkeydata.com/importgoogle.monkeydata.cz/import_suppport_b4.php?project_id={$projectId}&resource_id={$resourceId}"
+                "https://import.monkeydata.com/importgoogle.monkeydata.cz/import_support_b4.php?project_id={$projectId}&resource_id={$resourceId}"
                 );
     }
     
