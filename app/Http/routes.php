@@ -19,6 +19,8 @@ Route::group(['middleware' => 'web'], function () {
             
             Route::group(['prefix' => 'resource'], function(){
                 Route::controller('/b1-reset-automat-test', App\Http\Controllers\Button\Resource\B1_ResetAutomatTestButtonController::class);
+                Route::controller('/b5-reset-history', App\Http\Controllers\Button\Resource\B5_ResetHistoryButtonController::class);
+                Route::controller('/b6-reset-daily', App\Http\Controllers\Button\Resource\B6_ResetDailyButtonController::class);
             });
         });
         

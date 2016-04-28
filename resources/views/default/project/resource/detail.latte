@@ -76,24 +76,10 @@
                 <li n:foreach="$statuses as $status" class="{first}active{/first} state-{$resource->{'getState'.$status['code']}()}">
                     <a href="#{$status['code']|lower}" data-toggle="tab" aria-expanded="true">{$status['code']}</a>
                 </li>
-                {*
-                <li class="state-{$resource->getStateTester()}">
-                    <a href="#tester" data-toggle="tab" aria-expanded="false">Tester</a>
-                </li>
-                <li class="state-{$resource->getStateHistory()}">
-                    <a href="#history" data-toggle="tab" aria-expanded="false">History</a>
-                </li>
-                *}
             </ul>        
             <div class="tab-content">
-                <div class="tab-pane active in" id="daily">
-                     {view 'default.project.resource.template.daily'}
-                </div>
-                <div class="tab-pane" id="tester">
-                     {view 'default.project.resource.template.tester'}
-                </div>
-                <div class="tab-pane" id="history">
-                     {view 'default.project.resource.template.history'}
+                <div  n:foreach="$statuses as $status" class="tab-pane {first}active in{/first}" id="{strtolower($status['code'])}">
+                     {view 'default.project.resource.template.'.strtolower($status['code'])}
                 </div>
             </div>
         </div>

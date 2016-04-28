@@ -17,8 +17,8 @@ use Monkey\ImportSupport\Resource\Button\B1_ResetAutomatTestButton;
 use Monkey\ImportSupport\Resource\Button\B2_RepairAutomatTestButton;
 use Monkey\ImportSupport\Resource\Button\B3_RepairDailyButton;
 use Monkey\ImportSupport\Resource\Button\B4_RepairHistoryButton;
-use Monkey\ImportSupport\Resource\Button\B5_ResetDailyButton;
-use Monkey\ImportSupport\Resource\Button\B6_ResetHistoryButton;
+use Monkey\ImportSupport\Resource\Button\B5_ResetHistoryButton;
+use Monkey\ImportSupport\Resource\Button\B6_ResetDailyButton;
 use Monkey\ImportSupport\Resource\Button\BaseButton;
 use Monkey\ImportSupport\Resource\Button\ButtonList;
 use Monkey\ImportSupport\Resource\ResourceStats;
@@ -170,14 +170,35 @@ class Resource extends ResourceModel {
     }
     
     private function addDefaultButtons() {
-        $this->addButton(new B00_ShowButton($this->project_id, $this->id));
-        $this->addButton(new B0_TestButton($this->project_id, $this->id));
-        $this->addButton(new B1_ResetAutomatTestButton($this->project_id, $this->id));
-        $this->addButton(new B2_RepairAutomatTestButton($this->project_id, $this->id));
-        $this->addButton(new B3_RepairDailyButton($this->project_id, $this->id));
-        $this->addButton(new B4_RepairHistoryButton($this->project_id, $this->id));
-        $this->addButton(new B5_ResetDailyButton($this->project_id, $this->id));
-        $this->addButton(new B6_ResetHistoryButton($this->project_id, $this->id));
+        $B00_ShowButton = new B00_ShowButton($this->project_id, $this->id);
+        $B0_TestButton = new B0_TestButton($this->project_id, $this->id);
+        $B1_ResetAutomatTestButton = new B1_ResetAutomatTestButton($this->project_id, $this->id);
+        $B2_RepairAutomatTestButton = new B2_RepairAutomatTestButton($this->project_id, $this->id);
+        $B3_RepairDailyButton = new B3_RepairDailyButton($this->project_id, $this->id);
+        $B4_RepairHistoryButton = new B4_RepairHistoryButton($this->project_id, $this->id);
+        $B5_ResetHistoryButton = new B5_ResetHistoryButton($this->project_id, $this->id);
+        $B6_ResetDailyButton = new B6_ResetDailyButton($this->project_id, $this->id);
+        
+        
+        if($this->getStateHistory() === Resource::STATUS_MISSING_RECORD){
+            $B5_ResetHistoryButton->setError('Chybi zaznam v history poolu, resenim je spustit automattest');
+            $B4_RepairHistoryButton->setError('Chybi zaznam v history poolu, resenim je spustit automattest');
+        }
+        
+        if($this->getStateDaily() === Resource::STATUS_MISSING_RECORD){
+            $B6_ResetDailyButton->setError('Chybi zaznam v daily poolu, resenim je spustit automattest');
+            $B3_RepairDailyButton->setError('Chybi zaznam v daily poolu, resenim je spustit automattest');
+        }
+        
+        
+        $this->addButton($B00_ShowButton);
+        $this->addButton($B0_TestButton);
+        $this->addButton($B1_ResetAutomatTestButton);
+        $this->addButton($B2_RepairAutomatTestButton);
+        $this->addButton($B3_RepairDailyButton);
+        $this->addButton($B4_RepairHistoryButton);
+        $this->addButton($B6_ResetDailyButton);
+        $this->addButton($B5_ResetHistoryButton);
         
     }
     

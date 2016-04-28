@@ -23,6 +23,7 @@ class B0_TestButton extends BaseButton {
                 'Test', 
                 "https://import.monkeydata.com/importgoogle.monkeydata.cz/import_support_b0.php?project_id={$projectId}&resource_id={$resourceId}"
                 );
+        $this->setTitle('Spusti pouze testovaci stazeni, fronty nijak neupravuje');
     }
     
 }
