@@ -8,7 +8,7 @@
 
 namespace Monkey\ImportSupport\Resource\Button;
 
-use \DateTime;
+use App\Http\Controllers\Button\Resource\B1_ResetAutomatTestButtonController;
 /**
  * Description of ShowButton
  *
@@ -21,10 +21,9 @@ class B1_ResetAutomatTestButton extends BaseButton {
                 BaseButton::BUTTON_TYPE_TEST,
                 'B1_reset_automat_test',
                 'Reset Automattest', 
-                \Monkey\action(\App\Http\Controllers\Button\Resource\B1_ResetAutomatTestButtonController::class, ['project_id' => $projectId, 'resource_id' => $resourceId])
+                \Monkey\action(B1_ResetAutomatTestButtonController::class, ['project_id' => $projectId, 'resource_id' => $resourceId])
                 );
-        
-        
+        $this->setTitle('Nastavi resource tak, jako by byl prave napojen, po otestovani nastavi vsechny fronty');
     }
     
 }

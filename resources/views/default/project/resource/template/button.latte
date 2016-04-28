@@ -1,3 +1,9 @@
-<a href="{$button->getUrl()}" class="btn btn-outline {$button->getClass()}" {if (strpos($button->getUrl(), env('APP_URL')) !== 0) } target="_blank" {/if} >
+<a 
+    href="{$button->getUrl()}" 
+    class="btn btn-outline {$button->getClass()} {$button->isDisabled()?'btn-disabled'}" 
+    {if (strpos($button->getUrl(), env('APP_URL')) !== 0) } target="_blank" {/if} 
+    data-toggle="tooltip" 
+    title="{$button->isDisabled()?$button->getError():$button->getTitle()}" 
+>
     {$button->getName()}
 </a>

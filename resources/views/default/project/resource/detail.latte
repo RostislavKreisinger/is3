@@ -1,40 +1,16 @@
 <div class="row">
     <div class="col-lg-12">
-        <h2 class="page-header">{$resource->name}</h2>
+        <h2 class="page-header">[{$resource->id}] {$resource->name}</h2>
     </div>
 </div>
 
-<div class="row buttons">
-    <div class="col-lg-12">
-        <div class="button-list">
-            {foreach $resource->getButtons()->getTestButtons() as $button }
-                {view $button->getView()}
-            {/foreach}
-        </div>
-        <div class="button-list">
-            {foreach $resource->getButtons()->getRepairButtons() as $button }
-                {view $button->getView()}
-            {/foreach}
-        </div>
-        <div class="button-list">
-            {foreach $resource->getButtons()->getDeleteButtons() as $button }
-                {view $button->getView()}
-            {/foreach}
-        </div>
-    </div>
-</div>
+{view 'default.project.resource.template.button-panel'}
 
 <div class="row">
     <div class="col-lg-6 col-md-6">
         <div class="table-responsive">
             <table class="table table-hover">
                 <tbody>
-                    <tr>
-                        <td>resource_id</td>
-                        <td>
-                            <span>{$resource->id}</span>
-                        </td>
-                    </tr>
                     <tr>
                         <td>currency</td>
                         <td>
@@ -59,51 +35,21 @@
                             <span>{n $resourceDetail->last_successful_import_at}</span>
                         </td>
                     </tr>
+                    <tr>
+                        <td>next check date</td>
+                        <td>
+                            <span>{n $resource->getResourceStats()->getResourceSetting()->next_check_date}</span>
+                        </td>
+                    </tr>
                 </tbody>
             </table>
         </div>
 
-
-        {php $statuses = array(
-                ['code' => 'Daily',  'value' => (int) $resource->isValidDaily()*10 + 1],
-                ['code' => 'History',  'value' => (int) $resource->isValidHistory()*10 + 2],
-                ['code' => 'Tester',  'value' => (int) $resource->isValidTester()*10 + 3],
-            );
-            usort($statuses, function($item1,$item2){ if ($item1['value'] == $item2['value']) return 0;  return ($item1['value'] > $item2['value']) ? 1 : -1; });
-        }
-        <div>
-            <ul class="nav nav-tabs">
-                <li n:foreach="$statuses as $status" class="{first}active{/first} state-{$resource->{'getState'.$status['code']}()}">
-                    <a href="#{$status['code']|lower}" data-toggle="tab" aria-expanded="true">{$status['code']}</a>
-                </li>
-                {*
-                <li class="state-{$resource->getStateTester()}">
-                    <a href="#tester" data-toggle="tab" aria-expanded="false">Tester</a>
-                </li>
-                <li class="state-{$resource->getStateHistory()}">
-                    <a href="#history" data-toggle="tab" aria-expanded="false">History</a>
-                </li>
-                *}
-            </ul>        
-            <div class="tab-content">
-                <div class="tab-pane active in" id="daily">
-                     {view 'default.project.resource.template.daily'}
-                </div>
-                <div class="tab-pane" id="tester">
-                     {view 'default.project.resource.template.tester'}
-                </div>
-                <div class="tab-pane" id="history">
-                     {view 'default.project.resource.template.history'}
-                </div>
-            </div>
-        </div>
-
-
-
+        {view 'default.project.resource.template.pools-panel'}
 
     </div>
     <div class="col-lg-6 col-md-6">
-        <!-- Nav tabs -->
+        {*
         <ul class="nav nav-tabs">
             <li class="active"><a href="#tariff" data-toggle="tab" aria-expanded="true">Tariff</a>
             </li>
@@ -129,6 +75,7 @@
                 <p>test</p>
             </div>
         </div>
+        *}
     </div>
 </div>
 

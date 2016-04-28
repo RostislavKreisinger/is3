@@ -23,6 +23,7 @@ class B3_RepairDailyButton extends BaseButton {
                 'Repair Daily', 
                 "https://import.monkeydata.com/importgoogle.monkeydata.cz/import_support_b3.php?project_id={$projectId}&resource_id={$resourceId}"
                 );
+        $this->setTitle('Vynuti spusteni danniho stazeni aktualne podle fronty');
     }
     
 }

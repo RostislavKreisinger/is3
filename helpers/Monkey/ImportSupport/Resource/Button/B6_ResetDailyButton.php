@@ -8,20 +8,20 @@
 
 namespace Monkey\ImportSupport\Resource\Button;
 
-use \DateTime;
+use App\Http\Controllers\Button\Resource\B6_ResetDailyButtonController;
 /**
  * Description of ShowButton
  *
  * @author Tomas
  */
-class B5_ResetDailyButton extends BaseButton {
+class B6_ResetDailyButton extends BaseButton {
     
     public function __construct($projectId, $resourceId) {
         parent::__construct(
                 BaseButton::BUTTON_TYPE_TEST,
-                'B5_reset_daily',
+                'B6_reset_daily',
                 'Reset Daily', 
-                "#"
+                \Monkey\action(B6_ResetDailyButtonController::class, ['project_id' => $projectId, 'resource_id' => $resourceId])
                 );
     }
     

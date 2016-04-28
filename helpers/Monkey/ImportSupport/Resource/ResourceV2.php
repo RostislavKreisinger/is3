@@ -25,7 +25,7 @@ class ResourceV2 extends Resource {
                                 ->select('*')
                                 ->where('project_id', '=', $this->getProject_id())
                                 ->where('resource_id', '=', $this->getResource()->id)
-                                ->whereRaw('COALESCE(`next_check_date`, 0) < NOW()')
+                                // ->whereRaw('COALESCE(`next_check_date`, 0) < NOW()')
                                 ->first()
                                 ;
             $this->getResourceStats()->setResourceSetting($resourceSetting);

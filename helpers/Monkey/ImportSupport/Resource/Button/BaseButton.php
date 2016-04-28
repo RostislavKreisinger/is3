@@ -31,6 +31,10 @@ class BaseButton {
     
     private $class = 'btn-default';
     
+    private $title;
+    
+    private $error = false;
+    
     public function __construct($type, $code, $name, $url) {
         $this->setType($type);
         $this->setCode($code);
@@ -85,7 +89,29 @@ class BaseButton {
     public function getType() {
         return $this->type;
     }
+    
+    public function getError() {
+        return $this->error;
+    }
 
+    public function setError($error) {
+        $this->error = $error;
+    }
+    
+    public function isDisabled() {
+        return $this->error !== false;
+    }
+    
+    public function getTitle() {
+        return $this->title;
+    }
+
+    public function setTitle($title) {
+        $this->title = $title;
+    }
+
+    
+    
     public function setType($type) {
         $this->type = $type;
         switch ($type){
@@ -93,7 +119,7 @@ class BaseButton {
                 $this->setClass('btn-default');
                 break;
             case self::BUTTON_TYPE_REPAIR: 
-                $this->setClass('btn-info');
+                $this->setClass('btn-success');
                 break;
             case self::BUTTON_TYPE_DELETE: 
                 $this->setClass('btn-danger');

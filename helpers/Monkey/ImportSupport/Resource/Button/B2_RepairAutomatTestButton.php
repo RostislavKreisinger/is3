@@ -23,6 +23,7 @@ class B2_RepairAutomatTestButton extends BaseButton {
                 'Repair Automattest', 
                 "https://import.monkeydata.com/importgoogle.monkeydata.cz/import_support_b2.php?project_id={$projectId}&resource_id={$resourceId}"
                 );
+        $this->setTitle('Vynuti spusteni automattestru, po otestovani nastavi vsechny fronty');
     }
     
 }

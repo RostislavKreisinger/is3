@@ -23,6 +23,7 @@ class B4_RepairHistoryButton extends BaseButton {
                 'Repair History', 
                 "https://import.monkeydata.com/importgoogle.monkeydata.cz/import_support_b4.php?project_id={$projectId}&resource_id={$resourceId}"
                 );
+        $this->setTitle('Vynuti spusteni historickeho stazeni aktualne podle fronty');
     }
     
 }

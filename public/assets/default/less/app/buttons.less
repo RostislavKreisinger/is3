@@ -5,7 +5,14 @@
         }
         
         .btn {
-            padding: 2px 10px;
+            &{
+                padding: 2px 10px;
+            }
+            
+            &.btn-disabled {
+                opacity: 0.8;
+                text-decoration: line-through ;
+            }
         }
     }
 }

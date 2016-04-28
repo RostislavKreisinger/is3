@@ -1,0 +1,19 @@
+<div class="row buttons">
+    <div class="col-lg-12">
+        <div class="button-list">
+            {foreach $resource->getButtons()->getTestButtons() as $button }
+                {view $button->getView()}
+            {/foreach}
+        </div>
+        <div class="button-list">
+            {foreach $resource->getButtons()->getRepairButtons() as $button }
+                {view $button->getView()}
+            {/foreach}
+        </div>
+        <div class="button-list">
+            {foreach $resource->getButtons()->getDeleteButtons() as $button }
+                {view $button->getView()}
+            {/foreach}
+        </div>
+    </div>
+</div>
