@@ -12,12 +12,11 @@ Route::group(['middleware' => 'web'], function () {
     Route::group(['middleware' => 'auth'], function (){
         
         Route::group(['prefix' => 'button'], function(){
-//            Route::get('/{arg0?}/{arg1?}/{arg2?}/{arg3?}/{arg4?}/{arg5?}/{arg6?}', function(){
-//                $class = App\Http\Controllers\Button\Controller::getButtonClass(func_get_args());
-//                return $class->getIndex();
-//            });
-            
             Route::group(['prefix' => 'resource'], function(){
+                Route::group(['prefix' => 'other'], function(){
+                    Route::controller('/shift-next-check-date', App\Http\Controllers\Button\Resource\Other\ShiftNextCheckDateButtonController::class);
+                });
+                
                 Route::controller('/b1-reset-automat-test', App\Http\Controllers\Button\Resource\B1_ResetAutomatTestButtonController::class);
                 Route::controller('/b5-reset-history', App\Http\Controllers\Button\Resource\B5_ResetHistoryButtonController::class);
                 Route::controller('/b6-reset-daily', App\Http\Controllers\Button\Resource\B6_ResetDailyButtonController::class);

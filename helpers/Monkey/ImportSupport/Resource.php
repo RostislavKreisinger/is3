@@ -21,6 +21,7 @@ use Monkey\ImportSupport\Resource\Button\B5_ResetHistoryButton;
 use Monkey\ImportSupport\Resource\Button\B6_ResetDailyButton;
 use Monkey\ImportSupport\Resource\Button\BaseButton;
 use Monkey\ImportSupport\Resource\Button\ButtonList;
+use Monkey\ImportSupport\Resource\Button\Other\ShiftNextCheckDateButton;
 use Monkey\ImportSupport\Resource\ResourceStats;
 /**
  * Description of Resource
@@ -34,7 +35,7 @@ class Resource extends ResourceModel {
     const STATUS_DEACTIVE = 'deactive';
     const STATUS_ACTIVE = 'active';
     const STATUS_DONE = 'done';
-    const STATUS_RUNNING = 'runnig';
+    const STATUS_RUNNING = 'running';
     const STATUS_MISSING_RECORD = 'missing';
     
     
@@ -179,6 +180,8 @@ class Resource extends ResourceModel {
         $B5_ResetHistoryButton = new B5_ResetHistoryButton($this->project_id, $this->id);
         $B6_ResetDailyButton = new B6_ResetDailyButton($this->project_id, $this->id);
         
+        $ShiftNextCheckDateButton = new ShiftNextCheckDateButton($this->project_id, $this->id);
+        
         
         if($this->getStateHistory() === Resource::STATUS_MISSING_RECORD){
             $B5_ResetHistoryButton->setError('Chybi zaznam v history poolu, resenim je spustit automattest');
@@ -199,6 +202,8 @@ class Resource extends ResourceModel {
         $this->addButton($B4_RepairHistoryButton);
         $this->addButton($B6_ResetDailyButton);
         $this->addButton($B5_ResetHistoryButton);
+        
+        $this->addButton($ShiftNextCheckDateButton);
         
     }
     

@@ -119,7 +119,7 @@ class BaseButton {
                 $this->setClass('btn-default');
                 break;
             case self::BUTTON_TYPE_REPAIR: 
-                $this->setClass('btn-info');
+                $this->setClass('btn-success');
                 break;
             case self::BUTTON_TYPE_DELETE: 
                 $this->setClass('btn-danger');

@@ -52,8 +52,6 @@ class DetailController extends Controller {
         $this->getView()->addParameter('resourceCurrency', $resourceCurrency);
         
         $this->prepareMenu($project);
-        
-        
     }
     
     protected function breadcrumbAfterAction($parameters = array()) {
