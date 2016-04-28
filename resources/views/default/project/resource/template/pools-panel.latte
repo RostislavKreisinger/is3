@@ -1,0 +1,19 @@
+{php $statuses = array(
+                ['code' => 'Daily',  'value' => (int) $resource->isValidDaily()*10 + 1],
+                ['code' => 'History',  'value' => (int) $resource->isValidHistory()*10 + 2],
+                ['code' => 'Tester',  'value' => (int) $resource->isValidTester()*10 + 3],
+            );
+            usort($statuses, function($item1,$item2){ if ($item1['value'] == $item2['value']) return 0;  return ($item1['value'] > $item2['value']) ? 1 : -1; });
+}
+<div>
+    <ul class="nav nav-tabs">
+        <li n:foreach="$statuses as $status" class="font-bold {first}active{/first} state-{$resource->{'getState'.$status['code']}()}">
+            <a href="#{$status['code']|lower}" data-toggle="tab" aria-expanded="true">{$status['code']}</a>
+        </li>
+    </ul>        
+    <div class="tab-content">
+        <div  n:foreach="$statuses as $status" class="tab-pane {first}active in{/first}" id="{strtolower($status['code'])}">
+            {view 'default.project.resource.template.pools-panel.'.strtolower($status['code'])}
+        </div>
+    </div>
+</div>
