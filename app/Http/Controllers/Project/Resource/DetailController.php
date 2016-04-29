@@ -14,6 +14,7 @@ use App\Http\Controllers\User\DetailController as UserDetailController;
 use App\Model\Currency;
 use App\Model\EshopType;
 use App\Model\Resource;
+use Exception;
 use Monkey\Breadcrump\BreadcrumbItem;
 use Monkey\ImportSupport\Project;
 use Monkey\View\ViewFinder;
@@ -48,10 +49,14 @@ class DetailController extends Controller {
         $resource->getStateTester();
         $resourceCurrency = Currency::find( $resource->getResourceStats()->getResourceSetting()->currency_id );
         $resourceDetail =  $resource->getResourceDetail();
+        
+        if($resourceDetail === null){
+            throw new Exception("Missing resource detail for project {$project->id} and resource {$resource->id}");
+        }
         if($resource->id == 4){
-            // vd($resourceDetail->eshop_type_id);
             $this->getView()->addParameter('eshopType', EshopType::find($resourceDetail->eshop_type_id)  );
         }
+        
         
         $this->getView()->addParameter('project', $project);
         $this->getView()->addParameter('resource', $resource);
