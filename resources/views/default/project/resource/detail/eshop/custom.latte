@@ -20,6 +20,13 @@
                     <span>{\decryptWithPrivate($resourceDetail->password)}</span>
                 </td>
             </tr>
+            <tr>
+                <td>custom_setting</td>
+                <td>
+                    {var $custom_setting = (array) json_decode($resourceDetail->custom_setting)}
+                    <p n:foreach="$custom_setting as $name => $value">{$name} : {$value}</p>
+                </td>
+            </tr>
         </tbody>
     </table>
 </div>

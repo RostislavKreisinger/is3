@@ -4,10 +4,10 @@
     </div>
 </div>
 
-{view 'default.project.resource.template.button-panel'}
 
 <div class="row">
     <div class="col-lg-6 col-md-6">
+        {view 'default.project.resource.template.button-panel'}
         <div class="table-responsive">
             <table class="table table-hover">
                 <tbody>
@@ -41,17 +41,7 @@
                             <span>{n $resource->getResourceStats()->getResourceSetting()->next_check_date}</span>
                         </td>
                     </tr>
-                    <tr>
-                        <td>eshop_type</td>
-                        <td>
-                            <span>{n $eshopType->name} ({n $eshopType->id})</span>
-                        </td>
-                    </tr>
-                    {if Monkey\View\ViewFinder::existView("default.project.resource.detail.eshop.$eshopType->code")}
-                        {view "default.project.resource.detail.eshop.$eshopType->code"}
-                    {else}
-                        {view "default.project.resource.detail.eshop.default"}
-                    {/if}
+                    
                 </tbody>
             </table>
         </div>
@@ -60,33 +50,21 @@
 
     </div>
     <div class="col-lg-6 col-md-6">
-        {*
+        
         <ul class="nav nav-tabs">
-            <li class="active"><a href="#tariff" data-toggle="tab" aria-expanded="true">Tariff</a>
-            </li>
-            <li class=""><a href="#other" data-toggle="tab" aria-expanded="false">Other</a>
+            <li class="active">
+                <a href="#detail" data-toggle="tab" aria-expanded="true">Eshop type</a>
             </li>
         </ul>        
         <div class="tab-content">
-            <div class="tab-pane active in" id="tariff">
-                <h4>Home Tab</h4>
-                <div class="table-responsive">
-                    <table class="table table-hover">
-                        <tbody>
-                            <tr>
-                                <td>Tariff id</td>
-                                <td>{$resource->id}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <div class="tab-pane" id="other">
-                <h4>Profile Tab</h4>
-                <p>test</p>
+            <div class="tab-pane active in" id="detail">
+                {if Monkey\View\ViewFinder::existView("default.project.resource.detail.eshop.$eshopType->code")}
+                    {view "default.project.resource.detail.eshop.$eshopType->code"}
+                {else}
+                    {view "default.project.resource.detail.eshop.default"}
+                {/if}
             </div>
         </div>
-        *}
     </div>
 </div>
 

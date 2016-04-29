@@ -4,13 +4,15 @@ namespace App\Model;
 
 use Eloquent;
 
-class Tariff extends Eloquent {
+class TariffOrder extends Eloquent {
 
     // use \Illuminate\Database\Eloquent\SoftDeletes;
 
     protected $connection = 'mysql-master-app';
-    protected $table = 'tariff';
+    protected $table = 'tariff_order';
     
     protected $guarded = [];
- 
+    
+   
+
 }

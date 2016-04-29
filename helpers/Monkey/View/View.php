@@ -101,6 +101,13 @@ class View extends BaseView {
                                     }");
         });
         
+        $set->addMacro("bool2text", function($node, $writer) {
+            $args = explode(',', $node->args);
+            return $writer->write(  "   \$value = (int) {$args[0]}; 
+                                        echo '<span class=\'bool-to-text value-'.\$value.'\'>'.(\$value?'YES':'NO').'</span>';
+                                    ");
+        });
+        
       
         
         $set->addMacro("view", function($node, $writer) {

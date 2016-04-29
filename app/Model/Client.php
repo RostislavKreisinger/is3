@@ -25,6 +25,12 @@ class Client extends Eloquent {
      */
     protected $tariff;
     
+    /**
+     *
+     * @var Tariff 
+     */
+    protected $tariffOrders;
+    
     
     /**
      * 
@@ -51,5 +57,18 @@ class Client extends Eloquent {
         }
         return $this->tariff;
     }
+    
+    public function getTariffOrders() {
+        if($this->tariffOrders === null){
+            $this->tariffOrders = $this->builderTariffOrders()->orderBy('created_at', 'DESC')->get();
+        }
+        return $this->tariffOrders;
+    }
+    
+    public function builderTariffOrders() {
+        return $this->hasManyThrough(TariffOrder::class, TariffInvoice::class);
+    }
+    
+    
 
 }

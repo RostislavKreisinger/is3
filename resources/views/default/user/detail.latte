@@ -20,19 +20,23 @@
                     </tr>
                     <tr>
                         <td>CLIENT ID</td>
-                        <td>{$client->id}</td>
+                        <td>{n $client->id}</td>
                     </tr>
                     <tr>
                         <td>Email</td>
-                        <td>{$user->firstname} {$user->lastname} - {$user->email}</td>
+                        <td>{n $user->firstname} {$user->lastname} - {$user->email}</td>
+                    </tr>
+                    <tr>
+                        <td>Test user</td>
+                        <td>{bool2text $user->test_user}</td>
                     </tr>
                     <tr>
                         <td>Last login</td>
-                        <td>{$user->lastlogin_at}</td>
+                        <td>{n $user->lastlogin_at}</td>
                     </tr>
                     <tr>
                         <td>Registered at</td>
-                        <td>{$user->created_at}</td>
+                        <td>{n $user->created_at}</td>
                     </tr>
                 </tbody>
             </table>
@@ -43,7 +47,7 @@
         <ul class="nav nav-tabs">
             <li class="active"><a href="#tariff" data-toggle="tab" aria-expanded="true">Tariff</a>
             </li>
-            <li class=""><a href="#other" data-toggle="tab" aria-expanded="false">Other</a>
+            <li class=""><a href="#tariff-orders" data-toggle="tab" aria-expanded="false">Tariff Orders</a>
             </li>
         </ul>
 
@@ -83,9 +87,34 @@
                     </table>
                 </div>
             </div>
-            <div class="tab-pane" id="other">
-                <h4>Profile Tab</h4>
-                <p>TEST tab</p>
+            <div class="tab-pane" id="tariff-orders">
+                <h4>Tariff orders</h4>
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Created at</th>           
+                                <th>Tariff</th>
+                                <th>Price</th>
+                                <th>braintree</th>  
+                                <th>InvoiceID</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr n:foreach="$tariffOrders as $tariffOrder">
+                                <td>{n $tariffOrder->created_at}</td> 
+                                <td>{n $tariffOrder->tariff_id}</td>
+                                <td>{n $tariffOrder->price}</td>
+                                <td>
+                                    <a n:ifset="$tariffOrder->bt_transaction_key" href="https://braintreegateway.com/merchants/wz238mzw2rn7vvrc/transactions/{$tariffOrder->bt_transaction_key}" target="_blank">
+                                        {n $tariffOrder->bt_transaction_key}
+                                    </a>
+                                </td>
+                                <td>{n $tariffOrder->tariff_invoice_id}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
