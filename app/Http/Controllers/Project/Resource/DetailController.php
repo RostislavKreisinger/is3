@@ -57,7 +57,12 @@ class DetailController extends Controller {
             $this->getView()->addParameter('eshopType', EshopType::find($resourceDetail->eshop_type_id)  );
         }
         
+        $stack = null;
+        if(!$resource->isValid()){
+            $stack = $resource->getStack();
+        }
         
+        $this->getView()->addParameter('stack', $stack);
         $this->getView()->addParameter('project', $project);
         $this->getView()->addParameter('resource', $resource);
         $this->getView()->addParameter('resourceDetail', $resourceDetail);

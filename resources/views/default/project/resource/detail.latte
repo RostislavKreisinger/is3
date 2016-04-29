@@ -8,45 +8,72 @@
 
 <div class="row">
     <div class="col-lg-6 col-md-6">
-        {view 'default.project.resource.template.button-panel'}
-        <div class="table-responsive">
-            <table class="table table-hover">
-                <tbody>
-                    <tr>
-                        <td>currency</td>
-                        <td>
-                            <span>{n $resourceCurrency->code}</span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>created_at ID</td>
-                        <td>
-                            <span>{n $resource->getResourceStats()->getResourceSetting()->created_at}</span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>last_import</td>
-                        <td>
-                            <span>{n $resourceDetail->last_import_at}</span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>last_successful_import</td>
-                        <td>
-                            <span>{n $resourceDetail->last_successful_import_at}</span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>next check date</td>
-                        <td>
-                            <span>{n $resource->getResourceStats()->getResourceSetting()->next_check_date}</span>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+        <div class="row">
+            <div class="col-lg-12">
+                {view 'default.project.resource.template.button-panel'}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <tbody>
+                            <tr>
+                                <td>currency</td>
+                                <td>
+                                    <span>{n $resourceCurrency->code}</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>created_at ID</td>
+                                <td>
+                                    <span>{n $resource->getResourceStats()->getResourceSetting()->created_at}</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>last_import</td>
+                                <td>
+                                    <span>{n $resourceDetail->last_import_at}</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>last_successful_import</td>
+                                <td>
+                                    <span>{n $resourceDetail->last_successful_import_at}</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>next check date</td>
+                                <td>
+                                    <span>{n $resource->getResourceStats()->getResourceSetting()->next_check_date}</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                {view 'default.project.resource.template.pools-panel'}
+            </div>
         </div>
 
-        {view 'default.project.resource.template.pools-panel'}
+        <div n:ifset="$stack" class="row" style="margin-top: 20px">
+            <div class="col-lg-12">
+                <h4>Stack</h4>
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <tbody>
+                            <tr n:foreach="$stack as $stackItem">
+                                <td>{n $stackItem->id}</td>
+                                <td>{n $stackItem->message}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
 
     </div>
     <div class="col-lg-6 col-md-6">

@@ -15,7 +15,33 @@
                         </td>
                     </tr>
                     <tr>
-                        <td>Registered at</td>
+                        <td>Name</td>
+                        <td>
+                            <span>{$project->name}</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Project type ID</td>
+                        <td>
+                            <span>{$project->project_type_id}</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Currency</td>
+                        <td>
+                            <span>{n App\Model\Currency::find($project->currency_id)->code}</span>
+                        </td>
+                    </tr>
+                    
+                    <tr>
+                        <td>Timezone</td>
+                        <td>
+                            <span>{n App\Model\Timezone::find($project->timezone_id)->name }</span>
+                        </td>
+                    </tr>
+                    
+                    <tr>
+                        <td>Created at</td>
                         <td>{$project->created_at}</td>
                     </tr>
                 </tbody>
@@ -24,6 +50,7 @@
     </div>
     <div class="col-lg-6 col-md-6">
         <!-- Nav tabs -->
+        {*
         <ul class="nav nav-tabs">
             <li class="active"><a href="#tariff" data-toggle="tab" aria-expanded="true">Tariff</a>
             </li>
@@ -51,6 +78,7 @@
                 <p>test</p>
             </div>
         </div>
+        *}
     </div>
 </div>
 

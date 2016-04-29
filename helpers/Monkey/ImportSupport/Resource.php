@@ -241,6 +241,12 @@ class Resource extends ResourceModel {
         return !in_array($state, array(self::STATUS_ERROR, self::STATUS_MISSING_RECORD));
     }
     
+    public function getStack() {
+        $builder = $this->hasMany(\App\Model\Stack::class, 'resource_id')
+                        ->where('project_id', '=', $this->getProject_id())
+                ;
+        return $builder->get();
+    }
 
 
 }
