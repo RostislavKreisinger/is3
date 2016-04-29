@@ -41,33 +41,22 @@
                             <span>{n $resource->getResourceStats()->getResourceSetting()->next_check_date}</span>
                         </td>
                     </tr>
+                    <tr>
+                        <td>eshop_type</td>
+                        <td>
+                            <span>{n $eshopType->name} ({n $eshopType->id})</span>
+                        </td>
+                    </tr>
+                    {if Monkey\View\ViewFinder::existView("default.project.resource.detail.eshop.$eshopType->code")}
+                        {view "default.project.resource.detail.eshop.$eshopType->code"}
+                    {else}
+                        {view "default.project.resource.detail.eshop.default"}
+                    {/if}
                 </tbody>
             </table>
         </div>
 
-
-        {php $statuses = array(
-                ['code' => 'Daily',  'value' => (int) $resource->isValidDaily()*10 + 1],
-                ['code' => 'History',  'value' => (int) $resource->isValidHistory()*10 + 2],
-                ['code' => 'Tester',  'value' => (int) $resource->isValidTester()*10 + 3],
-            );
-            usort($statuses, function($item1,$item2){ if ($item1['value'] == $item2['value']) return 0;  return ($item1['value'] > $item2['value']) ? 1 : -1; });
-        }
-        <div>
-            <ul class="nav nav-tabs">
-                <li n:foreach="$statuses as $status" class="{first}active{/first} state-{$resource->{'getState'.$status['code']}()}">
-                    <a href="#{$status['code']|lower}" data-toggle="tab" aria-expanded="true">{$status['code']}</a>
-                </li>
-            </ul>        
-            <div class="tab-content">
-                <div  n:foreach="$statuses as $status" class="tab-pane {first}active in{/first}" id="{strtolower($status['code'])}">
-                     {view 'default.project.resource.template.'.strtolower($status['code'])}
-                </div>
-            </div>
-        </div>
-
-
-
+        {view 'default.project.resource.template.pools-panel'}
 
     </div>
     <div class="col-lg-6 col-md-6">

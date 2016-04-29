@@ -11,6 +11,8 @@ namespace App\Http\Controllers\Project\Resource;
 use App\Http\Controllers\Project\Controller;
 use App\Http\Controllers\Project\DetailController as ProjectDetailController;
 use App\Http\Controllers\User\DetailController as UserDetailController;
+use App\Model\Currency;
+use App\Model\EshopType;
 use App\Model\Resource;
 use Monkey\Breadcrump\BreadcrumbItem;
 use Monkey\ImportSupport\Project;
@@ -44,11 +46,16 @@ class DetailController extends Controller {
             $this->getView()->setBody($viewName);
         }
         $resource->getStateTester();
-        $resourceCurrency = \App\Model\Currency::find( $resource->getResourceStats()->getResourceSetting()->currency_id );
+        $resourceCurrency = Currency::find( $resource->getResourceStats()->getResourceSetting()->currency_id );
+        $resourceDetail =  $resource->getResourceDetail();
+        if($resource->id == 4){
+            // vd($resourceDetail->eshop_type_id);
+            $this->getView()->addParameter('eshopType', EshopType::find($resourceDetail->eshop_type_id)  );
+        }
         
         $this->getView()->addParameter('project', $project);
         $this->getView()->addParameter('resource', $resource);
-        $this->getView()->addParameter('resourceDetail', $resource->getResourceDetail());
+        $this->getView()->addParameter('resourceDetail', $resourceDetail);
         $this->getView()->addParameter('resourceCurrency', $resourceCurrency);
         
         $this->prepareMenu($project);

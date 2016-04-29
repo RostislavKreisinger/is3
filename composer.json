@@ -13,7 +13,8 @@
         "doctrine/dbal": "^2.5",
         "latte/latte": "^2.3",
         "monkey/translator": "1.0.*",
-        "monkey/old-monkey": "^1.0"
+        "monkey/old-monkey": "^1.0",
+        "monkey/crypt": "^1.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
