@@ -1,0 +1,29 @@
+{
+    "name": "MonkeyData",
+    "version": "1.0.0",
+    "authors": [
+        "Vojtěch Seidler <vojtech.seidler@icloud.com>"
+    ],
+    "license": "MIT",
+    "private": true,
+    "ignore": [
+        "**/.*",
+        "node_modules",
+        "bower_components",
+        "test",
+        "tests"
+    ],
+    "dependencies": {
+        "ace": "1.2.3" 
+    },
+    "exportsOverride": {
+        "ace": {
+            "js": "**/*.js",
+            "less": "**/*.less",
+            "css": "**/*.css"
+        },
+        "jquery": {
+            "js": "dist/jquery.min.js"
+        }
+    }
+}

@@ -1,0 +1,210 @@
+<html>
+    <head>
+        
+    </head>
+    <body>
+        <div class="controlls">
+            <div class="save-button">
+                <button id="run" class="btn" onclick="send()">Run</button><br>
+                <button id="copy" class="btn">url</button>
+            </div>
+            <div class="menu">
+                @if(isset($info))
+                    <button class="btn" onclick="insertToQueryAtCursor('{{$info->user_id}}')">UID: {{$info->user_id}}</button>
+                    <button class="btn" onclick="insertToQueryAtCursor('{{$info->project_id}}')">PID: {{$info->project_id}}</button>
+                    <button class="btn" onclick="insertToQueryAtCursor('{{$info->client_id}}')">CID: {{$info->client_id}}</button>
+                @endif
+                
+                <button class="btn" onclick="insertToQueryAtCursor('monkeydata')">monkeydata</button>
+                <button class="btn" onclick="insertToQueryAtCursor('monkeydata_import')">monkeydata_import</button>
+                <button class="btn" onclick="insertToQueryAtCursor('monkeydata_import_dw')">monkeydata_import_dw</button>
+                <button class="btn" onclick="insertToQueryAtCursor('monkeydata_import_anal')">monkeydata_import_anal</button>
+                
+                @if (isset($tables))
+                    <br>
+                    @foreach($tables as $table)
+                        <button class="btn" onclick="insertToQueryAtCursor('{{$table->getQueryName()}}')">{{$table->getDbTableName()}}</button>
+                    @endforeach
+                @endif
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="query">
+            <div class="content">
+                <?php /*  <textarea class="queryText">{{$query or ''}}</textarea> */ ?>
+                <pre class="queryText" id="editor" data-query='{{$query or ''}}'>{{$query or ''}}</pre>
+            </div>
+        </div>
+        <div class="result">
+            <div class="content"></div>
+        </div>
+
+        <script>            
+            ace.require("ace/ext/language_tools");
+            
+            var editor = ace.edit("editor");
+            editor.session.setMode("ace/mode/mdmysql");
+            // editor.setTheme("ace/theme/tomorrow");
+            editor.setTheme("ace/theme/mdtheme");
+            editor.setAutoScrollEditorIntoView(true);
+            editor.setOption("maxLines", 100);
+            editor.setOption("minLines", 10);
+            editor.setOption("fontSize", 13);
+            editor.$blockScrolling = Infinity;
+            
+            editor.setOption("highlightActiveLine", false);
+            editor.setOption("showPrintMargin", false);
+            editor.setOptions({
+                enableBasicAutocompletion: true,
+                enableSnippets: true,
+                enableLiveAutocompletion: false
+            });
+            
+            ace.config.loadModule('ace/ext/language_tools', function () {
+                editor.setOptions({
+                    enableBasicAutocompletion: true,
+                    enableSnippets: true
+                })
+
+                var snippetManager = ace.require("ace/snippets").snippetManager;
+                var config = ace.require("ace/config");
+
+                ace.config.loadModule("ace/snippets/mdmysql", function(m) {
+                  if (m) {
+                    snippetManager.files.javascript = m;          
+                    m.snippets = new Array();
+                    var snippets = JSON.parse('{!! $snippets or '' !!}');
+                    for(i in snippets){
+                        m.snippets.push(snippets[i]);
+                    }
+                    
+                    /*
+                     m.snippets.push({
+                          content: "hello ${1:world}...!",
+                          name: "hello",
+                          tabTrigger: "h"
+                        });
+                     */
+                    
+                    snippetManager.register(m.snippets, m.scope);
+                    }
+                  });
+
+            });
+        </script>
+        
+        <script>
+            
+            function windowResize(onlyResult){
+                if(onlyResult === undefined){
+                    onlyResult = false;
+                }
+                var w = window.innerWidth;
+                var h = window.innerHeight;
+                var controls = $(".controlls").outerHeight()
+                var tolerance = 12;
+                var queryHeight = $(".query").outerHeight()
+                var minQueryHeight = 50;
+                if( !onlyResult ){
+                    $(".query").resizable("option", {
+                        'maxWidth': w,
+                        'minWidth': w,
+                        'minHeight': minQueryHeight,
+                        'maxHeight': h - controls - minQueryHeight
+                    });
+                }
+                
+                $(".result").height(h - (controls + tolerance + queryHeight) );
+                
+            }
+            
+             function resize() {
+                windowResize(true);
+            }
+    
+            $(window).bind('keydown', function (event) {
+                if (event.ctrlKey || event.metaKey) {
+                    switch (String.fromCharCode(event.which).toLowerCase()) {
+                        case 's':
+                            send();
+                            event.preventDefault();
+                            break;
+                    }
+                }
+            }).resize(function () {
+               windowResize();
+            });
+            var tolerance = 12;
+            var w = window.innerWidth;
+            var h = window.innerHeight;
+
+           
+            
+            
+
+            function insertAtCursor(myField, myValue) {
+                var pos = editor.getCursorPosition();
+                editor.session.insert(pos, myValue);
+            }
+            
+            function insertToQueryAtCursor(myValue){
+                insertAtCursor($(".queryText")[0], myValue);
+                $(".queryText").focus();
+            }
+            
+            
+            $(document).ready(function () {
+                $(".query").height(h * 0.2).resizable({
+                    'maxWidth': w,
+                    'minWidth': w,
+                    'minHeight': 50,
+                    'maxHeight': h - 50
+                }).resize(function () {
+                    resize();
+                });
+                windowResize();
+
+                $(".query").on('keydown', '.queryText', function (e) {
+                    var keyCode = e.keyCode || e.which;
+                    if(keyCode == 120){
+                        send();
+                        e.preventDefault();
+                    }
+                });
+            });
+
+            function send() {
+                var button = $('#run');
+                var query = editor.getValue();//$(".queryText").val();
+                button.addClass('loading');
+                $.post('', {
+                    _token: '{{ csrf_token() }}',
+                    query: query
+                }, function (data) {
+                    button.removeClass('loading');
+                    $(".result .content").html(data);
+                });
+            }
+
+
+        </script>
+        
+        @if(isset($query))
+            <script>
+                send();
+            </script>
+        @endif
+        
+        <script>
+            new Clipboard('#copy', {
+                text: function(trigger) {
+                    var text = editor.getValue().replace(/\s\s+/g, ' ');
+                    var url = '{{Request::url()}}?query=' + encodeURIComponent(text);
+                    return url;
+                }
+            });
+        </script>
+    </body>
+    
+    
+</html>
