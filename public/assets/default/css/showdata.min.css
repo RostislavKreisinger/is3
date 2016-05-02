@@ -1,0 +1,138 @@
+* {
+    font-size: 13px;
+    word-wrap: break-word;
+}
+
+body {
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    line-height: 1.42857143;
+    color: #333;
+}
+
+label {
+    font-weight: bold;
+}
+
+input {
+    padding: 3px 3px 3px 5px;
+    border: #ccc solid 1px;
+}
+
+table {
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+table tr td, table tr th {
+    border: #ccc solid 1px;
+    padding: 3px 5px 3px 5px;
+
+}
+
+table tr:hover td {
+    background: #ebf4a1;
+}
+
+table tbody tr {
+    height: 15px;
+    white-space: nowrap;
+    width: 100%;
+}
+
+table tr td {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.hover {
+    background-color: #eee;
+}
+
+.menu-tables {
+    padding: 0;
+    margin: 10px 0;
+
+}
+
+.menu-tables .menu-tables-item {
+    display: inline-block;
+    margin-right: 5px;
+
+    border: 1px solid #BBB;
+    background-color: #FFF;
+
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+}
+
+.menu-tables .menu-tables-item:hover {
+    background-color: #EEE;
+}
+
+.menu-tables .menu-tables-item.selected {
+    background-color: #ebf4a1;
+}
+
+.menu-tables .menu-tables-item a {
+    text-decoration: none;
+    display: inline-block;
+    color: #000;
+    padding: 4px 8px;
+}
+
+form {
+    display: inline-block;
+}
+
+
+.pre {
+    background: #ffffc8;
+    padding: 10px 0;
+    display: block;
+    position: relative;
+    margin: 0;
+}
+
+.pre .to-open {
+    display: none;
+}
+
+.pre .to-close {
+    display: inline-block;
+}
+
+
+.pre.hide-pre {
+    overflow: hidden;
+    cursor: pointer;
+    padding: 0;
+    display: inline-block;
+    top: 8px;
+    margin-left: 10px;
+
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none;   /* Chrome/Safari/Opera */
+    -khtml-user-select: none;    /* Konqueror */
+    -moz-user-select: none;      /* Firefox */
+    -ms-user-select: none;       /* IE/Edge */
+    user-select: none;           /* non-prefixed version, currently */
+}
+
+.pre.hide-pre span {
+    display: block;
+    padding: 5px;
+}
+
+.pre.hide-pre pre {
+    display: none;
+}
+
+.pre.hide-pre .to-open {
+    display: inline-block;
+}
+
+.pre.hide-pre .to-close {
+    display: none;
+}
+

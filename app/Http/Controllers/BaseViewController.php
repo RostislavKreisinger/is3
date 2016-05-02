@@ -44,9 +44,7 @@ class BaseViewController extends BaseAuthController {
     }
     
     private function initMenu() {
-        // clearQueryLog();
         $menu = $this->prepareMenu();
-        //queryLog();
         $this->getView()->addParameter('menu', $menu);
         View::share('menu', $menu);
         $this->setMenu($menu);
@@ -65,9 +63,12 @@ class BaseViewController extends BaseAuthController {
         $result = parent::callAction($method, $parameters);
         $this->breadcrumbAfterAction($parameters);
         
-        
-        if ($result === null) {
-            $result = $this->getView()->render();
+        try{
+            if ($result === null) {
+                $result = $this->getView()->render();
+            }
+        }  catch (Exception $e){
+            vde($e);
         }
 
         return $result;

@@ -59,7 +59,6 @@ class View extends BaseView {
         }
         
         $view = $latte->renderToString($viewPath, $this->getParametersToView());
-        
         return $view;
     }
     
