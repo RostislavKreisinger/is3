@@ -23,7 +23,7 @@ Route::group(['middleware' => 'web'], function () {
         });
         
         Route::group(['prefix' => 'database'], function(){
-            Route::controller('/database-selector', App\Http\Controllers\Database\DatabaseSelectorController::class);
+            Route::controller('/database-selector/{project_id?}/{resource_id?}', App\Http\Controllers\Database\DatabaseSelectorController::class);
         });
         
         Route::group(['prefix' => 'search'], function(){

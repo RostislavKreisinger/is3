@@ -6,9 +6,11 @@ use App\Http\Controllers\BaseViewController;
 use DB;
 use Exception;
 use Helpers\Resource\ResourceList;
-use Input;
+use Illuminate\Support\Facades\Input;
+use Monkey\Resource\ResourceList as ResourceList2;
 use Monkey\Vardump\VardumpQuery;
-use View;
+use Monkey\View\View;
+
 
 class DatabaseSelectorController extends BaseViewController {
 
@@ -17,7 +19,8 @@ class DatabaseSelectorController extends BaseViewController {
     }
 
     public function getIndex($project_id = null, $resource_id = null) {
-        /*
+        $view = $this->getView();
+        
         $snippets = array(
             new Snippet('`monkeydata`', 'monkeydata'),
             new Snippet('`monkeydata_import`', 'monkeydata_import'),
@@ -25,54 +28,52 @@ class DatabaseSelectorController extends BaseViewController {
             new Snippet('`monkeydata_import_anal`', 'monkeydata_import_anal'),
             new Snippet('`monkeydata_pools`', 'monkeydata_pools')
             );
-        $view = View::make("layout.default.database.database_selector.index");
+        
+        // $view = View::make("layout.default.database.database_selector.index");
         $query = Input::get('query');
         $vd = new VardumpQuery();
         $vd->setShowBacktrace(false);
         $vd->setEndOfLine('&#13;&#10;');
-        $view->with('query', $vd->formatSqlQuery($query));
+        $view->addParameter('query', $vd->formatSqlQuery($query));
+        
         if ($project_id !== null) {
-            $queryBuilder = DB::connection('data_import_selector')->table('monkeydata.project as p')
+            $queryBuilder = DB::connection('mysql-select')->table('monkeydata.project as p')
                     ->where('p.id', '=', $project_id)
                     ->join('monkeydata.client as c', 'c.user_id', '=', 'p.user_id')
                     ->select(array('p.user_id as user_id', 'p.id as project_id', 'c.id as client_id'))
             ;
             $info = $queryBuilder->first();
-            $view->with('info', $info);
+            $view->addParameter('info', $info);
             
             if($resource_id !== null){
-                $resourceList = new ResourceList($this->getClientId($project_id));
+                $resourceList = new ResourceList2($this->getClientId($project_id));
                 $tables = $resourceList->getResource($resource_id)->getTables();
                 foreach ($tables as $table){
                     $snippets[] = new Snippet("`{$table->getQueryName()}`", $table->getDbTableName());
                 }
-                $view->with('tables', $tables);
+                $view->addParameter('tables', $tables);
             }
         }
         if(count($snippets)){
             // $snippetsString = "'".implode("', '", $snippets)."'";
-            $view->with('snippets', json_encode($snippets));
-        }
-        return $view;
-         * 
-         */
+            $view->addParameter('snippets', json_encode($snippets));
+        }/**/
+        
     }
 
     public function postIndex() {
-        $view = View::make("layout.default.database.database_selector.output");
-
+        $view = new View("default.database.output");
         try {
             $query = Input::get('query', false);
             if(empty($query)){
                 return $view->render();
             }
-            $data = DB::connection('data_import_selector')->select(DB::raw($query));
+            $data = DB::connection('mysql-select')->select(DB::raw($query));
             $view->with('data', $data);
         } catch (Exception $e) {
             $view->with('error', $e);
         }
-
-        return $view->render();
+        return $view;
     }
 
     private function initResourceList($projectId) {
@@ -81,7 +82,7 @@ class DatabaseSelectorController extends BaseViewController {
     }
     
      private function getClientId($projectId) {
-        $project = DB::connection("data")
+        $project = DB::connection("mysql-select")
                 ->table("project")
                 ->select(["client.id as client_id"])
                 ->leftJoin("client", "client.user_id", "=", "project.user_id")
