@@ -65,6 +65,7 @@ class BaseViewController extends BaseAuthController {
         $result = parent::callAction($method, $parameters);
         $this->breadcrumbAfterAction($parameters);
         
+        
         if ($result === null) {
             $result = $this->getView()->render();
         }

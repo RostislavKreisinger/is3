@@ -41,7 +41,8 @@ class ViewRender {
   
     protected function initView($route) {
         $route = $this->initRoute($route);
-        $this->baseLayout = new View($this->getViewName('@html'));
+        $htmlPath = $this->findHtml($route);
+        $this->baseLayout = new View($htmlPath);//  new View($this->getViewName('@html'));
         $this->baseLayout->addParameter('errors', $this->errors);
         $this->baseLayout->addParameter('messages', $this->messages);
        
@@ -134,6 +135,10 @@ class ViewRender {
 
     protected function findLayout($route) {
         return $this->findView($route, '@layout');
+    }
+    
+    protected function findHtml($route) {
+        return $this->findView($route, '@html');
     }
     
     protected function findHead($route) {
