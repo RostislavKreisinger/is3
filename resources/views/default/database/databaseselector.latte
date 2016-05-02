@@ -1,5 +1,14 @@
 
 <div class="controlls">
+    <div>
+        
+        {if isset($tableSelect)}
+            <button n:foreach="$tableSelect as $table" class="btn" onclick="replaceInEditor('{$table->query[0]|noescape}')">
+                {$table->getDbTableName()}
+            </button>
+        {/if}
+        <br>
+    </div>
     <div class="save-button">
         <button id="run" class="btn" onclick="send()">Run</button><br>
         <button id="copy" class="btn">url</button>
@@ -141,6 +150,12 @@
     function insertToQueryAtCursor(myValue) {
         insertAtCursor(editor, myValue);
         editor.focus();
+    }
+    
+    function replaceInEditor(myValue){
+        editor.session.setValue(myValue);
+        editor.focus();
+        send();
     }
 
 

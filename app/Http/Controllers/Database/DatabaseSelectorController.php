@@ -5,13 +5,16 @@ namespace App\Http\Controllers\Database;
 use App\Http\Controllers\BaseViewController;
 use DB;
 use Exception;
+use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Input;
 use Monkey\Resource\ResourceList;
+use Monkey\Resource\Table;
+use Monkey\Resource\TableConfig\Column;
 use Monkey\Vardump\VardumpQuery;
 use Monkey\View\View;
 
 class DatabaseSelectorController extends BaseViewController {
-    
+
     /**
      *
      * @var ResourceList 
@@ -20,11 +23,11 @@ class DatabaseSelectorController extends BaseViewController {
 
     public function __construct() {
         parent::__construct();
+        
     }
 
     public function getIndex($project_id = null, $resource_id = null) {
         $view = $this->getView();
-
         $snippets = array(
             new Snippet('`monkeydata`', 'monkeydata'),
             new Snippet('`monkeydata_import`', 'monkeydata_import'),
@@ -32,6 +35,7 @@ class DatabaseSelectorController extends BaseViewController {
             new Snippet('`monkeydata_import_anal`', 'monkeydata_import_anal'),
             new Snippet('`monkeydata_pools`', 'monkeydata_pools')
         );
+
 
         // $view = View::make("layout.default.database.database_selector.index");
         $query = Input::get('query');
@@ -51,11 +55,17 @@ class DatabaseSelectorController extends BaseViewController {
 
             if ($resource_id !== null) {
                 $resourceList = new ResourceList($this->getClientId($project_id));
+                $tableSelect = array();
                 $tables = $resourceList->getResource($resource_id)->getTables();
                 foreach ($tables as $table) {
                     $snippets[] = new Snippet("`{$table->getQueryName()}`", $table->getDbTableName());
+                    $table->query = $this->getSelect($table, $project_id);
+                    $tableSelect[] = $table;
                 }
+//                vd($tables);
+//                vde($tableSelect);
                 $view->addParameter('tables', $tables);
+                $view->addParameter('tableSelect', $tableSelect);
             }
         }
         if (count($snippets)) {
@@ -94,7 +104,7 @@ class DatabaseSelectorController extends BaseViewController {
 
         return $project->client_id;
     }
-    
+
     /**
      * 
      * @param type $resource_id
@@ -104,7 +114,44 @@ class DatabaseSelectorController extends BaseViewController {
         return $this->resourceList->getResource($resource_id)->getDefaultTable();
     }
 
-    private function getResourceTables() {
+    private function getTable($resource_id, $table_id) {
+        return $this->resourceList->getResource($resource_id)->getTable($table_id);
+    }
+
+    private function getTables($resource_id) {
+        return $this->resourceList->getResource($resource_id)->getTables();
+    }
+    
+    
+    private function getSelect($table, $projectId, $count = 100) {
+        $builder = DB::connection("mysql-select")
+                ->table($table->getQueryName());
+
+        $table->getTableConfig()->addDefaultColumn((new Column())->setName('date_id')->setOrderBy('desc'));
+        $table->getTableConfig()->addDefaultColumn((new Column())->setName('project_id')->setWhere(" = {$projectId} "));
+        $table->getTableConfig()->addDefaultColumn((new Column())->setName('row_status')->setWhere(" < 100"));
+
+        foreach ($table->getTableConfig()->getColumns() as $column) {
+            if ($table->hasDbColumn($column->getName())) {
+                $column->updateQueryBuilder($builder);
+            }
+        }
+
+        $builder->limit($count);
+        $query = (new VardumpQuery())->getFinalQuery($builder);
+
+        $queryRaw = $builder->toSql();
+        foreach ($builder->getBindings() as $value) {
+            if (is_string($value)) {
+                $value = "'{$value}'";
+            }
+            $queryRaw = preg_replace('/\?/', $value, $query, 1);
+        }
+        $query = str_replace('<br>', '\n', $query);
+        return [$query, $queryRaw];
+    }
+
+    private function getResourceTables($projectId, $resourceId, $table_id = 1, $count = 100) {
         $resource = DB::connection("mysql-select")
                 ->table("resource")
                 ->where("id", $resourceId)
@@ -122,58 +169,48 @@ class DatabaseSelectorController extends BaseViewController {
 
 
 
-        try {
-            $builder = DB::connection("mysql-select")
-                    ->table($table->getQueryName());
 
-            $table->getTableConfig()->addDefaultColumn((new Column())->setName('date_id')->setOrderBy('desc'));
-            $table->getTableConfig()->addDefaultColumn((new Column())->setName('project_id')->setWhere(" = {$projectId} "));
-            $table->getTableConfig()->addDefaultColumn((new Column())->setName('row_status')->setWhere(" < 100"));
+        $builder = DB::connection("mysql-select")
+                ->table($table->getQueryName());
+
+        $table->getTableConfig()->addDefaultColumn((new Column())->setName('date_id')->setOrderBy('desc'));
+        $table->getTableConfig()->addDefaultColumn((new Column())->setName('project_id')->setWhere(" = {$projectId} "));
+        $table->getTableConfig()->addDefaultColumn((new Column())->setName('row_status')->setWhere(" < 100"));
 
 
-            foreach ($table->getTableConfig()->getColumns() as $column) {
-                if ($table->hasDbColumn($column->getName())) {
-                    $column->updateQueryBuilder($builder);
-                }
+        foreach ($table->getTableConfig()->getColumns() as $column) {
+            if ($table->hasDbColumn($column->getName())) {
+                $column->updateQueryBuilder($builder);
             }
-
-
-
-            $builder->limit($count);
-            $query = (new VardumpQuery())->getFinalQuery($builder);
-
-            $queryRaw = $builder->toSql();
-            foreach ($builder->getBindings() as $value) {
-                if (is_string($value)) {
-                    $value = "'{$value}'";
-                }
-                $queryRaw = preg_replace('/\?/', $value, $query, 1);
-            }
-
-            $importData = $builder->get();
-        } catch (QueryException $e) {
-            $error = $e;
-            $importData = NULL;
         }
 
 
+
+        $builder->limit($count);
+        $query = (new VardumpQuery())->getFinalQuery($builder);
+
+        $queryRaw = $builder->toSql();
+        foreach ($builder->getBindings() as $value) {
+            if (is_string($value)) {
+                $value = "'{$value}'";
+            }
+            $queryRaw = preg_replace('/\?/', $value, $query, 1);
+        }
+
+
+
         $importData = [
-            "importData" => $importData,
             "tables" => $this->getTables($resourceId),
             "project_id" => $projectId,
             "resource_id" => $resourceId,
             "table_id" => $table_id,
             "count" => $count,
-            "error" => $error,
             "query" => $query,
             "queryRaw" => $queryRaw
         ];
 
-        foreach ($importData as $name => $value) {
-            $this->getView()->addParameter($name, $value);
-        }
 
-        vd($this->getView());
+        return $importData;
     }
 
 }
