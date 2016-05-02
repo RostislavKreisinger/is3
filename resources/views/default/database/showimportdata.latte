@@ -1,0 +1,95 @@
+{if isset($tables)}
+    
+    <ul class='menu-tables'>
+        <li n:foreach="$tables as $table" class="menu-tables-item {($table_id == $table->getId())?'selected':''} ">
+           <a href="{action 'Database\ShowImportDataController', ['project_id' => $project_id, 'resource_id'  => $resource_id, 'table_id' => $table->getId(), 'count' => $count] }" title="{$table->getQueryName()}">
+                {$table->getDbTableName()}
+            </a>
+        </li>
+    </ul>
+    
+{/if}
+  
+<form method="POST" action="{action 'Database\ShowImportDataController', ['project_id' => $project_id, 'resource_id'  => $resource_id, 'table_id' => $table->getId()] }">
+    <input type="text" placeholder="count" value="{$count}">
+</form>
+{*
+{Form::open(array('url' => URL::action('Resource\ShowImportDataController@postIndex', [$project_id, $resource_id]), 'data-defaultvalue' => $count)) !!}
+    {!! Form::hidden('projectId', $project_id) !!}
+    {!! Form::hidden('resourceId', $resource_id) !!}
+    {!! Form::hidden('tableId', $table_id) !!}
+    
+    {!! Form::label('count', 'Count:') !!}
+    {!! Form::text('count', $count) !!}
+{!! Form::close() !!}
+*}
+{*
+<div class="pre hide-pre" onclick="if(this.classList.contains('hide-pre')){this.classList.remove('hide-pre');}" ondblclick="if(!this.classList.contains('hide-pre')){ this.classList.add('hide-pre'); }else{this.classList.remove('hide-pre');}">
+    <span class="to-open">Click to open</span>
+    <span class="to-close">
+        Double click to close<br>
+        <a href="{{ URL::action('Database\DatabaseSelectorController@getIndex', [$project_id, $resource_id]) . '?query=' . $queryRaw }}">Open in selector</a>
+    </span>
+    
+    <pre>
+        {!! $query !!}
+    </pre>
+</div>
+
+
+@if ($importData)
+<table cellspacing="0" cellspadding="0">
+    @foreach ($importData as $order => $data)
+        @if ($order == 0)
+            @foreach (($data) as $key => $value)
+                <colgroup class="slim"></colgroup>
+            @endforeach
+            <thead>
+            <tr>
+                @foreach (($data) as $key => $value)
+                    <th>{{str_replace('_', ' ', $key)}}</th>
+                @endforeach
+            </tr>
+            </thead>
+            <tbody>
+        @endif
+
+        <tr>
+            @foreach ($data as $name => $value)
+                @if ($name == "date_id")
+                    <td>{{substr_replace(substr_replace($value, "-", 4, 0), "-", 7, 0)}}</td>
+                @else
+                    <td>{{$value}}</td>
+                @endif
+            @endforeach
+        </tr>
+    @endforeach
+    </tbody>
+</table>
+@else
+    There is no data.
+    <br>
+    <br>
+    <pre>
+        {{dd($error)}}
+    </pre>
+@endif
+<?php /*
+<script src="{{url()}}/assets/js/jquery.min.js"></script>
+<script type="text/javascript">
+$(function() {
+    $("table").delegate('td','mouseover mouseleave', function(e) {
+        if (e.type == 'mouseover') {
+          $(this).parent().addClass("hover");
+          $("colgroup").eq($(this).index()).addClass("hover");
+        } else {
+          $(this).parent().removeClass("hover");
+          $("colgroup").eq($(this).index()).removeClass("hover");
+        }
+    });
+});
+</script>
+ */?>
+</body>
+</html>
+*}
