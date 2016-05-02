@@ -1,0 +1,25 @@
+<h4>{n $eshopType->name} ({n $eshopType->id})</h4>
+<div class="table-responsive">
+    <table class="table table-hover">
+        <tbody>
+            <tr>
+                <td>url</td>
+                <td>
+                    <span>{n $resourceDetail->url}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>login</td>
+                <td>
+                    <span>{n $resourceDetail->login}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>password</td>
+                <td>
+                    <span>{\decryptWithPrivate($resourceDetail->password)}</span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

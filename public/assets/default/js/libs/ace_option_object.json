@@ -1,0 +1,221 @@
+{
+    "selectionStyle": {
+        "initialValue": "line",
+        "name": "selectionStyle"
+    },
+    "highlightActiveLine": {
+        "initialValue": true,
+        "name": "highlightActiveLine"
+    },
+    "highlightSelectedWord": {
+        "initialValue": true,
+        "name": "highlightSelectedWord"
+    },
+    "readOnly": {
+        "initialValue": false,
+        "name": "readOnly"
+    },
+    "cursorStyle": {
+        "values": ["ace", "slim", "smooth", "wide"],
+        "initialValue": "ace",
+        "name": "cursorStyle"
+    },
+    "mergeUndoDeltas": {
+        "values": [false, true, "always"],
+        "initialValue": true,
+        "name": "mergeUndoDeltas"
+    },
+    "behavioursEnabled": {
+        "initialValue": true,
+        "name": "behavioursEnabled"
+    },
+    "wrapBehavioursEnabled": {
+        "initialValue": true,
+        "name": "wrapBehavioursEnabled"
+    },
+    "autoScrollEditorIntoView": {
+        "name": "autoScrollEditorIntoView"
+    },
+    "keyboardHandler": {
+        "handlesSet": true,
+        "name": "keyboardHandler"
+    },
+    "hScrollBarAlwaysVisible": {
+        "forwardTo": "renderer",
+        "name": "hScrollBarAlwaysVisible"
+    },
+    "vScrollBarAlwaysVisible": {
+        "forwardTo": "renderer",
+        "name": "vScrollBarAlwaysVisible"
+    },
+    "highlightGutterLine": {
+        "forwardTo": "renderer",
+        "name": "highlightGutterLine"
+    },
+    "animatedScroll": {
+        "forwardTo": "renderer",
+        "name": "animatedScroll"
+    },
+    "showInvisibles": {
+        "forwardTo": "renderer",
+        "name": "showInvisibles"
+    },
+    "showPrintMargin": {
+        "forwardTo": "renderer",
+        "name": "showPrintMargin"
+    },
+    "printMarginColumn": {
+        "forwardTo": "renderer",
+        "name": "printMarginColumn"
+    },
+    "printMargin": {
+        "forwardTo": "renderer",
+        "name": "printMargin"
+    },
+    "fadeFoldWidgets": {
+        "forwardTo": "renderer",
+        "name": "fadeFoldWidgets"
+    },
+    "showFoldWidgets": {
+        "forwardTo": "renderer",
+        "name": "showFoldWidgets"
+    },
+    "showLineNumbers": {
+        "forwardTo": "renderer",
+        "name": "showLineNumbers"
+    },
+    "showGutter": {
+        "forwardTo": "renderer",
+        "name": "showGutter"
+    },
+    "displayIndentGuides": {
+        "forwardTo": "renderer",
+        "name": "displayIndentGuides"
+    },
+    "fontSize": {
+        "forwardTo": "renderer",
+        "name": "fontSize"
+    },
+    "fontFamily": {
+        "forwardTo": "renderer",
+        "name": "fontFamily"
+    },
+    "maxLines": {
+        "forwardTo": "renderer",
+        "name": "maxLines"
+    },
+    "minLines": {
+        "forwardTo": "renderer",
+        "name": "minLines"
+    },
+    "scrollPastEnd": {
+        "forwardTo": "renderer",
+        "name": "scrollPastEnd"
+    },
+    "fixedWidthGutter": {
+        "forwardTo": "renderer",
+        "name": "fixedWidthGutter"
+    },
+    "theme": {
+        "forwardTo": "renderer",
+        "name": "theme"
+    },
+    "scrollSpeed": {
+        "forwardTo": "$mouseHandler",
+        "name": "scrollSpeed"
+    },
+    "dragDelay": {
+        "forwardTo": "$mouseHandler",
+        "name": "dragDelay"
+    },
+    "dragEnabled": {
+        "forwardTo": "$mouseHandler",
+        "name": "dragEnabled"
+    },
+    "focusTimout": {
+        "forwardTo": "$mouseHandler",
+        "name": "focusTimout"
+    },
+    "tooltipFollowsMouse": {
+        "forwardTo": "$mouseHandler",
+        "name": "tooltipFollowsMouse"
+    },
+    "firstLineNumber": {
+        "forwardTo": "session",
+        "name": "firstLineNumber"
+    },
+    "overwrite": {
+        "forwardTo": "session",
+        "name": "overwrite"
+    },
+    "newLineMode": {
+        "forwardTo": "session",
+        "name": "newLineMode"
+    },
+    "useWorker": {
+        "forwardTo": "session",
+        "name": "useWorker"
+    },
+    "useSoftTabs": {
+        "forwardTo": "session",
+        "name": "useSoftTabs"
+    },
+    "tabSize": {
+        "forwardTo": "session",
+        "name": "tabSize"
+    },
+    "wrap": {
+        "forwardTo": "session",
+        "name": "wrap"
+    },
+    "indentedSoftWrap": {
+        "forwardTo": "session",
+        "name": "indentedSoftWrap"
+    },
+    "foldStyle": {
+        "forwardTo": "session",
+        "name": "foldStyle"
+    },
+    "mode": {
+        "forwardTo": "session",
+        "name": "mode"
+    },
+    "enableMultiselect": {
+        "value": true,
+        "name": "enableMultiselect"
+    },
+    "enableBlockSelect": {
+        "value": true,
+        "name": "enableBlockSelect"
+    },
+    "spellcheck": {
+        "value": true,
+        "name": "spellcheck"
+    },
+    "loadDroppedFile": {
+        "value": true,
+        "name": "loadDroppedFile"
+    },
+    "useElasticTabstops": {
+        "name": "useElasticTabstops"
+    },
+    "useIncrementalSearch": {
+        "name": "useIncrementalSearch"
+    },
+    "enableEmmet": {
+        "value": true,
+        "name": "enableEmmet"
+    },
+    "enableBasicAutocompletion": {
+        "value": false,
+        "name": "enableBasicAutocompletion"
+    },
+    "enableLiveAutocompletion": {
+        "value": false,
+        "name": "enableLiveAutocompletion"
+    },
+    "enableSnippets": {
+        "value": false,
+        "name": "enableSnippets"
+    }
+}

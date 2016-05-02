@@ -10,7 +10,6 @@ Route::group(['middleware' => 'web'], function () {
     });
     
     Route::group(['middleware' => 'auth'], function (){
-        
         Route::group(['prefix' => 'button'], function(){
             Route::group(['prefix' => 'resource'], function(){
                 Route::group(['prefix' => 'other'], function(){
@@ -21,6 +20,10 @@ Route::group(['middleware' => 'web'], function () {
                 Route::controller('/b5-reset-history', App\Http\Controllers\Button\Resource\B5_ResetHistoryButtonController::class);
                 Route::controller('/b6-reset-daily', App\Http\Controllers\Button\Resource\B6_ResetDailyButtonController::class);
             });
+        });
+        
+        Route::group(['prefix' => 'database'], function(){
+            Route::controller('/database-selector/{project_id?}/{resource_id?}', App\Http\Controllers\Database\DatabaseSelectorController::class);
         });
         
         Route::group(['prefix' => 'search'], function(){

@@ -1,0 +1,19 @@
+{if isset($error)}
+    {vd($error)}
+    {php exit}
+{/if}
+
+{if (!isset($data) || count($data) == 0) }
+    Empty result
+{else}
+    <table>
+        <thead>
+            <th n:foreach="reset($data) as $key => $val" onclick="insertToQueryAtCursor('`{$key|noescape}`')">{str_replace('_', ' ',$key)}</th>
+        </thead>
+        <tbody>
+            <tr n:foreach="$data as $row">
+                <td n:foreach="$row as $key => $value" title="{$key}">{$value}</td>
+            </tr>
+        </tbody>
+    </table>
+{/if}

@@ -100,9 +100,11 @@ class Resource extends ResourceModel {
         $builder =  DB::connection('mysql-select')
                     ->table('resource_setting as rs')
                     ->join($this->tbl_setting.' as crs', 'rs.id', '=', 'crs.resource_setting_id')
+                    ->where('rs.resource_id', '=', $this->id)
+                    ->where('rs.project_id', '=', $this->getProject_id())
                     ->select('*')
                     ;
-        // vdQuery($builder);
+        //  vdQuery($builder);
         return $builder->first();
     }
 
@@ -239,6 +241,12 @@ class Resource extends ResourceModel {
         return !in_array($state, array(self::STATUS_ERROR, self::STATUS_MISSING_RECORD));
     }
     
+    public function getStack() {
+        $builder = $this->hasMany(\App\Model\Stack::class, 'resource_id')
+                        ->where('project_id', '=', $this->getProject_id())
+                ;
+        return $builder->get();
+    }
 
 
 }
