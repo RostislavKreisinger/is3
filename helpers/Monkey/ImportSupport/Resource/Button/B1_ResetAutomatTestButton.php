@@ -24,6 +24,7 @@ class B1_ResetAutomatTestButton extends BaseButton {
                 \Monkey\action(B1_ResetAutomatTestButtonController::class, ['project_id' => $projectId, 'resource_id' => $resourceId])
                 );
         $this->setTitle('Nastavi resource tak, jako by byl prave napojen, po otestovani nastavi vsechny fronty');
+        $this->setToNewWindow(false);
     }
     
 }

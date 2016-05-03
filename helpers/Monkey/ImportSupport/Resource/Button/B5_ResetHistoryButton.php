@@ -23,6 +23,7 @@ class B5_ResetHistoryButton extends BaseButton {
                 'Reset History', 
                 \Monkey\action(B5_ResetHistoryButtonController::class, ['project_id' => $projectId, 'resource_id' => $resourceId])
                 );
+        $this->setToNewWindow(false);
     }
     
 }
