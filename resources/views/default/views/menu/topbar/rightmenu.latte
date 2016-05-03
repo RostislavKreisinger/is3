@@ -1,9 +1,11 @@
 <ul class="nav navbar-top-links navbar-right">
-    <li class="dropdown">
+     {*
+     <li class="dropdown">
         <a class="dropdown-toggle" data-toggle="dropdown" href="#">
             <i class="fa fa-envelope fa-fw"></i>  <i class="fa fa-caret-down"></i>
         </a>
         <ul class="dropdown-menu dropdown-messages">
+           
             <li>
                 <a href="#">
                     <div>
@@ -46,15 +48,18 @@
                     <i class="fa fa-angle-right"></i>
                 </a>
             </li>
+            
         </ul>
         <!-- /.dropdown-messages -->
     </li>
+    *}
     <!-- /.dropdown -->
-    <li class="dropdown">
+     {* <li class="dropdown">
         <a class="dropdown-toggle" data-toggle="dropdown" href="#">
             <i class="fa fa-tasks fa-fw"></i>  <i class="fa fa-caret-down"></i>
         </a>
         <ul class="dropdown-menu dropdown-tasks">
+          
             <li>
                 <a href="#">
                     <div>
@@ -125,20 +130,22 @@
                     <i class="fa fa-angle-right"></i>
                 </a>
             </li>
+          
         </ul>
         <!-- /.dropdown-tasks -->
     </li>
+    *}
     <!-- /.dropdown -->
     <li class="dropdown">
         <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-            <i class="fa fa-bell fa-fw"></i>  <i class="fa fa-caret-down"></i>
+            <i class="fa fa-tasks fa-fw"></i>  <i class="fa fa-caret-down"></i>
         </a>
         <ul class="dropdown-menu dropdown-alerts">
             <li>
                 <a href="#">
                     <div>
-                        <i class="fa fa-comment fa-fw"></i> New Comment
-                        <span class="pull-right text-muted small">4 minutes ago</span>
+                        <i class="fa fa-comment fa-fw"></i> Tester pool
+                        <span class="pull-right text-muted small">{$poolList->getTesterPool()->getImportOut()} / {$poolList->getTesterPool()->getImportAll()}</span>
                     </div>
                 </a>
             </li>
@@ -146,8 +153,8 @@
             <li>
                 <a href="#">
                     <div>
-                        <i class="fa fa-twitter fa-fw"></i> 3 New Followers
-                        <span class="pull-right text-muted small">12 minutes ago</span>
+                        <i class="fa fa-twitter fa-fw"></i> Daily pool
+                        <span class="pull-right text-muted small">{$poolList->getDailyPool()->getImportOut()} / {$poolList->getDailyPool()->getImportAll()}</span>
                     </div>
                 </a>
             </li>
@@ -155,29 +162,12 @@
             <li>
                 <a href="#">
                     <div>
-                        <i class="fa fa-envelope fa-fw"></i> Message Sent
-                        <span class="pull-right text-muted small">4 minutes ago</span>
+                        <i class="fa fa-envelope fa-fw"></i> History pool
+                        <span class="pull-right text-muted small">{$poolList->getHistoryPool()->getImportOut()} / {$poolList->getHistoryPool()->getImportAll()}</span>
                     </div>
                 </a>
             </li>
-            <li class="divider"></li>
-            <li>
-                <a href="#">
-                    <div>
-                        <i class="fa fa-tasks fa-fw"></i> New Task
-                        <span class="pull-right text-muted small">4 minutes ago</span>
-                    </div>
-                </a>
-            </li>
-            <li class="divider"></li>
-            <li>
-                <a href="#">
-                    <div>
-                        <i class="fa fa-upload fa-fw"></i> Server Rebooted
-                        <span class="pull-right text-muted small">4 minutes ago</span>
-                    </div>
-                </a>
-            </li>
+            {*
             <li class="divider"></li>
             <li>
                 <a class="text-center" href="#">
@@ -185,6 +175,7 @@
                     <i class="fa fa-angle-right"></i>
                 </a>
             </li>
+            *}
         </ul>
         <!-- /.dropdown-alerts -->
     </li>
@@ -194,11 +185,13 @@
             <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
         </a>
         <ul class="dropdown-menu dropdown-user">
+            {*
             <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
             </li>
             <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
             </li>
             <li class="divider"></li>
+            *}
             <li>
                 <a href="{action 'Database\DatabaseSelectorController'}"><i class="fa fa-gear fa-fw"></i> Database select</a>
             </li>

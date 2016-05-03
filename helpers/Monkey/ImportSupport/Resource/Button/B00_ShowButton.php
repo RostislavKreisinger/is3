@@ -23,6 +23,7 @@ class B00_ShowButton extends BaseButton {
                 'Show data', 
                 \Monkey\action(\App\Http\Controllers\Database\DatabaseSelectorController::routeMethod('postIndex'), ['project_id' => $projectId, 'resource_id' => $resourceId ])
                 );
+        $this->setToNewWindow(true);
     }
     
 }

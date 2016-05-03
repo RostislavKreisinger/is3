@@ -77,33 +77,26 @@
 
     </div>
     <div class="col-lg-6 col-md-6">
-        {*
         <ul class="nav nav-tabs">
-            <li class="active"><a href="#tariff" data-toggle="tab" aria-expanded="true">Tariff</a>
-            </li>
-            <li class=""><a href="#other" data-toggle="tab" aria-expanded="false">Other</a>
+            <li class="active" n:if="count($connectionDetail)">
+                <a href="#connection-detail" data-toggle="tab" aria-expanded="true">Connection detail</a>
             </li>
         </ul>        
         <div class="tab-content">
-            <div class="tab-pane active in" id="tariff">
-                <h4>Home Tab</h4>
+            <div class="tab-pane active in" id="connection-detail"  n:if="count($connectionDetail)">
+                <h4>Connection detail</h4>
                 <div class="table-responsive">
                     <table class="table table-hover">
                         <tbody>
-                            <tr>
-                                <td>Tariff id</td>
-                                <td>{$resource->id}</td>
+                            <tr n:foreach="$connectionDetail as $key => $value">
+                                <th>{$key}</th>
+                                <td>{$value}</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
-            <div class="tab-pane" id="other">
-                <h4>Profile Tab</h4>
-                <p>test</p>
-            </div>
         </div>
-        *}
     </div>
 </div>
 
