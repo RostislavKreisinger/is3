@@ -1,36 +1,30 @@
 
 <div class="controlls">
-    <div>
-        
+    <div class="save-button">
+        <button id="run" class="btn" onclick="send()">Run</button>
+        <button id="copy" class="btn">url</button>
+    </div>
+    <div class="menu">
         {if isset($tableSelect)}
             <button n:foreach="$tableSelect as $table" class="btn" onclick="replaceInEditor('{$table->query[0]|noescape}')">
                 {$table->getDbTableName()}
             </button>
+        {else}
+            <button class="btn" onclick="insertToQueryAtCursor('monkeydata')">monkeydata</button>
+            <button class="btn" onclick="insertToQueryAtCursor('monkeydata_import')">monkeydata_import</button>
+            <button class="btn" onclick="insertToQueryAtCursor('monkeydata_import_dw')">monkeydata_import_dw</button>
+            <button class="btn" onclick="insertToQueryAtCursor('monkeydata_import_anal')">monkeydata_import_anal</button>
         {/if}
-        <br>
-    </div>
-    <div class="save-button">
-        <button id="run" class="btn" onclick="send()">Run</button><br>
-        <button id="copy" class="btn">url</button>
-    </div>
-    <div class="menu">
-        {if isset($info)}
-            <button class="btn" onclick="insertToQueryAtCursor('{$info->user_id}')">UID: {$info->user_id}</button>
-            <button class="btn" onclick="insertToQueryAtCursor('{$info->project_id}')">PID: {$info->project_id}</button>
-            <button class="btn" onclick="insertToQueryAtCursor('{$info->client_id}')">CID: {$info->client_id}</button>
-        {/if}
-
-        <button class="btn" onclick="insertToQueryAtCursor('monkeydata')">monkeydata</button>
-        <button class="btn" onclick="insertToQueryAtCursor('monkeydata_import')">monkeydata_import</button>
-        <button class="btn" onclick="insertToQueryAtCursor('monkeydata_import_dw')">monkeydata_import_dw</button>
-        <button class="btn" onclick="insertToQueryAtCursor('monkeydata_import_anal')">monkeydata_import_anal</button>
-
+        
+        {*
         {if isset($tables)}
-        <br>
-        <button n:foreach="$tables as $table" class="btn" onclick="insertToQueryAtCursor({$table->getQueryName()})">
-            {$table->getDbTableName()}
-        </button>
+            <br>
+            <button n:foreach="$tables as $table" class="btn" onclick="insertToQueryAtCursor({$table->getQueryName()})">
+                {$table->getDbTableName()}
+            </button>
         {/if}
+        *}
+        
     </div>
     <div class="clear"></div>
 </div>
