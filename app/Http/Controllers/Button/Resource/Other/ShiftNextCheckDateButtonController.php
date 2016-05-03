@@ -12,7 +12,7 @@ use DateTime;
 use DB;
 use Exception;
 use Illuminate\Support\Facades\Input;
-use Monkey\ImportSupport\Resource;
+use Monkey\DateTime\DateTimeHelper;
 /**
  * Description of B1_ResetAutomatTestButtonController
  *
@@ -25,12 +25,17 @@ class ShiftNextCheckDateButtonController extends Controller {
         $projectId = Input::get('project_id');
         $resourceId = Input::get('resource_id');
         
-        $nextCheckDate = new DateTime();
-        $nextCheckDate->modify('+7 day');
+        $nextCheckDate = Input::get('next_check_date', null);
+        if($nextCheckDate === 'now'){
+            $nextCheckDate = DateTimeHelper::getInstance('NOW')->changeMinutes(2);
+        } else {
+            $nextCheckDate = new DateTimeHelper();
+            $nextCheckDate->changeDays(7);
+        }
         
         try{
             $result = DB::connection('mysql-master-app')
-                            ->table(Resource::RESOURCE_SETTING)
+                            ->table('resource_setting_v2')
                             ->where('project_id', '=', $projectId)
                             ->where('resource_id', '=', $resourceId)
                             ->update(array(
@@ -46,8 +51,6 @@ class ShiftNextCheckDateButtonController extends Controller {
         }catch(Exception $e){
             vd($e);
         }
-        
-        vde($result);
     }
 
 }

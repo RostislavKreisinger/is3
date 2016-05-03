@@ -69,5 +69,11 @@
         </div>
     </div>
 </div>
-
+<script>
+    window.onbeforeunload = function(){
+        $.ajax({
+            url: '{action Button\Resource\Other\ShiftNextCheckDateButtonController::class, ['project_id' => $resource->getProject_id(), 'resource_id' => $resource->id, 'next_check_date' => 'now' ]}'
+        });
+    };
+</script>
 
