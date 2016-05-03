@@ -81,5 +81,7 @@ class DetailController extends Controller {
         $breadcrumbs->addBreadcrumbItem(new BreadcrumbItem('project', 'Project', \Monkey\action(ProjectDetailController::class, ['project_id' =>$this->project->id ])));
         $breadcrumbs->addBreadcrumbItem(new BreadcrumbItem('resource', 'Resource', \Monkey\action(self::class, ['project_id' =>$this->project->id, 'resource_id' => $this->resource->id ])));
     }
+    
+    
 
 }
