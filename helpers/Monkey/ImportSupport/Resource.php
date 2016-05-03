@@ -247,6 +247,14 @@ class Resource extends ResourceModel {
                 ;
         return $builder->get();
     }
+    
+    /**
+     * 
+     * @return array return associative array where key is name of value
+     */
+    public function getConnectionDetail() {
+        return [];
+    }
 
 
 }

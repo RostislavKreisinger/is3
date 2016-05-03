@@ -2,23 +2,9 @@
 <div class="table-responsive">
     <table class="table table-hover">
         <tbody>
-            <tr>
-                <td>url</td>
-                <td>
-                    <span>{n $resourceDetail->url}</span>
-                </td>
-            </tr>
-            <tr>
-                <td>login</td>
-                <td>
-                    <span>{n $resourceDetail->login}</span>
-                </td>
-            </tr>
-            <tr>
-                <td>password</td>
-                <td>
-                    <span>{\decryptWithPrivate($resourceDetail->password)}</span>
-                </td>
+            <tr n:foreach="$connectionDetail as $key => $value">
+                <th>{$key}</th>
+                <td>{$value}</td>
             </tr>
         </tbody>
     </table>

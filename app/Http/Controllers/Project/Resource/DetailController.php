@@ -62,11 +62,15 @@ class DetailController extends Controller {
             $stack = $resource->getStack();
         }
         
+        $connectionDetail = $resource->getConnectionDetail();
+        
+        
         $this->getView()->addParameter('stack', $stack);
         $this->getView()->addParameter('project', $project);
         $this->getView()->addParameter('resource', $resource);
         $this->getView()->addParameter('resourceDetail', $resourceDetail);
         $this->getView()->addParameter('resourceCurrency', $resourceCurrency);
+        $this->getView()->addParameter('connectionDetail', $connectionDetail);
         
         $this->prepareMenu($project);
     }
