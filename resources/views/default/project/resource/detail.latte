@@ -3,9 +3,6 @@
         <h2 class="page-header">[{$resource->id}] {$resource->name}</h2>
     </div>
 </div>
-
-
-
 <div class="row">
     <div class="col-lg-6 col-md-6">
         <div class="row">
@@ -99,5 +96,12 @@
         </div>
     </div>
 </div>
+<script>
+    window.onbeforeunload = function(){
+        $.ajax({
+            url: '{action Button\Resource\Other\ShiftNextCheckDateButtonController::class, ['project_id' => $resource->getProject_id(), 'resource_id' => $resource->id, 'next_check_date' => 'now' ]}'
+        });
+    };
+</script>
 
 
