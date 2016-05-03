@@ -18,6 +18,7 @@ class ShiftNextCheckDateButton extends BaseButton {
                 'Shift check date', 
                 \Monkey\action(ShiftNextCheckDateButtonController::class, ['project_id' => $projectId, 'resource_id' => $resourceId])
                 );
+        $this->setToNewWindow(false);
     }
     
 }
