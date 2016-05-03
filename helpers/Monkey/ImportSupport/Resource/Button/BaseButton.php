@@ -35,6 +35,8 @@ class BaseButton {
     
     private $error = false;
     
+    private $toNewWindow = null;
+    
     public function __construct($type, $code, $name, $url) {
         $this->setType($type);
         $this->setCode($code);
@@ -109,7 +111,22 @@ class BaseButton {
     public function setTitle($title) {
         $this->title = $title;
     }
+    
+    public function getToNewWindow() {
+        return $this->toNewWindow;
+    }
 
+    public function setToNewWindow($toNewWindow) {
+        $this->toNewWindow = $toNewWindow;
+    }
+
+        
+    public function targetBlank($baseUrl) {
+        if(!is_null($this->getToNewWindow())){
+            return $this->getToNewWindow();
+        }
+        return (strpos($this->getUrl(), $baseUrl) !== 0);
+    }
     
     
     public function setType($type) {

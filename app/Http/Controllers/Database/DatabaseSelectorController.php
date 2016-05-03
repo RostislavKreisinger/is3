@@ -23,7 +23,6 @@ class DatabaseSelectorController extends BaseViewController {
 
     public function __construct() {
         parent::__construct();
-        
     }
 
     public function getIndex($project_id = null, $resource_id = null) {
@@ -38,12 +37,9 @@ class DatabaseSelectorController extends BaseViewController {
 
 
         // $view = View::make("layout.default.database.database_selector.index");
-        $query = Input::get('query');
-        $vd = new VardumpQuery();
-        $vd->setShowBacktrace(false);
-        $vd->setEndOfLine('&#13;&#10;');
-        $view->addParameter('query', $vd->formatSqlQuery($query));
 
+
+        $defaultTable = null;
         if ($project_id !== null) {
             $queryBuilder = DB::connection('mysql-select')->table('monkeydata.project as p')
                     ->where('p.id', '=', $project_id)
@@ -61,6 +57,9 @@ class DatabaseSelectorController extends BaseViewController {
                     $snippets[] = new Snippet("`{$table->getQueryName()}`", $table->getDbTableName());
                     $table->query = $this->getSelect($table, $project_id);
                     $tableSelect[] = $table;
+                    if ($defaultTable === null) {
+                        $defaultTable = $table;
+                    }
                 }
 //                vd($tables);
 //                vde($tableSelect);
@@ -71,7 +70,19 @@ class DatabaseSelectorController extends BaseViewController {
         if (count($snippets)) {
             // $snippetsString = "'".implode("', '", $snippets)."'";
             $view->addParameter('snippets', json_encode($snippets));
-        }/**/
+        }
+
+
+        $query = Input::get('query');
+
+        if ($query === null && $defaultTable !== null) {
+            $query = $defaultTable->query[1];
+        }
+
+        $vd = new VardumpQuery();
+        $vd->setShowBacktrace(false);
+        $vd->setEndOfLine("\n");
+        $view->addParameter('query', $vd->formatSqlQuery($query));
     }
 
     public function postIndex() {
@@ -121,8 +132,7 @@ class DatabaseSelectorController extends BaseViewController {
     private function getTables($resource_id) {
         return $this->resourceList->getResource($resource_id)->getTables();
     }
-    
-    
+
     private function getSelect($table, $projectId, $count = 100) {
         $builder = DB::connection("mysql-select")
                 ->table($table->getQueryName());

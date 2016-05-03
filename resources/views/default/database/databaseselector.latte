@@ -6,7 +6,7 @@
     </div>
     <div class="menu">
         {if isset($tableSelect)}
-            <button n:foreach="$tableSelect as $table" class="btn" onclick="replaceInEditor('{$table->query[0]|noescape}')">
+            <button n:foreach="$tableSelect as $table" class="btn btn-table-query {first} active {/first}" onclick="replaceInEditor('{$table->query[0]|noescape}')">
                 {$table->getDbTableName()}
             </button>
         {else}
@@ -31,7 +31,7 @@
 
 <div class="query">
     <div class="content">
-        <pre class="queryText" id="editor" data-query='{isset $query}'>{isset $query}</pre>
+        <pre class="queryText" id="editor" data-query='{isset $query}'>{isset $query|noescape}</pre>
     </div>
 </div>
 <div class="result">
@@ -170,6 +170,11 @@
                 send();
                 e.preventDefault();
             }
+        });
+        
+        $(".btn-table-query").click(function(){
+            $(".btn-table-query").removeClass('active');
+            $(this).addClass('active');
         });
     });
 
