@@ -11,6 +11,11 @@ namespace {
         }
         return action($name, $parameters, $absolute);
     }
+    
+    function getDomainUrl(){
+        $pu = parse_url($_SERVER['REQUEST_URI']);
+        return $pu["scheme"] . "://" . $pu["host"];
+    }
 
     function queryLog() {
         global $queryLog;

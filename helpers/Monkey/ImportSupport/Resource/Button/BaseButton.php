@@ -35,7 +35,7 @@ class BaseButton {
     
     private $error = false;
     
-    private $toNewWindow = null;
+    private $toNewWindow = true;
     
     public function __construct($type, $code, $name, $url) {
         $this->setType($type);
