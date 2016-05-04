@@ -3,6 +3,7 @@
     class="btn btn-outline {$button->getClass()} {$button->isDisabled()?'btn-disabled'}" 
     {if $button->targetBlank(env('APP_URL')) } target="_blank" {/if} 
     data-toggle="tooltip" 
+    {if $button->hasConfirm()} onclick="return confirm('Really??')" {/if}
     title="{$button->isDisabled()?$button->getError():$button->getTitle()}" 
 >
     {$button->getName()}

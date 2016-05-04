@@ -128,6 +128,10 @@ class BaseButton {
         return (strpos($this->getUrl(), $baseUrl) !== 0);
     }
     
+    public function hasConfirm() {
+        return in_array($this->getType(), [BaseButton::BUTTON_TYPE_DELETE]);
+    }
+    
     
     public function setType($type) {
         $this->type = $type;

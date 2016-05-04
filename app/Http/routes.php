@@ -13,6 +13,7 @@ Route::group(['middleware' => 'web'], function () {
         Route::group(['prefix' => 'button'], function(){
             Route::group(['prefix' => 'resource'], function(){
                 Route::group(['prefix' => 'other'], function(){
+                    Route::controller('/unconnect', App\Http\Controllers\Button\Resource\Other\UnconnectButtonController::class);
                     Route::controller('/shift-next-check-date', App\Http\Controllers\Button\Resource\Other\ShiftNextCheckDateButtonController::class);
                 });
                 

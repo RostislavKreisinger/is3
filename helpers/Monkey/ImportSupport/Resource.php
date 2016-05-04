@@ -9,6 +9,7 @@
 namespace Monkey\ImportSupport;
 
 use App\Model\Resource as ResourceModel;
+use App\Model\Stack;
 use DB;
 use Exception;
 use Monkey\ImportSupport\Resource\Button\B00_ShowButton;
@@ -22,6 +23,7 @@ use Monkey\ImportSupport\Resource\Button\B6_ResetDailyButton;
 use Monkey\ImportSupport\Resource\Button\BaseButton;
 use Monkey\ImportSupport\Resource\Button\ButtonList;
 use Monkey\ImportSupport\Resource\Button\Other\ShiftNextCheckDateButton;
+use Monkey\ImportSupport\Resource\Button\Other\UnconnectButton;
 use Monkey\ImportSupport\Resource\ResourceStats;
 /**
  * Description of Resource
@@ -183,6 +185,7 @@ class Resource extends ResourceModel {
         $B6_ResetDailyButton = new B6_ResetDailyButton($this->project_id, $this->id);
         
         $ShiftNextCheckDateButton = new ShiftNextCheckDateButton($this->project_id, $this->id);
+        $UnconnectButton = new UnconnectButton($this->project_id, $this->id);
         
         
         if($this->getStateHistory() === Resource::STATUS_MISSING_RECORD){
@@ -193,6 +196,10 @@ class Resource extends ResourceModel {
         if($this->getStateDaily() === Resource::STATUS_MISSING_RECORD){
             $B6_ResetDailyButton->setError('Chybi zaznam v daily poolu, resenim je spustit automattest');
             $B3_RepairDailyButton->setError('Chybi zaznam v daily poolu, resenim je spustit automattest');
+        }
+        
+        if($this->isValid()){
+            $UnconnectButton->setError('Nelze odpojit resource pokud neni chybny');
         }
         
         
@@ -206,6 +213,7 @@ class Resource extends ResourceModel {
         $this->addButton($B5_ResetHistoryButton);
         
         $this->addButton($ShiftNextCheckDateButton);
+        $this->addButton($UnconnectButton);
         
     }
     
@@ -242,7 +250,7 @@ class Resource extends ResourceModel {
     }
     
     public function getStack() {
-        $builder = $this->hasMany(\App\Model\Stack::class, 'resource_id')
+        $builder = $this->hasMany(Stack::class, 'resource_id')
                         ->where('project_id', '=', $this->getProject_id())
                 ;
         return $builder->get();
