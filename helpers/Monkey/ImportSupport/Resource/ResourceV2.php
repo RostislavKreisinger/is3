@@ -25,7 +25,7 @@ class ResourceV2 extends Resource {
         $resourceSetting = $this->getResourceStats()->getResourceSetting();
         if ($resourceSetting === null) {
             $resourceSetting = \DB::connection('mysql-select')
-                    ->table('monkeydata.resource_setting')
+                    ->table('monkeydata.'.Resource::RESOURCE_SETTING)
                     ->select('*')
                     ->where('project_id', '=', $this->getProject_id())
                     ->where('resource_id', '=', $this->getResource()->id)
