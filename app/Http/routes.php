@@ -30,6 +30,7 @@ Route::group(['middleware' => 'web'], function () {
         
         Route::group(['prefix' => 'search'], function(){
             Route::controller('user', \App\Http\Controllers\Search\UserController::class);
+            Route::controller('client', \App\Http\Controllers\Search\ClientController::class);
             Route::controller('project', \App\Http\Controllers\Search\ProjectController::class);
         });
         
