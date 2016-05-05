@@ -33,8 +33,12 @@
             "js": "dist/jquery.min.js"
         },
         "datatables": {
+            
+        },
+	"DataTables": {
             "js": "media/js/jquery.dataTables.min.js"
         },
+
         "datatables-plugins": {
             "js": "integration/bootstrap/3/dataTables.bootstrap.min.js"
         },

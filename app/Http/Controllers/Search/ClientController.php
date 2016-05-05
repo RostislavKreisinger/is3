@@ -9,7 +9,7 @@
 namespace App\Http\Controllers\Search;
 
 use App\Http\Controllers\User\DetailController;
-use App\Model\User;
+use App\Model\Client;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Input;
 use Redirect;
@@ -19,23 +19,23 @@ use Redirect;
  *
  * @author Tomas
  */
-class UserController extends BaseController {
+class ClientController extends BaseController {
     
     public function getIndex() {
         $search = Input::get('search', null);
         if(intValue($search)){
-            $user = User::find($search);
-            if($user){
-                return Redirect::action(DetailController::routeMethod('getIndex'), ['user_id' => $user->id]);
+            $client = Client::find($search);
+            if($client){
+                return Redirect::action(DetailController::routeMethod('getIndex'), ['user_id' => $client->user_id]);
             }
         }
         
-        $users = User::where(function(Builder $where) use ($search) {
+        $clients = Client::where(function(Builder $where) use ($search) {
                     $where->orWhere('email', 'like', "%$search%");
                 })
                 ->get();
                 
-        $this->getView()->addParameter('users', $users);
+        $this->getView()->addParameter('clients', $clients);
         
     }
     

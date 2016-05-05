@@ -28,7 +28,7 @@ class ShowImportDataController extends Controller {
 
     public function getIndex($projectId, $resourceId, $table_id = null, $count = 100) {
         $error = null;
-        $resource = DB::connection("mysql-select")
+        $resource = DB::connection("mysql-select-app")
                 ->table("resource")
                 ->where("id", $resourceId)
                 ->first();
@@ -46,7 +46,7 @@ class ShowImportDataController extends Controller {
 
 
         try {
-            $builder = DB::connection("mysql-select")
+            $builder = DB::connection("mysql-select-import")
                     ->table($table->getQueryName());
 
             $table->getTableConfig()->addDefaultColumn((new Column())->setName('date_id')->setOrderBy('desc'));
@@ -115,7 +115,7 @@ class ShowImportDataController extends Controller {
     }
 
     private function getClientId($projectId) {
-        $project = DB::connection("mysql-select")
+        $project = DB::connection("mysql-select-app")
                 ->table("project")
                 ->select(["client.id as client_id"])
                 ->leftJoin("client", "client.user_id", "=", "project.user_id")
