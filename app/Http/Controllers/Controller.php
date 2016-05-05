@@ -58,7 +58,7 @@ class Controller extends BaseViewController {
             $invalidProject = $invalidProjectList->getProject($project->id);
             if ($invalidProject) {
                 $menuItem->setName("{$invalidProject->getName()} [{$invalidProject->getInvalidResourceCount()}]");
-                $menuItem->setTitle($project->getId());
+                $menuItem->setTitle($project->id);
                 $menuItem->addClass('invalid');
             }
 
