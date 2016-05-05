@@ -31,6 +31,7 @@ class Controller extends BaseController {
                                 Tr::_($resource->btf_name),
                                 action(DetailController::routeMethod('getIndex'), ['project_id'=>$project->id, 'resource_id' => $resource->id]) 
                                 );
+                
                 if(!$resource->isValid()){
                     $menuItem->addClass('invalid');
                 }
@@ -48,6 +49,7 @@ class Controller extends BaseController {
                             $userProject->name, 
                             action(ProjectDetailController::routeMethod('getIndex'), ['project_id'=>$userProject->id])
                         );
+                $menuItem->setTitle($userProject->id);
                 if(!$userProject->isValid()){
                     $menuItem->addClass('invalid');
                 }

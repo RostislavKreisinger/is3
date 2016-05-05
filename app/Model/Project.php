@@ -14,11 +14,11 @@ class Project extends Model {
     protected $guarded = [];
     
     public function getResources() {
-        return $this->belongsToMany(Resource::class, "resource_setting", "project_id", "resource_id");
+        return $this->belongsToMany(Resource::class, "resource_setting", "project_id", "resource_id")->where('active', '!=', 3);
     }
     
     public function getResourceSettings() {
-        return $this->hasMany(ResourceSetting::class, "resource_setting", "project_id");
+        return $this->hasMany(ResourceSetting::class, "resource_setting", "project_id")->where('active', '!=', 3);
     }
     
     public function getUser() {
