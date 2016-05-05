@@ -27,7 +27,7 @@ class ShiftNextCheckDateButtonController extends Controller {
         
         $nextCheckDate = Input::get('next_check_date', null);
         if($nextCheckDate === 'now'){
-            $nextCheckDate = DateTimeHelper::getInstance('NOW')->changeMinutes(2);
+            $nextCheckDate = DateTimeHelper::getInstance('NOW');
         } else {
             $nextCheckDate = new DateTimeHelper();
             $nextCheckDate->changeDays(7);
