@@ -241,11 +241,11 @@ class ProjectRepository {
                 ->addSelect(['rs.resource_id'])
                 ->whereRaw('COALESCE(`rs`.`next_check_date`, 0) < NOW()')
                 ->whereNotIn('rs.resource_id', [1, 19])
-                ->addSelect([DB::raw('IF( ((rs.active = 0 AND rs.ttl <= 0) OR rs.active = 3) ,1,0) as resource_setting')])
+                ->addSelect([DB::raw('IF( ((rs.active = 0 AND rs.ttl <= 0)) ,1,0) as resource_setting')])
 
         ;
         $whereFunctions[] = function(Builder $where) {
-            $where->orWhere('rs.active', '=', 3);
+            // $where->orWhere('rs.active', '=', 3);
             $where->orWhere(function(Builder $where) {
                 $where->where('rs.active', '=', 0);
                 $where->where('rs.ttl', '<=', 0);
