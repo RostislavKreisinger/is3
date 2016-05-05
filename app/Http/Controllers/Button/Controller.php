@@ -11,8 +11,12 @@ abstract class Controller extends BaseAuthController {
         parent::__construct();
     }
     
+    protected function getRedirect() {
+        return redirect()->back();
+    }
+    
     public function getIndex() {
-        $redirect = redirect()->back();
+        $redirect = $this->getRedirect();
         call_user_func_array([$this, 'buttonAction'], func_get_args());
         return $redirect;
     }
