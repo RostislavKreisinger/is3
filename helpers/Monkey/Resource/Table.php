@@ -71,7 +71,7 @@ class Table {
     
     public function getDbTableColumns() {
         if($this->DBcolumns === null){
-            $columns = DB::connection("mysql-select")
+            $columns = DB::connection("mysql-select-import")
                     ->table('information_schema.COLUMNS')
                     ->where('TABLE_SCHEMA', '=', $this->getDatabase())
                     ->where('TABLE_NAME', '=', $this->getDbTableName())

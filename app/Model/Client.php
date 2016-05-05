@@ -3,6 +3,7 @@
 namespace App\Model;
 
 use Eloquent;
+use Monkey\ImportSupport\Project as ImportSupportProject;
 
 class Client extends Eloquent {
 
@@ -44,7 +45,7 @@ class Client extends Eloquent {
     }
     
     public function builderProjects() {
-        return $this->hasMany(ImportSupportProject::class, 'user_id');
+        return $this->hasMany(ImportSupportProject::class, 'user_id', 'user_id');
     }
     
     /**

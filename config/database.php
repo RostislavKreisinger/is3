@@ -136,13 +136,26 @@ return [
                 PDO::ATTR_PERSISTENT => false,
             ),
         ),
-        'mysql-select' => array(
+        'mysql-select-import' => array(
             'driver' => 'mysql',
-            'host' => env('DB_SELECT_HOST', 'localhost'),
-            'port' => env('DB_SELECT_PORT', '3306'),
-            'database' => env('DB_SELECT_DATABASE', 'monkeydata'),
-            'username' => env('DB_SELECT_USERNAME', 'root'),
-            'password' => env('DB_SELECT_PASSWORD', ''),
+            'host' => env('DB_SELECT_IMPORT_HOST', 'localhost'),
+            'port' => env('DB_SELECT_IMPORT_PORT', '3306'),
+            'database' => env('DB_SELECT_IMPORT_DATABASE', 'monkeydata'),
+            'username' => env('DB_SELECT_IMPORT_USERNAME', 'root'),
+            'password' => env('DB_SELECT_IMPORT_PASSWORD', ''),
+            'charset' => 'utf8',
+            'collation' => 'utf8_general_ci',
+            'options' => array(
+                PDO::ATTR_PERSISTENT => false,
+            ),
+        ),
+        'mysql-select-app' => array(
+            'driver' => 'mysql',
+            'host' => env('DB_SELECT_APP_HOST', 'localhost'),
+            'port' => env('DB_SELECT_APP_PORT', '3306'),
+            'database' => env('DB_SELECT_APP_DATABASE', 'monkeydata'),
+            'username' => env('DB_SELECT_APP_USERNAME', 'root'),
+            'password' => env('DB_SELECT_APP_PASSWORD', ''),
             'charset' => 'utf8',
             'collation' => 'utf8_general_ci',
             'options' => array(
