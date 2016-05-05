@@ -21,6 +21,11 @@ use Monkey\DateTime\DateTimeHelper;
 class UnconnectButtonController extends Controller {
     
     
+    protected function getRedirect() {
+        $projectId = Input::get('project_id');
+        return redirect(\Monkey\action(\App\Http\Controllers\Project\DetailController::class, array('project_id' => $projectId)));
+    }
+    
     protected function buttonAction() {
         $projectId = Input::get('project_id');
         $resourceId = Input::get('resource_id');        
