@@ -93,9 +93,9 @@ class ResourceList {
 //        $tmp = new TableConfig($ser);
 //        vde($tmp);
         
-        $resources = DB::connection('mysql-select')->table("resource_tables as rt")
+        $resources = DB::connection('mysql-select-app')->table("resource_tables as rt")
                 ->select('*')
-                ->whereRaw("actual = (".DB::connection('mysql-select')->table('resource_tables as rt_tmp')->selectRaw('MAX(actual)')->whereRaw('rt.resource_id = rt_tmp.resource_id')->toSql().")" )
+                ->whereRaw("actual = (".DB::connection('mysql-select-app')->table('resource_tables as rt_tmp')->selectRaw('MAX(actual)')->whereRaw('rt.resource_id = rt_tmp.resource_id')->toSql().")" )
                 ->orderBy('resource_id')->orderBy('order')
                 ->get()
                 ;
@@ -115,30 +115,6 @@ class ResourceList {
             
         }
     }
-
-        /**
-     * @deprecated since version 26.2.2016
-     * @param type $client_id
-     */
-    private function DEPRECATED_initByDB($client_id) {
-        $resources = DB::connection('data')->table("resource")
-                ->select('*')
-                ->whereIn('id', [2, 3, 4, 5, 6, 9, 11, 16, 17, 18, 22])
-                ->get();
-        foreach($resources as $resource){
-            $res = new Resource();
-            $table = $res->addTable(new Table($resource->tbl));
-            if ($resource->tbl[strlen($resource->tbl) - 1] === '_') {
-                $table->setClient_id($client_id);
-            }
-            
-            $table->setResourceVersion($resource->import_version);
-            $table->setHasProjectId(true);
-            $table->setHasDateId(true);
-            $this->addResource($resource->id, $res);
-        }
-    }
-
 
 
 

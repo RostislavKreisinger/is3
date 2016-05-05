@@ -41,7 +41,7 @@ class DatabaseSelectorController extends BaseViewController {
 
         $defaultTable = null;
         if ($project_id !== null) {
-            $queryBuilder = DB::connection('mysql-select')->table('monkeydata.project as p')
+            $queryBuilder = DB::connection('mysql-select-app')->table('monkeydata.project as p')
                     ->where('p.id', '=', $project_id)
                     ->join('monkeydata.client as c', 'c.user_id', '=', 'p.user_id')
                     ->select(array('p.user_id as user_id', 'p.id as project_id', 'c.id as client_id'))
@@ -92,7 +92,7 @@ class DatabaseSelectorController extends BaseViewController {
             if (empty($query)) {
                 return $view->render();
             }
-            $data = DB::connection('mysql-select')->select(DB::raw($query));
+            $data = DB::connection('mysql-select-import')->select(DB::raw($query));
             $view->with('data', $data);
         } catch (Exception $e) {
             $view->with('error', $e);
@@ -106,7 +106,7 @@ class DatabaseSelectorController extends BaseViewController {
     }
 
     private function getClientId($projectId) {
-        $project = DB::connection("mysql-select")
+        $project = DB::connection("mysql-select-app")
                 ->table("project")
                 ->select(["client.id as client_id"])
                 ->leftJoin("client", "client.user_id", "=", "project.user_id")
@@ -134,7 +134,7 @@ class DatabaseSelectorController extends BaseViewController {
     }
 
     private function getSelect($table, $projectId, $count = 100) {
-        $builder = DB::connection("mysql-select")
+        $builder = DB::connection("mysql-select-import")
                 ->table($table->getQueryName());
 
         $table->getTableConfig()->addDefaultColumn((new Column())->setName('date_id')->setOrderBy('desc'));
@@ -162,7 +162,7 @@ class DatabaseSelectorController extends BaseViewController {
     }
 
     private function getResourceTables($projectId, $resourceId, $table_id = 1, $count = 100) {
-        $resource = DB::connection("mysql-select")
+        $resource = DB::connection("mysql-select-app")
                 ->table("resource")
                 ->where("id", $resourceId)
                 ->first();
@@ -180,7 +180,7 @@ class DatabaseSelectorController extends BaseViewController {
 
 
 
-        $builder = DB::connection("mysql-select")
+        $builder = DB::connection("mysql-select-import")
                 ->table($table->getQueryName());
 
         $table->getTableConfig()->addDefaultColumn((new Column())->setName('date_id')->setOrderBy('desc'));

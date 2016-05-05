@@ -99,7 +99,7 @@ class Resource extends ResourceModel {
     }
     
     public function getResourceDetail() {
-        $builder =  DB::connection('mysql-select')
+        $builder =  DB::connection('mysql-select-app')
                     ->table('resource_setting as rs')
                     ->join($this->tbl_setting.' as crs', 'rs.id', '=', 'crs.resource_setting_id')
                     ->where('rs.resource_id', '=', $this->id)
