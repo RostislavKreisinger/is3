@@ -28,6 +28,15 @@ Route::group(['middleware' => 'web'], function () {
             Route::controller('/show-import-data/{project_id}/{resource_id}/{table_id?}/{count?}', App\Http\Controllers\Database\ShowImportDataController::class);
         });
         
+        Route::group(['prefix' => 'plugin'], function(){
+            Route::group(['prefix' => 'import'], function(){
+                Route::group(['prefix' => 'supervisor'], function(){
+                    Route::controller('/{supervisor_id}/', App\Http\Controllers\Plugin\Import\Supervisor\DetailController::class);
+                    Route::controller('/', App\Http\Controllers\Plugin\Import\Supervisor\IndexController::class);
+                });
+            });
+        });
+        
         Route::group(['prefix' => 'search'], function(){
             Route::controller('user', \App\Http\Controllers\Search\UserController::class);
             Route::controller('client', \App\Http\Controllers\Search\ClientController::class);
