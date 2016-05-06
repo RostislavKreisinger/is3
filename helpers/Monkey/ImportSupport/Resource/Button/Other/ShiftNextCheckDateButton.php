@@ -19,6 +19,7 @@ class ShiftNextCheckDateButton extends BaseButton {
                 \Monkey\action(ShiftNextCheckDateButtonController::class, ['project_id' => $projectId, 'resource_id' => $resourceId])
                 );
         $this->setToNewWindow(false);
+        $this->setTitle('Posune datum pristi kontroly za 7 dni.');
     }
     
 }

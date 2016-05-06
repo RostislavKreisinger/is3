@@ -43,6 +43,8 @@ class DetailController extends Controller {
     public function getIndex($projectId, $resourceId) {
         $this->project = $project = Project::find($projectId);
         $this->resource = $resource = $project->getResource($resourceId);
+        
+        // vde($resource);
 
         $viewName = 'default.project.resource.detail.' . $resource->codename;
         if (ViewFinder::existView($viewName)) {

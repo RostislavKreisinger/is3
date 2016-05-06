@@ -68,12 +68,12 @@
                             </tr>
                             <tr>
                                 <td>Remaining orders</td>
-                                <td>{n $client->remaining_orders} / {n $tariff->order_limit}</td>
+                                <td>{n is_null($client->remaining_orders)?NULL:($tariff->order_limit-$client->remaining_orders)} / {n $tariff->order_limit}</td>
                             </tr>
                             
                             <tr>
-                                <td>Remaining orders</td>
-                                <td>{n $client->remaining_orders} / {n $tariff->project_limit}</td>
+                                <td>Projects</td>
+                                <td>{n count($client->getProjects())} / {n $tariff->project_limit}</td>
                             </tr>
                             <tr>
                                 <td>Tariff expired</td>
