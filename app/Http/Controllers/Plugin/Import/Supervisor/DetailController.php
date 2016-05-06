@@ -6,22 +6,21 @@
  * and open the template in the editor.
  */
 
-namespace App\Http\Controllers\Plugin\Import;
+namespace App\Http\Controllers\Plugin\Import\Supervisor;
 
-use App\Http\Controllers\Plugin\Controller;
 
 /**
  * Description of HomepageController
  *
  * @author Tomas
  */
-class SupervisorController extends Controller {
+class DetailController extends Controller {
 
-    public function getIndex() {
+    public function getIndex($supervisor_id) {
         
-        
+        $this->getView()->addParameter('supervisorId', $supervisor_id);
     }
-    
+
    
-    
+
 }

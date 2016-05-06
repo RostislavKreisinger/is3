@@ -29,7 +29,12 @@ Route::group(['middleware' => 'web'], function () {
         });
         
         Route::group(['prefix' => 'plugin'], function(){
-            Route::controller('/import/supervisor', App\Http\Controllers\Plugin\Import\SupervisorController::class);
+            Route::group(['prefix' => 'import'], function(){
+                Route::group(['prefix' => 'supervisor'], function(){
+                    Route::controller('/{supervisor_id}/', App\Http\Controllers\Plugin\Import\Supervisor\DetailController::class);
+                    Route::controller('/', App\Http\Controllers\Plugin\Import\Supervisor\IndexController::class);
+                });
+            });
         });
         
         Route::group(['prefix' => 'search'], function(){
