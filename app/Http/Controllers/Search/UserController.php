@@ -23,6 +23,11 @@ class UserController extends BaseController {
     
     public function getIndex() {
         $search = Input::get('search', null);
+        
+        $alpha2id = alpha2id($search);
+        if(intValue($alpha2id) && $alpha2id > 0){
+            $search = $alpha2id;
+        }
         if(intValue($search)){
             $user = User::find($search);
             if($user){
