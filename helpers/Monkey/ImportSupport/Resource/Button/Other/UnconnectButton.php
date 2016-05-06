@@ -25,5 +25,6 @@ class UnconnectButton extends BaseButton {
                 \Monkey\action(\App\Http\Controllers\Button\Resource\Other\UnconnectButtonController::class, ['project_id' => $projectId, 'resource_id' => $resourceId])
                 );
         $this->setToNewWindow(false);
+        $this->setTitle('Oznaci napojueni zdroj na active 3. Coz vygeneruje event chybneho napojeni.');
     }
 }
