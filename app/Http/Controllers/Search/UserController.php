@@ -22,7 +22,7 @@ use Redirect;
 class UserController extends BaseController {
     
     public function getIndex() {
-        $search = Input::get('search', null);
+        $search = $originSearch =  Input::get('search', null);
         
         $alpha2id = alpha2id($search);
         if(intValue($alpha2id) && $alpha2id > 0){
@@ -35,8 +35,8 @@ class UserController extends BaseController {
             }
         }
         
-        $users = User::where(function(Builder $where) use ($search) {
-                    $where->orWhere('email', 'like', "%$search%");
+        $users = User::where(function(Builder $where) use ($originSearch) {
+                    $where->orWhere('email', 'like', "%$originSearch%");
                 })
                 ->get();
                 
