@@ -22,7 +22,7 @@ use Redirect;
 class ProjectController extends BaseController {
     
     public function getIndex() {
-        $search = Input::get('search', null);
+        $search = $originSearch =  Input::get('search', null);
         
         $alpha2id = alpha2id($search);
         if(intValue($alpha2id) && $alpha2id > 0){
@@ -36,8 +36,9 @@ class ProjectController extends BaseController {
             }
         }
         
-        $projects = Project::where(function(Builder $where) use ($search) {
-                    $where->orWhere('name', 'like', "%$search%");
+        
+        $projects = Project::where(function(Builder $where) use ($originSearch) {
+                    $where->orWhere('name', 'like', "%$originSearch%");
                 })
                 ->get();
                 
