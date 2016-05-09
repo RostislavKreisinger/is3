@@ -175,7 +175,7 @@ class Resource extends ResourceModel {
         
     }
     
-    private function addDefaultButtons() {
+    protected function addDefaultButtons() {
         $B00_ShowButton = new B00_ShowButton($this->project_id, $this->id);
         $B0_TestButton = new B0_TestButton($this->project_id, $this->id);
         $B1_ResetAutomatTestButton = new B1_ResetAutomatTestButton($this->project_id, $this->id);
