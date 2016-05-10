@@ -44,7 +44,7 @@ class DetailController extends Controller {
         $this->project = $project = Project::find($projectId);
         $this->resource = $resource = $project->getResource($resourceId);
         
-        // vde($resource);
+        $resourceErrors = $resource->getResourceErrors();
 
         $viewName = 'default.project.resource.detail.' . $resource->codename;
         if (ViewFinder::existView($viewName)) {
@@ -85,4 +85,8 @@ class DetailController extends Controller {
         $breadcrumbs->addBreadcrumbItem(new BreadcrumbItem('resource', 'Resource', \Monkey\action(self::class, ['project_id' => $this->project->id, 'resource_id' => $this->resource->id])));
     }
 
+    protected function getErrors() {
+        return \App\Model\ImportSupport\ResourceError::all();
+    }
+    
 }
