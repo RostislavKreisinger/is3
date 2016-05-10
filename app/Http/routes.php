@@ -59,6 +59,15 @@ Route::group(['middleware' => 'web'], function () {
             Route::controller('/', \App\Http\Controllers\User\IndexController::class);
         });
         
+        Route::group(['prefix' => 'admin'], function(){
+            Route::group(['prefix' => 'user'], function(){
+                Route::controller('/{user_id}', App\Http\Controllers\Admin\User\DetailController::class);
+                Route::controller('/', App\Http\Controllers\Admin\User\IndexController::class);
+            });
+            Route::controller('/profile', App\Http\Controllers\Admin\Profile\IndexController::class);
+            Route::controller('/', App\Http\Controllers\Admin\IndexController::class);
+        });
+        
         
         // Route::get('/', HomepageController::routeMethod('index'));
         Route::controller('/', \App\Http\Controllers\IndexController::class);

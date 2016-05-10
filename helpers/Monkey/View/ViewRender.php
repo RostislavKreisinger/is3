@@ -26,6 +26,10 @@ class ViewRender {
     
     private $layoutsBasePath = 'default';
     private $defaultLayoutName = 'index';
+    /**
+     *
+     * @var View 
+     */
     private $baseLayout = null;
     
     private $layout = null;

@@ -63,13 +63,13 @@ class BaseViewController extends BaseAuthController {
         $result = parent::callAction($method, $parameters);
         $this->breadcrumbAfterAction($parameters);
         
-        try{
+        // try{
             if ($result === null) {
                 $result = $this->getView()->render();
             }
-        }  catch (Exception $e){
-            vde($e);
-        }
+//        }  catch (Exception $e){
+//            vde($e);
+//        }
 
         return $result;
     }
