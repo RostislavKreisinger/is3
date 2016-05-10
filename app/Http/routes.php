@@ -59,6 +59,10 @@ Route::group(['middleware' => 'web'], function () {
             Route::controller('/', \App\Http\Controllers\User\IndexController::class);
         });
         
+        Route::group(['prefix' => 'admin'], function(){
+            Route::controller('/', App\Http\Controllers\Admin\IndexController::class);
+        });
+        
         
         // Route::get('/', HomepageController::routeMethod('index'));
         Route::controller('/', \App\Http\Controllers\IndexController::class);

@@ -112,12 +112,12 @@ class View extends BaseView {
         $set->addMacro("view", function($node, $writer) {
             $args = explode(',', $node->args);
             if($args[0][0] == '$' ){
-                return $writer->write("echo {$args[0]};");
+                return $writer->write("echo {$args[0]}->render();");
             }else{
                 if(isset($args[1])){
-                    return $writer->write("echo new Monkey\View\View({$args[0]}, array_merge({$args[1]}, \$_parrams));");
+                    return $writer->write("echo (new Monkey\View\View({$args[0]}, array_merge({$args[1]}, \$_parrams)))->render();");
                 }else{
-                    return $writer->write("echo new Monkey\View\View({$args[0]}, \$_parrams);");
+                    return $writer->write("echo (new Monkey\View\View({$args[0]}, \$_parrams))->render();");
                 }
             }
         });
