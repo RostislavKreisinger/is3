@@ -1,0 +1,25 @@
+<div class="row">
+    <div class="col-md-12">
+        <table class="table table-auto-width table-striped">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Email</th>
+                    <th>Name</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr n:foreach="$users as $user">
+                    <td>{n $user->id}</td>
+                    <td>{n $user->email}</td>
+                    <td>{n $user->name}</td>
+                    <td>
+                        <a href="{action 'Admin\User\DetailController', ['user_id' => $user->id]}"> <i class="fa fa-pencil-square" style="font-size: 1.5em;"></i> </a>
+                    </td>
+                </tr>
+                
+            </tbody>
+        </table>
+    </div>
+</div>

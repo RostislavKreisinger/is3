@@ -122,6 +122,19 @@ class View extends BaseView {
             }
         });
         
+        $set->addMacro("varview", function($node, $writer) {
+            $args = explode(',', $node->args);
+            if($args[0][0] == '$' ){
+                return $writer->write("echo {$args[0]}->render();");
+            }else{
+                if(isset($args[1])){
+                    return $writer->write("echo (new Monkey\View\View({$args[0]}, {$args[1]}))->render();");
+                }else{
+                    return $writer->write("echo (new Monkey\View\View({$args[0]})->render();");
+                }
+            }
+        });
+        
         $assetsArray = array('assets'=> '', 'js'=>'js/', 'img' => 'images/', 'css' => 'css/');
         foreach ($assetsArray as $name => $asset){
             $set->addMacro($name, function($node, $writer) use ($asset){

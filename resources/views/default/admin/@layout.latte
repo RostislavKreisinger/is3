@@ -14,5 +14,8 @@
     </div>
 </div>
 {view 'default.scripts'}
-
+<script src="{js 'libs/jquery.tree-multiselect.min.js'}"></script>
+<script>
+    $("select#acl").treeMultiselect({ sectionDelimiter: '.' });
+</script>
 

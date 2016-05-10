@@ -35,7 +35,8 @@ class MenuList {
     }
     
     public function addMenuItem(Menu $menuItem) {
-        $this->list[] = $menuItem;
+        $this->list[] = &$menuItem;
+        return $menuItem;
     }
 
 }

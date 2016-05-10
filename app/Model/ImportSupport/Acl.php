@@ -29,4 +29,16 @@ class Acl extends Model {
     protected $table = 'acl';
     
     
+    public function getPath() {
+        $path = explode('.', $this->key);
+        unset($path[count($path)-1]);
+        return implode('.', $path);
+    }
+    
+    
+    public function getEnd() {
+        $path = explode('.', $this->key);
+        return $path[count($path)-1];
+    }
+    
 }
