@@ -203,18 +203,39 @@ class Resource extends ResourceModel {
             $UnconnectButton->setError('Nelze odpojit resource pokud neni chybny');
         }
         
+        $user = \Auth::user();
+        if($user->can('project.resource.button.test.show_data')){
+            $this->addButton($B00_ShowButton);
+        }
+        if($user->can('project.resource.button.test.test_download')){
+            $this->addButton($B0_TestButton);
+        }
+        if($user->can('project.resource.button.reset.automattest')){
+            $this->addButton($B1_ResetAutomatTestButton);
+        }
+        if($user->can('project.resource.button.reset.daily')){
+            $this->addButton($B6_ResetDailyButton);
+        }
+        if($user->can('project.resource.button.reset.history')){
+            $this->addButton($B5_ResetHistoryButton);
+        }
         
-        $this->addButton($B00_ShowButton);
-        $this->addButton($B0_TestButton);
-        $this->addButton($B1_ResetAutomatTestButton);
-        $this->addButton($B2_RepairAutomatTestButton);
-        $this->addButton($B3_RepairDailyButton);
-        $this->addButton($B4_RepairHistoryButton);
-        $this->addButton($B6_ResetDailyButton);
-        $this->addButton($B5_ResetHistoryButton);
+        if($user->can('project.resource.button.repair.automattest')){
+            $this->addButton($B2_RepairAutomatTestButton);
+        }
+        if($user->can('project.resource.button.repair.daily')){
+            $this->addButton($B3_RepairDailyButton);
+        }
+        if($user->can('project.resource.button.repair.history')){
+            $this->addButton($B4_RepairHistoryButton);
+        }
         
-        $this->addButton($ShiftNextCheckDateButton);
-        $this->addButton($UnconnectButton);
+        if($user->can('project.resource.button.delete.shift_date')){
+            $this->addButton($ShiftNextCheckDateButton);
+        }
+        if($user->can('project.resource.button.delete.unconnect')){
+            $this->addButton($UnconnectButton);
+        }
         
     }
     
