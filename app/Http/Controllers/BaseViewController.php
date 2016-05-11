@@ -40,6 +40,7 @@ class BaseViewController extends BaseAuthController {
         $this->view = ViewRender::getInstance($route);
         
         View::share('breadcrumbs', $this->getBreadcrumbs());
+        View::share('user', $this->getUser());
         $this->initMenu();
     }
     

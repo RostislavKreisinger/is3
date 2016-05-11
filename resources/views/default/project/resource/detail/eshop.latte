@@ -57,6 +57,9 @@
             <li class="active">
                 <a href="#detail" data-toggle="tab" aria-expanded="true">Connection detail</a>
             </li>
+            <li class="">
+                <a href="#errors" data-toggle="tab" aria-expanded="true">Errors</a>
+            </li>
         </ul>        
         <div class="tab-content">
             <div class="tab-pane active in" id="detail">
@@ -65,6 +68,9 @@
                 {else}
                     {view "default.project.resource.detail.eshop.default"}
                 {/if}
+            </div>
+            <div class="tab-pane in" id="errors">
+                {view 'default.project.resource.template.error-panel'}
             </div>
         </div>
     </div>

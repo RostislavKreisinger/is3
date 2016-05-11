@@ -40,7 +40,11 @@ class User extends Model implements
     ];
 
     public function getAcl() {
-        return $this->belongsToMany(AclModel::class, 'user_acl')->get();
+//        $builder = $this->belongsToMany(AclModel::class, 'user_acl');
+//        vdQuery($builder);
+//        return array();
+        
+         return $this->belongsToMany(AclModel::class, 'user_acl')->get();
     }
     
     public function isAdmin() {
@@ -52,7 +56,7 @@ class User extends Model implements
         return $this->getAclManager()->hasAcl($ability);
     }
     
-    protected function getAclManager() {
+    public function getAclManager() {
         if($this->aclManager == null){
             $this->aclManager = new AclManager($this, new Acl());
         }

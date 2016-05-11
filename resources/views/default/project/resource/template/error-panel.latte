@@ -1,0 +1,16 @@
+<h4>
+    Errors
+    <a n:if="$user->can('project.resource.error.add')" href="{action 'Admin\Error\CreateController', ['resource_id' => $resource->id]}"> <i class="fa fa-plus"></i> </a>
+</h4>
+<div class="table-responsive">
+    <div class="row error" n:foreach="$resourceErrors as $error">
+        <div class="col-md-1 text-align-right">
+            <a n:if="$user->can('project.resource.error.edit')" href="{action 'Admin\Error\DetailController', ['error_id' => $error->id]}"> <i class="fa fa-pencil-square"></i> </a>
+        </div>
+        <div class="col-md-1">
+            <div class="ask">{n $error->error}</div>
+            <div class="answer font-italic">{n $error->solution}</div>
+        </div>
+    </div>
+    <div n:if="count($resourceErrors) == 0">No errors</div> 
+</div>

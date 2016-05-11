@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\Controller;
 class IndexController extends Controller {
 
     public function getIndex() {
+        // vd($this->getUser()->can('project.resource.error.add'));
         $errorsResult = \App\Model\ImportSupport\ResourceError::orderBy('resource_id', 'ASC')
                 ->orderBy('id', 'DESC')
                 ->get()

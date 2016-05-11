@@ -8,10 +8,9 @@
 
 namespace Monkey\ImportSupport\Resource\Resources;
 
+use Illuminate\Support\Facades\Auth;
 use Monkey\ImportSupport\Resource\Button\Other\EshopDeleteDataButton;
 use Monkey\ImportSupport\Resource\ResourceV2;
-
-
 
 /**
  * Description of EshopResource
@@ -19,13 +18,13 @@ use Monkey\ImportSupport\Resource\ResourceV2;
  * @author Tomas
  */
 class EshopResource extends ResourceV2 {
-    
-    
-    
-    
+
     protected function addDefaultButtons() {
         $EshopDeleteDataButton = new EshopDeleteDataButton($this->getProject_id(), $this->id);
-        $this->addButton($EshopDeleteDataButton);
+        if (Auth::user()->can('project.resource.button.delete.delete_data')) {
+            $this->addButton($EshopDeleteDataButton);
+        }
         parent::addDefaultButtons();
     }
+
 }

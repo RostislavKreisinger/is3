@@ -18,7 +18,7 @@ class ButtonList implements \ArrayAccess {
      *
      * @var BaseButton[] 
      */
-    private $list;
+    private $list = array();
     
     
     
