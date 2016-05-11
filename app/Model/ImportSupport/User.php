@@ -43,6 +43,9 @@ class User extends Model implements
         return $this->belongsToMany(AclModel::class, 'user_acl')->get();
     }
     
+    public function isAdmin() {
+        return (bool) $this->is_admin;
+    }
    
     
     public function can($ability, $arguments = array()) {

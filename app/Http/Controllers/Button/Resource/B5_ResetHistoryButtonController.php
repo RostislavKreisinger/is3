@@ -21,6 +21,11 @@ use Illuminate\Support\Facades\Input;
 class B5_ResetHistoryButtonController extends Controller {
 
     protected function buttonAction() {
+        $user = \Auth::user();
+        if(!$user->can('project.resource.button.reset.history')){
+            return;
+        }
+        
         $projectId = Input::get('project_id');
         $resourceId = Input::get('resource_id');
 

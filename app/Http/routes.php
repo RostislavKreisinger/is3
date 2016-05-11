@@ -3,6 +3,7 @@
 
 
 Route::middleware('auth', App\Http\Middleware\Authenticate::class);
+Route::middleware('admin', App\Http\Middleware\Admin::class);
 
 Route::group(['middleware' => 'web'], function () {
     Route::group(['namespace' => 'App\Http\Controllers', 'prefix' => 'auth'], function(){
@@ -60,9 +61,11 @@ Route::group(['middleware' => 'web'], function () {
         });
         
         Route::group(['prefix' => 'admin'], function(){
-            Route::group(['prefix' => 'user'], function(){
-                Route::controller('/{user_id}', App\Http\Controllers\Admin\User\DetailController::class);
-                Route::controller('/', App\Http\Controllers\Admin\User\IndexController::class);
+            Route::group(['middleware' => 'admin'], function(){
+                Route::group(['prefix' => 'user'], function(){
+                    Route::controller('/{user_id}', App\Http\Controllers\Admin\User\DetailController::class);
+                    Route::controller('/', App\Http\Controllers\Admin\User\IndexController::class);
+                });
             });
             Route::controller('/profile', App\Http\Controllers\Admin\Profile\IndexController::class);
             Route::controller('/', App\Http\Controllers\Admin\IndexController::class);
