@@ -67,7 +67,14 @@ Route::group(['middleware' => 'web'], function () {
                     Route::controller('/', App\Http\Controllers\Admin\User\IndexController::class);
                 });
             });
-            Route::controller('/profile', App\Http\Controllers\Admin\Profile\IndexController::class);
+            Route::group(['prefix' => 'profile'], function(){
+                Route::controller('/', App\Http\Controllers\Admin\Profile\IndexController::class);
+            });
+            Route::group(['prefix' => 'error'], function(){
+                Route::controller('/create/{resource_id?}', App\Http\Controllers\Admin\Error\CreateController::class);
+                Route::controller('/{error_id}', App\Http\Controllers\Admin\Error\DetailController::class);
+                Route::controller('/', App\Http\Controllers\Admin\Error\IndexController::class);
+            });
             Route::controller('/', App\Http\Controllers\Admin\IndexController::class);
         });
         

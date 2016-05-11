@@ -45,7 +45,7 @@ class DetailController extends Controller {
         $this->resource = $resource = $project->getResource($resourceId);
         
         $resourceErrors = $resource->getResourceErrors();
-
+        
         $viewName = 'default.project.resource.detail.' . $resource->codename;
         if (ViewFinder::existView($viewName)) {
             $this->getView()->setBody($viewName);
@@ -74,6 +74,7 @@ class DetailController extends Controller {
         $this->getView()->addParameter('resourceDetail', $resourceDetail);
         $this->getView()->addParameter('resourceCurrency', $resourceCurrency);
         $this->getView()->addParameter('connectionDetail', $connectionDetail);
+        $this->getView()->addParameter('resourceErrors', $resourceErrors);
 
         $this->prepareMenu($project);
     }
