@@ -9,11 +9,17 @@ use Illuminate\Support\Facades\Input;
 class DetailController extends Controller {
 
     public function getIndex($error_id) {
+        if(!\Auth::user()->can('project.resource.error.edit')){
+            return redirect()->back();
+        }
         $error = ResourceError::find($error_id);
         $this->getView()->addParameter('error',$error);
     }
     
     public function postIndex($error_id) {
+        if(!\Auth::user()->can('project.resource.error.edit')){
+            return redirect()->back();
+        }
         $error = ResourceError::find($error_id);
         $solution = Input::get('solution', '');
         $error->solution = $solution;

@@ -27,6 +27,7 @@ class BaseAuthController extends BaseController {
     public function __construct() {
         if(Auth::check()){
             $this->setUser(Auth::user());
+            $this->getUser()->getAclManager();
         }
     }
     
