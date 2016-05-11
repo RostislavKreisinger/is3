@@ -1,0 +1,31 @@
+<div class="row">
+    <div class="col-md-12" n:foreach="$errors as $resource_id => $resourceErrors">
+        {var $resource = $resources[$resource_id]}
+        <h4 n:if="!empty($resource)">{n $resource->name}</h4>
+        <table class="table table-auto-width table-striped">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>error</th>
+                    <th>solution</th>
+                    <th>btf_for_user</th>
+                    <th>
+                        <a href="{action 'Admin\Error\CreateController', ['resource_id' => $resource_id]}"> <i class="fa fa-plus"></i> </a>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr n:foreach="$resourceErrors as $error">
+                    <td>{n $error->id}</td>
+                    <td>{n $error->error}</td>
+                    <td>{n $error->solution}</td>
+                    <td>{n $error->btf_for_user}</td>
+                    <td>
+                        <a href="{action 'Admin\Error\DetailController', ['error_id' => $error->id]}"> <i class="fa fa-pencil-square" style="font-size: 1.5em;"></i> </a>
+                    </td>
+                </tr>
+                
+            </tbody>
+        </table>
+    </div>
+</div>

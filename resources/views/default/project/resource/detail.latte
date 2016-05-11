@@ -75,12 +75,15 @@
     </div>
     <div class="col-lg-6 col-md-6">
         <ul class="nav nav-tabs">
-            <li class="active" n:if="count($connectionDetail)">
+            {*<li class="active" n:if="count($connectionDetail)">
                 <a href="#connection-detail" data-toggle="tab" aria-expanded="true">Connection detail</a>
+            </li>*}
+            <li class="active">
+                <a href="#errors" data-toggle="tab" aria-expanded="true">Errors</a>
             </li>
         </ul>        
         <div class="tab-content">
-            <div class="tab-pane active in" id="connection-detail"  n:if="count($connectionDetail)">
+            {*<div class="tab-pane active in" id="connection-detail"  n:if="count($connectionDetail)">
                 <h4>Connection detail</h4>
                 <div class="table-responsive">
                     <table class="table table-hover">
@@ -91,13 +94,33 @@
                             </tr>
                         </tbody>
                     </table>
+                </div> 
+            </div>
+            *}
+            <div class="tab-pane active in" id="errors">
+                <h4>
+                    Errors
+                    <a href="{action 'Admin\Error\CreateController', ['resource_id' => $resource->id]}"> <i class="fa fa-plus"></i> </a>
+                </h4>
+
+                <div class="table-responsive">
+                    <div class="row error" n:foreach="$resourceErrors as $error">
+                        <div class="col-md-1 text-align-right">
+                            <a href="{action 'Admin\Error\DetailController', ['error_id' => $error->id]}"> <i class="fa fa-pencil-square"></i> </a>
+                        </div>
+                        <div class="col-md-1">
+                            <div class="ask">{n $error->error}</div>
+                            <div class="answer font-italic">{n $error->solution}</div>
+                        </div>
+                    </div>
+                    <div n:if="count($resourceErrors) == 0">No errors</div> 
                 </div>
             </div>
         </div>
     </div>
 </div>
 <script>
-    window.onbeforeunload = function(){
+    window.onbeforeunload = function () {
         $.ajax({
             url: '{action Button\Resource\Other\ShiftNextCheckDateButtonController::class, ['project_id' => $resource->getProject_id(), 'resource_id' => $resource->id, 'next_check_date' => 'now' ]}'
         });

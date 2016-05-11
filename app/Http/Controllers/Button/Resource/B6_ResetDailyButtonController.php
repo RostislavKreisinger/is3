@@ -20,6 +20,10 @@ class B6_ResetDailyButtonController extends Controller {
     
     
     protected function buttonAction() {
+        $user = \Auth::user();
+        if(!$user->can('project.resource.button.reset.daily')){
+            return;
+        }
         $projectId = Input::get('project_id');
         $resourceId = Input::get('resource_id');
         try{
