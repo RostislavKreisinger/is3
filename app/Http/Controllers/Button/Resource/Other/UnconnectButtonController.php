@@ -45,8 +45,9 @@ class UnconnectButtonController extends Controller {
                                 'active' => 3
                             ));
         }catch(Exception $e){
-            vd($e);
+            $this->getMessages()->addError('Something wrong');
         }
+        $this->getMessages()->addMessage('Resource was unconnected');
     }
 
 }

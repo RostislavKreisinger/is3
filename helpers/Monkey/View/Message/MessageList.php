@@ -103,12 +103,14 @@ class MessageList {
     }
     
     public function getAll() {
+        Session::put(MessageList::SESSION_NAME, null);
         return array_merge($this->getError(), $this->getWarning(), $this->getMessage());
     }
     
     public static function load() {
+        // Session::reflash();
         $serializedMessageList = Session::get(MessageList::SESSION_NAME, null);
-        Session::put(MessageList::SESSION_NAME, null);
+        // vd($serializedMessageList);
         if($serializedMessageList === null){
             return new MessageList();
         }

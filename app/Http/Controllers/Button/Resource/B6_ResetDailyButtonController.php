@@ -36,8 +36,9 @@ class B6_ResetDailyButtonController extends Controller {
                                 'ttl' => 5
                             ));
         }catch(Exception $e){
-            
+            $this->getMessages()->addError('Something wrong');
         }
+        $this->getMessages()->addMessage('Reset daily was success');
     }
 
 }

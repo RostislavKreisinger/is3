@@ -49,26 +49,7 @@ class ShiftNextCheckDateButtonController extends Controller {
                     $resourceSettingV2->save();
                 }
             }
-            /*
-            
-            $result = DB::connection('mysql-master-app')
-                            ->table('resource_setting_v2')
-                            ->where('project_id', '=', $projectId)
-                            ->where('resource_id', '=', $resourceId)
-                            ->update(array(
-                                'next_check_date' => $nextCheckDate
-                            ));
-            $result = DB::connection('mysql-master-app')
-                            ->table('resource_setting')
-                            ->where('project_id', '=', $projectId)
-                            ->where('resource_id', '=', $resourceId)
-                            ->update(array(
-                                'next_check_date' => $nextCheckDate
-                            ));
-             * 
-             */
         }catch(Exception $e){
-            vd($e);
         }
     }
 
