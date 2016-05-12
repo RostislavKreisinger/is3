@@ -45,9 +45,10 @@ class B5_ResetHistoryButtonController extends Controller {
                         'date_from' => $date_from->format('Y-m-d'),
                         'date_to' => $date_to->format('Y-m-d')
                     ));
-        } catch (Exception $e) {
+        }catch(Exception $e){
+            $this->getMessages()->addError('Something wrong');
         }
-        
+        $this->getMessages()->addMessage('Reset history was success');
     }
 
 }

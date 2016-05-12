@@ -38,6 +38,7 @@ use AuthenticatesAndRegistersUsers,
         $this->middleware($this->guestMiddleware(), ['except' => 'logout']);
     }
     
+   
     /**
      * Get a validator for an incoming registration request.
      *

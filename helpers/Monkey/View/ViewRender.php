@@ -9,7 +9,7 @@
 namespace Monkey\View;
 
 use Exception;
-use Illuminate\Contracts\Support\Renderable;
+use Monkey\View\Message\MessageList;
 use Monkey\View\View;
 
 
@@ -36,10 +36,14 @@ class ViewRender {
     private $body = null;
     private $head = null;
     
-    private $errors = array();
-    private $messages = array();
+    /**
+     *
+     * @var MessageList 
+     */
+    private $messages;
 
     protected function __construct($route) {
+        $this->messages = MessageList::load();
         $this->initView($route);
     }
   
@@ -47,24 +51,20 @@ class ViewRender {
         $route = $this->initRoute($route);
         $htmlPath = $this->findHtml($route);
         $this->baseLayout = new View($htmlPath);//  new View($this->getViewName('@html'));
-        $this->baseLayout->addParameter('errors', $this->errors);
         $this->baseLayout->addParameter('messages', $this->messages);
        
         $layoutPath = $this->findLayout($route);
         $this->layout = new View($layoutPath);
-        $this->layout->addParameter('errors', $this->errors);
         $this->layout->addParameter('messages', $this->messages);
         $this->baseLayout->addParameter('layout', $this->layout);
         
         
         $headPath = $this->findHead($route);
         $this->head = new View($headPath);
-        $this->head->addParameter('errors', $this->errors);
         $this->head->addParameter('messages', $this->messages);
         $this->baseLayout->addParameter('head', $this->head);
         
         $this->body = new View($route);
-        $this->body->addParameter('errors', $this->errors);
         $this->body->addParameter('messages', $this->messages);
         $this->layout->addParameter('body', $this->body);
          
@@ -187,5 +187,24 @@ class ViewRender {
         }
         return array_merge([$this->layoutsBasePath], $path, $name);
     }
+    
+    /**
+     * 
+     * @return MessageList
+     */
+    public function getMessages() {
+        return $this->messages;
+    }
+
+    /**
+     * 
+     * @param MessageList $messages
+     */
+    public function setMessages($messages) {
+        $this->messages = $messages;
+    }
+
+
+    
 
 }

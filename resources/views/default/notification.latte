@@ -1,0 +1,25 @@
+<script>
+    $(document).ready(function () {
+        $.notifyDefaults({
+            showProgressbar: false,
+            delay: 1000,
+            mouse_over: 'pause',
+            placement: {
+                from: "top",
+                align: "center"
+            },
+            animate: {
+                enter: 'animated fadeInDown',
+                exit: 'animated fadeOutUp'
+            }
+        });
+
+    {foreach $messages->getAll() as $message}
+        $.notify({
+            message: '{$message|noescape}'
+        }, {
+            type: {$message->getClass()}
+        });
+    {/foreach}
+    });
+</script>
