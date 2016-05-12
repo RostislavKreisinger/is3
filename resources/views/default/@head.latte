@@ -4,7 +4,12 @@
 <meta name="description" content="">
 <meta name="author" content="">
 
-<title>Import support</title>
+<title>
+    {if isset($project)}
+        PID {$project->id} UID {$project->user_id} 
+    {/if}
+    Import support
+</title>
 
 <!-- Bootstrap Core CSS -->
 {*
