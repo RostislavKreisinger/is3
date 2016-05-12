@@ -2,6 +2,14 @@
     {view 'default.views.menu'}
 
     <div id="page-wrapper">
+        <div class="row messages" style="padding-top: 10px;">
+            <div class="col-lg-12 col-md-12">
+                <div n:foreach="$messages->getAll() as $message" class="alert alert-{$message->getClass()} alert-dismissable">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    {$message|noescape}
+                </div>              
+            </div>
+        </div>
         <div class="row breadcrumbs">
             <div class="col-lg-12 col-md-12">
                 <span n:foreach="$breadcrumbs as $key => $breadcrumb">
