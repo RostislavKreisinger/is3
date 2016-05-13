@@ -123,12 +123,14 @@ class ResourceV2 extends Resource {
         $connectionDetail = array();
 
         $enableInfo = [
+            'id' => function($value){ return $value;},
             'url' => function($value){ return $value;},
             
             'login' => function($value){ return $value;},
             'username' => function($value){ return $value;},
             
             'password' => function($value){ return decryptWithPrivate($value);},
+            'access_token' => function($value){ return decryptWithPrivate($value);},
             
             'custom_setting' => function($value){ return $value;},
         ];
