@@ -66,7 +66,11 @@ class DetailController extends Controller {
             $stack = $resource->getStack();
         }
 
-        $connectionDetail = $resource->getConnectionDetail();
+        $connectionDetail = array();
+        if($this->getUser()->can('project.resource.connection_detail')){
+            $connectionDetail = $resource->getConnectionDetail();
+        }
+        
 
         $this->getView()->addParameter('stack', $stack);
         $this->getView()->addParameter('project', $project);

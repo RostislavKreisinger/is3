@@ -11,6 +11,7 @@
             </div>
         </div>
         {view $body}
+
     </div>
 </div>
 {view 'default.scripts'}
@@ -18,5 +19,21 @@
 <script>
     $("select#acl").treeMultiselect({
         sectionDelimiter: '.'
+    });
+
+
+</script>
+<script n:if="$user->isAdmin() && isset($visitResult)">
+    $(function () {
+        Morris.Line({
+            element: 'morris-area-chart',
+            data: {$visitResult|noescape},
+            xkey: 'date_id',
+            ykeys: ["u_{implode('", "u_', array_keys($userList))|noescape}"],
+            labels: ["{implode('","', $userList)|noescape}"],
+            pointSize: 2,
+            hideHover: 'auto',
+            resize: true
+        });
     });
 </script>

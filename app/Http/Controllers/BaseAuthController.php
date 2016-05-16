@@ -54,6 +54,20 @@ class BaseAuthController extends BaseController {
      * @return Controller
      */
     public function setUser(User $user) {
+        $dth = \Monkey\DateTime\DateTimeHelper::getCloneSelf();
+        $userLastVisit = new \Monkey\DateTime\DateTimeHelper($user->last_visit);
+        
+        if($userLastVisit->getTimestamp() < ($dth->getTimestamp()-60)){
+            $user->last_visit = $dth->mysqlFormat();
+            $user->save();
+            $visit = new \App\Model\ImportSupport\Visit();
+            $visit->user_id = $user->id;
+            $visit->visited_at = $dth->mysqlFormat();
+            $visit->save();
+        }
+        
+       
+        
         $this->user = $user;
         return $this;
     }

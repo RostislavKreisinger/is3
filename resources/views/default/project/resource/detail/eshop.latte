@@ -54,7 +54,7 @@
     <div class="col-lg-6 col-md-6">
         
         <ul class="nav nav-tabs">
-            <li class="active">
+            <li class="active"  n:if="count($connectionDetail)">
                 <a href="#detail" data-toggle="tab" aria-expanded="true">Connection detail</a>
             </li>
             <li class="">
@@ -62,7 +62,7 @@
             </li>
         </ul>        
         <div class="tab-content">
-            <div class="tab-pane active in" id="detail">
+            <div class="tab-pane active in" id="detail"  n:if="count($connectionDetail)">
                 {if Monkey\View\ViewFinder::existView("default.project.resource.detail.eshop.$eshopType->code")}
                     {view "default.project.resource.detail.eshop.$eshopType->code"}
                 {else}
