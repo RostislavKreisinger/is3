@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-12 col-lg-6">
         <table class="table table-auto-width table-striped">
             <thead>
                 <tr>
@@ -10,16 +10,19 @@
                 </tr>
             </thead>
             <tbody>
-                <tr n:foreach="$users as $user">
-                    <td>{n $user->id}</td>
-                    <td>{n $user->email}</td>
-                    <td>{n $user->name}</td>
+                <tr n:foreach="$users as $item">
+                    <td>{n $item->id}</td>
+                    <td>{n $item->email}</td>
+                    <td>{n $item->name}</td>
                     <td>
-                        <a href="{action 'Admin\User\DetailController', ['user_id' => $user->id]}"> <i class="fa fa-pencil-square" style="font-size: 1.5em;"></i> </a>
+                        <a href="{action 'Admin\User\DetailController', ['user_id' => $item->id]}"> <i class="fa fa-pencil-square" style="font-size: 1.5em;"></i> </a>
                     </td>
                 </tr>
-                
+
             </tbody>
         </table>
+    </div>
+    <div class="col-md-12 col-lg-6">
+        <div n:if="$user->isAdmin()" id="morris-area-chart"></div>
     </div>
 </div>
