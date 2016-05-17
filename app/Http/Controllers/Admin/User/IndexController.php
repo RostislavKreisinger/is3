@@ -33,7 +33,7 @@ class IndexController extends Controller {
         $visitResult = array_values($visitResult);
         $userList = array();
         foreach($users as $user){
-            $userList[$user->id] = $user->email;
+            $userList[$user->id] = $user->name;
         }
         View::share('visitResult', json_encode($visitResult));
         View::share('userList', $userList);
