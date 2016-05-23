@@ -25,7 +25,7 @@ class DetailController extends Controller {
     public function getIndex($projectId) {
         $this->project = $project = Project::find($projectId);
         $this->getView()->addParameter('project', $project);
-        
+        $this->getView()->addParameter('autoreports', $project->getAutoReports());
         $this->prepareMenu($project);
     }
 
