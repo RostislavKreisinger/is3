@@ -20,11 +20,14 @@ class IndexController extends Controller {
    
     
     public function getIndex() {
+        
         View::share('invalidProjects', $this->getInvalidProjects());
         View::share('newProjects', $this->getNewProjects());
         View::share('dailyProjects', $this->getDailyProjects());
         View::share('historyProjects', $this->getHistoryProjects());
         View::share('automattestProjects', $this->getAutomattestProjects());
+        
+        $this->getView()->addParameter('autoreportProjects', ProjectRepository::getAutoreportInvalidRecord());
     }
     
     

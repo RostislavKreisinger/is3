@@ -17,6 +17,12 @@ Route::group(['middleware' => 'web'], function () {
     
     Route::group(['middleware' => 'auth'], function (){
         Route::group(['prefix' => 'button'], function(){
+            Route::group(['prefix' => 'project'], function(){
+                Route::group(['prefix' => 'autoreport'], function(){
+                    Route::controller('/add-autoreport-record', App\Http\Controllers\Button\Project\Autoreport\AddAutoreportRecordButtonController::class);
+                    Route::controller('/activate-autoreport-record', App\Http\Controllers\Button\Project\Autoreport\ActivateAutoreportRecordButtonController::class);
+                });
+            });
             Route::group(['prefix' => 'resource'], function(){
                 Route::group(['prefix' => 'other'], function(){
                     Route::controller('/unconnect', App\Http\Controllers\Button\Resource\Other\UnconnectButtonController::class);
