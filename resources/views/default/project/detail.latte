@@ -49,38 +49,59 @@
         </div>
     </div>
     <div class="col-lg-6 col-md-6">
-        
-        
         <!-- Nav tabs -->
-        {*
         <ul class="nav nav-tabs">
-            <li class="active"><a href="#tariff" data-toggle="tab" aria-expanded="true">Tariff</a>
-            </li>
-            <li class=""><a href="#other" data-toggle="tab" aria-expanded="false">Other</a>
+            <li class="active"><a href="#autoreport" data-toggle="tab" aria-expanded="true">Autoreport</a>
             </li>
         </ul>
 
         <!-- Tab panes -->
         <div class="tab-content">
-            <div class="tab-pane active in" id="tariff">
-                <h4>Home Tab</h4>
+            <div class="tab-pane active in" id="autoreport">
+                <h4>Autoreport</h4>
+                <div></div>
                 <div class="table-responsive">
-                    <table class="table table-hover">
-                        <tbody>
+                    <div n:if="!count($autoreports)">
+                        Missing autoreport record <br>
+                        <a href="{action 'Button\Project\Autoreport\AddAutoreportRecordButtonController', ['project_id' => $project->id]}" class="btn btn-outline btn-success">Add record</a>
+                    </div>
+                    <table n:if="count($autoreports)" class="table table-hover">
+                        {php $error = '';}
+                        <thead>
                             <tr>
-                                <td>Tariff id</td>
-                                <td>{$project->id}</td>
+                                <th>#</th>
+                                <th>Next send</th>
+                                <th>Active</th>
+                                <th>Daily</th>
+                                <th>Weekly</th>
+                                <th>Monthly</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr n:foreach="$autoreports as $autoreport">
+                                <td>{n $autoreport->id}</td>
+                                <td>{n $autoreport->date}</td>
+                                <td>{n $autoreport->active}</td>
+                                <td>{n $autoreport->allowDaily}</td>
+                                <td>{n $autoreport->allowWeekly}</td>
+                                <td>{n $autoreport->allowMonthly}</td>
+                                <td>
+                                    <a n:if="$autoreport->active === 3" href="{action 'Button\Project\Autoreport\ActivateAutoreportRecordButtonController', ['autoreport_id' => $autoreport->id]}" class="btn btn-outline btn-default">
+                                        <i class="fa fa-power-off"></i>
+                                    </a>
+                                </td>
+                                {php $error .= $autoreport->errormessage;}
                             </tr>
                         </tbody>
                     </table>
+                            <div class="error" style="color: #F00">
+                        {$error}
+                    </div>
                 </div>
             </div>
-            <div class="tab-pane" id="other">
-                <h4>Profile Tab</h4>
-                <p>test</p>
-            </div>
         </div>
-        *}
+        
     </div>
 </div>
 

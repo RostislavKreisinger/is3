@@ -26,8 +26,9 @@ class Project extends Model {
         return $user; //  $this->hasOne(User::class)->first();
     }
     
-    public function getAutomattestInvalidProject() {
-        // $this->join('resource_setting', $one, $operator, $two)
+    public function getAutoReports() {
+        return $this->hasMany(AutoReportPool::class)->get();
     }
-
+    
+   
 }

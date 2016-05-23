@@ -102,6 +102,30 @@ class ProjectRepository {
         return $automattestInvalidProjects;
     }
     
+    public static function getAutoreportInvalidRecord() {
+        $builder = DB::connection('mysql-select-app')->table('monkeydata_pools.auto_report_pool as ar')
+                ->join('monkeydata.project as p', 'ar.project_id', '=', 'p.id')
+                ->select(['p.id as id', 'p.name as name'])
+                ->whereNull('p.deleted_at')
+                ->join('monkeydata.user as u', 'p.user_id', '=', 'u.id')
+                ->whereNull('u.deleted_at')
+                ->where('u.test_user', '=', 0)
+                ->where(function(Builder $where){
+                    $where->where('c.remaining_orders', '>', 0)->orWhereNull('c.remaining_orders');
+                })
+                ->join('monkeydata.client as c', 'u.id', '=', 'c.user_id')
+                ->whereRaw('DATE_ADD(`c`.`tariff_expired`, INTERVAL ' . static::DAYS_AFTER_TARIFF_EXPIRATE . ' DAY) > NOW()')
+                ->where(function(Builder $where){
+                    $where->where('ar.active', '=', 3)->orWhere(function(Builder $where2){
+                        $where2->where('ar.active', '=', '1')->whereRaw('now() > DATE_ADD(ar.date,INTERVAL +25 HOUR)');
+                    });
+                })
+        ;
+//        vdQuery($builder);
+//        vde($builder->get());
+        return $builder->get();
+    }
+    
     
     
     
