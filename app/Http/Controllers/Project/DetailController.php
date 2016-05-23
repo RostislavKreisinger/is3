@@ -10,6 +10,7 @@ namespace App\Http\Controllers\Project;
 
 use App\Http\Controllers\Project\Controller;
 use App\Http\Controllers\User\DetailController as UserDetailController;
+use App\Model\Currency;
 use Monkey\Breadcrump\BreadcrumbItem;
 use Monkey\ImportSupport\Project;
 
@@ -25,6 +26,11 @@ class DetailController extends Controller {
     public function getIndex($projectId) {
         $this->project = $project = Project::find($projectId);
         $this->getView()->addParameter('project', $project);
+        $currency = Currency::find($project->currency_id);
+        if($currency){
+            $currency = $currency->code;
+        }
+        $this->getView()->addParameter('currencyCode', $currency);
         $this->getView()->addParameter('autoreports', $project->getAutoReports());
         $this->prepareMenu($project);
     }
