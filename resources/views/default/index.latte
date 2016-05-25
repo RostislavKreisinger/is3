@@ -141,7 +141,8 @@
         <div class="panel panel-warning panel-error-project-list">
             <div class="panel-heading">
                 <i class="fa fa-bell fa-fw"></i> 
-                Currency
+                <a href="{action 'Currency\IndexController'}">Currency</a>
+                ({count($currencies)})
             </div>
             <div class="panel-body">
                 <div class="dataTable_wrapper">
@@ -153,12 +154,10 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {*
-                            <tr n:foreach="$autoreportProjects as $project">
-                                <td><a href="{action 'Project\DetailController', ['project_id' => $project->id]}">{$project->id}</a></td>
-                                <td>{$project->name} </td>
+                            <tr n:foreach="$currencies as $currency">
+                                <td><a href="{action 'Currency\IndexController'}">{n $currency->id}</a></td>
+                                <td>{n $currency->ISO3} </td>
                             </tr>
-                            *}
                         </tbody>
                     </table>
                 </div>

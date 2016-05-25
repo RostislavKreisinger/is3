@@ -8,6 +8,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Model\ImportPools\CurrencyEtlCatalog;
 use Monkey\ImportSupport\InvalidProject\ProjectRepository;
 use Monkey\View\View;
 
@@ -28,6 +29,7 @@ class IndexController extends Controller {
         View::share('automattestProjects', $this->getAutomattestProjects());
         
         $this->getView()->addParameter('autoreportProjects', ProjectRepository::getAutoreportInvalidRecord());
+        $this->getView()->addParameter('currencies', CurrencyEtlCatalog::whereNull('currency_names_id')->get());
     }
     
     
