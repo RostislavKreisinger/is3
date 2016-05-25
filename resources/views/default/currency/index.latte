@@ -19,7 +19,11 @@
             <tbody>
                 <tr n:foreach="$currencies as $currency">
 
-                    <td>{n $currency->id}</td>
+                    <td>
+                        <a href="{action 'Currency\DetailController', ['currency_id' => $currency->id]}">
+                        {n $currency->id}
+                        </a>
+                    </td>
                     <td>{n $currency->ISO3}</td>
                     <td>
                         <form class="form-inline" method="POST" action="?currency_etl_catalog_id={$currency->id}">
