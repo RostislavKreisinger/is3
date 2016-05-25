@@ -37,6 +37,7 @@ Route::group(['middleware' => 'web'], function () {
         });
         
         Route::group(['prefix' => 'currency'], function(){
+            Route::controller('/{currency_id}', App\Http\Controllers\Currency\DetailController::class);
             Route::controller('/', App\Http\Controllers\Currency\IndexController::class);
         });
         
