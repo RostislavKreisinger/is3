@@ -1,0 +1,43 @@
+
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">Dashboard</h1>
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+<!-- /.row -->
+<div class="row">
+    <div class="col-lg-12 col-md-12">
+        <table class="table table-striped table-bordered table-hover" style="width: auto;">
+            <thead>
+                <tr>
+                    <td>#</td>
+                    <td>Feed currency name</td>
+                    <td>Currency name</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr n:foreach="$currencies as $currency">
+
+                    <td>{n $currency->id}</td>
+                    <td>{n $currency->ISO3}</td>
+                    <td>
+                        <form class="form-inline" method="POST" action="?currency_etl_catalog_id={$currency->id}">
+                            {csrf_field()|noescape}
+                            <div class="form-group form-group-sm">
+                                <select name="currency_name_id" class="form-control">
+                                    <option n:foreach="$currencyList as $item" value="{$item->id}">{$item->code}</option>
+                                </select>
+                            </div>
+                            <div class="form-group form-group-sm">
+                                <input type="submit" class="form-control" value="Assign">
+                            </div> 
+                        </form>
+                    </td>
+
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+

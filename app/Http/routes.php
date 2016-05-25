@@ -36,6 +36,10 @@ Route::group(['middleware' => 'web'], function () {
             });
         });
         
+        Route::group(['prefix' => 'currency'], function(){
+            Route::controller('/', App\Http\Controllers\Currency\IndexController::class);
+        });
+        
         Route::group(['prefix' => 'database'], function(){
             Route::controller('/database-selector/{project_id?}/{resource_id?}', App\Http\Controllers\Database\DatabaseSelectorController::class);
             Route::controller('/show-import-data/{project_id}/{resource_id}/{table_id?}/{count?}', App\Http\Controllers\Database\ShowImportDataController::class);
