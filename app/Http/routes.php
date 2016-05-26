@@ -29,6 +29,9 @@ Route::group(['middleware' => 'web'], function () {
                     Route::controller('/shift-next-check-date', App\Http\Controllers\Button\Resource\Other\ShiftNextCheckDateButtonController::class);
                     Route::controller('/update-orders', App\Http\Controllers\Button\Resource\Other\UpdateOrdersButtonController::class);
                 });
+                Route::group(['prefix' => 'other'], function(){
+                    Route::controller('/error-send', App\Http\Controllers\Button\Resource\Error\SendErrorTestButtonController::class);
+                });
                 
                 Route::controller('/b1-reset-automat-test', App\Http\Controllers\Button\Resource\B1_ResetAutomatTestButtonController::class);
                 Route::controller('/b5-reset-history', App\Http\Controllers\Button\Resource\B5_ResetHistoryButtonController::class);
