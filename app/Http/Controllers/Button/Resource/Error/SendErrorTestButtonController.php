@@ -35,7 +35,7 @@ class SendErrorTestButtonController extends Controller {
         try{
             $result = DB::connection('mysql-app-support')
                             ->table('crm_tickets')
-                            ->where('unique_action', '=', '$key')
+                            ->where('unique_action', '=', $key)
                             ->first();
             if($result === null){
                 $result = DB::connection('mysql-app-support')

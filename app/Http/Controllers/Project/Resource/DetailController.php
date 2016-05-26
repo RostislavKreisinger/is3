@@ -44,7 +44,7 @@ class DetailController extends Controller {
         $this->project = $project = Project::find($projectId);
         $this->resource = $resource = $project->getResource($resourceId);
         
-        $resourceErrors = $resource->getResourceErrors();
+        $resourceErrors = $resource->getResourceErrors($project->id);
         
         $viewName = 'default.project.resource.detail.' . $resource->codename;
         if (ViewFinder::existView($viewName)) {

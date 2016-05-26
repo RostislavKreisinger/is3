@@ -2,6 +2,8 @@
 
 namespace App\Model;
 
+use App\Model\ImportSupport\ResourceError;
+use DB;
 use Illuminate\Database\Eloquent\Builder;
 
 class Resource extends Model {
@@ -11,7 +13,6 @@ class Resource extends Model {
     protected $connection = 'mysql-master-app';
     protected $table = 'resource';
     protected $guarded = [];
-    
 
     protected static function boot() {
         parent::boot();
@@ -20,12 +21,23 @@ class Resource extends Model {
         });
     }
 
-    public function getResourceErrors() {
-        return $this->builderResourceErrors()->get();
+    public function getResourceErrors($projectId = null) {
+        $errors = $this->builderResourceErrors()->get();
+        if ($projectId !== null) {
+            foreach ($errors as &$error) {
+                $key = "project_{$projectId}_error_{$error->id}";
+                $result = DB::connection('mysql-app-support')
+                        ->table('crm_tickets')
+                        ->where('unique_action', '=', $key)
+                        ->first();
+                $error->sent = (bool) $result;
+            }
+        }
+        return $errors;
     }
 
     public function builderResourceErrors() {
-        return $this->hasMany(ImportSupport\ResourceError::class, 'resource_id');
+        return $this->hasMany(ResourceError::class, 'resource_id');
     }
 
 }
