@@ -7,16 +7,16 @@
             <strong><a href="{action 'User\DetailController@getIndex', ['user_id' => $project->getUser()->id ]}"> {$project->getUser()->id}</a></strong>
         </div>
     </div>
-        {*
+       
     <div class="row">
-        <div class="col-lg-2 col-md-2 col-sm-2">
-            CID
+        <div class="col-lg-4 col-md-4 col-sm-4">
+            C_ID
         </div>
-        <div class="col-lg-10 col-md-10 col-sm-10">
-            {$project->getUser()->getClient()->id}
+        <div class="col-lg-8 col-md-8 col-sm-8">
+            <strong><a href="{action 'User\DetailController@getIndex', ['user_id' => $project->getUser()->id ]}"> {$project->getUser()->getClient()->id}</a></strong>
         </div>
-    </div>
-        *}
+    </div> 
+        
     <div class="row">
         <div class="col-lg-4 col-md-4 col-sm-4">
             P_ID
