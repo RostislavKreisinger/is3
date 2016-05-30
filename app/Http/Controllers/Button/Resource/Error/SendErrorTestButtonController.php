@@ -30,7 +30,11 @@ class SendErrorTestButtonController extends Controller {
         $error = \App\Model\ImportSupport\ResourceError::find($errorId);
         $project = \App\Model\Project::find($projectId);
         $dth = new \Monkey\DateTime\DateTimeHelper();
-        $errorMessage = $error->error."<br><i>".$error->solution."</i>";
+        
+        
+        $errorMessage = "{$project->name} ({$project->id}) :: " 
+                        . "{$error->error}<br>"
+                        . "<i>{$error->solution}</i>";
         $key = "project_{$projectId}_error_{$errorId}";
         try{
             $result = DB::connection('mysql-app-support')
