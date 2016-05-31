@@ -29,11 +29,13 @@ class SendErrorTestButtonController extends Controller {
         
         $error = \App\Model\ImportSupport\ResourceError::find($errorId);
         $project = \App\Model\Project::find($projectId);
+        $resource = $error->getResource();
+        vde($resource);
         $dth = new \Monkey\DateTime\DateTimeHelper();
         
         
-        $errorMessage = "{$project->name} ({$project->id}) :: " 
-                        . "{$error->error}<br>"
+        $errorMessage = "{$project->name} ({$project->id}) :: {$resource->name} " 
+                        . "<b>{$error->error}</b><br>"
                         . "<i>{$error->solution}</i>";
         $key = "project_{$projectId}_error_{$errorId}";
         try{
