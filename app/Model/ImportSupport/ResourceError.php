@@ -11,7 +11,9 @@ class ResourceError extends Model {
     protected $guarded = [];
 
         
-            
+    public function getResource() {
+        return \App\Model\Resource::find($this->resource_id)->first();
+    }
     
 
 }
