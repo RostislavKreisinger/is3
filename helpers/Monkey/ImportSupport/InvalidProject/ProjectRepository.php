@@ -294,7 +294,8 @@ class ProjectRepository {
     
     public static function getDailyPool() {
         $data = DB::connection('mysql-import-pools')->table('monkeydata_pools.import_prepare_new as ips')
-                ->whereRaw('DATEDIFF(NOW(), created_at) > 0')
+                // ->whereRaw('DATEDIFF(NOW(), created_at) > 0')
+                ->whereRaw('NOW() > created_at')
                 ->select(['*', DB::raw('DATEDIFF(NOW(), created_at) AS `out`'),DB::raw('DATEDIFF(NOW(), created_at) AS `all`')])
                 ->whereIn('active', [1, 2])
                 ->where('ttl', '>', 0)
