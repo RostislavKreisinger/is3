@@ -34,7 +34,7 @@ class SendErrorTestButtonController extends Controller {
         $dth = new \Monkey\DateTime\DateTimeHelper();
         
         
-        $errorMessage = "{$project->name} ({$project->id}) :: {$resource->name} " 
+        $errorMessage = "{$project->name} ({$project->id}) :: {$resource->name} <br>" 
                         . "<b>{$error->error}</b><br>"
                         . "<i>{$error->solution}</i>";
         $key = "project_{$projectId}_error_{$errorId}";
