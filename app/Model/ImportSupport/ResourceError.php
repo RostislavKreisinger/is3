@@ -12,7 +12,7 @@ class ResourceError extends Model {
 
         
     public function getResource() {
-        return \App\Model\Resource::find($this->resource_id)->first();
+        return \App\Model\Resource::find($this->resource_id); // ->first();
     }
     
 
