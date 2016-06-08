@@ -17,8 +17,12 @@ class Project extends Model {
         return $this->belongsToMany(Resource::class, "resource_setting", "project_id", "resource_id")->where('active', '!=', 3);
     }
     
-    public function getResourceSettings() {
-        return $this->hasMany(ResourceSetting::class, "resource_setting", "project_id")->where('active', '!=', 3);
+    public function getResourceSettings($resource_id = null) {
+        $builder = $this->hasMany(ResourceSetting::class)->where('active', '!=', 3);
+        if($resource_id){
+            $builder->where('resource_id', '=', $resource_id);
+        }
+        return $builder;
     }
     
     public function getUser() {

@@ -30,7 +30,8 @@ class SendErrorTestButtonController extends Controller {
         $error = \App\Model\ImportSupport\ResourceError::find($errorId);
         $project = \App\Model\Project::find($projectId);
         $resource = $error->getResource();
-        // vde($resource);
+        $rs = $project->getResourceSettings($resource->id)->first();
+        
         $dth = new \Monkey\DateTime\DateTimeHelper();
         
         
@@ -39,6 +40,7 @@ class SendErrorTestButtonController extends Controller {
                         . "<i>{$error->solution}</i>";
         $key = "project_{$projectId}_error_{$errorId}";
         try{
+            
             $result = DB::connection('mysql-app-support')
                             ->table('crm_tickets')
                             ->where('unique_action', '=', $key)
@@ -57,6 +59,12 @@ class SendErrorTestButtonController extends Controller {
                                     'unique_action' => $key,
                                     'ticket_type_id' => 5 
                                 ));
+                $res = DB::connection('mysql-import-support')
+                        ->table('resource_setting_resource_error')
+                        ->insert(array(
+                                'resource_setting_id' => $rs->id,
+                                'resource_error_id' => $error->id
+                        ));
             }
         }catch(Exception $e){
             $this->getMessages()->addError('Something wrong');

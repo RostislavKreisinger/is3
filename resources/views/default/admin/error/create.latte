@@ -4,9 +4,13 @@
             <div class="col-md-12">
                 <form method="POST" >
                     {csrf_field()|noescape}
-                    <div class="form-group">
+                    {*<div class="form-group">
                         <label>Btf for user</label>
                         <input class="form-control" name="btf" placeholder="Btf">
+                    </div>*}
+                    <div class="form-group">
+                        <label>Code</label>
+                        <input name="code" placeholder="Intercome code" class="form-control">
                     </div>
                     <div class="form-group">
                         <label>Error</label>
