@@ -13,7 +13,9 @@ class DetailController extends Controller {
             return redirect()->back();
         }
         $error = ResourceError::find($error_id);
-        $this->getView()->addParameter('error',$error);
+        $resource = $error->getResource();
+        $this->getView()->addParameter('error', $error);
+        $this->getView()->addParameter('resource', $resource);
     }
     
     public function postIndex($error_id) {
@@ -21,9 +23,11 @@ class DetailController extends Controller {
             return redirect()->back();
         }
         $error = ResourceError::find($error_id);
-        $solution = Input::get('solution', '');
+        $solution = Input::get('solution', null);
         $error->solution = $solution;
+        $error->code = Input::get('code', null);
         $error->save();
+        return redirect()->back();
     }
 
 }
