@@ -23,6 +23,7 @@ class CreateController extends Controller {
         $error->btf_for_user = Input::get('btf', '');
         $error->error = Input::get('error', '');
         $error->solution = Input::get('solution', NULL);
+        $error->code = Input::get('code', NULL);
         $error->resource_id = $resource_id;
         $error->save();
         

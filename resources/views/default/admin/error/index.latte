@@ -8,7 +8,7 @@
                     <th>Id</th>
                     <th>error</th>
                     <th>solution</th>
-                    <th>btf_for_user</th>
+                    <th>intercom code</th>
                     <th>
                         <a n:if="$user->can('project.resource.error.add')" href="{action 'Admin\Error\CreateController', ['resource_id' => $resource_id]}"> <i class="fa fa-plus"></i> </a>
                     </th>
@@ -19,7 +19,7 @@
                     <td>{n $error->id}</td>
                     <td>{n $error->error}</td>
                     <td>{n $error->solution}</td>
-                    <td>{n $error->btf_for_user}</td>
+                    <td>{n $error->code}</td>
                     <td>
                         <a n:if="$user->can('project.resource.error.edit')" href="{action 'Admin\Error\DetailController', ['error_id' => $error->id]}"> <i class="fa fa-pencil-square" style="font-size: 1.5em;"></i> </a>
                     </td>
