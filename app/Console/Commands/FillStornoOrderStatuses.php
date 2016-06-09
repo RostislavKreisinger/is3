@@ -37,7 +37,7 @@ class FillStornoOrderStatuses extends Command
      */
     public function handle()
     {
-        $result = \DB::connection('mysql-import-dw')->select("SELECT * FROM information_schema.TABLES WHERE TABLE_SCHEMA = 'monkeydata_import_dw' AND TABLE_NAME LIKE 'd_eshop_catalog_%'");
+        $result = \DB::connection('mysql-select-import')->select("SELECT * FROM information_schema.TABLES WHERE TABLE_SCHEMA = 'monkeydata_import_dw' AND TABLE_NAME LIKE 'd_eshop_catalog_%'");
         $this->info('Tables: '.count($result));
         $added_statuses = 0;
         foreach($result as $table){
