@@ -30,6 +30,7 @@ class IndexController extends Controller {
         
         $this->getView()->addParameter('autoreportProjects', ProjectRepository::getAutoreportInvalidRecord());
         $this->getView()->addParameter('currencies', CurrencyEtlCatalog::whereNull('currency_names_id')->get());
+        $this->getView()->addParameter('stornoOrderStatuses', \App\Model\ImportPools\StornoOrderStatus::getAllUnsolvedStornoOrderStatuses()->get());
     }
     
     

@@ -30,17 +30,19 @@
                     </td>
                     <td>{n $stornoOrderStatus->name}</td>
                     <td>
-                        <form class="form-inline" method="POST" action="?storno_order_status_id={$stornoOrderStatus->id}">
+                        <form class="form-inline" style="display: inline-block;" method="POST" action="?storno_order_status_id={$stornoOrderStatus->id}">
                             {csrf_field()|noescape}
+                            <input name="active" value="1" hidden="">
                             <div class="form-group form-group-sm">
-                                <select name="active" class="form-control">
-                                    <option value="0"></option>
-                                    <option value="1">Povolit</option>
-                                    <option value="2">Zakazat</option>
-                                </select>
-                            </div>
+                                <input type="submit" class="form-control btn-success" value="Povolit">
+                            </div> 
+                        </form>
+                            
+                        <form class="form-inline" style="display: inline-block;" method="POST" action="?storno_order_status_id={$stornoOrderStatus->id}">
+                            {csrf_field()|noescape}
+                            <input name="active" value="2" hidden="">
                             <div class="form-group form-group-sm">
-                                <input type="submit" class="form-control" value="Assign">
+                                <input type="submit" class="form-control btn-danger" value="Zakazat">
                             </div> 
                         </form>
                     </td>
