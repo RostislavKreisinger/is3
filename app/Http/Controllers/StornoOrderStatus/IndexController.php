@@ -29,6 +29,9 @@ class IndexController extends Controller {
     }
 
     public function postIndex() {
+        if (!$this->can('storno-order-statuses.update')) {
+            return $this->redirectToRoot();
+        }
         
         $storno_order_status_id = Input::get('storno_order_status_id');
         $active = Input::get('active', 0);
