@@ -30,21 +30,23 @@
                     </td>
                     <td>{n $stornoOrderStatus->name}</td>
                     <td>
-                        <form class="form-inline" style="display: inline-block;" method="POST" action="?storno_order_status_id={$stornoOrderStatus->id}">
-                            {csrf_field()|noescape}
-                            <input name="active" value="1" hidden="">
-                            <div class="form-group form-group-sm">
-                                <input type="submit" class="form-control btn-success" value="Povolit">
-                            </div> 
-                        </form>
-                            
-                        <form class="form-inline" style="display: inline-block;" method="POST" action="?storno_order_status_id={$stornoOrderStatus->id}">
-                            {csrf_field()|noescape}
-                            <input name="active" value="2" hidden="">
-                            <div class="form-group form-group-sm">
-                                <input type="submit" class="form-control btn-danger" value="Zakazat">
-                            </div> 
-                        </form>
+                        <div n:if="$user->can('storno-order-statuses.update')">
+                            <form class="form-inline" style="display: inline-block;" method="POST" action="?storno_order_status_id={$stornoOrderStatus->id}">
+                                {csrf_field()|noescape}
+                                <input name="active" value="1" hidden="">
+                                <div class="form-group form-group-sm">
+                                    <input type="submit" class="form-control btn-success" value="Povolit">
+                                </div> 
+                            </form>
+
+                            <form class="form-inline" style="display: inline-block;" method="POST" action="?storno_order_status_id={$stornoOrderStatus->id}">
+                                {csrf_field()|noescape}
+                                <input name="active" value="2" hidden="">
+                                <div class="form-group form-group-sm">
+                                    <input type="submit" class="form-control btn-danger" value="Zakazat">
+                                </div> 
+                            </form>
+                        </div>
                     </td>
                 </tr>
             </tbody>
