@@ -7,7 +7,7 @@
             <strong><a href="{action 'User\DetailController@getIndex', ['user_id' => $project->getUser()->id ]}"> {$project->getUser()->id}</a></strong>
         </div>
     </div>
-       
+
     <div class="row">
         <div class="col-lg-4 col-md-4 col-sm-4">
             C_ID
@@ -16,7 +16,7 @@
             <strong><a href="{action 'User\DetailController@getIndex', ['user_id' => $project->getUser()->id ]}"> {$project->getUser()->getClient()->id}</a></strong>
         </div>
     </div> 
-        
+
     <div class="row">
         <div class="col-lg-4 col-md-4 col-sm-4">
             P_ID
@@ -25,4 +25,14 @@
             <strong><a href="{action 'Project\DetailController@getIndex', ['user_id' => $project->id ]}"> {$project->id}</a></strong>
         </div>
     </div> 
+
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12">
+            <a style="margin-top: 10px; font-weight: bold; display: inline-block;" href="https://app.monkeydata.com/admin/user/login?sid={id2alpha($user->id)}" target="_blank">
+                login as
+            </a>
+        </div>
+    </div> 
+
+
 </li>
