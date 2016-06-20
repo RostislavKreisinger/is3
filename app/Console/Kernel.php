@@ -5,16 +5,17 @@ namespace App\Console;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
-class Kernel extends ConsoleKernel
-{
+class Kernel extends ConsoleKernel {
+
     /**
      * The Artisan commands provided by your application.
      *
      * @var array
      */
     protected $commands = [
-        Commands\FillStornoOrderStatuses::class
-        // Commands\Inspire::class,
+        Commands\FillStornoOrderStatuses::class,
+        Commands\GaDeleteAndStartHistory::class
+            // Commands\Inspire::class,
     ];
 
     /**
@@ -23,10 +24,10 @@ class Kernel extends ConsoleKernel
      * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
      * @return void
      */
-    protected function schedule(Schedule $schedule)
-    {
-        
+    protected function schedule(Schedule $schedule) {
+
         // $schedule->command('inspire')
         //          ->hourly();
     }
+
 }
