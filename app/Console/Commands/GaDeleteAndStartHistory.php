@@ -104,7 +104,8 @@ class GaDeleteAndStartHistory extends Command {
             foreach ($clientTables as $table) {
                 try {
                     // DB::connection('mysql-import-dw')->table($table)->delete();
-                    DB::connection('mysql-import-dw')->query("DROP TABLE {$table}");
+                    // DB::connection('mysql-import-dw')->query("DROP TABLE {$table}");
+                    DB::connection('mysql-import-dw')->statement("DROP TABLE {$table}");
                 } catch (Exception $e) {
                     $this->warn("Table '{$table}' not exist.");
                 }
@@ -123,7 +124,7 @@ class GaDeleteAndStartHistory extends Command {
                         'user_id' => $user_id,
                         'btf_message' => 'ga_import_delete_data_and_start_download_history',
                         'important' => 0,
-                        'posted' => 1,
+                        'posted' => 0,
                         'status' => 'unread',
                         'icon_class' => 'info',
                         'created_at' => $now,
