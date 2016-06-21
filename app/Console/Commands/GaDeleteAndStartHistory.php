@@ -14,7 +14,7 @@ class GaDeleteAndStartHistory extends Command {
      *
      * @var string
      */
-    protected $signature = 'md:GaDeleteAndStartHistory';
+    protected $signature = 'md:GaDeleteAndStartHistory {client_id?}';
 
     /**
      * The console command description.
@@ -38,10 +38,7 @@ class GaDeleteAndStartHistory extends Command {
      * @return mixed
      */
     public function handle() {
-        $value = $this->ask("What type of start \n"
-                . "1 - platici \n"
-                . "2 - free \n"
-                . "3 - other", 1);
+        $client_id = $this->argument('client_id');
 
         $query = DB::connection('mysql-master-app')
                 ->table('resource_setting_v2 as rs')
@@ -51,23 +48,38 @@ class GaDeleteAndStartHistory extends Command {
                 ->where('rs.resource_id', '=', 9)
                 ->where('rs.active', '=', 1)
                 ->whereNotNull('tariff_id');
+        
+        if(empty($client_id)){
+            $value = $this->ask("What type of start \n"
+                    . "1 - platici \n"
+                    . "2 - free \n"
+                    . "3 - other", 1);
 
-        switch ($value) {
-            case 1:
-                $query->where('tariff_id', '>', 1001);
-                break;
-            case 2:
-                $query->where('tariff_id', '=', 1001);
-                break;
-            case 3:
-                $query->where('tariff_id', '=', 1000);
-                break;
-            default :
-                $this->error('Wrong start type!');
-                break;
+            switch ($value) {
+                case 1:
+                    $query->where('tariff_id', '>', 1001);
+                    break;
+                case 2:
+                    $query->where('tariff_id', '=', 1001);
+                    break;
+                case 3:
+                    $query->where('tariff_id', '=', 1000);
+                    break;
+                default :
+                    $this->error('Wrong start type!');
+                    break;
+            }
+        }else{
+            $query->where('c.id', '=', $client_id);
         }
+        $data = $query->get();
+        
+        if(!count($data)){
+            $this->error('Any client found.');
+        }
+        
         $clients = array();
-        foreach ($query->get() as $row) {
+        foreach ($data as $row) {
             if (!isset($clients[$row->client_id])) {
                 $clients[$row->client_id] = array();
             }
