@@ -103,9 +103,10 @@ class GaDeleteAndStartHistory extends Command {
             }
             foreach ($clientTables as $table) {
                 try {
-                    DB::connection('mysql-import-dw')->table($table)->delete();
+                    // DB::connection('mysql-import-dw')->table($table)->delete();
+                    DB::connection('mysql-import-dw')->query("DROP TABLE {$table}");
                 } catch (Exception $e) {
-                    
+                    $this->warn("Table '{$table}' not exist.");
                 }
             }
             foreach ($client as $project) {
