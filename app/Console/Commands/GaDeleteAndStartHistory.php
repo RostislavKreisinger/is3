@@ -14,7 +14,7 @@ class GaDeleteAndStartHistory extends Command {
      *
      * @var string
      */
-    protected $signature = 'md:GaDeleteAndStartHistory {client_id?}';
+    protected $signature = 'md:GaDeleteAndStartHistory {arg0?} {arg1?}';
 
     /**
      * The console command description.
@@ -38,7 +38,24 @@ class GaDeleteAndStartHistory extends Command {
      * @return mixed
      */
     public function handle() {
-        $client_id = $this->argument('client_id');
+        $this->info('call php artisan md:GaDeleteAndStartHistory [c=] [t=]');
+        
+        $params = [$this->argument('arg0'), $this->argument('arg1')];
+        $type = null;
+        $client_id = null;
+        foreach($params as $param){
+            switch (substr($param, 0, 1)){
+                case 't': 
+                    $type = explode('=', $param)[1];
+                    break;
+                case 'c': 
+                    $client_id = explode('=', $param)[1];
+                    break;
+            }
+        }
+        
+        
+       
 
         $query = DB::connection('mysql-master-app')
                 ->table('resource_setting_v2 as rs')
@@ -50,12 +67,14 @@ class GaDeleteAndStartHistory extends Command {
                 ->whereNotNull('tariff_id');
         
         if(empty($client_id)){
-            $value = $this->ask("What type of start \n"
-                    . "1 - platici \n"
-                    . "2 - free \n"
-                    . "3 - other", 1);
+            if(empty($type)){
+                $type = $this->ask("What type of start \n"
+                        . "1 - platici \n"
+                        . "2 - free \n"
+                        . "3 - other", 1);
+            }
 
-            switch ($value) {
+            switch ($type) {
                 case 1:
                     $query->where('tariff_id', '>', 1001);
                     break;
@@ -104,7 +123,8 @@ class GaDeleteAndStartHistory extends Command {
             foreach ($clientTables as $table) {
                 try {
                     // DB::connection('mysql-import-dw')->table($table)->delete();
-                    DB::connection('mysql-import-dw')->query("DROP TABLE {$table}");
+                    // DB::connection('mysql-import-dw')->query("DROP TABLE {$table}");
+                    DB::connection('mysql-import-dw')->statement("DROP TABLE {$table}");
                 } catch (Exception $e) {
                     $this->warn("Table '{$table}' not exist.");
                 }
@@ -123,7 +143,7 @@ class GaDeleteAndStartHistory extends Command {
                         'user_id' => $user_id,
                         'btf_message' => 'ga_import_delete_data_and_start_download_history',
                         'important' => 0,
-                        'posted' => 1,
+                        'posted' => 0,
                         'status' => 'unread',
                         'icon_class' => 'info',
                         'created_at' => $now,
