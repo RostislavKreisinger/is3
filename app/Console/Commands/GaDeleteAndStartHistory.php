@@ -14,7 +14,7 @@ class GaDeleteAndStartHistory extends Command {
      *
      * @var string
      */
-    protected $signature = 'md:GaDeleteAndStartHistory {client_id?}';
+    protected $signature = 'md:GaDeleteAndStartHistory {arg0?} {arg1?}';
 
     /**
      * The console command description.
@@ -38,7 +38,24 @@ class GaDeleteAndStartHistory extends Command {
      * @return mixed
      */
     public function handle() {
-        $client_id = $this->argument('client_id');
+        $this->info('call php artisan md:GaDeleteAndStartHistory [c=] [t=]');
+        
+        $params = [$this->argument('arg0'), $this->argument('arg1')];
+        $type = null;
+        $client_id = null;
+        foreach($params as $param){
+            switch (substr($param, 0, 1)){
+                case 't': 
+                    $type = explode('=', $param)[1];
+                    break;
+                case 'c': 
+                    $client_id = explode('=', $param)[1];
+                    break;
+            }
+        }
+        
+        
+       
 
         $query = DB::connection('mysql-master-app')
                 ->table('resource_setting_v2 as rs')
@@ -50,12 +67,14 @@ class GaDeleteAndStartHistory extends Command {
                 ->whereNotNull('tariff_id');
         
         if(empty($client_id)){
-            $value = $this->ask("What type of start \n"
-                    . "1 - platici \n"
-                    . "2 - free \n"
-                    . "3 - other", 1);
+            if(empty($type)){
+                $type = $this->ask("What type of start \n"
+                        . "1 - platici \n"
+                        . "2 - free \n"
+                        . "3 - other", 1);
+            }
 
-            switch ($value) {
+            switch ($type) {
                 case 1:
                     $query->where('tariff_id', '>', 1001);
                     break;
