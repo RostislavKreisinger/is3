@@ -10,6 +10,8 @@ namespace Monkey\ImportSupport;
 
 use App\Model\Resource as ResourceModel;
 use App\Model\Stack;
+use App\Model\StackExtend;
+use Auth;
 use DB;
 use Exception;
 use Monkey\ImportSupport\Resource\Button\B00_ShowButton;
@@ -18,10 +20,12 @@ use Monkey\ImportSupport\Resource\Button\B1_ResetAutomatTestButton;
 use Monkey\ImportSupport\Resource\Button\B2_RepairAutomatTestButton;
 use Monkey\ImportSupport\Resource\Button\B3_RepairDailyButton;
 use Monkey\ImportSupport\Resource\Button\B4_RepairHistoryButton;
+use Monkey\ImportSupport\Resource\Button\B5_ReactivateHistoryButton;
 use Monkey\ImportSupport\Resource\Button\B5_ResetHistoryButton;
 use Monkey\ImportSupport\Resource\Button\B6_ResetDailyButton;
 use Monkey\ImportSupport\Resource\Button\BaseButton;
 use Monkey\ImportSupport\Resource\Button\ButtonList;
+use Monkey\ImportSupport\Resource\Button\Other\ClearStackButton;
 use Monkey\ImportSupport\Resource\Button\Other\ShiftNextCheckDateButton;
 use Monkey\ImportSupport\Resource\Button\Other\UnconnectButton;
 use Monkey\ImportSupport\Resource\ResourceStats;
@@ -183,14 +187,17 @@ class Resource extends ResourceModel {
         $B3_RepairDailyButton = new B3_RepairDailyButton($this->project_id, $this->id);
         $B4_RepairHistoryButton = new B4_RepairHistoryButton($this->project_id, $this->id);
         $B5_ResetHistoryButton = new B5_ResetHistoryButton($this->project_id, $this->id);
+        $B5_ReactivateHistoryButton = new B5_ReactivateHistoryButton($this->project_id, $this->id);
         $B6_ResetDailyButton = new B6_ResetDailyButton($this->project_id, $this->id);
         
         $ShiftNextCheckDateButton = new ShiftNextCheckDateButton($this->project_id, $this->id);
         $UnconnectButton = new UnconnectButton($this->project_id, $this->id);
+        $ClearStackButton = new ClearStackButton($this->project_id, $this->id);
         
         
         if($this->getStateHistory() === Resource::STATUS_MISSING_RECORD){
             $B5_ResetHistoryButton->setError('Chybi zaznam v history poolu, resenim je spustit automattest');
+            $B5_ReactivateHistoryButton->setError('Chybi zaznam v history poolu, resenim je spustit automattest');
             $B4_RepairHistoryButton->setError('Chybi zaznam v history poolu, resenim je spustit automattest');
         }
         
@@ -203,7 +210,7 @@ class Resource extends ResourceModel {
             $UnconnectButton->setError('Nelze odpojit resource pokud neni chybny');
         }
         
-        $user = \Auth::user();
+        $user = Auth::user();
         if($user->can('project.resource.button.test.show_data')){
             $this->addButton($B00_ShowButton);
         }
@@ -216,9 +223,13 @@ class Resource extends ResourceModel {
         if($user->can('project.resource.button.reset.daily')){
             $this->addButton($B6_ResetDailyButton);
         }
+        if($user->can('project.resource.button.reactivate.history')){
+            $this->addButton($B5_ReactivateHistoryButton);
+        }
         if($user->can('project.resource.button.reset.history')){
             $this->addButton($B5_ResetHistoryButton);
         }
+        
         
         if($user->can('project.resource.button.repair.automattest')){
             $this->addButton($B2_RepairAutomatTestButton);
@@ -233,6 +244,11 @@ class Resource extends ResourceModel {
         if($user->can('project.resource.button.delete.shift_date')){
             $this->addButton($ShiftNextCheckDateButton);
         }
+        
+        if($user->can('project.resource.button.delete.clear_stack')){
+            $this->addButton($ClearStackButton);
+        }
+        
         if($user->can('project.resource.button.delete.unconnect')){
             $this->addButton($UnconnectButton);
         }
@@ -273,6 +289,13 @@ class Resource extends ResourceModel {
     
     public function getStack() {
         $builder = $this->hasMany(Stack::class, 'resource_id')
+                        ->where('project_id', '=', $this->getProject_id())
+                ;
+        return $builder->get();
+    }
+    
+    public function getStackExtend() {
+        $builder = $this->hasMany(StackExtend::class, 'resource_id')
                         ->where('project_id', '=', $this->getProject_id())
                 ;
         return $builder->get();
