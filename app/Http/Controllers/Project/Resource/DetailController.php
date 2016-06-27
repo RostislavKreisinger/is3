@@ -62,8 +62,10 @@ class DetailController extends Controller {
         }
 
         $stack = null;
+        $stackExtend = null;
         if (!$resource->isValid()) {
             $stack = $resource->getStack();
+            $stackExtend = $resource->getStackExtend();
         }
 
         $connectionDetail = array();
@@ -73,6 +75,7 @@ class DetailController extends Controller {
         
 
         $this->getView()->addParameter('stack', $stack);
+        $this->getView()->addParameter('stackExtend', $stackExtend);
         $this->getView()->addParameter('project', $project);
         $this->getView()->addParameter('resource', $resource);
         $this->getView()->addParameter('resourceDetail', $resourceDetail);

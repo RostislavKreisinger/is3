@@ -8,22 +8,24 @@
 
 namespace Monkey\ImportSupport\Resource\Button;
 
-use App\Http\Controllers\Button\Resource\B6_ResetDailyButtonController;
+use App\Http\Controllers\Button\Resource\B5_ReactivateHistoryButtonController;
 /**
  * Description of ShowButton
  *
  * @author Tomas
  */
-class B6_ResetDailyButton extends BaseButton {
+class B5_ReactivateHistoryButton extends BaseButton {
     
     public function __construct($projectId, $resourceId) {
         parent::__construct(
                 BaseButton::BUTTON_TYPE_TEST,
-                'B6_reset_daily',
-                'Reactivate Daily', 
-                \Monkey\action(B6_ResetDailyButtonController::class, ['project_id' => $projectId, 'resource_id' => $resourceId])
+                'B5_reactivate_history',
+                'Reactivate History', 
+                \Monkey\action(B5_ReactivateHistoryButtonController::class, ['project_id' => $projectId, 'resource_id' => $resourceId])
                 );
         $this->setToNewWindow(false);
+        $this->setTitle('Nastavi pouze active na 1 a ttl na 5, aby se zacalo stahovat standartnim procesem.');
+        
     }
     
 }
