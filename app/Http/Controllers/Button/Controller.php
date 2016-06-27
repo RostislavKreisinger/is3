@@ -4,7 +4,8 @@ namespace App\Http\Controllers\Button;
 
 use App\Http\Controllers\BaseAuthController;
 use Monkey\View\Message\MessageList;
-use Session;
+use Redirect;
+use URL;
 
 
 abstract class Controller extends BaseAuthController {
@@ -21,7 +22,9 @@ abstract class Controller extends BaseAuthController {
     }
     
     protected function getRedirect() {
-        return redirect()->back();
+        return Redirect::to(URL::previous());
+        
+        // return redirect()->back();
     }
     
     
