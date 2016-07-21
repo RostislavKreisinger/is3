@@ -8,7 +8,7 @@
 
 namespace Monkey\ImportSupport\Resource\Resources;
 
-use Monkey\ImportSupport\Resource\ResourceWithoutHistoryV2;
+use Monkey\ImportSupport\Resource\ResourceWithoutHistoryV1;
 
 
 
@@ -17,7 +17,7 @@ use Monkey\ImportSupport\Resource\ResourceWithoutHistoryV2;
  *
  * @author Tomas
  */
-class HeurekaRecenzeResource extends ResourceWithoutHistoryV2 {
+class HeurekaRecenzeResource extends ResourceWithoutHistoryV1 {
     
     
     
