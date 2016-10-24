@@ -284,30 +284,42 @@ class ProjectRepository {
     
     public static function getHistoryPool() {
          $data = DB::connection('mysql-import-pools')->table('monkeydata_pools.import_prepare_start as ips')
+                ->join("monkeydata.project as p", "p.id", "=", "ips.project_id")
+                ->join("monkeydata.user as u", "u.id", "=", "p.user_id")
+                ->whereNull("u.deleted_at")
+                ->whereNull("p.deleted_at")
                 ->whereRaw('ips.date_from < ips.date_to')
                 ->select(['*', DB::raw('ROUND(DATEDIFF(ips.date_to, ips.date_from)/7, 0) AS `out`'),DB::raw('ROUND(DATEDIFF(DATE_ADD(ips.date_from, INTERVAL 2 YEAR), ips.date_from)/7, 0) AS `all`')])
-                ->whereIn('active', [1, 2])
-                ->where('ttl', '>', 0)
+                ->whereIn('ips.active', [1, 2])
+                ->where('ips.ttl', '>', 0)
                 ->get();
         return new Pool($data);
     }
     
     public static function getDailyPool() {
         $data = DB::connection('mysql-import-pools')->table('monkeydata_pools.import_prepare_new as ips')
-                // ->whereRaw('DATEDIFF(NOW(), created_at) > 0')
-                ->whereRaw('NOW() > created_at')
-                ->select(['*', DB::raw('DATEDIFF(NOW(), created_at) AS `out`'),DB::raw('DATEDIFF(NOW(), created_at) AS `all`')])
-                ->whereIn('active', [1, 2])
-                ->where('ttl', '>', 0)
-                ->get();
+                ->join("monkeydata.project as p", "p.id", "=", "ips.project_id")
+                ->join("monkeydata.user as u", "u.id", "=", "p.user_id")
+                ->whereNull("u.deleted_at")
+                ->whereNull("p.deleted_at")
+                ->whereRaw('NOW() > ips.created_at')
+                ->select(['*', DB::raw('DATEDIFF(NOW(), ips.created_at) AS `out`'),DB::raw('DATEDIFF(NOW(), ips.created_at) AS `all`')])
+                ->whereIn('ips.active', [1, 2])
+                ->where('ips.ttl', '>', 0)
+                ->get()
+        ;
         return new Pool($data);
     }
     
     public static function getTesterPool() {
         $data = DB::connection('mysql-import-pools')->table('monkeydata.'.Resource::RESOURCE_SETTING.' as ips')
+                ->join("monkeydata.project as p", "p.id", "=", "ips.project_id")
+                ->join("monkeydata.user as u", "u.id", "=", "p.user_id")
+                ->whereNull("u.deleted_at")
+                ->whereNull("p.deleted_at")
                 ->select(['*', DB::raw('COUNT(*) AS `out`'),DB::raw('COUNT(*) AS `all`')])
-                ->where('active', 0)
-                ->where('ttl', '>', 0)
+                ->where('ips.active', 0)
+                ->where('ips.ttl', '>', 0)
                 ->get();
         return new Pool($data);
     }
