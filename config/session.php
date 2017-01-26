@@ -16,7 +16,7 @@ return [
     |
     */
 
-    'driver' => env('SESSION_DRIVER', 'database'),
+    'driver' => \Monkey\Config\SessionConfiguration::getInstance()->getDriver(),
 
     /*
     |--------------------------------------------------------------------------
@@ -29,9 +29,9 @@ return [
     |
     */
 
-    'lifetime' => 120,
+    'lifetime' => \Monkey\Config\SessionConfiguration::getInstance()->getLifetime(),
 
-    'expire_on_close' => false,
+    'expire_on_close' => \Monkey\Config\SessionConfiguration::getInstance()->isExpireOnClose(),
 
     /*
     |--------------------------------------------------------------------------
@@ -44,7 +44,7 @@ return [
     |
     */
 
-    'encrypt' => false,
+    'encrypt' => \Monkey\Config\SessionConfiguration::getInstance()->isEncrypt(),
 
     /*
     |--------------------------------------------------------------------------
@@ -109,7 +109,7 @@ return [
     |
     */
 
-    'cookie' => 'laravel_session',
+    'cookie' => \Monkey\Config\SessionConfiguration::getInstance()->getCookieName(),
 
     /*
     |--------------------------------------------------------------------------
@@ -122,7 +122,7 @@ return [
     |
     */
 
-    'path' => '/',
+    'path' => \Monkey\Config\SessionConfiguration::getInstance()->getCookiePath(),
 
     /*
     |--------------------------------------------------------------------------
@@ -135,7 +135,7 @@ return [
     |
     */
 
-    'domain' => null,
+    'domain' => \Monkey\Config\SessionConfiguration::getInstance()->getCookieDomain(),
 
     /*
     |--------------------------------------------------------------------------
@@ -148,6 +148,19 @@ return [
     |
     */
 
-    'secure' => false,
+    'secure' => \Monkey\Config\SessionConfiguration::getInstance()->isSecure(),
+
+    /*
+    |--------------------------------------------------------------------------
+    | HTTP Access Only
+    |--------------------------------------------------------------------------
+    |
+    | Setting this value to true will prevent JavaScript from accessing the
+    | value of the cookie and the cookie will only be accessible through
+    | the HTTP protocol. You are free to modify this option if needed.
+    |
+    */
+
+    'http_only' => \Monkey\Config\SessionConfiguration::getInstance()->isHttpOnly(),
 
 ];
