@@ -12,8 +12,10 @@ use App\Model\Resource as Resource2;
 use DB;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Database\Query\JoinClause;
+use Monkey\Connections\MDDatabaseConnections;
 use Monkey\ImportSupport\Pool\Pool;
 use Monkey\ImportSupport\Resource;
+use Monkey\Restriction\UserRestriction;
 
 /**
  * Description of ProjectRepository
@@ -103,6 +105,25 @@ class ProjectRepository {
     }
     
     public static function getAutoreportInvalidRecord() {
+        $autoreportBuilder = MDDatabaseConnections::getPoolsConnection()
+            ->table('monkeydata_pools.auto_report_pool as ar')
+            ->where(function(Builder $where){
+                $where->where('ar.active', '=', 3)->orWhere(function(Builder $where2){
+                    $where2->where('ar.active', '=', '1')->whereRaw('now() > DATE_ADD(ar.date,INTERVAL +25 HOUR)');
+                });
+            });
+        vd($autoreportBuilder->get());
+        $autoreportProjectIds = [];
+        foreach($autoreportBuilder->get() as $autoreport){
+            $ur = new UserRestriction($autoreport->user_id);
+            if(!$ur->amIOverLimits()){
+                $autoreportProjectIds[$autoreport->project_id] = $autoreport->project_id;
+            }
+        }
+
+        vd($autoreportProjectIds);
+
+
         $builder = DB::connection('mysql-select-app')->table('monkeydata_pools.auto_report_pool as ar')
                 ->join('monkeydata.project as p', 'ar.project_id', '=', 'p.id')
                 ->select(['p.id as id', 'p.name as name'])
@@ -121,7 +142,8 @@ class ProjectRepository {
                     });
                 })
         ;
-//        vdQuery($builder);
+        vdQuery($builder);
+        exit;
 //        vde($builder->get());
         return $builder->get();
     }
