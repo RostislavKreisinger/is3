@@ -8,6 +8,7 @@
 
 namespace Monkey\ImportSupport\Resource;
 
+use Monkey\Connections\MDDatabaseConnections;
 use Monkey\ImportSupport\Resource;
 
 /**
@@ -24,7 +25,7 @@ class ResourceV2 extends Resource {
     public function getStateTester() {
         $resourceSetting = $this->getResourceStats()->getResourceSetting();
         if ($resourceSetting === null) {
-            $resourceSetting = \DB::connection('mysql-select-app')
+            $resourceSetting = MDDatabaseConnections::getMasterAppConnection()
                     ->table('monkeydata.'.Resource::RESOURCE_SETTING)
                     ->select('*')
                     ->where('project_id', '=', $this->getProject_id())
@@ -58,7 +59,7 @@ class ResourceV2 extends Resource {
     public function getStateDaily() {
         $importPrepareNew = $this->getResourceStats()->getImportPrepareNew();
         if ($importPrepareNew === null) {
-            $importPrepareNew = \DB::connection('mysql-select-app')
+            $importPrepareNew = MDDatabaseConnections::getPoolsConnection()
                     ->table('monkeydata_pools.import_prepare_new')
                     ->select('*')
                     ->where('project_id', '=', $this->getProject_id())
@@ -87,7 +88,7 @@ class ResourceV2 extends Resource {
     public function getStateHistory() {
         $importPrepareStart = $this->getResourceStats()->getImportPrepareStart();
         if ($importPrepareStart === null) {
-            $importPrepareStart = \DB::connection('mysql-select-app')
+            $importPrepareStart = MDDatabaseConnections::getPoolsConnection()
                     ->table('monkeydata_pools.import_prepare_start')
                     ->select(['*', \DB::raw('IF(date_to <= date_from, 1, 0) as date_check ')])
                     ->where('project_id', '=', $this->getProject_id())
