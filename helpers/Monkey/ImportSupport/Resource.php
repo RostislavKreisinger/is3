@@ -14,6 +14,7 @@ use App\Model\StackExtend;
 use Auth;
 use DB;
 use Exception;
+use Monkey\Connections\MDDatabaseConnections;
 use Monkey\ImportSupport\Resource\Button\B00_ShowButton;
 use Monkey\ImportSupport\Resource\Button\B0_TestButton;
 use Monkey\ImportSupport\Resource\Button\B1_ResetAutomatTestButton;
@@ -103,7 +104,7 @@ class Resource extends ResourceModel {
     }
     
     public function getResourceDetail() {
-        $builder =  DB::connection('mysql-select-app')
+        $builder =  MDDatabaseConnections::getMasterAppConnection()
                     ->table('resource_setting as rs')
                     ->join($this->tbl_setting.' as crs', 'rs.id', '=', 'crs.resource_setting_id')
                     ->where('rs.resource_id', '=', $this->id)

@@ -12,8 +12,10 @@ use App\Model\Resource as Resource2;
 use DB;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Database\Query\JoinClause;
+use Monkey\Connections\MDDatabaseConnections;
 use Monkey\ImportSupport\Pool\Pool;
 use Monkey\ImportSupport\Resource;
+use Monkey\Restriction\UserRestriction;
 
 /**
  * Description of ProjectRepository
@@ -42,6 +44,11 @@ class ProjectRepository {
      * @var ProjectList 
      */
     private $userInvalidProjects;
+
+    /**
+     * @var array
+     */
+    private $activeProjectIds;
     
     
     public function __construct() {
@@ -57,7 +64,36 @@ class ProjectRepository {
         }
         return static::$instance;
     }
-    
+
+    /**
+     * @return array
+     */
+    public function getActiveProjectIds() {
+        if($this->activeProjectIds === null){
+            $builder = MDDatabaseConnections::getMasterAppConnection()
+                ->table('project as p')
+                ->join('user as u', 'p.user_id', '=', 'u.id')
+                ->whereNull('p.deleted_at')
+                ->whereNull('u.deleted_at')
+                ->where('u.test_user', '=', 0)
+                ->select(['p.id as id']);
+            $this->activeProjectIds = array();
+            foreach ($builder->get() as $row) {
+                $this->activeProjectIds[] = $row->id;
+            }
+        }
+        return $this->activeProjectIds;
+    }
+
+    /**
+     * @param array $activeProjectIds
+     */
+    public function setActiveProjectIds($activeProjectIds) {
+        $this->activeProjectIds = $activeProjectIds;
+    }
+
+
+
     
     public static function getDailyInvalidProjects() {
         $invalidProjects = static::getAllInvalidProjects();
@@ -103,27 +139,53 @@ class ProjectRepository {
     }
     
     public static function getAutoreportInvalidRecord() {
-        $builder = DB::connection('mysql-select-app')->table('monkeydata_pools.auto_report_pool as ar')
-                ->join('monkeydata.project as p', 'ar.project_id', '=', 'p.id')
-                ->select(['p.id as id', 'p.name as name'])
-                ->whereNull('p.deleted_at')
-                ->join('monkeydata.user as u', 'p.user_id', '=', 'u.id')
-                ->whereNull('u.deleted_at')
-                ->where('u.test_user', '=', 0)
-                ->where(function(Builder $where){
-                    $where->where('c.remaining_orders', '>', 0)->orWhereNull('c.remaining_orders');
-                })
-                ->join('monkeydata.client as c', 'u.id', '=', 'c.user_id')
-                ->whereRaw('DATE_ADD(`c`.`tariff_expired`, INTERVAL ' . static::DAYS_AFTER_TARIFF_EXPIRATE . ' DAY) > NOW()')
-                ->where(function(Builder $where){
-                    $where->where('ar.active', '=', 3)->orWhere(function(Builder $where2){
-                        $where2->where('ar.active', '=', '1')->whereRaw('now() > DATE_ADD(ar.date,INTERVAL +25 HOUR)');
-                    });
-                })
-        ;
-//        vdQuery($builder);
-//        vde($builder->get());
+        $autoreportBuilder = MDDatabaseConnections::getPoolsConnection()
+            ->table('monkeydata_pools.auto_report_pool as ar')
+            ->where(function(Builder $where){
+                $where->where('ar.active', '=', 3)->orWhere(function(Builder $where2){
+                    $where2->where('ar.active', '=', '1')->whereRaw('now() > DATE_ADD(ar.date,INTERVAL +25 HOUR)');
+                });
+            });
+
+        $autoreportProjectIds = [];
+        foreach($autoreportBuilder->get() as $autoreport){
+            $ur = new UserRestriction($autoreport->user_id);
+            if($ur->hasRemainingOrdersAndTariffNotExpired()){
+                $autoreportProjectIds[$autoreport->project_id] = $autoreport->project_id;
+            }
+        }
+
+        $builder = MDDatabaseConnections::getMasterAppConnection()
+                    ->table('project as p')
+                    ->join('user as u', 'p.user_id', '=', 'u.id')
+                    ->whereNull('p.deleted_at')
+                    ->whereNull('u.deleted_at')
+                    ->where('u.test_user', '=', 0)
+                    ->whereIn('p.id', $autoreportProjectIds)
+                    ->select(['p.id as id', 'p.name as name']);
+
+
         return $builder->get();
+
+
+//        $builder = DB::connection('mysql-select-app')->table('monkeydata_pools.auto_report_pool as ar')
+//                ->join('monkeydata.project as p', 'ar.project_id', '=', 'p.id')
+//                ->select(['p.id as id', 'p.name as name'])
+//                ->whereNull('p.deleted_at')
+//                ->join('monkeydata.user as u', 'p.user_id', '=', 'u.id')
+//                ->whereNull('u.deleted_at')
+//                ->where('u.test_user', '=', 0)
+//                ->where(function(Builder $where){
+//                    $where->where('c.remaining_orders', '>', 0)->orWhereNull('c.remaining_orders');
+//                })
+//                ->join('monkeydata.client as c', 'u.id', '=', 'c.user_id')
+//                ->whereRaw('DATE_ADD(`c`.`tariff_expired`, INTERVAL ' . static::DAYS_AFTER_TARIFF_EXPIRATE . ' DAY) > NOW()')
+//                ->where(function(Builder $where){
+//                    $where->where('ar.active', '=', 3)->orWhere(function(Builder $where2){
+//                        $where2->where('ar.active', '=', '1')->whereRaw('now() > DATE_ADD(ar.date,INTERVAL +25 HOUR)');
+//                    });
+//                })
+//        ;
     }
     
     
@@ -202,7 +264,7 @@ class ProjectRepository {
     
 
     protected function getInvalidProjectsBuilder() {
-        $builder = DB::connection('mysql-select-app')->table('monkeydata.project as p')
+        $builder = MDDatabaseConnections::getMasterAppConnection()->table('monkeydata.project as p')
                 ->select(['p.id as project_id', 'p.name as project_name'])
                 ->whereNull('p.deleted_at')
                 ->join('user as u', 'p.user_id', '=', 'u.id')
@@ -220,15 +282,12 @@ class ProjectRepository {
                     $join->on('ipn.resource_id', '=', 'rs.resource_id');
                     return $join;
                 })
-                // DB::raw('IF( ipn.active IS NULL OR ipn.active = 3 OR ((ipn.active = 0 AND ipn.ttl <= 0) ),1,0) as import_prepare_new')
-                ->addSelect([DB::raw('IF( ipn.active IS NULL OR ipn.active = 3 OR ((ipn.ttl <= 0) ),1,0) as import_prepare_new')])
+                ->addSelect([DB::raw('IF( ipn.active IS NULL OR ipn.active = 3 OR ((ipn.ttl <= 0) ),1,0) as import_prepare_new')]);
 
-        ;
         $whereFunctions[] = function(Builder $where) {
             $where->orWhereNull('ipn.active');
             $where->orWhere('ipn.active', '=', 3);
             $where->orWhere(function(Builder $where) {
-                // $where->where('ipn.active', '=', 0);
                 $where->where('ipn.ttl', '<=', 0);
                 return $where;
             });
@@ -243,15 +302,11 @@ class ProjectRepository {
                     $join->on('ips.resource_id', '=', 'rs.resource_id');
                     return $join;
                 })
-                // DB::raw('IF( ips.active = 3 OR ((ips.active = 0 AND ips.ttl <= 0) ) ,1,0) as import_prepare_start')
-                ->addSelect([DB::raw('IF( ips.active = 3 OR ((ips.ttl <= 0) ) ,1,0) as import_prepare_start')])
+                ->addSelect([DB::raw('IF( ips.active = 3 OR ((ips.ttl <= 0) ) ,1,0) as import_prepare_start')]);
 
-        ;
         $whereFunctions[] = function(Builder $where) {
-            // $where->orWhereNull('ips.active');
             $where->orWhere('ips.active', '=', 3);
             $where->orWhere(function(Builder $where) {
-                // $where->where('ips.active', '=', 0);
                 $where->where('ips.ttl', '<=', 0);
                 return $where;
             });
@@ -283,44 +338,70 @@ class ProjectRepository {
     
     
     public static function getHistoryPool() {
-         $data = DB::connection('mysql-import-pools')->table('monkeydata_pools.import_prepare_start as ips')
-                ->join("monkeydata.project as p", "p.id", "=", "ips.project_id")
-                ->join("monkeydata.user as u", "u.id", "=", "p.user_id")
-                ->whereNull("u.deleted_at")
-                ->whereNull("p.deleted_at")
-                ->whereRaw('ips.date_from < ips.date_to')
-                ->select(['*', DB::raw('ROUND(DATEDIFF(ips.date_to, ips.date_from)/7, 0) AS `out`'),DB::raw('ROUND(DATEDIFF(DATE_ADD(ips.date_from, INTERVAL 2 YEAR), ips.date_from)/7, 0) AS `all`')])
-                ->whereIn('ips.active', [1, 2])
-                ->where('ips.ttl', '>', 0)
-                ->get();
+        $projectIds = static::getInstance()->getActiveProjectIds();
+        $data = MDDatabaseConnections::getPoolsConnection()
+            ->table('import_prepare_start as ips')
+            ->whereRaw('ips.date_from < ips.date_to')
+            ->select([DB::raw('ROUND(DATEDIFF(ips.date_to, ips.date_from)/7, 0) AS `out`'),DB::raw('ROUND(DATEDIFF(DATE_ADD(ips.date_from, INTERVAL 2 YEAR), ips.date_from)/7, 0) AS `all`')])
+            ->whereIn('ips.active', [1, 2])
+            ->where('ips.ttl', '>', 0)
+            ->whereIn("ips.project_id", $projectIds)
+            ->get();
+
+//         $data = MDDatabaseConnections::getPoolsConnection()
+//                ->table('import_prepare_start as ips')
+//                ->join("monkeydata.project as p", "p.id", "=", "ips.project_id")
+//                ->join("monkeydata.user as u", "u.id", "=", "p.user_id")
+//                ->whereNull("u.deleted_at")
+//                ->whereNull("p.deleted_at")
+//                ->whereRaw('ips.date_from < ips.date_to')
+//                ->select([DB::raw('ROUND(DATEDIFF(ips.date_to, ips.date_from)/7, 0) AS `out`'),DB::raw('ROUND(DATEDIFF(DATE_ADD(ips.date_from, INTERVAL 2 YEAR), ips.date_from)/7, 0) AS `all`')])
+//                ->whereIn('ips.active', [1, 2])
+//                ->where('ips.ttl', '>', 0)
+//                ->get();
+
+
         return new Pool($data);
     }
     
     public static function getDailyPool() {
-        $data = DB::connection('mysql-import-pools')->table('monkeydata_pools.import_prepare_new as ips')
-                ->join("monkeydata.project as p", "p.id", "=", "ips.project_id")
-                ->join("monkeydata.user as u", "u.id", "=", "p.user_id")
-                ->whereNull("u.deleted_at")
-                ->whereNull("p.deleted_at")
-                ->whereRaw('NOW() > ips.created_at')
-                ->select(['*', DB::raw('DATEDIFF(NOW(), ips.created_at) AS `out`'),DB::raw('DATEDIFF(NOW(), ips.created_at) AS `all`')])
-                ->whereIn('ips.active', [1, 2])
-                ->where('ips.ttl', '>', 0)
-                ->get()
+        $projectIds = static::getInstance()->getActiveProjectIds();
+        $data = MDDatabaseConnections::getPoolsConnection()
+            ->table('import_prepare_new as ips')
+            ->whereRaw('NOW() > ips.created_at')
+            ->select(['*', DB::raw('DATEDIFF(NOW(), ips.created_at) AS `out`'),DB::raw('DATEDIFF(NOW(), ips.created_at) AS `all`')])
+            ->whereIn('ips.active', [1, 2])
+            ->where('ips.ttl', '>', 0)
+            ->whereIn("ips.project_id", $projectIds)
+            ->get()
         ;
+
+//        $data = DB::connection('mysql-import-pools')->table('monkeydata_pools.import_prepare_new as ips')
+//                ->join("monkeydata.project as p", "p.id", "=", "ips.project_id")
+//                ->join("monkeydata.user as u", "u.id", "=", "p.user_id")
+//                ->whereNull("u.deleted_at")
+//                ->whereNull("p.deleted_at")
+//                ->whereRaw('NOW() > ips.created_at')
+//                ->select(['*', DB::raw('DATEDIFF(NOW(), ips.created_at) AS `out`'),DB::raw('DATEDIFF(NOW(), ips.created_at) AS `all`')])
+//                ->whereIn('ips.active', [1, 2])
+//                ->where('ips.ttl', '>', 0)
+//                ->get()
+//        ;
         return new Pool($data);
     }
     
     public static function getTesterPool() {
-        $data = DB::connection('mysql-import-pools')->table('monkeydata.'.Resource::RESOURCE_SETTING.' as ips')
-                ->join("monkeydata.project as p", "p.id", "=", "ips.project_id")
-                ->join("monkeydata.user as u", "u.id", "=", "p.user_id")
-                ->whereNull("u.deleted_at")
-                ->whereNull("p.deleted_at")
-                ->select(['*', DB::raw('COUNT(*) AS `out`'),DB::raw('COUNT(*) AS `all`')])
-                ->where('ips.active', 0)
-                ->where('ips.ttl', '>', 0)
-                ->get();
+        $data = MDDatabaseConnections::getMasterAppConnection()
+            ->table('monkeydata.'.Resource::RESOURCE_SETTING.' as ips')
+            ->join("monkeydata.project as p", "p.id", "=", "ips.project_id")
+            ->join("monkeydata.user as u", "u.id", "=", "p.user_id")
+            ->whereNull("u.deleted_at")
+            ->whereNull("p.deleted_at")
+            ->select(['*', DB::raw('COUNT(*) AS `out`'),DB::raw('COUNT(*) AS `all`')])
+            ->where('ips.active', 0)
+            ->where('ips.ttl', '>', 0)
+            ->where('u.test_user', '=', 0)
+            ->get();
         return new Pool($data);
     }
     

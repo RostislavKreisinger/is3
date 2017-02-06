@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'env' => env('APP_ENV', 'production'),
+    'env' => \Monkey\Config\GeneralConfiguration::getInstance()->getEnvironment(),
 
     /*
     |--------------------------------------------------------------------------
@@ -26,7 +26,7 @@ return [
     |
     */
 
-    'debug' => env('APP_DEBUG', false),
+    'debug' => \Monkey\Config\GeneralConfiguration::getInstance()->isDebug(),
 
     /*
     |--------------------------------------------------------------------------
@@ -39,7 +39,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://localhost'),
+    'url' => \Monkey\Config\GeneralConfiguration::getInstance()->getUrl(),
 
     /*
     |--------------------------------------------------------------------------
@@ -52,6 +52,7 @@ return [
     |
     */
 
+//    'timezone' => \Monkey\Config\GeneralConfiguration::getInstance()->getTimezone(),
     'timezone' => 'UTC',
 
     /*
@@ -65,7 +66,7 @@ return [
     |
     */
 
-    'locale' => 'en',
+    'locale' => \Monkey\Config\GeneralConfiguration::getInstance()->getLocale(),
 
     /*
     |--------------------------------------------------------------------------
@@ -78,7 +79,7 @@ return [
     |
     */
 
-    'fallback_locale' => 'en',
+    'fallback_locale' => \Monkey\Config\GeneralConfiguration::getInstance()->getFallbackLocale(),
 
     /*
     |--------------------------------------------------------------------------
@@ -91,9 +92,8 @@ return [
     |
     */
 
-    'key' => env('APP_KEY', 'UC06YcEszwukmi2bxVbVWtNAYGOJAhOd'),
-
-    'cipher' => 'AES-256-CBC',
+    'key' => \Monkey\Config\GeneralConfiguration::getInstance()->getEncryptionKey('UC06YcEszwukmi2bxVbVWtNAYGOJAhOd'),
+    'cipher' => \Monkey\Config\GeneralConfiguration::getInstance()->getCipher('AES-256-CBC'),
 
     /*
     |--------------------------------------------------------------------------
@@ -108,7 +108,9 @@ return [
     |
     */
 
-    'log' => env('APP_LOG', 'single'),
+    'log' => \Monkey\Config\GeneralConfiguration::getInstance()->getLog(),
+
+//    'log_level' => \Monkey\Config\GeneralConfiguration::getInstance()->getLogLevel(),
 
     /*
     |--------------------------------------------------------------------------
@@ -132,7 +134,7 @@ return [
         Illuminate\Cache\CacheServiceProvider::class,
         Illuminate\Foundation\Providers\ConsoleSupportServiceProvider::class,
         Illuminate\Cookie\CookieServiceProvider::class,
-        Illuminate\Database\DatabaseServiceProvider::class,
+        \Monkey\Connections\Integration\Laravel5\MDDatabaseServiceProvider::class,
         Illuminate\Encryption\EncryptionServiceProvider::class,
         Illuminate\Filesystem\FilesystemServiceProvider::class,
         Illuminate\Foundation\Providers\FoundationServiceProvider::class,
@@ -149,12 +151,21 @@ return [
         Illuminate\View\ViewServiceProvider::class,
 
         /*
+         * Package Service Providers...
+         */
+
+
+        /*
          * Application Service Providers...
          */
         App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+
+        /**
+         * IDE helper
+         */
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
 
     ],
