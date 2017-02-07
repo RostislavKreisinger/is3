@@ -167,6 +167,7 @@ return [
          * IDE helper
          */
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
+        \Monkey\Raven\Laravel\RavenServiceProvider::class,
 
     ],
 
