@@ -63,7 +63,10 @@
         ]
     },
     "config": {
-        "preferred-install": "dist"
+        "preferred-install": "dist",
+        "platform": {
+            "php": "5.5.9"
+        }
     },
     "repositories": [
         {
