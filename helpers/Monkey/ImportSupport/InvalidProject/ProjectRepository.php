@@ -149,12 +149,15 @@ class ProjectRepository {
 
         $autoreportProjectIds = [];
         foreach($autoreportBuilder->get() as $autoreport){
-            $ur = new UserRestriction($autoreport->user_id);
+            try {
+                $ur = new UserRestriction($autoreport->user_id);
+            }catch(\Exception $e){
+                vde($e);
+            }
             if($ur->hasRemainingOrdersAndTariffNotExpired()){
                 $autoreportProjectIds[$autoreport->project_id] = $autoreport->project_id;
             }
         }
-
         $builder = MDDatabaseConnections::getMasterAppConnection()
                     ->table('project as p')
                     ->join('user as u', 'p.user_id', '=', 'u.id')
