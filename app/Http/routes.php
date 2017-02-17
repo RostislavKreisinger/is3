@@ -55,6 +55,10 @@ Route::group(['middleware' => 'web'], function () {
             Route::controller('/database-selector/{project_id?}/{resource_id?}', App\Http\Controllers\Database\DatabaseSelectorController::class);
             Route::controller('/show-import-data/{project_id}/{resource_id}/{table_id?}/{count?}', App\Http\Controllers\Database\ShowImportDataController::class);
         });
+
+        Route::group(['prefix' => 'cache'], function(){
+            Route::controller('/cache-selector', App\Http\Controllers\Cache\CacheSelectorController::class);
+        });
         
         Route::group(['prefix' => 'plugin'], function(){
             Route::group(['prefix' => 'import'], function(){

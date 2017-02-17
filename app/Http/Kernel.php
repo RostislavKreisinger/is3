@@ -50,8 +50,23 @@ class Kernel extends HttpKernel {
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
     ];
 
-    public function handle($request) {
-        return parent::handle($request);
+    public function handle($request)
+    {
+        try {
+            $request->enableHttpMethodParameterOverride();
+
+            $response = $this->sendRequestThroughRouter($request);
+        } catch (Exception $e) {
+            vde($e);
+        } catch (Throwable $e) {
+            vde($e);
+        } catch (\Error $e) {
+            vde($e);
+        }
+
+        $this->app['events']->fire('kernel.handled', [$request, $response]);
+
+        return $response;
     }
 
 
