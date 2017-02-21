@@ -9,16 +9,16 @@
     "packages": [
         {
             "name": "barryvdh/laravel-ide-helper",
-            "version": "v2.2.3",
+            "version": "v2.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/barryvdh/laravel-ide-helper.git",
-                "reference": "a7fc2ec489aada6062d3a63ddc915004a21e38af"
+                "reference": "25c8de637ddf79567d721c1856616be01db7b960"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/barryvdh/laravel-ide-helper/zipball/a7fc2ec489aada6062d3a63ddc915004a21e38af",
-                "reference": "a7fc2ec489aada6062d3a63ddc915004a21e38af",
+                "url": "https://api.github.com/repos/barryvdh/laravel-ide-helper/zipball/25c8de637ddf79567d721c1856616be01db7b960",
+                "reference": "25c8de637ddf79567d721c1856616be01db7b960",
                 "shasum": ""
             },
             "require": {
@@ -41,7 +41,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.2-dev"
+                    "dev-master": "2.3-dev"
                 }
             },
             "autoload": {
@@ -71,7 +71,7 @@
                 "phpstorm",
                 "sublime"
             ],
-            "time": "2017-01-05 21:20:42"
+            "time": "2017-02-20 12:54:53"
         },
         {
             "name": "barryvdh/reflection-docblock",
@@ -1125,16 +1125,16 @@
         },
         {
             "name": "league/flysystem",
-            "version": "1.0.34",
+            "version": "1.0.35",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/flysystem.git",
-                "reference": "469ad53c13ea19a0e54e3e5d70f61227ddcc0299"
+                "reference": "dda7f3ab94158a002d9846a97dc18ebfb7acc062"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/469ad53c13ea19a0e54e3e5d70f61227ddcc0299",
-                "reference": "469ad53c13ea19a0e54e3e5d70f61227ddcc0299",
+                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/dda7f3ab94158a002d9846a97dc18ebfb7acc062",
+                "reference": "dda7f3ab94158a002d9846a97dc18ebfb7acc062",
                 "shasum": ""
             },
             "require": {
@@ -1204,20 +1204,20 @@
                 "sftp",
                 "storage"
             ],
-            "time": "2017-01-30 17:41:17"
+            "time": "2017-02-09 11:33:58"
         },
         {
             "name": "mikehaertl/php-shellcommand",
-            "version": "1.2.3",
+            "version": "1.2.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mikehaertl/php-shellcommand.git",
-                "reference": "a628505cd99b201375dd6bcd0b062ee07c8ba556"
+                "reference": "b0c0bf3ce49a01bd7ddbe07a9bed4ba85b869fa4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mikehaertl/php-shellcommand/zipball/a628505cd99b201375dd6bcd0b062ee07c8ba556",
-                "reference": "a628505cd99b201375dd6bcd0b062ee07c8ba556",
+                "url": "https://api.github.com/repos/mikehaertl/php-shellcommand/zipball/b0c0bf3ce49a01bd7ddbe07a9bed4ba85b869fa4",
+                "reference": "b0c0bf3ce49a01bd7ddbe07a9bed4ba85b869fa4",
                 "shasum": ""
             },
             "type": "library",
@@ -1240,7 +1240,7 @@
             "keywords": [
                 "shell"
             ],
-            "time": "2017-01-26 08:29:31"
+            "time": "2017-02-09 18:28:47"
         },
         {
             "name": "mikehaertl/php-tmpfile",
@@ -1444,26 +1444,27 @@
         },
         {
             "name": "monkey/config",
-            "version": "1.3.0",
+            "version": "1.4.1",
             "source": {
                 "type": "git",
                 "url": "git@gitlab.monkeydata.com:composer/config.git",
-                "reference": "613d8d2e46a3e0a98fb7e5fafe46e29a217176f3"
+                "reference": "5e0ed9bdbc94cb445860cd72d20225b07508f3a3"
             },
             "dist": {
                 "type": "tar",
-                "url": "https://composer:uxJ4EhTaf61fo3pnTvK5@composer.monkeydata.com/dist/monkey-config-1.3.0-24291d.tar",
-                "reference": "613d8d2e46a3e0a98fb7e5fafe46e29a217176f3",
-                "shasum": "ee754a8838f8ca82884fcc6d42c94d90414ca9e7"
+                "url": "https://composer:uxJ4EhTaf61fo3pnTvK5@composer.monkeydata.com/dist/monkey-config-1.4.1-b1cc70.tar",
+                "reference": "5e0ed9bdbc94cb445860cd72d20225b07508f3a3",
+                "shasum": "9c2bc6bebf4ee8fb65848c4e0a83c985a6b0126c"
             },
             "require": {
                 "monkey/dotenv": "^1.2.0",
+                "monkey/environment": "^1.5.0",
                 "monkey/helpers": "^1.1.0",
-                "php": ">=5.5.0"
+                "php": ">=5.5.9"
             },
             "require-dev": {
                 "mockery/mockery": "*",
-                "phpunit/phpunit": "3.7.*"
+                "phpunit/phpunit": "4.8.*"
             },
             "type": "package",
             "autoload": {
@@ -1474,35 +1475,35 @@
             "notification-url": "https://composer:uxJ4EhTaf61fo3pnTvK5@composer.monkeydata.com/notify-download/",
             "authors": [
                 {
-                    "name": "henry",
-                    "email": "root@monkeydata.com"
+                    "name": "toms049",
+                    "email": "tomas.stanek@monkeydata.com"
                 }
             ],
             "description": "General configuration for common things and setting",
-            "time": "2017-02-02 15:21:57"
+            "time": "2017-02-13 14:09:33"
         },
         {
             "name": "monkey/connections",
-            "version": "2.6.0",
+            "version": "2.7.0",
             "source": {
                 "type": "git",
                 "url": "git@gitlab.monkeydata.com:composer/connections.git",
-                "reference": "07561c48939dba537b39470b409b64528ed461f0"
+                "reference": "17116290fdde9347ee3134314dbe14bc866b6952"
             },
             "dist": {
                 "type": "tar",
-                "url": "https://composer:uxJ4EhTaf61fo3pnTvK5@composer.monkeydata.com/dist/monkey-connections-2.6.0-c82065.tar",
-                "reference": "07561c48939dba537b39470b409b64528ed461f0",
-                "shasum": "fa1f03eecb8e9d4086cac616b3646efcb0fa02ea"
+                "url": "https://composer:uxJ4EhTaf61fo3pnTvK5@composer.monkeydata.com/dist/monkey-connections-2.7.0-97f041.tar",
+                "reference": "17116290fdde9347ee3134314dbe14bc866b6952",
+                "shasum": "b37ca20015997a21c8942089dbf4a48cb42c76fd"
             },
             "require": {
                 "illuminate/database": "4.*|5.2.*",
                 "monkey/cache-v2": "^1.0.2",
-                "monkey/dotenv": "^1.0.3",
-                "monkey/email": "^2.0.0",
+                "monkey/dotenv": "^1.3.3",
+                "monkey/email": "^2.1.0",
                 "monkey/environment": "^1.0.10",
                 "monkey/helpers": "^1.0.7",
-                "php": ">=5.5.0"
+                "php": ">=5.5.9"
             },
             "require-dev": {
                 "illuminate/database": "5.2.*",
@@ -1524,7 +1525,7 @@
                 }
             ],
             "description": "package for composer",
-            "time": "2017-01-28 18:52:36"
+            "time": "2017-02-17 13:25:20"
         },
         {
             "name": "monkey/crypt",
@@ -1565,17 +1566,17 @@
         },
         {
             "name": "monkey/date-time",
-            "version": "1.1.0",
+            "version": "1.1.2",
             "source": {
                 "type": "git",
                 "url": "git@gitlab.monkeydata.com:composer/date-time.git",
-                "reference": "94c05d2b4d6be5204dba635d50aa154b4074dc8e"
+                "reference": "94a94b8ce4d7e4c96583ee0fc5a3d54906bb971d"
             },
             "dist": {
                 "type": "tar",
-                "url": "https://composer:uxJ4EhTaf61fo3pnTvK5@composer.monkeydata.com/dist/monkey-date-time-1.1.0-36ae5d.tar",
-                "reference": "94c05d2b4d6be5204dba635d50aa154b4074dc8e",
-                "shasum": "352d348e2a642775d11d4a831f86c06e00b2e07e"
+                "url": "https://composer:uxJ4EhTaf61fo3pnTvK5@composer.monkeydata.com/dist/monkey-date-time-1.1.2-d41fce.tar",
+                "reference": "94a94b8ce4d7e4c96583ee0fc5a3d54906bb971d",
+                "shasum": "e30c0e6c9d252a54acd14f42eab0bfcdffe27a91"
             },
             "require": {
                 "php": ">=5.2.0"
@@ -1598,7 +1599,7 @@
                 }
             ],
             "description": "DateTime package as an extension for standard PHP DateTime class",
-            "time": "2017-01-13 14:18:31"
+            "time": "2017-02-16 13:09:41"
         },
         {
             "name": "monkey/domain-model",
@@ -1683,27 +1684,27 @@
         },
         {
             "name": "monkey/email",
-            "version": "2.0.0",
+            "version": "2.2.0",
             "source": {
                 "type": "git",
                 "url": "git@gitlab.monkeydata.com:composer/email.git",
-                "reference": "90efb682913a037875edbd628c7ac39ce7f2f98d"
+                "reference": "480def318ca9f2bb959a6fa76225495af8993b98"
             },
             "dist": {
                 "type": "tar",
-                "url": "https://composer:uxJ4EhTaf61fo3pnTvK5@composer.monkeydata.com/dist/monkey-email-2.0.0-9654a7.tar",
-                "reference": "90efb682913a037875edbd628c7ac39ce7f2f98d",
-                "shasum": "fcdc58639f1032b2323a2bccc4defa576288bd64"
+                "url": "https://composer:uxJ4EhTaf61fo3pnTvK5@composer.monkeydata.com/dist/monkey-email-2.2.0-482611.tar",
+                "reference": "480def318ca9f2bb959a6fa76225495af8993b98",
+                "shasum": "9a8af3b7b97f55422a4bdec77d00a25c9f31f6bc"
             },
             "require": {
                 "mikehaertl/phpwkhtmltopdf": "~2.1",
-                "php": ">=5.5.0",
-                "swiftmailer/swiftmailer": "5.4.3",
+                "php": ">=5.5.9",
+                "swiftmailer/swiftmailer": "5.4.*",
                 "tijsverkoyen/css-to-inline-styles": "1.5.*"
             },
             "require-dev": {
                 "mockery/mockery": "*",
-                "phpunit/phpunit": "3.7.*"
+                "phpunit/phpunit": "4.8.*"
             },
             "type": "package",
             "autoload": {
@@ -1719,7 +1720,7 @@
                 }
             ],
             "description": "package for composer",
-            "time": "2016-11-01 17:16:05"
+            "time": "2017-02-21 13:17:20"
         },
         {
             "name": "monkey/environment",
@@ -1842,20 +1843,21 @@
         },
         {
             "name": "monkey/old-monkey",
-            "version": "1.4.1",
+            "version": "1.4.2",
             "source": {
                 "type": "git",
                 "url": "git@gitlab.monkeydata.com:composer/old-monkey.git",
-                "reference": "77cef56842a586186939df18a170946f2742edda"
+                "reference": "b7599715a7166de0b85013df5c25026514695f53"
             },
             "dist": {
                 "type": "tar",
-                "url": "https://composer:uxJ4EhTaf61fo3pnTvK5@composer.monkeydata.com/dist/monkey-old-monkey-1.4.1-6fe892.tar",
-                "reference": "77cef56842a586186939df18a170946f2742edda",
-                "shasum": "08dac74f24a8771021802759086d28ee62688e4b"
+                "url": "https://composer:uxJ4EhTaf61fo3pnTvK5@composer.monkeydata.com/dist/monkey-old-monkey-1.4.2-205751.tar",
+                "reference": "b7599715a7166de0b85013df5c25026514695f53",
+                "shasum": "9d05c8a5a040033b35f8337ed9708d88c10bad7a"
             },
             "require": {
                 "monkey/cache-v2": "^1.0.0",
+                "monkey/date-time": "^1.1.0",
                 "monkey/domain-model": "*",
                 "monkey/environment": "^1.1.0",
                 "monkey/o-auth2": "^1.0.0",
@@ -1866,7 +1868,7 @@
             },
             "require-dev": {
                 "mockery/mockery": "*",
-                "phpunit/phpunit": "3.7.*"
+                "phpunit/phpunit": "4.8.*"
             },
             "type": "library",
             "autoload": {
@@ -1886,21 +1888,21 @@
                 "monkey",
                 "old-monkey"
             ],
-            "time": "2017-02-02 12:43:03"
+            "time": "2017-02-15 01:07:21"
         },
         {
             "name": "monkey/payments",
-            "version": "1.4.0",
+            "version": "1.4.1",
             "source": {
                 "type": "git",
                 "url": "git@gitlab.monkeydata.com:composer/payments.git",
-                "reference": "fd279f4a695f8b7585d908e4c6eabc1681f745fb"
+                "reference": "fc15ae3a27bd70e1ff0fce5396bd2cb261a3d990"
             },
             "dist": {
                 "type": "tar",
-                "url": "https://composer:uxJ4EhTaf61fo3pnTvK5@composer.monkeydata.com/dist/monkey-payments-1.4.0-fca883.tar",
-                "reference": "fd279f4a695f8b7585d908e4c6eabc1681f745fb",
-                "shasum": "dfcada65b3e4177f87bfcaacc9caf89e0408376d"
+                "url": "https://composer:uxJ4EhTaf61fo3pnTvK5@composer.monkeydata.com/dist/monkey-payments-1.4.1-38e260.tar",
+                "reference": "fc15ae3a27bd70e1ff0fce5396bd2cb261a3d990",
+                "shasum": "96708743e0cfaf76c5e9c5595c37c509737ba595"
             },
             "require": {
                 "braintree/braintree_php": "3.5.*",
@@ -1927,7 +1929,7 @@
                 }
             ],
             "description": "package for composer",
-            "time": "2017-02-08 12:42:27"
+            "time": "2017-02-17 09:46:33"
         },
         {
             "name": "monkey/raven",
@@ -2597,23 +2599,24 @@
         },
         {
             "name": "swiftmailer/swiftmailer",
-            "version": "v5.4.3",
+            "version": "v5.4.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/swiftmailer/swiftmailer.git",
-                "reference": "4cc92842069c2bbc1f28daaaf1d2576ec4dfe153"
+                "reference": "81fdccfaf8bdc5d5d7a1ef6bb3a61bbb1a6c4a3e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/swiftmailer/swiftmailer/zipball/4cc92842069c2bbc1f28daaaf1d2576ec4dfe153",
-                "reference": "4cc92842069c2bbc1f28daaaf1d2576ec4dfe153",
+                "url": "https://api.github.com/repos/swiftmailer/swiftmailer/zipball/81fdccfaf8bdc5d5d7a1ef6bb3a61bbb1a6c4a3e",
+                "reference": "81fdccfaf8bdc5d5d7a1ef6bb3a61bbb1a6c4a3e",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.3"
             },
             "require-dev": {
-                "mockery/mockery": "~0.9.1"
+                "mockery/mockery": "~0.9.1",
+                "symfony/phpunit-bridge": "~3.2"
             },
             "type": "library",
             "extra": {
@@ -2646,11 +2649,11 @@
                 "mail",
                 "mailer"
             ],
-            "time": "2016-07-08 11:51:25"
+            "time": "2017-02-13 07:52:53"
         },
         {
             "name": "symfony/class-loader",
-            "version": "v3.2.3",
+            "version": "v3.2.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/class-loader.git",
@@ -2876,7 +2879,7 @@
         },
         {
             "name": "symfony/event-dispatcher",
-            "version": "v3.2.3",
+            "version": "v3.2.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/event-dispatcher.git",
@@ -3784,16 +3787,16 @@
         },
         {
             "name": "mockery/mockery",
-            "version": "0.9.7",
+            "version": "0.9.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/padraic/mockery.git",
-                "reference": "4de7969f4664da3cef1ccd83866c9f59378c3371"
+                "reference": "1e5e2ffdc4d71d7358ed58a6fdd30a4a0c506855"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/padraic/mockery/zipball/4de7969f4664da3cef1ccd83866c9f59378c3371",
-                "reference": "4de7969f4664da3cef1ccd83866c9f59378c3371",
+                "url": "https://api.github.com/repos/padraic/mockery/zipball/1e5e2ffdc4d71d7358ed58a6fdd30a4a0c506855",
+                "reference": "1e5e2ffdc4d71d7358ed58a6fdd30a4a0c506855",
                 "shasum": ""
             },
             "require": {
@@ -3845,7 +3848,7 @@
                 "test double",
                 "testing"
             ],
-            "time": "2016-12-19 14:50:55"
+            "time": "2017-02-09 13:29:38"
         },
         {
             "name": "phpdocumentor/reflection-common",
@@ -4857,16 +4860,16 @@
         },
         {
             "name": "symfony/yaml",
-            "version": "v3.2.3",
+            "version": "v3.2.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/yaml.git",
-                "reference": "e1718c6bf57e1efbb8793ada951584b2ab27775b"
+                "reference": "9724c684646fcb5387d579b4bfaa63ee0b0c64c8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/yaml/zipball/e1718c6bf57e1efbb8793ada951584b2ab27775b",
-                "reference": "e1718c6bf57e1efbb8793ada951584b2ab27775b",
+                "url": "https://api.github.com/repos/symfony/yaml/zipball/9724c684646fcb5387d579b4bfaa63ee0b0c64c8",
+                "reference": "9724c684646fcb5387d579b4bfaa63ee0b0c64c8",
                 "shasum": ""
             },
             "require": {
@@ -4908,7 +4911,7 @@
             ],
             "description": "Symfony Yaml Component",
             "homepage": "https://symfony.com",
-            "time": "2017-01-21 17:06:35"
+            "time": "2017-02-16 22:46:52"
         },
         {
             "name": "webmozart/assert",
