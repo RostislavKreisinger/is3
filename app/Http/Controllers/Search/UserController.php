@@ -30,7 +30,7 @@ class UserController extends BaseController {
         }
         if(intValue($search)){
             $user = User::find($search);
-            if($user){
+            if(!empty($user)){
                 return Redirect::action(DetailController::routeMethod('getIndex'), ['user_id' => $user->id]);
             }
         }
