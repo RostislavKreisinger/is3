@@ -12,6 +12,7 @@ use App\Http\Controllers\User\DetailController;
 use App\Model\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Input;
+use Monkey\View\View;
 use Redirect;
 
 /**
@@ -34,6 +35,10 @@ class UserController extends BaseController {
                 return Redirect::action(DetailController::routeMethod('getIndex'), ['user_id' => $user->id]);
             }
         }
+
+        $this->getView()->addParameter('search', $search);
+        View::share('userSearch', $originSearch);
+
         
         $users = User::where(function(Builder $where) use ($originSearch) {
                     $where->orWhere('email', 'like', "%$originSearch%");

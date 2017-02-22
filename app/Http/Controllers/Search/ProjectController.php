@@ -12,6 +12,7 @@ use App\Http\Controllers\Project\DetailController;
 use App\Model\Project;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Input;
+use Monkey\View\View;
 use Redirect;
 
 /**
@@ -35,6 +36,9 @@ class ProjectController extends BaseController {
                 return Redirect::action(DetailController::routeMethod('getIndex'), ['project_id' => $project->id]);
             }
         }
+
+        $this->getView()->addParameter('search', $search);
+        View::share('projectSearch', $originSearch);
         
         
         $projects = Project::where(function(Builder $where) use ($originSearch) {
