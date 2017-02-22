@@ -11,6 +11,13 @@
     Import support
 </title>
 
+<meta property="og:type" content="article">
+<meta property="og:title" content="Import support">
+{if isset($project)}
+    <meta property="og:description" content="PID {$project->id} | UID {$project->user_id}">
+{/if}
+
+
 <!-- Bootstrap Core CSS -->
 {*
 <link href="{assets 'default/libs/bootstrap/css/bootstrap.min.css'}" rel="stylesheet">
