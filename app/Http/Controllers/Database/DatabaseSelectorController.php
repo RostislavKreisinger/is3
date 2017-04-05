@@ -7,6 +7,7 @@ use DB;
 use Exception;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Input;
+use Monkey\DateTime\DateTimeHelper;
 use Monkey\Resource\ResourceList;
 use Monkey\Resource\Table;
 use Monkey\Resource\TableConfig\Column;
@@ -49,6 +50,7 @@ class DatabaseSelectorController extends BaseViewController {
             $info = $queryBuilder->first();
             $view->addParameter('info', $info);
 
+
             if ($resource_id !== null) {
                 $resourceList = new ResourceList($this->getClientId($project_id));
                 $tableSelect = array();
@@ -62,7 +64,9 @@ class DatabaseSelectorController extends BaseViewController {
                     }
                 }
 //                vd($tables);
-//                vde($tableSelect);
+
+                $this->addCustomTableSelects($resource_id, $info, $tableSelect);
+                // vde($tableSelect);
                 $view->addParameter('tables', $tables);
                 $view->addParameter('tableSelect', $tableSelect);
             }
@@ -83,6 +87,37 @@ class DatabaseSelectorController extends BaseViewController {
         $vd->setShowBacktrace(false);
         $vd->setEndOfLine("\n");
         $view->addParameter('query', $vd->formatSqlQuery($query));
+    }
+
+    private function addCustomTableSelects($resource_id, $info, &$tableSelect){
+        switch ($resource_id){
+            case 4:
+
+                /*
+                select DATE_FORMAT(`date_id`,'%Y %M'), count(id)
+                    from `monkeydata_import_dw`.`f_eshop_order_3494`
+                    where row_status  < 100
+                        and date_id >= 20160501
+                        group by DATE_FORMAT(`date_id`,'%Y %M')
+                    order by `date_id`
+
+                */
+                $table = new Table("f_eshop_order_[[client_id]]", $info->client_id);
+                $table->setDatabase("monkeydata_import_dw");
+
+                $dateFrom = DateTimeHelper::getInstance()->changeYears(-1)->getMySqlId();
+                $builder = DB::connection("mysql-select-import")
+                    ->table($table->getQueryName())
+                    ->selectRaw("DATE_FORMAT(`date_id`,\'%Y %M\') as `MONTH`, count(id) as `Order_Count`")
+                    ->whereRaw("row_status < 100")
+                    ->whereRaw("date_id >= {$dateFrom}")
+                    ->groupBy(DB::raw("DATE_FORMAT(`date_id`,\'%Y %M\')"))
+                    ->orderBy("date_id");
+                $table->setQuery($this->getQueryFromBuilder($builder));
+                $table->setName("User orders");
+                $tableSelect[] = $table;
+                break;
+        }
     }
 
     public function postIndex() {
@@ -148,6 +183,11 @@ class DatabaseSelectorController extends BaseViewController {
         }
 
         $builder->limit($count);
+
+        return $this->getQueryFromBuilder($builder);
+    }
+
+    private function getQueryFromBuilder($builder){
         $query = (new VardumpQuery())->getFinalQuery($builder);
 
         $queryRaw = $builder->toSql();
