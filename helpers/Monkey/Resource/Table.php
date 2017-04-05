@@ -32,6 +32,8 @@ class Table {
 
     protected $tableConfig = null;
 
+    public $query;
+
     public function __construct($name, $client_id = null) {
         $this->setName($name);
         $this->setClient_id($client_id);
@@ -173,6 +175,22 @@ class Table {
         $this->database = $database;
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getQuery() {
+        return $this->query;
+    }
+
+    /**
+     * @param mixed $query
+     */
+    public function setQuery($query) {
+        $this->query = $query;
+    }
+
+
 
 
 }
