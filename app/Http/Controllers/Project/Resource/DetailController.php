@@ -13,11 +13,9 @@ use App\Http\Controllers\Project\DetailController as ProjectDetailController;
 use App\Http\Controllers\User\DetailController as UserDetailController;
 use App\Model\Currency;
 use App\Model\EshopType;
-use App\Model\Resource;
 use Exception;
-use Illuminate\Support\Facades\DB;
 use Monkey\Breadcrump\BreadcrumbItem;
-use Monkey\DateTime\DateTimeHelper;
+use Monkey\Connections\MDDatabaseConnections;
 use Monkey\ImportSupport\Project;
 use Monkey\View\ViewFinder;
 
@@ -59,7 +57,37 @@ class DetailController extends Controller {
         }
         if ($resource->id == 4) {
             $this->getView()->addParameter('eshopType', EshopType::find($resourceDetail->eshop_type_id));
+
+            // Is MyOnlineStore
+            if ($resourceDetail->eshop_type_id == 46) {
+                $flowStatus = $this->getFlowStatus($projectId, $resource->id);
+
+                if ($flowStatus) {
+
+
+                    foreach ($flowStatus as $status) {
+                        $state = $status->final_state;
+
+                        if ($this->getNdDigitFromNumber(1, $state) !== 0) {
+                            $type = "Import";
+                        } else if ($this->getNdDigitFromNumber(2, $state) !== 0) {
+                            $type = "Etl";
+                        } else if ($this->getNdDigitFromNumber(3, $state) !== 0) {
+                            $type = "Calc";
+                        } else if ($this->getNdDigitFromNumber(4, $state) !== 0) {
+                            $type = "Output";
+                        }
+
+                        $status->refresh_link = $this->getFlowStatusLink($status->unique, $type);
+
+
+                    }
+                }
+
+                $this->getView()->addParameter('myOnlineStoreStates', $flowStatus);
+            }
         }
+
 
         $stack = null;
         $stackExtend = null;
@@ -84,6 +112,18 @@ class DetailController extends Controller {
         $this->getView()->addParameter('resourceErrors', $resourceErrors);
 
         $this->prepareMenu($project);
+    }
+
+    private function getNdDigitFromNumber($position, $number) {
+        return (int) $number[--$position];
+    }
+
+    private function getFlowStatus($projectId, $resourceId) {
+        return MDDatabaseConnections::getImportFlowConnection()->select('CALL flowStatus(?,?)', array($projectId, $resourceId));
+    }
+
+    private function getFlowStatusLink($uniqueId, $type) {
+        return "https://import-flow.monkeydata.com/management/{$type}/?unique={$uniqueId}";
     }
 
     protected function breadcrumbAfterAction($parameters = array()) {
