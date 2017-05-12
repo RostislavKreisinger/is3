@@ -58,9 +58,12 @@
             </div>
         </div>
 
-        {if isset($myOnlineStoreStates)}
-            {view 'default.project.resource.template.my-online-store-panel'}
-        {/if}
+        <div class="row" style="margin-top: 20px" n:if="$user->can('project.resource.import_flow.list')">
+            <div class="col-lg-12">
+                <h4>Import Flow</h4>
+                {view 'default.project.resource.template.import-flow-statuses-panel'}
+            </div>
+        </div>
 
     </div>
         
