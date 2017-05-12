@@ -85,6 +85,74 @@ class ResourceV2 extends Resource {
         return Resource::STATUS_ERROR;
     }
 
+    public function getStateDailyImportFlow() {
+        $importFlowDaily = $this->getResourceStats()->getImportFlowDaily();
+        if ($importFlowDaily === null) {
+            $importFlowDaily = MDDatabaseConnections::getImportFlowConnection()
+                                                     ->table('if_import as ifi')
+                                                     ->leftJoin('if_daily as ifd', 'ifi.id', '=','ifd.if_import_id')
+                                                     ->select(['ifd.id','ifi.active', 'ifd.ttl', 'ifi.unique','ifd.next_run_date', 'ifd.start_at', 'ifd.finish_at'])
+                                                     ->where('ifi.project_id', '=', $this->getProject_id())
+                                                     ->where('ifi.resource_id', '=', $this->getResource()->id)
+                                                     ->first();
+            $this->getResourceStats()->setImportFlowDaily($importFlowDaily);
+        }
+
+        if (is_null($importFlowDaily)) {
+            return Resource::STATUS_MISSING_RECORD;
+        }
+        if ($importFlowDaily->ttl <= 0) {
+            return Resource::STATUS_ERROR;
+        }
+        if ($importFlowDaily->ttl > 0) {
+            if ($importFlowDaily->active == 1) {
+                return Resource::STATUS_ACTIVE;
+            }
+            if ($importFlowDaily->active == 2) {
+                return Resource::STATUS_RUNNING;
+            }
+        }
+
+        return Resource::STATUS_ERROR;
+    }
+
+    public function getStateHistoryImportFlow() {
+        $importFlowHistory = $this->getResourceStats()->getImportFlowHistory();
+        if ($importFlowHistory === null) {
+            $importFlowHistory = MDDatabaseConnections::getImportFlowConnection()
+                                                       ->table('if_import as ifi')
+                                                       ->leftJoin('if_history as ifh', 'ifi.id', '=','ifh.if_import_id')
+                                                       ->select(['ifh.id','ifi.active', 'ifh.ttl', 'ifi.unique', 'ifh.start_at', 'ifh.finish_at', 'ifh.date_from', 'ifh.date_to', \DB::raw('IF(ifh.date_to <= ifh.date_from, 1, 0) as date_check')])
+                                                       ->where('ifi.project_id', '=', $this->getProject_id())
+                                                       ->where('ifi.resource_id', '=', $this->getResource()->id)
+                                                       ->first();
+            $this->getResourceStats()->setImportFlowHistory($importFlowHistory);
+
+        }
+
+        if (is_null($importFlowHistory)) {
+            return Resource::STATUS_MISSING_RECORD;
+        }
+        if ($importFlowHistory->ttl <= 0) {
+            return Resource::STATUS_ERROR;
+        }
+        if ($importFlowHistory->ttl > 0) {
+            if ($importFlowHistory->active == 1) {
+                return Resource::STATUS_ACTIVE;
+            }
+            if ($importFlowHistory->active == 2) {
+                return Resource::STATUS_RUNNING;
+            }
+        }
+
+        if ($importFlowHistory->active == 0 && $importFlowHistory->ttl > 0 && $importFlowHistory->date_check == 1) {
+            return Resource::STATUS_DONE;
+        }
+
+        return Resource::STATUS_ERROR;
+    }
+
+
     public function getStateHistory() {
         $importPrepareStart = $this->getResourceStats()->getImportPrepareStart();
         if ($importPrepareStart === null) {

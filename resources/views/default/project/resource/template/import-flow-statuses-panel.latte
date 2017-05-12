@@ -1,0 +1,18 @@
+{php $statuses = array(
+                ['code' => 'ifDaily', 'methodName' => 'DailyImportFlow', 'name'=> 'Daily'],
+                ['code' => 'ifHistory', 'methodName' => 'HistoryImportFlow', 'name'=> 'History'],
+                ['code' => 'ifResource', 'name'=> $resource->name]
+            );
+}
+<div>
+    <ul class="nav nav-tabs">
+        <li n:foreach="$statuses as $status" class="font-bold {last}active{/last} {isset($status['methodName']) ? 'state-'.$resource->{'getState'.$status['methodName']}() : ''}">
+            <a href="#{$status['code']}" data-toggle="tab" aria-expanded="true">{$status['name']}</a>
+        </li>
+    </ul>
+    <div class="tab-content">
+        <div n:foreach="$statuses as $status" class="tab-pane {last}active in{/last}" id="{$status['code']}">
+            {view 'default.project.resource.template.import-flow-panel.'.$status['code']}
+        </div>
+    </div>
+</div>
