@@ -20,8 +20,11 @@ class ResourceStats {
     private $importPrepareStart;
     
     private $importPrepareNew;
-    
-    
+
+    private $importFlowDaily;
+
+    private $importFlowHistory;
+
     
     
     public function getResourceSetting() {
@@ -47,6 +50,40 @@ class ResourceStats {
     public function setImportPrepareNew($importPrepareNew) {
         $this->importPrepareNew = $importPrepareNew;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getImportFlowDaily() {
+        return $this->importFlowDaily;
+    }
+
+    /**
+     * @param mixed $importFlowDaily
+     * @return ResourceStats
+     */
+    public function setImportFlowDaily($importFlowDaily) {
+        $this->importFlowDaily = $importFlowDaily;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getImportFlowHistory() {
+        return $this->importFlowHistory;
+    }
+
+    /**
+     * @param mixed $importFlowHistory
+     * @return ResourceStats
+     */
+    public function setImportFlowHistory($importFlowHistory) {
+        $this->importFlowHistory = $importFlowHistory;
+        return $this;
+    }
+
+
 
 
 }

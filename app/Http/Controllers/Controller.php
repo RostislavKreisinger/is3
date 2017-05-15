@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Project\DetailController as ProjectDetailController;
+use Illuminate\Support\Collection;
+use Monkey\Connections\MDDatabaseConnections;
 use Monkey\ImportSupport\InvalidProject\Project as Project2;
+use Monkey\ImportSupport\InvalidProject\ProjectList;
 use Monkey\ImportSupport\InvalidProject\ProjectRepository;
 use Monkey\ImportSupport\Pool\PoolList;
 use Monkey\ImportSupport\Project;
@@ -126,6 +129,86 @@ class Controller extends BaseViewController {
     protected function getTesterPool() {
         $this->getPoolList()->setTesterPool(ProjectRepository::getTesterPool());
         return $this->getPoolList()->getTesterPool();
+    }
+
+    protected function getImportFlowStatuses() {
+        $resultCollection = new Collection();
+
+        $ifImportCollection = $this->getImportFlowStatusesCollection('if_import');
+        $ifEtlCollection = $this->getImportFlowStatusesCollection('if_etl');
+        $ifCalcCollection = $this->getImportFlowStatusesCollection('if_calc');
+        $ifOutputCollection = $this->getImportFlowStatusesCollection('if_output');
+
+        $this->mergeCollectionsByKey($resultCollection, $ifImportCollection, "unique");
+        $this->mergeCollectionsByKey($resultCollection, $ifEtlCollection, "unique");
+        $this->mergeCollectionsByKey($resultCollection, $ifCalcCollection, "unique");
+        $this->mergeCollectionsByKey($resultCollection, $ifOutputCollection, "unique");
+
+        $projectIds = $resultCollection->pluck('project_id');
+
+        $projectsCollection = $this->getProjectsCollection($projectIds);
+
+        $this->mergeCollectionsByKey($resultCollection, $projectsCollection, "project_id");
+
+        return $resultCollection;
+    }
+
+    /**
+     * Returns ImportFlow statuses
+     * @param $table
+     * @return Collection
+     */
+    private function getImportFlowStatusesCollection($table) {
+        $activeAlias = substr($table, strpos($table, "_") + 1);
+        return new Collection(MDDatabaseConnections::getImportFlowConnection()->table("{$table} as temp")
+                                                   ->select(["temp.project_id", "temp.unique", "active as ". $activeAlias])
+                                                   ->where(function($query) {
+                                                       return $query->where(function($query) {
+                                                           return $query->where("active", '=', 2)
+                                                                        ->where("start_at", ">=", \DB::raw("DATE_SUB(NOW(), INTERVAL 5 MINUTE)"));
+                                                       })->orWhere("active", "=", 3);
+                                                   })->get());
+    }
+
+    /**
+     * Merge new collection data with the base collection
+     * @param Collection $baseCollection
+     * @param Collection $newCollection
+     * @param $key
+     */
+    private function mergeCollectionsByKey(Collection &$baseCollection, Collection $newCollection, $key) {
+
+        $newCollection->map(function($item) use (&$baseCollection, $key) {
+
+            $targets = $baseCollection->where($key, $item->{$key});
+
+            $targets->map(function($target, $baseKey) use (&$baseCollection, $key, $item) {
+                if ($target->{$key} == $item->{$key}) {
+                    foreach ($item as $itemKey => $itemValue) {
+                        if (!isset($target->$itemKey)) {
+                            $target->$itemKey = $item->{$itemKey};
+                        }
+                    }
+                }
+            });
+
+            if($targets->count() == 0) {
+                $baseCollection->push($item);
+            }
+        });
+    }
+
+    /**
+     * Returns project name
+     * @param $projectIds
+     * @return Collection
+     */
+    private function getProjectsCollection($projectIds) {
+
+        return new Collection(MDDatabaseConnections::getMasterAppConnection()->table('project')
+                                                   ->select(['id as project_id', 'name'])
+                                                   ->whereIn('id', $projectIds->all())
+                                                   ->get());
     }
 
 }

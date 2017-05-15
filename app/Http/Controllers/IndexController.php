@@ -9,6 +9,7 @@
 namespace App\Http\Controllers;
 
 use App\Model\ImportPools\CurrencyEtlCatalog;
+use Illuminate\Support\Collection;
 use Monkey\ImportSupport\InvalidProject\ProjectRepository;
 use Monkey\View\View;
 
@@ -27,7 +28,26 @@ class IndexController extends Controller {
         View::share('dailyProjects', $this->getDailyProjects());
         View::share('historyProjects', $this->getHistoryProjects());
         View::share('automattestProjects', $this->getAutomattestProjects());
-        
+
+        $importFlowStatuses = $this->getImportFlowStatuses();
+
+        View::share('importStatuses', $importFlowStatuses->filter(function($error) {
+            return isset($error->import);
+        }));
+
+        View::share('etlStatuses', $importFlowStatuses->filter(function($error) {
+            return isset($error->etl);
+        }));
+
+        View::share('calcStatuses', $importFlowStatuses->filter(function($error) {
+            return isset($error->calc);
+        }));
+
+        View::share('outputStatuses', $importFlowStatuses->filter(function($error) {
+            return isset($error->output);
+        }));
+
+
         $this->getView()->addParameter('autoreportProjects', ProjectRepository::getAutoreportInvalidRecord());
         $this->getView()->addParameter('currencies', CurrencyEtlCatalog::whereNull('currency_names_id')->get());
         $this->getView()->addParameter('stornoOrderStatuses', \App\Model\ImportPools\StornoOrderStatus::getAllUnsolvedStornoOrderStatuses()->get());
