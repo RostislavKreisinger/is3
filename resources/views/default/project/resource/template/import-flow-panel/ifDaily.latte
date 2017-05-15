@@ -1,0 +1,51 @@
+<div class="table-responsive">
+    <h4 class="resource-subcaption {$resource->getStateDailyImportFlow()}">Daily import <span>[{$resource->getStateDailyImportFlow()}]</span></h4>
+    {var $dailySetting = $resource->getResourceStats()->getImportFlowDaily()}
+    <span n:if="!$dailySetting"> Missing record </span>
+    <table n:if="$dailySetting" class="table table-hover">
+        <tbody>
+        <tr>
+            <td>Id</td>
+            <td>
+                <span>{$dailySetting->id}</span>
+            </td>
+        </tr>
+        <tr>
+            <td>Active</td>
+            <td>
+                <span>{$dailySetting->active}</span>
+            </td>
+        </tr>
+        <tr>
+            <td>Ttl</td>
+            <td>
+                <span>{$dailySetting->ttl}</span>
+            </td>
+        </tr>
+        <tr>
+            <td>Unique</td>
+            <td>
+                <span>{$dailySetting->unique}</span>
+            </td>
+        </tr>
+        <tr>
+            <td>Next run date</td>
+            <td>
+                <span class="font-bold">{$dailySetting->next_run_date}</span>
+            </td>
+        </tr>
+        <tr>
+            <td>Start at</td>
+            <td>
+                <span>{$dailySetting->start_at}</span>
+            </td>
+        </tr>
+        <tr>
+            <td>Finish at</td>
+            <td>
+                <span>{$dailySetting->finish_at}</span>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
