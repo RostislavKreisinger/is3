@@ -91,7 +91,7 @@ class ResourceV2 extends Resource {
             $importFlowDaily = MDDatabaseConnections::getImportFlowConnection()
                                                      ->table('if_import as ifi')
                                                      ->join('if_daily as ifd', 'ifi.id', '=','ifd.if_import_id')
-                                                     ->select(['ifd.id','ifi.active', 'ifd.ttl', 'ifi.unique','ifd.next_run_date', 'ifd.start_at', 'ifd.finish_at'])
+                                                     ->select(['ifd.id','ifd.active', 'ifd.ttl', 'ifi.unique','ifd.next_run_date', 'ifd.start_at', 'ifd.finish_at'])
                                                      ->where('ifi.project_id', '=', $this->getProject_id())
                                                      ->where('ifi.resource_id', '=', $this->getResource()->id)
                                                      ->first();
@@ -122,7 +122,7 @@ class ResourceV2 extends Resource {
             $importFlowHistory = MDDatabaseConnections::getImportFlowConnection()
                                                        ->table('if_import as ifi')
                                                        ->join('if_history as ifh', 'ifi.id', '=','ifh.if_import_id')
-                                                       ->select(['ifh.id','ifi.active', 'ifh.ttl', 'ifi.unique', 'ifh.start_at', 'ifh.finish_at', 'ifh.date_from', 'ifh.date_to', \DB::raw('IF(ifh.date_to <= ifh.date_from, 1, 0) as date_check')])
+                                                       ->select(['ifh.id','ifh.active', 'ifh.ttl', 'ifi.unique', 'ifh.start_at', 'ifh.finish_at', 'ifh.date_from', 'ifh.date_to', \DB::raw('IF(ifh.date_to <= ifh.date_from, 1, 0) as date_check')])
                                                        ->where('ifi.project_id', '=', $this->getProject_id())
                                                        ->where('ifi.resource_id', '=', $this->getResource()->id)
                                                        ->first();
