@@ -71,6 +71,48 @@ class Controller extends BaseViewController {
         return $menu;
     }
 
+    protected function getImportFlowStatusForProject($projectId, $resource) {
+        $flowStatus = $this->getFlowStatus($projectId, $resource->id);
+
+        $resource->getStateDailyImportFlow();
+        $resource->getStateHistoryImportFlow();
+
+        if ($flowStatus) {
+
+            foreach ($flowStatus as $status) {
+                $state = $status->final_state;
+
+                if ($this->getNdDigitFromNumber(1, $state) !== 0) {
+                    $type = "Import";
+                } else if ($this->getNdDigitFromNumber(2, $state) !== 0) {
+                    $type = "Etl";
+                } else if ($this->getNdDigitFromNumber(3, $state) !== 0) {
+                    $type = "Calc";
+                } else if ($this->getNdDigitFromNumber(4, $state) !== 0) {
+                    $type = "Output";
+                }
+
+                $status->refresh_link = $this->getFlowStatusLink($status->unique, $type);
+
+            }
+
+        }
+
+        return $flowStatus;
+    }
+
+    private function getNdDigitFromNumber($position, $number) {
+        return (int) $number[--$position];
+    }
+
+    private function getFlowStatus($projectId, $resourceId) {
+        return MDDatabaseConnections::getImportFlowConnection()->select('CALL flowStatus(?,?)', array($projectId, $resourceId));
+    }
+
+    private function getFlowStatusLink($uniqueId, $type) {
+        return "https://import-flow.monkeydata.com/management/{$type}/?unique={$uniqueId}";
+    }
+
     /**
      * 
      * @return Project2[]

@@ -1,0 +1,168 @@
+{php $statuses = array(
+                ['tab' => 'daily', 'code' => 'ifDaily', 'methodName' => 'DailyImportFlow', 'name'=> 'Daily'],
+                ['tab' => 'history', 'code' => 'ifHistory', 'methodName' => 'HistoryImportFlow', 'name'=> 'History'],
+                ['tab' => 'resource', 'code' => 'ifResource', 'name'=> $resource->name]
+            );
+}
+<div>
+    <ul class="nav nav-tabs">
+        <li n:foreach="$statuses as $status" id="tab-{$status['tab']}"
+                                             class="font-bold {last}active{/last} {isset($status['methodName']) ? 'state-'.$resource->{'getState'.$status['methodName']}() : ''}">
+            <a href="#{$status['code']}"
+               data-toggle="tab"
+               aria-expanded="true">{$status['name']}</a>
+        </li>
+    </ul>
+    <div class="tab-content">
+        <div n:foreach="$statuses as $status" class="tab-pane {last}active in{/last}"
+                                              id="{$status['code']}">
+            {view 'default.project.resource.template.import-flow-panel.'.$status['code']}
+        </div>
+    </div>
+</div>
+
+<script>
+
+
+    function refreshImportFlowData() {
+
+        $.get({$resource->id}+"/importflowstatus", function (data) {
+            renderDaily(data.daily);
+            renderHistory(data.history);
+            renderResource(data.resource);
+        });
+
+    }
+
+    function resetClass(element) {
+        $(element).removeClass('state-done state-active state-running state-missing state-error state-deactive');
+    }
+
+    function resetCaption(element) {
+        $(element).removeClass('done active running missing error deactive');
+    }
+
+    function setCaptionStatus(element, status) {
+        resetCaption(element);
+        element.addClass(status);
+        var text = element.text();
+
+        text = text.substr(0, text.lastIndexOf("["));
+
+        element.text(text + "[" + status + "]");
+
+    }
+
+    function getHtmlElement(tab, id) {
+        return $("#" + id + "-" + tab);
+    }
+
+    function resetBlocks(block, object) {
+        var target = $("#tab-" + block);
+        resetClass(target);
+        target.addClass("state-" + object.status);
+
+        var missing = $("#missing-" + block);
+        var table = $("#table-" + block);
+        var isEmpty = false;
+        if (object == null) {
+            missing.show();
+            table.hide();
+            isEmpty = true;
+        } else {
+            missing.hide();
+            table.show();
+        }
+
+        var caption = $("#caption-" + block);
+        if (caption) {
+            setCaptionStatus(caption, object.status);
+        }
+
+        return isEmpty;
+    }
+
+
+    ///**************************************////
+
+    function renderHistory(object) {
+        var tab = "history";
+        var isEmpty = resetBlocks(tab, object);
+        if (isEmpty) {
+            return;
+        }
+        $.each(object, function (key, value) {
+            getHtmlElement(tab, key).text(value);
+        });
+    }
+
+    function renderDaily(object) {
+        var tab = "daily";
+        var isEmpty = resetBlocks(tab, object);
+        if (isEmpty) {
+            return;
+        }
+
+        $.each(object, function (key, value) {
+            getHtmlElement(tab, key).text(value);
+        });
+
+
+    }
+
+    function renderResource(object) {
+        var tab = "resource";
+        var isEmpty = resetBlocks(tab, object);
+        if (isEmpty) {
+            return;
+        }
+
+        var target = $("#table-" + tab);
+
+        target.find("tr:gt(0)").remove();
+
+        var body = target.find('tbody');
+        for (var i = 0; i < object.length; i++) {
+            var obj = object[i];
+
+            body.append($('<tr>')
+                .append($('<td>')
+                    .append($('<span>')
+                        .text(obj.is_history)
+                    )
+                )
+                .append($('<td>')
+                    .append($('<span>')
+                        .text(obj.result)
+                    )
+                )
+                .append($('<td>')
+                    .append($('<span>')
+                        .text(obj.final_state)
+                    )
+                )
+                .append($('<td>')
+                    .append($('<span>')
+                        .text(obj.unique)
+                    )
+                )
+                .append($('<td>')
+                    .append($('<a>')
+                        .attr('href', obj.refresh_link)
+                        .attr('target', "_blank")
+                        .text("Refresh")
+                    )
+                )
+            );
+        }
+
+
+    }
+
+    setInterval(function () {
+        refreshImportFlowData();
+    }, 5000);
+
+    refreshImportFlowData();
+
+</script>

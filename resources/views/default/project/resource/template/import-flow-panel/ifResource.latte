@@ -1,0 +1,45 @@
+<table id="table-resource" class="table" n:if="count($importFlowStatus) != 0">
+    <thead>
+    <th>
+        Is history
+    </th>
+    <th>
+        Result
+    </th>
+    <th>
+        Final state
+    </th>
+    <th>
+        Unique
+    </th>
+    <th>
+        Action
+    </th>
+    </thead>
+    <tbody>
+    <tr n:foreach="$importFlowStatus as $state">
+        <td>
+            <span>{$state->is_history}</span>
+        </td>
+
+        <td>
+            <span>{$state->result}</span>
+        </td>
+        <td>
+            <span>{$state->final_state}</span>
+        </td>
+        <td>
+            <span>{$state->unique}</span>
+        </td>
+        <td>
+            <a href="{$state->refresh_link}"
+               target="_blank">Refresh</a>
+        </td>
+    </tr>
+
+    </tbody>
+</table>
+<div id="resource-missing" n:if="count($importFlowStatus) == 0" class="text-color-green"
+                                          style="padding: 10px">
+    Successfully downloaded
+</div>

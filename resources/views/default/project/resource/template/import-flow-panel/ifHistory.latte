@@ -1,0 +1,59 @@
+<div class="table-responsive">
+    <h4 id="caption-history" class="resource-subcaption {$resource->getStateHistoryImportFlow()}">History import <span>[{$resource->getStateHistoryImportFlow()}]</span></h4>
+    {var $historySetting = $resource->getResourceStats()->getImportFlowHistory()}
+    <span id="missing-history" n:if="!$historySetting"> Missing record </span>
+    <table id="table-history" n:if="$historySetting" class="table table-hover">
+        <tbody>
+        <tr>
+            <td>Id</td>
+            <td>
+                <span id="id-history">{$historySetting->id}</span>
+            </td>
+        </tr>
+        <tr>
+            <td>Active</td>
+            <td>
+                <span id="active-history">{$historySetting->active}</span>
+            </td>
+        </tr>
+        <tr>
+            <td>Ttl</td>
+            <td>
+                <span id="ttl-history">{$historySetting->ttl}</span>
+            </td>
+        </tr>
+        <tr>
+            <td>Unique</td>
+            <td>
+                <span id="unique-history">{$historySetting->unique}</span>
+            </td>
+        </tr>
+        <tr>
+            <td>Date from</td>
+            <td>
+                <span id="date_from-history" class="font-bold">{$historySetting->date_from}</span>
+            </td>
+        </tr>
+        <tr>
+            <td>Date to</td>
+            <td>
+                <span id="date_to-history" class="font-bold">{$historySetting->date_to}</span>
+            </td>
+        </tr>
+        <tr>
+            <td>Start at</td>
+            <td>
+                <span id="start_at-history">{$historySetting->start_at}</span>
+            </td>
+        </tr>
+        <tr>
+            <td>Finished at</td>
+            <td>
+                <span id="finish_at-history">{$historySetting->finish_at}</span>
+            </td>
+        </tr>
+
+
+        </tbody>
+    </table>
+</div>
