@@ -122,7 +122,7 @@ class ResourceV2 extends Resource {
             $importFlowHistory = MDDatabaseConnections::getImportFlowConnection()
                                                        ->table('if_import as ifi')
                                                        ->join('if_history as ifh', 'ifi.id', '=','ifh.if_import_id')
-                                                       ->select(['ifh.id','ifd.active', 'ifh.ttl', 'ifi.unique', 'ifh.start_at', 'ifh.finish_at', 'ifh.date_from', 'ifh.date_to', \DB::raw('IF(ifh.date_to <= ifh.date_from, 1, 0) as date_check')])
+                                                       ->select(['ifh.id','ifh.active', 'ifh.ttl', 'ifi.unique', 'ifh.start_at', 'ifh.finish_at', 'ifh.date_from', 'ifh.date_to', \DB::raw('IF(ifh.date_to <= ifh.date_from, 1, 0) as date_check')])
                                                        ->where('ifi.project_id', '=', $this->getProject_id())
                                                        ->where('ifi.resource_id', '=', $this->getResource()->id)
                                                        ->first();
