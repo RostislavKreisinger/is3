@@ -49,7 +49,11 @@
 
         text = text.substr(0, text.lastIndexOf("["));
 
-        element.text(text + "[" + status + "]");
+        if(status!==undefined) {
+            element.text(text + "[" + status + "]");
+        } else {
+            element.text(text + "[missing]");
+        }
 
     }
 
@@ -65,7 +69,7 @@
         var missing = $("#missing-" + block);
         var table = $("#table-" + block);
         var isEmpty = false;
-        if (object == null) {
+        if (object.length == 0) {
             missing.show();
             table.hide();
             isEmpty = true;

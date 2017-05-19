@@ -1,55 +1,55 @@
 <div class="table-responsive">
     <h4 id="caption-history" class="resource-subcaption {$resource->getStateHistoryImportFlow()}">History import <span>[{$resource->getStateHistoryImportFlow()}]</span></h4>
     {var $historySetting = $resource->getResourceStats()->getImportFlowHistory()}
-    <span id="missing-history" n:if="!$historySetting"> Missing record </span>
-    <table id="table-history" n:if="$historySetting" class="table table-hover">
+    <span id="missing-history"> Missing record </span>
+    <table id="table-history" class="table table-hover">
         <tbody>
         <tr>
             <td>Id</td>
             <td>
-                <span id="id-history">{$historySetting->id}</span>
+                <span id="id-history"></span>
             </td>
         </tr>
         <tr>
             <td>Active</td>
             <td>
-                <span id="active-history">{$historySetting->active}</span>
+                <span id="active-history"></span>
             </td>
         </tr>
         <tr>
             <td>Ttl</td>
             <td>
-                <span id="ttl-history">{$historySetting->ttl}</span>
+                <span id="ttl-history"></span>
             </td>
         </tr>
         <tr>
             <td>Unique</td>
             <td>
-                <span id="unique-history">{$historySetting->unique}</span>
+                <span id="unique-history"></span>
             </td>
         </tr>
         <tr>
             <td>Date from</td>
             <td>
-                <span id="date_from-history" class="font-bold">{$historySetting->date_from}</span>
+                <span id="date_from-history" class="font-bold"></span>
             </td>
         </tr>
         <tr>
             <td>Date to</td>
             <td>
-                <span id="date_to-history" class="font-bold">{$historySetting->date_to}</span>
+                <span id="date_to-history" class="font-bold"></span>
             </td>
         </tr>
         <tr>
             <td>Start at</td>
             <td>
-                <span id="start_at-history">{$historySetting->start_at}</span>
+                <span id="start_at-history"></span>
             </td>
         </tr>
         <tr>
             <td>Finished at</td>
             <td>
-                <span id="finish_at-history">{$historySetting->finish_at}</span>
+                <span id="finish_at-history"></span>
             </td>
         </tr>
 

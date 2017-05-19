@@ -92,8 +92,8 @@ class ResourceV2 extends Resource {
                                                      ->table('if_daily as ifd')
                                                      ->leftJoin('if_import as ifi', 'ifi.id', '=','ifd.if_import_id')
                                                      ->select(['ifd.id','ifd.active', 'ifd.ttl', 'ifi.unique','ifd.next_run_date', 'ifd.start_at', 'ifd.finish_at'])
-                                                     ->where('ifi.project_id', '=', $this->getProject_id())
-                                                     ->where('ifi.resource_id', '=', $this->getResource()->id)
+                                                     ->where('ifd.project_id', '=', $this->getProject_id())
+                                                     ->where('ifd.resource_id', '=', $this->getResource()->id)
                                                      ->first();
             $this->getResourceStats()->setImportFlowDaily($importFlowDaily);
         }
@@ -123,8 +123,8 @@ class ResourceV2 extends Resource {
                                                        ->table('if_history as ifh')
                                                        ->leftJoin('if_import as ifi', 'ifi.id', '=','ifh.if_import_id')
                                                        ->select(['ifh.id','ifh.active', 'ifh.ttl', 'ifi.unique', 'ifh.start_at', 'ifh.finish_at', 'ifh.date_from', 'ifh.date_to', \DB::raw('IF(ifh.date_to <= ifh.date_from, 1, 0) as date_check')])
-                                                       ->where('ifi.project_id', '=', $this->getProject_id())
-                                                       ->where('ifi.resource_id', '=', $this->getResource()->id)
+                                                       ->where('ifh.project_id', '=', $this->getProject_id())
+                                                       ->where('ifh.resource_id', '=', $this->getResource()->id)
                                                        ->first();
             $this->getResourceStats()->setImportFlowHistory($importFlowHistory);
 

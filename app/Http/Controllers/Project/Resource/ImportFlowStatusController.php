@@ -26,11 +26,20 @@ class ImportFlowStatusController extends Controller {
 
         $results = [];
         $results["resource"] = $this->getImportFlowStatusForProject($projectId, $this->resource);
-        $results["daily"] = $this->resource->getResourceStats()->getImportFlowDaily();
 
-        $results["daily"]->status = $resource->getStateDailyImportFlow();
-        $results["history"] = $this->resource->getResourceStats()->getImportFlowHistory();
-        $results["history"]->status = $resource->getStateHistoryImportFlow();
+        if($this->resource->getResourceStats()->getImportFlowDaily()) {
+            $results["daily"] = $this->resource->getResourceStats()->getImportFlowDaily();
+            $results["daily"]->status = $resource->getStateDailyImportFlow();
+        } else {
+            $results["daily"] = [];
+        }
+
+        if($this->resource->getResourceStats()->getImportFlowHistory()) {
+            $results["history"] = $this->resource->getResourceStats()->getImportFlowHistory();
+            $results["history"]->status = $resource->getStateHistoryImportFlow();
+        } else {
+            $results["history"] = [];
+        }
         return $results;
 
     }

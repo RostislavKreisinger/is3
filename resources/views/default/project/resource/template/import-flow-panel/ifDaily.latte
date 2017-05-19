@@ -1,49 +1,49 @@
 <div class="table-responsive">
     <h4 id="caption-daily" class="resource-subcaption {$resource->getStateDailyImportFlow()}">Daily import <span>[{$resource->getStateDailyImportFlow()}]</span></h4>
     {var $dailySetting = $resource->getResourceStats()->getImportFlowDaily()}
-    <span id="missing-daily" n:if="!$dailySetting"> Missing record </span>
-    <table id="table-daily" n:if="$dailySetting" class="table table-hover">
+    <span id="missing-daily"> Missing record </span>
+    <table id="table-daily" class="table table-hover">
         <tbody>
         <tr>
             <td>Id</td>
             <td>
-                <span id="id-daily">{$dailySetting->id}</span>
+                <span id="id-daily"></span>
             </td>
         </tr>
         <tr>
             <td>Active</td>
             <td>
-                <span id="active-daily">{$dailySetting->active}</span>
+                <span id="active-daily"></span>
             </td>
         </tr>
         <tr>
             <td>Ttl</td>
             <td>
-                <span id="ttl-daily">{$dailySetting->ttl}</span>
+                <span id="ttl-daily"></span>
             </td>
         </tr>
         <tr>
             <td>Unique</td>
             <td>
-                <span id="unique-daily">{$dailySetting->unique}</span>
+                <span id="unique-daily"></span>
             </td>
         </tr>
         <tr>
             <td>Next run date</td>
             <td>
-                <span id="next_run_date-daily" class="font-bold">{$dailySetting->next_run_date}</span>
+                <span id="next_run_date-daily" class="font-bold"></span>
             </td>
         </tr>
         <tr>
             <td>Start at</td>
             <td>
-                <span id="start_at-daily">{$dailySetting->start_at}</span>
+                <span id="start_at-daily"></span>
             </td>
         </tr>
         <tr>
             <td>Finish at</td>
             <td>
-                <span id="finish_at-daily">{$dailySetting->finish_at}</span>
+                <span id="finish_at-daily"></span>
             </td>
         </tr>
         </tbody>
