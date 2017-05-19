@@ -7,7 +7,7 @@
 <div>
     <ul class="nav nav-tabs">
         <li n:foreach="$statuses as $status" id="tab-{$status['tab']}"
-                                             class="font-bold {last}active{/last} {isset($status['methodName']) ? 'state-'.$resource->{'getState'.$status['methodName']}() : ''}">
+                                             class="font-bold {last}active{/last}">
             <a href="#{$status['code']}"
                data-toggle="tab"
                aria-expanded="true">{$status['name']}</a>

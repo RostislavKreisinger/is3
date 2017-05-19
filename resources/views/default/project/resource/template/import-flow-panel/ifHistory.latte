@@ -1,8 +1,8 @@
 <div class="table-responsive">
     <h4 id="caption-history" class="resource-subcaption {$resource->getStateHistoryImportFlow()}">History import <span>[{$resource->getStateHistoryImportFlow()}]</span></h4>
     {var $historySetting = $resource->getResourceStats()->getImportFlowHistory()}
-    <span id="missing-history"> Missing record </span>
-    <table id="table-history" class="table table-hover">
+    <span id="missing-history" style="display: none"> Missing record </span>
+    <table id="table-history" class="table table-hover" style="display: none">
         <tbody>
         <tr>
             <td>Id</td>
