@@ -94,6 +94,7 @@ class ResourceV2 extends Resource {
                                                      ->select(['ifd.id','ifd.active', 'ifd.ttl', 'ifi.unique','ifd.next_run_date', 'ifd.start_at', 'ifd.finish_at'])
                                                      ->where('ifi.project_id', '=', $this->getProject_id())
                                                      ->where('ifi.resource_id', '=', $this->getResource()->id)
+                                                     ->whereNull('deleted_at')
                                                      ->first();
             $this->getResourceStats()->setImportFlowDaily($importFlowDaily);
         }
@@ -125,6 +126,7 @@ class ResourceV2 extends Resource {
                                                        ->select(['ifh.id','ifh.active', 'ifh.ttl', 'ifi.unique', 'ifh.start_at', 'ifh.finish_at', 'ifh.date_from', 'ifh.date_to', \DB::raw('IF(ifh.date_to <= ifh.date_from, 1, 0) as date_check')])
                                                        ->where('ifi.project_id', '=', $this->getProject_id())
                                                        ->where('ifi.resource_id', '=', $this->getResource()->id)
+                                                       ->whereNull('deleted_at')
                                                        ->first();
             $this->getResourceStats()->setImportFlowHistory($importFlowHistory);
 
