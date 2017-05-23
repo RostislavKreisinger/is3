@@ -271,7 +271,7 @@ class ProjectRepository {
                 ->whereNull('u.deleted_at')
                 ->where('u.test_user', '=', 0)
                 ->join('client as c', 'u.id', '=', 'c.user_id')
-                ->whereRaw('DATE_ADD(`c`.`tariff_expired`, INTERVAL ' . static::DAYS_AFTER_TARIFF_EXPIRATE . ' DAY) > NOW()')
+                ->whereRaw('(DATE_ADD(`c`.`tariff_expired`, INTERVAL ' . static::DAYS_AFTER_TARIFF_EXPIRATE . ' DAY) > NOW() OR  `c`.`tariff_expired` IS NULL)')
         ;
         return $builder;
     }
