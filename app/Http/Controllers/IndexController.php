@@ -31,6 +31,10 @@ class IndexController extends Controller {
 
         $importFlowStatuses = $this->getImportFlowStatuses();
 
+//        vd($importFlowStatuses);
+//        vde($importFlowStatuses->filter(function($error) {
+//            return isset($error->import);
+//        }));
         View::share('importStatuses', $importFlowStatuses->filter(function($error) {
             return isset($error->import);
         }));
