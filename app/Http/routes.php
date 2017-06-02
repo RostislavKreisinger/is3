@@ -70,6 +70,11 @@ Route::group(['middleware' => 'web'], function () {
             Route::controller('client', \App\Http\Controllers\Search\ClientController::class);
             Route::controller('project', \App\Http\Controllers\Search\ProjectController::class);
         });
+
+        Route::group(['prefix' => 'project-list'], function(){
+            Route::controller('/resources/{resource_id?}', \App\Http\Controllers\ProjectList\ResourcesController::class);
+            Route::controller('/eshops/{eshop_type_id?}', \App\Http\Controllers\ProjectList\EshopsController::class);
+        });
         
         Route::group(['prefix' => 'project'], function(){
             Route::group(['prefix' => '{project_id}'], function(){

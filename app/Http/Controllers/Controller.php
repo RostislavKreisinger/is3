@@ -188,7 +188,6 @@ class Controller extends BaseViewController {
         $this->mergeCollectionsByKey($resultCollection, $ifOutputCollection, "unique");
 
         $projectIds = $resultCollection->pluck('project_id');
-
         $projectsCollection = $this->getProjectsCollection($projectIds);
 
         $this->mergeCollectionsByKey($resultCollection, $projectsCollection, "project_id");
@@ -202,7 +201,9 @@ class Controller extends BaseViewController {
             } else {
                 $member->start_date = "-";
             }
-
+            if(!isset($member->name)){
+                $member->name = "name";
+            }
         });
 
         return $resultCollection;
