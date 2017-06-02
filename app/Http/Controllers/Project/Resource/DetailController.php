@@ -59,33 +59,34 @@ class DetailController extends Controller {
             $this->getView()->addParameter('eshopType', EshopType::find($resourceDetail->eshop_type_id));
 
             //vde($resource->toArray());
-
+        }
             $this->getView()->addParameter('importFlowStatus', $this->getImportFlowStatusForProject($projectId, $resource));
 
-            $stack = null;
-            $stackExtend = null;
-            if (!$resource->isValid()) {
-                $stack = $resource->getStack();
-                $stackExtend = $resource->getStackExtend();
-            }
 
-            $connectionDetail = array();
-            if ($this->getUser()->can('project.resource.connection_detail')) {
-                $connectionDetail = $resource->getConnectionDetail();
-            }
-
-
-            $this->getView()->addParameter('stack', $stack);
-            $this->getView()->addParameter('stackExtend', $stackExtend);
-            $this->getView()->addParameter('project', $project);
-            $this->getView()->addParameter('resource', $resource);
-            $this->getView()->addParameter('resourceDetail', $resourceDetail);
-            $this->getView()->addParameter('resourceCurrency', $resourceCurrency);
-            $this->getView()->addParameter('connectionDetail', $connectionDetail);
-            $this->getView()->addParameter('resourceErrors', $resourceErrors);
-
-            $this->prepareMenu($project);
+        $stack = null;
+        $stackExtend = null;
+        if (!$resource->isValid()) {
+            $stack = $resource->getStack();
+            $stackExtend = $resource->getStackExtend();
         }
+
+        $connectionDetail = array();
+        if ($this->getUser()->can('project.resource.connection_detail')) {
+            $connectionDetail = $resource->getConnectionDetail();
+        }
+
+
+        $this->getView()->addParameter('stack', $stack);
+        $this->getView()->addParameter('stackExtend', $stackExtend);
+        $this->getView()->addParameter('project', $project);
+        $this->getView()->addParameter('resource', $resource);
+        $this->getView()->addParameter('resourceDetail', $resourceDetail);
+        $this->getView()->addParameter('resourceCurrency', $resourceCurrency);
+        $this->getView()->addParameter('connectionDetail', $connectionDetail);
+        $this->getView()->addParameter('resourceErrors', $resourceErrors);
+
+        $this->prepareMenu($project);
+
     }
 
     protected function breadcrumbAfterAction($parameters = array()) {
