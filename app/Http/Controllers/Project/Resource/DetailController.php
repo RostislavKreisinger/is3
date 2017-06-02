@@ -57,74 +57,35 @@ class DetailController extends Controller {
         }
         if ($resource->id == 4) {
             $this->getView()->addParameter('eshopType', EshopType::find($resourceDetail->eshop_type_id));
-        }
 
+            //vde($resource->toArray());
 
-        $flowStatus = $this->getFlowStatus($projectId, $resource->id);
+            $this->getView()->addParameter('importFlowStatus', $this->getImportFlowStatusForProject($projectId, $resource));
 
-        $resource->getStateDailyImportFlow();
-        $resource->getStateHistoryImportFlow();
-
-        if ($flowStatus) {
-
-            foreach ($flowStatus as $status) {
-                $state = $status->final_state;
-
-                if ($this->getNdDigitFromNumber(1, $state) !== 0) {
-                    $type = "Import";
-                } else if ($this->getNdDigitFromNumber(2, $state) !== 0) {
-                    $type = "Etl";
-                } else if ($this->getNdDigitFromNumber(3, $state) !== 0) {
-                    $type = "Calc";
-                } else if ($this->getNdDigitFromNumber(4, $state) !== 0) {
-                    $type = "Output";
-                }
-
-                $status->refresh_link = $this->getFlowStatusLink($status->unique, $type);
-
+            $stack = null;
+            $stackExtend = null;
+            if (!$resource->isValid()) {
+                $stack = $resource->getStack();
+                $stackExtend = $resource->getStackExtend();
             }
 
+            $connectionDetail = array();
+            if ($this->getUser()->can('project.resource.connection_detail')) {
+                $connectionDetail = $resource->getConnectionDetail();
+            }
+
+
+            $this->getView()->addParameter('stack', $stack);
+            $this->getView()->addParameter('stackExtend', $stackExtend);
+            $this->getView()->addParameter('project', $project);
+            $this->getView()->addParameter('resource', $resource);
+            $this->getView()->addParameter('resourceDetail', $resourceDetail);
+            $this->getView()->addParameter('resourceCurrency', $resourceCurrency);
+            $this->getView()->addParameter('connectionDetail', $connectionDetail);
+            $this->getView()->addParameter('resourceErrors', $resourceErrors);
+
+            $this->prepareMenu($project);
         }
-
-        //vde($resource->toArray());
-
-
-        $this->getView()->addParameter('importFlowStatus', $flowStatus);
-
-        $stack = null;
-        $stackExtend = null;
-        if (!$resource->isValid()) {
-            $stack = $resource->getStack();
-            $stackExtend = $resource->getStackExtend();
-        }
-
-        $connectionDetail = array();
-        if($this->getUser()->can('project.resource.connection_detail')){
-            $connectionDetail = $resource->getConnectionDetail();
-        }
-
-        $this->getView()->addParameter('stack', $stack);
-        $this->getView()->addParameter('stackExtend', $stackExtend);
-        $this->getView()->addParameter('project', $project);
-        $this->getView()->addParameter('resource', $resource);
-        $this->getView()->addParameter('resourceDetail', $resourceDetail);
-        $this->getView()->addParameter('resourceCurrency', $resourceCurrency);
-        $this->getView()->addParameter('connectionDetail', $connectionDetail);
-        $this->getView()->addParameter('resourceErrors', $resourceErrors);
-
-        $this->prepareMenu($project);
-    }
-
-    private function getNdDigitFromNumber($position, $number) {
-        return (int) $number[--$position];
-    }
-
-    private function getFlowStatus($projectId, $resourceId) {
-        return MDDatabaseConnections::getImportFlowConnection()->select('CALL flowStatus(?,?)', array($projectId, $resourceId));
-    }
-
-    private function getFlowStatusLink($uniqueId, $type) {
-        return "https://import-flow.monkeydata.com/management/{$type}/?unique={$uniqueId}";
     }
 
     protected function breadcrumbAfterAction($parameters = array()) {
@@ -137,5 +98,5 @@ class DetailController extends Controller {
     protected function getErrors() {
         return \App\Model\ImportSupport\ResourceError::all();
     }
-
+    
 }

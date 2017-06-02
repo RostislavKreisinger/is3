@@ -1,4 +1,4 @@
-<table class="table" n:if="count($importFlowStatus) != 0">
+<table id="table-resource" class="table" style="display: none">
     <thead>
     <th>
         Is history
@@ -39,7 +39,7 @@
 
     </tbody>
 </table>
-<div n:if="count($importFlowStatus) == 0" class="text-color-green"
-                                          style="padding: 10px">
+<div id="missing-resource" class="text-color-green"
+                                          style="padding: 10px; display: none">
     Successfully downloaded
 </div>

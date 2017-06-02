@@ -198,7 +198,10 @@
 
 <div class="row">
     <div class="col-lg-12">
-        <h1 class="page-header">ImportFlow Statuses</h1>
+        <div class="page-header">
+            <h1 style="display: inline-block">ImportFlow Statuses</h1>
+            <h2 id="currentDateIFStatuses" style="display: inline-block; color: #999; margin-left: 30px">abc</h2>
+        </div>
     </div>
     <!-- /.col-lg-12 -->
 </div>
@@ -221,6 +224,7 @@
                         <tr>
                             <th>id</th>
                             <th>name</th>
+                            <th>start_at</th>
                             <th>status</th>
                         </tr>
                         </thead>
@@ -228,6 +232,7 @@
                         <tr n:foreach="$importStatuses as $status">
                             <td><a href="{action 'Project\DetailController', ['project_id' => $status->project_id]}">{$status->project_id}</a></td>
                             <td>{$status->name}</td>
+                            <td style="width: 115px">{$status->start_date}</td>
                             <td style="width: 50px">{$status->import}</td>
                         </tr>
                         </tbody>
@@ -254,6 +259,7 @@
                         <tr>
                             <th>id</th>
                             <th>name</th>
+                            <th>start_at</th>
                             <th>status</th>
                         </tr>
                         </thead>
@@ -261,6 +267,7 @@
                         <tr n:foreach="$etlStatuses as $status">
                             <td><a href="{action 'Project\DetailController', ['project_id' => $status->project_id]}">{$status->project_id}</a></td>
                             <td>{$status->name}</td>
+                            <td style="width: 115px">{$status->start_date}</td>
                             <td style="width: 50px">{$status->etl}</td>
                         </tr>
                         </tbody>
@@ -287,6 +294,7 @@
                         <tr>
                             <th>id</th>
                             <th>name</th>
+                            <th>start_at</th>
                             <th>status</th>
                         </tr>
                         </thead>
@@ -294,6 +302,7 @@
                         <tr n:foreach="$calcStatuses as $status">
                             <td><a href="{action 'Project\DetailController', ['project_id' => $status->project_id]}">{$status->project_id}</a></td>
                             <td>{$status->name}</td>
+                            <td style="width: 115px">{$status->start_date}</td>
                             <td style="width: 50px">{$status->calc}</td>
                         </tr>
                         </tbody>
@@ -324,6 +333,7 @@
                         <tr>
                             <th>id</th>
                             <th>name</th>
+                            <th>start_at</th>
                             <th>status</th>
                         </tr>
                         </thead>
@@ -331,6 +341,7 @@
                         <tr n:foreach="$outputStatuses as $status">
                             <td><a href="{action 'Project\DetailController', ['project_id' => $status->project_id]}">{$status->project_id}</a></td>
                             <td>{$status->name}</td>
+                            <td style="width: 115px">{$status->start_date}</td>
                             <td style="width: 50px">{$status->output}</td>
                         </tr>
                         </tbody>
@@ -340,3 +351,23 @@
         </div>
     </div>
 </div>
+
+<script>
+    var results = "";
+
+    function getTwoDigitNumber(num) {
+        if(num < 10) {
+            num = "0" + num;
+        }
+        return num;
+    }
+
+    var date = new Date();
+    results = getTwoDigitNumber(date.getMonth()+1) + "-"
+            + getTwoDigitNumber(date.getDate()) + " "
+            + getTwoDigitNumber(date.getHours()) + ":"
+            + getTwoDigitNumber(date.getMinutes()) + ":"
+            + getTwoDigitNumber(date.getSeconds());
+
+    $("#currentDateIFStatuses").text(results);
+</script>
