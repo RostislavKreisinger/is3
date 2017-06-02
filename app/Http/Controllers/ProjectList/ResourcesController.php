@@ -21,7 +21,7 @@ use Monkey\View\ViewRender;
 class ResourcesController extends Controller {
     
     public function getIndex($resource_id = null) {
-        $availableResources = Resource::where("is_public", 1)->get();
+        $availableResources = Resource::orderBy('name')->get();
         if($resource_id == null){
             foreach ($availableResources as $resource){
                 $resource_id = $resource->id;
@@ -33,13 +33,14 @@ class ResourcesController extends Controller {
         $projects = Project::join("resource_setting_v2 as rs", "project.id", '=', 'rs.project_id')
             ->where('rs.active', '=', 1)
             ->where('rs.resource_id', '=', $resource_id)
-            ->select('project.*')
-            ->simplePaginate(30);
+            ->orderBy('project.id', 'DESC')
+            ->select('project.*');
 
 
         ViewRender::addParameter("availableResources", $availableResources);
         ViewRender::addParameter("currentResourceId", $resource_id);
 
-        ViewRender::addParameter("projects", $projects);// vde("resources");
+        ViewRender::addParameter("projectsCount", $projects->count());// vde("resources");
+        ViewRender::addParameter("projects", $projects->simplePaginate(10));// vde("resources");
     }
 }

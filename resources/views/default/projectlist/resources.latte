@@ -7,20 +7,18 @@
 </div>
 <!-- /.row -->
 <div class="row">
-    <div class="col-lg-12 col-md-12">
-        <div class="row">
-            <div class="col-md-1">
-                <select id="resource-select">
-                    <option n:foreach="$availableResources as $resource"  value="{$resource->id}" {if $resource->id == $currentResourceId} selected {/if} >{$resource->name}</option>
-                </select>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="row">
     <div class="col-md-12">
-        <h3>Projects</h3>
+        <h3>
+            Projects:
+
+            <select id="resource-select" style="font-size: 14px;">
+                <option n:foreach="$availableResources as $resource"  value="{$resource->id}" {if $resource->id == $currentResourceId} selected {/if} >{$resource->name}</option>
+            </select>
+        </h3>
+        <div>
+            total count: {$projectsCount}
+        </div>
+
         <table class="table table-auto-width">
             <tr n:foreach="$projects as $project">
                 <td>
@@ -32,7 +30,7 @@
             </tr>
         </table>
     </div>
-    <div class="col-md-12">{$projects->links()|noescape}</div>
+    <div class="col-md-2">{$projects->links()|noescape}</div>
 </div>
 
 <script>

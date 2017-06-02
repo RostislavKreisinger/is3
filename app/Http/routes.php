@@ -73,7 +73,7 @@ Route::group(['middleware' => 'web'], function () {
 
         Route::group(['prefix' => 'project-list'], function(){
             Route::controller('/resources/{resource_id?}', \App\Http\Controllers\ProjectList\ResourcesController::class);
-            Route::controller('/eshops/{eshop_id?}', \App\Http\Controllers\ProjectList\EshopsController::class);
+            Route::controller('/eshops/{eshop_type_id?}', \App\Http\Controllers\ProjectList\EshopsController::class);
         });
         
         Route::group(['prefix' => 'project'], function(){
