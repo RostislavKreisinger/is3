@@ -10,6 +10,8 @@ namespace App\Http\Controllers;
 
 use App\Model\ImportPools\CurrencyEtlCatalog;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Input;
+use Monkey\Helpers\Strings;
 use Monkey\ImportSupport\InvalidProject\ProjectRepository;
 use Monkey\View\View;
 
@@ -22,7 +24,13 @@ class IndexController extends Controller {
    
     
     public function getIndex() {
-        
+
+        $hashId = null;
+        if($id = Input::get('id', null)){
+            $hashId = Strings::id2alpha($id);
+        }
+        $this->getView()->addParameter('hashId', $hashId);
+
         View::share('invalidProjects', $this->getInvalidProjects());
         View::share('newProjects', $this->getNewProjects());
         View::share('dailyProjects', $this->getDailyProjects());
