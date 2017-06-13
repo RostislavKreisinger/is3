@@ -1,4 +1,4 @@
-<table id="table-resource" class="table" style="display: none">
+<table id="table-resource" class="table">
     <thead>
     <th>
         Is history
@@ -17,25 +17,28 @@
     </th>
     </thead>
     <tbody>
-    <tr n:foreach="$importFlowStatus as $state">
-        <td>
-            <span>{$state->is_history}</span>
-        </td>
-
-        <td>
-            <span>{$state->result}</span>
-        </td>
-        <td>
-            <span>{$state->final_state}</span>
-        </td>
-        <td>
-            <span>{$state->unique}</span>
-        </td>
-        <td>
-            <a href="{$state->refresh_link}"
-               target="_blank">Refresh</a>
-        </td>
+    <tr>
+        <td colspan="5" style="text-align: center"> loading...</td>
     </tr>
+    {*<tr n:foreach="$importFlowStatus as $state">*}
+        {*<td>*}
+            {*<span>{$state->is_history}</span>*}
+        {*</td>*}
+
+        {*<td>*}
+            {*<span>{$state->result}</span>*}
+        {*</td>*}
+        {*<td>*}
+            {*<span>{$state->final_state}</span>*}
+        {*</td>*}
+        {*<td>*}
+            {*<span>{$state->unique}</span>*}
+        {*</td>*}
+        {*<td>*}
+            {*<a href="{$state->refresh_link}"*}
+               {*target="_blank">Refresh</a>*}
+        {*</td>*}
+    {*</tr>*}
 
     </tbody>
 </table>

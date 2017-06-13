@@ -125,7 +125,7 @@ class DatabaseSelectorController extends BaseViewController {
         try {
             $query = Input::get('query', false);
             if (empty($query)) {
-                return $view->render();
+                return $view;
             }
             $data = DB::connection('mysql-select-import')->select(DB::raw($query));
             $view->with('data', $data);

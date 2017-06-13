@@ -60,7 +60,7 @@ class DetailController extends Controller {
 
             //vde($resource->toArray());
         }
-            $this->getView()->addParameter('importFlowStatus', $this->getImportFlowStatusForProject($projectId, $resource));
+        // $this->getView()->addParameter('importFlowStatus', $this->getImportFlowStatusForProject($projectId, $resource));
 
 
         $stack = null;
