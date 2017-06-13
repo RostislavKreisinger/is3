@@ -30,7 +30,9 @@
             renderDaily(data.daily);
             renderHistory(data.history);
             renderResource(data.resource);
-            window.setTimeout(refreshImportFlowData(), 5000);
+            window.setTimeout(function(){
+                refreshImportFlowData();
+            }, 15000);
         });
 
     }
