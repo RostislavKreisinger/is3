@@ -3,8 +3,10 @@
     {php exit}
 {/if}
 
-{if (!isset($data) || count($data) == 0) }
-    Empty result
+{if (!isset($data)) }
+    Object '$data' is not set
+{elseif count($data) == 0)}
+    Empty result - query returns any rows
 {else}
     <table>
         <thead>

@@ -30,6 +30,9 @@
             renderDaily(data.daily);
             renderHistory(data.history);
             renderResource(data.resource);
+            window.setTimeout(function(){
+                refreshImportFlowData();
+            }, 15000);
         });
 
     }
@@ -162,10 +165,6 @@
 
 
     }
-
-    setInterval(function () {
-        refreshImportFlowData();
-    }, 5000);
 
     refreshImportFlowData();
 
