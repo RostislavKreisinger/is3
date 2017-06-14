@@ -49,6 +49,7 @@ class DetailController extends Controller {
             $this->getView()->setBody($viewName);
         }
         $resource->getStateTester();
+        // vde($resource);
         $resourceCurrency = Currency::find($resource->getResourceStats()->getResourceSetting()->currency_id);
         $resourceDetail = $resource->getResourceDetail();
 

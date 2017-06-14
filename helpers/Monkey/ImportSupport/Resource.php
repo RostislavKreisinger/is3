@@ -172,7 +172,7 @@ class Resource extends ResourceModel {
         $this->project_id = $project_id;
     }
 
-    public function setResourceStats(type $resourceStats) {
+    public function setResourceStats($resourceStats) {
         $this->resourceStats = $resourceStats;
     }
     
