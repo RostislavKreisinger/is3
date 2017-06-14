@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Database;
 
 use App\Http\Controllers\Controller;
 use DB;
+use Monkey\Connections\MDDatabaseConnections;
 use Monkey\Resource\ResourceList;
 use Monkey\Resource\Table;
 use Monkey\Resource\TableConfig\Column;
@@ -28,7 +29,7 @@ class ShowImportDataController extends Controller {
 
     public function getIndex($projectId, $resourceId, $table_id = null, $count = 100) {
         $error = null;
-        $resource = DB::connection("mysql-select-app")
+        $resource = MDDatabaseConnections::getMasterAppConnection()
                 ->table("resource")
                 ->where("id", $resourceId)
                 ->first();
@@ -46,7 +47,7 @@ class ShowImportDataController extends Controller {
 
 
         try {
-            $builder = DB::connection("mysql-select-import")
+            $builder = MDDatabaseConnections::getImportDwConnection()
                     ->table($table->getQueryName());
 
             $table->getTableConfig()->addDefaultColumn((new Column())->setName('date_id')->setOrderBy('desc'));
@@ -115,7 +116,7 @@ class ShowImportDataController extends Controller {
     }
 
     private function getClientId($projectId) {
-        $project = DB::connection("mysql-select-app")
+        $project = MDDatabaseConnections::getMasterAppConnection()
                 ->table("project")
                 ->select(["client.id as client_id"])
                 ->leftJoin("client", "client.user_id", "=", "project.user_id")
