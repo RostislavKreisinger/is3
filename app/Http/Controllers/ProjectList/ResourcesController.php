@@ -33,6 +33,7 @@ class ResourcesController extends Controller {
         $projects = Project::join("resource_setting_v2 as rs", "project.id", '=', 'rs.project_id')
             ->where('rs.active', '=', 1)
             ->where('rs.resource_id', '=', $resource_id)
+            ->whereNull('p.deleted_at')
             ->orderBy('project.id', 'DESC')
             ->select('project.*');
 

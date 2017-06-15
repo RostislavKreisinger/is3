@@ -172,16 +172,24 @@ class Resource extends ResourceModel {
         $this->project_id = $project_id;
     }
 
-    public function setResourceStats(type $resourceStats) {
+    public function setResourceStats($resourceStats) {
         $this->resourceStats = $resourceStats;
     }
     
     protected function loadResourceStats(){
         
     }
+
+    protected function addShowDataButton(){
+        $B00_ShowButton = new B00_ShowButton($this->project_id, $this->id);
+        $user = Auth::user();
+        if($user->can('project.resource.button.test.show_data')){
+            $this->addButton($B00_ShowButton);
+        }
+    }
     
     protected function addDefaultButtons() {
-        $B00_ShowButton = new B00_ShowButton($this->project_id, $this->id);
+        $this->addShowDataButton();
         $B0_TestButton = new B0_TestButton($this->project_id, $this->id);
         $B1_ResetAutomatTestButton = new B1_ResetAutomatTestButton($this->project_id, $this->id);
         $B2_RepairAutomatTestButton = new B2_RepairAutomatTestButton($this->project_id, $this->id);
@@ -212,9 +220,6 @@ class Resource extends ResourceModel {
         }
         
         $user = Auth::user();
-        if($user->can('project.resource.button.test.show_data')){
-            $this->addButton($B00_ShowButton);
-        }
         if($user->can('project.resource.button.test.test_download')){
             $this->addButton($B0_TestButton);
         }

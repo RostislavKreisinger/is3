@@ -33,6 +33,7 @@ class EshopsController extends Controller {
 
         $projects = Project::join("resource_setting_v2 as rs", "project.id", '=', 'rs.project_id')
             ->where('rs.active', '=', 1)
+            ->whereNull('p.deleted_at')
             ->where('rs.resource_id', '=', 4)
             ->join('resource_eshop as re', 're.resource_setting_id', '=', 'rs.id')
             ->where('re.eshop_type_id', '=', $eshop_type_id)
