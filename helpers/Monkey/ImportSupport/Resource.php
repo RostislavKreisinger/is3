@@ -123,7 +123,7 @@ class Resource extends ResourceModel {
         $this->resource = $resource;
     }
     
-    public function isValid() {
+    public function isValid(){
         return $this->isValidTester() && $this->isValidDaily() && $this->isValidHistory();
     }
     

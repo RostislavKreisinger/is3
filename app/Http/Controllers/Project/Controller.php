@@ -26,7 +26,9 @@ class Controller extends BaseController {
             $resources = new Menu($project->name, '#');
             $resources->setOpened(true);
             $projectResources = $project->getResources(); // ->get();
+
             foreach ($projectResources as $resource){
+                // vde($resource);
                 $menuItem = new Menu(
                                 Tr::_($resource->btf_name),
                                 action(DetailController::routeMethod('getIndex'), ['project_id'=>$project->id, 'resource_id' => $resource->id]) 
