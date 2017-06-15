@@ -31,6 +31,8 @@ class IndexController extends Controller {
         }
         $this->getView()->addParameter('hashId', $hashId);
 
+        // vde($this->getDailyProjects());
+
         View::share('invalidProjects', $this->getInvalidProjects());
         View::share('newProjects', $this->getNewProjects());
         View::share('dailyProjects', $this->getDailyProjects());

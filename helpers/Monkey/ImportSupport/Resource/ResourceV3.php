@@ -38,23 +38,28 @@ class ResourceV3 extends Resource {
         }
 
 
+        return Resource::STATUS_ACTIVE;
         return Resource::STATUS_MISSING_RECORD;
     }
 
     public function getStateDaily() {
+        return Resource::STATUS_ACTIVE;
         return Resource::STATUS_MISSING_RECORD;
     }
 
     public function getStateDailyImportFlow() {
+        return Resource::STATUS_ACTIVE;
         return Resource::STATUS_MISSING_RECORD;
     }
 
     public function getStateHistoryImportFlow() {
+        return Resource::STATUS_ACTIVE;
         return Resource::STATUS_MISSING_RECORD;
     }
 
 
     public function getStateHistory() {
+        return Resource::STATUS_ACTIVE;
         return Resource::STATUS_MISSING_RECORD;
     }
 

@@ -7,6 +7,7 @@
  */
 
 namespace Monkey\ImportSupport\InvalidProject;
+use Monkey\Connections\MDDatabaseConnections;
 
 /**
  * Description of Project
@@ -75,10 +76,39 @@ class Project {
     public function setResources($resources) {
         $this->resources = $resources;
     }
-    
+
+    /**
+     * @param Resource $resource
+     * @return Resource
+     */
     public function addResource(Resource $resource) {
-        $this->resources[$resource->getId()] = &$resource;
-        return $resource;
+        if($resource->getId() == 4 ){
+            $eshopType = MDDatabaseConnections::getMasterAppConnection()
+                ->table('resource_setting as rs')
+                ->join('resource_eshop as re', 're.resource_setting_id', '=', 'rs.id')
+                ->join('eshop_type as et', 'et.id', '=', 're.eshop_type_id')
+                ->where('rs.project_id', '=', $this->getId())
+                ->where('rs.resource_id', '=', $resource->getId())
+                ->select('et.*')->first();
+            if($eshopType->import_version == 2){
+                $this->resources[$resource->getId()] = &$resource;
+                return $resource;
+            }
+        }else{
+            $dbResource = MDDatabaseConnections::getMasterAppConnection()
+                ->table('resource as r')
+                ->where('id', '=', $resource->getId())
+                ->select('r.*')->first();
+            if($dbResource->import_version == 2){
+                $this->resources[$resource->getId()] = &$resource;
+                return $resource;
+            }
+        }
+
+
+
+
+
     }
 
 
