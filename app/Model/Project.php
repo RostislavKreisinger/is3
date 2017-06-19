@@ -14,7 +14,7 @@ class Project extends Model {
     protected $guarded = [];
     
     public function getResources() {
-        return $this->belongsToMany(Resource::class, "resource_setting", "project_id", "resource_id")->where('active', '!=', 3);
+        return $this->belongsToMany(Resource::class, "resource_setting", "project_id", "resource_id")->where('resource_setting.active', '!=', 3);
     }
     
     public function getResourceSettings($resource_id = null) {
