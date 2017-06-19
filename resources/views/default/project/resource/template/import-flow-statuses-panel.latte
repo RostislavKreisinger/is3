@@ -118,7 +118,8 @@
     }
 
     function getIFStatusIconForOneStep(state){
-        var ico = $('<span>').addClass('glyphicon glyphicon-search').css('transform', 'rotate(135deg)').css("display", 'inline-block').css('margin-left', '2px');
+        // var ico = $('<span>').addClass('glyphicon glyphicon-search').css('transform', 'rotate(135deg)').css("display", 'inline-block').css('margin-left', '2px');
+        var ico = $('<span>').addClass('glyphicon glyphicon-zoom-in').css('transform', 'rotate(135deg)').css("display", 'inline-block').css('margin-left', '2px');
         vd(parseInt(state));
         switch (parseInt(state)){
             case 0:
