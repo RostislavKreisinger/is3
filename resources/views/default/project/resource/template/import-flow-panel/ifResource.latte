@@ -1,3 +1,62 @@
+<style>
+    .import-flow-legend {
+        padding: 0;
+        margin: 0;
+        list-style: none;
+    }
+
+    .import-flow-legend li {
+        display: inline-block;
+        margin-right:20px;
+        padding: 0;
+        position: relative;
+        font-weight: bold;
+    }
+
+    .import-flow-legend li .color{
+        display: inline-block;
+        height: 20px;
+        width: 20px;
+        border-radius: 50%;
+        position: relative;
+        top: 4px;
+    }
+
+</style>
+<div >
+    <ul class="import-flow-legend">
+        <li>
+            <span class="name">DONE</span>
+            <span class="color" style="background: #555555"></span>
+        </li>
+
+        <li>
+            <span class="name">ACTIVE</span>
+            <span class="color" style="background: #12a010"></span>
+        </li>
+
+        <li>
+            <span class="name">PLANNED</span>
+            <span class="color" style="background: #0083ff"></span>
+        </li>
+
+        <li>
+            <span class="name">ERROR</span>
+            <span class="color" style="background: #FF0000"></span>
+        </li>
+
+        <li>
+            <span class="name">NOT EXIST</span>
+            <span class="color" style="background: #DDDDDD"></span>
+        </li>
+
+        <li>
+            <span class="name">RUNNING</span>
+            <span class="color" style="background: #FF8C00"></span>
+        </li>
+    </ul>
+</div>
+
 <table id="table-resource" class="table">
     <thead>
     <th>
