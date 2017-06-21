@@ -119,23 +119,26 @@
 
     function getIFStatusIconForOneStep(state){
         // var ico = $('<span>').addClass('glyphicon glyphicon-search').css('transform', 'rotate(135deg)').css("display", 'inline-block').css('margin-left', '2px');
-        var ico = $('<span>').addClass('glyphicon glyphicon-zoom-in').css('transform', 'rotate(135deg)').css("display", 'inline-block').css('margin-left', '2px');
+        var ico = $('<span>').addClass('glyphicon glyphicon-zoom-in').css('transform', 'rotate(135deg)').css("display", 'inline-block').css('margin-left', '4px').css('font-size', '20px' );
         vd(parseInt(state));
         switch (parseInt(state)){
             case 0:
-                ico.css('color', '#90EE90');
+                ico.css('color', '#555555');
                 break;
             case 1:
-                ico.css('color', '#FFD700');
+                ico.css('color', '#12a010');
                 break;
             case 2:
-                ico.css('color', '#FF8C00');
+                ico.css('color', '#0083ff');
                 break;
             case 3:
                 ico.css('color', '#FF0000');
                 break;
             case 4:
                 ico.css('color', '#DDDDDD');
+                break;
+            case 5:
+                ico.css('color', '#FF8C00');
                 break;
         }
         vd(ico);
@@ -173,10 +176,23 @@
         for (var i = 0; i < object.length; i++) {
             var obj = object[i];
 
+            var importType = 'none';
+            switch (obj.is_history){
+                case 0:
+                    importType = 'daily';
+                    break;
+                case 1:
+                    importType = 'history';
+                    break;
+                case 2:
+                    importType = 'tester';
+                    break;
+            }
+
             body.append($('<tr>')
                 .append($('<td>')
                     .append($('<span>')
-                        .text(obj.is_history)
+                        .text(importType)
                     )
                 )
                 .append($('<td>')
