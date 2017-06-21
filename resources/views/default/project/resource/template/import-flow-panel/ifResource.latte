@@ -1,3 +1,69 @@
+<style>
+    .import-flow-legend {
+        padding: 0;
+        margin: 0;
+        list-style: none;
+
+    }
+
+    .import-flow-legend li {
+        display: inline-block;
+        margin-right: 10px;
+        margin-top: 10px;
+        padding: 0;
+        position: relative;
+        font-weight: bold;
+
+        padding: 5px 10px 8px;
+        border: 1px solid #EEEEEE;
+        border-radius: 5px;
+    }
+
+    .import-flow-legend li .color{
+        display: inline-block;
+        height: 20px;
+        width: 20px;
+        border-radius: 50%;
+        position: relative;
+        top: 5px;
+        margin-right: 5px;
+    }
+
+</style>
+<div >
+    <ul class="import-flow-legend">
+        <li>
+            <span class="color" style="background: #555555"></span>
+            <span class="name">DONE</span>
+        </li>
+
+        <li>
+            <span class="color" style="background: #12a010"></span>
+            <span class="name">ACTIVE</span>
+        </li>
+
+        <li>
+            <span class="color" style="background: #0083ff"></span>
+            <span class="name">PLANNED</span>
+        </li>
+
+        <li>
+            <span class="color" style="background: #FF0000"></span>
+            <span class="name">ERROR</span>
+        </li>
+
+        <li>
+            <span class="color" style="background: #DDDDDD"></span>
+            <span class="name">NOT EXIST</span>
+        </li>
+
+        <li>
+            <span class="color" style="background: #FF8C00"></span>
+            <span class="name">RUNNING</span>
+        </li>
+    </ul>
+</div>
+
 <table id="table-resource" class="table">
     <thead>
     <th>
@@ -51,7 +117,6 @@
 
     </tbody>
 </table>
-<div id="missing-resource" class="text-color-green"
-                                          style="padding: 10px; display: none">
+<div id="missing-resource" class="text-color-green" style="padding: 10px; display: none">
     Successfully downloaded
 </div>
