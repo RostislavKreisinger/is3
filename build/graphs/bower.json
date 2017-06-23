@@ -1,0 +1,43 @@
+{
+  "name": "MonkeyData",
+  "version": "1.0.0",
+  "authors": [
+    "Tomas Widlak <tomas.widlak@monkeydata.com>"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "3.3.2",
+    "tmpl": "https://github.com/blueimp/JavaScript-Templates.git#9dc414739a4d23663018575c5036b88e0de2ba4d",
+    "md-icomoon": "git@gitlab.monkeydata.com:bower/icomoon.git",
+    "jquery": "jquery#^2.2.4",
+    "jquery-modern": "jquery#^3.1.0"
+  },
+  "exportsOverride": {
+    "bootstrap": {
+      "js": "dist/js/bootstrap.min.js",
+      "less": "*",
+      "fonts": "dist/fonts/*"
+    },
+    "jquery": {
+      "js": "dist/jquery.min.js"
+    },
+    "jquery-modern": {
+      "js": "dist/jquery.min.js"
+    },
+    "tmpl": {
+      "js": "js/tmpl.min.js"
+    },
+    "md-icomoon": {
+      "fonts": "fonts/*",
+      ".": "style.css"
+    }
+  }
+}

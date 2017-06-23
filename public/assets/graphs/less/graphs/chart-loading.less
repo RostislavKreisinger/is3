@@ -1,0 +1,83 @@
+> .graph-loading-overlay {
+    & {
+        display: none;
+
+        position: absolute;
+        top: @md-chart-menu-min-height + @md-chart-padding-top;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        z-index: @graph-overlay-z-index;
+
+        .border-radiuses(0, @md-default-border-radius, @md-default-border-radius, 0);
+        overflow: hidden;
+    }
+
+    > .graph-loading-background {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0px;
+        right: 0px;
+        bottom: 0px;
+        left: 0px;
+
+        opacity: 1;
+        background: #ffffff;
+    }
+
+    > .graph-loading-box {
+        & {
+            display: table;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0px;
+            right: 0px;
+            bottom: 0px;
+            left: 0px;
+        }
+
+        > .graph-loading-box-vertical {
+            & {
+                display: table-cell;
+                vertical-align: middle;
+            }
+
+            > .graph-loading-box-middle {
+                & {
+                    width: 100%;
+                }
+
+                > .graph-loading-box-content {
+                    & {
+                        margin: 0 auto;
+                        text-align: center;
+                    }
+
+                    > .graph-loading-loader {
+                        & {
+                            display: inline-block;
+                        }
+
+                        .img-loading-bg-white {
+                            display: block;
+                        }
+
+                        .img-loading-bg-colored {
+                            display: none;
+                        }
+                    }
+                }
+            }
+
+        }
+    }
+
+}
+
+&.chart-loading {
+    > .graph-loading-overlay {
+        display: block;
+    }
+}

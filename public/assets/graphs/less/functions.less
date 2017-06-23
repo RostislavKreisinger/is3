@@ -1,0 +1,390 @@
+@import "fonts/md-icomoon-style";
+.md-icomoon(@ico){
+    /* use !important to prevent issues with browser extensions that change fonts */
+    font-family: 'md-icomoon' !important;
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+
+    /* Better Font Rendering =========== */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+
+    content: @ico;
+
+}
+
+
+
+
+
+
+
+
+
+
+.dosis(){
+    font-family: 'Dosis', sans-serif;
+}
+
+.dosis-bold(){
+    font-family: 'Dosis', sans-serif;
+    font-weight: 700;
+}
+
+
+.clear-chart-view(){
+    // background: transparent; 
+    .box-shadow(none);
+    .border-radius(0);
+    margin: 0;
+    border: none;
+}
+
+
+.blur(@size){
+    -webkit-filter: blur(@size);
+    -moz-filter: blur(@size);
+    -o-filter: blur(@size);
+    -ms-filter: blur(@size);
+    filter: blur(@size);
+}
+
+.clear() {
+    clear: both;
+    width: 0px;
+    height: 0px;
+    line-height: 0px;
+}
+
+.test-border() { 
+    border: 1px solid #000;
+}
+
+.text-align-right() {
+    text-align: right !important;
+}
+
+.text-align-left() {
+    text-align: left !important;
+}
+
+.text-align-center() {
+    text-align: center !important;
+}
+
+.text-shadow (@string: 0 1px 3px rgba(0, 0, 0, 0.25)) {
+    text-shadow: @string;
+}
+.box-shadow (@string) {
+    -webkit-box-shadow: @string;
+    -moz-box-shadow:    @string;
+    box-shadow:         @string;
+}
+.drop-shadow (@x: 0, @y: 1px, @blur: 2px, @spread: 0, @alpha: 0.25) {
+    -webkit-box-shadow:	@x @y @blur @spread rgba(0, 0, 0, @alpha);
+    -moz-box-shadow:	@x @y @blur @spread rgba(0, 0, 0, @alpha);
+    box-shadow:		@x @y @blur @spread rgba(0, 0, 0, @alpha);
+}
+.inner-shadow (@x: 0, @y: 1px, @blur: 2px, @spread: 0, @alpha: 0.25) {
+    -webkit-box-shadow: inset @x @y @blur @spread rgba(0, 0, 0, @alpha);
+    -moz-box-shadow:    inset @x @y @blur @spread rgba(0, 0, 0, @alpha);
+    box-shadow:         inset @x @y @blur @spread rgba(0, 0, 0, @alpha);
+}
+
+.box-sizing (@type: border-box) {
+    -webkit-box-sizing: @type;
+    -moz-box-sizing:    @type;
+    box-sizing:         @type;
+}
+
+.border-radius (@radius: 5px) {
+    -webkit-border-radius: @radius;
+    -moz-border-radius:    @radius;
+    border-radius:         @radius;
+
+    -moz-background-clip:    padding;
+    -webkit-background-clip: padding-box;
+    background-clip:         padding-box;
+}
+.border-radiuses (@topright: 0, @bottomright: 0, @bottomleft: 0, @topleft: 0) {
+    -webkit-border-top-right-radius:    @topright;
+    -webkit-border-bottom-right-radius: @bottomright;
+    -webkit-border-bottom-left-radius:  @bottomleft;
+    -webkit-border-top-left-radius:     @topleft;
+
+    -moz-border-radius-topright:        @topright;
+    -moz-border-radius-bottomright:     @bottomright;
+    -moz-border-radius-bottomleft:      @bottomleft;
+    -moz-border-radius-topleft:         @topleft;
+
+    border-top-right-radius:            @topright;
+    border-bottom-right-radius:         @bottomright;
+    border-bottom-left-radius:          @bottomleft;
+    border-top-left-radius:             @topleft;
+
+    -moz-background-clip:    padding;
+    -webkit-background-clip: padding-box;
+    background-clip:         padding-box;
+}
+
+.opacity (@opacity: 0.5) {
+    -webkit-opacity: 	@opacity;
+    -moz-opacity: 		@opacity;
+    opacity: 		@opacity;
+}
+
+.gradient (@startColor: #eee, @endColor: white) {
+    background: @startColor;
+    background: -moz-linear-gradient(@startColor 0%, @endColor 100%);
+    background: -o-linear-gradient(@startColor 0%, @endColor 100%);
+    background: -webkit-gradient(linear, color-stop(0, @startColor), color-stop(1, @endColor));
+    background: -webkit-linear-gradient(@startColor 0%, @endColor 100%);
+    background: linear-gradient(@startColor 0%, @endColor 100%);
+}
+.horizontal-gradient (@startColor: #eee, @endColor: white) {
+    background-color: @startColor;
+    background-image: -webkit-gradient(linear, left top, right top, from(@startColor), to(@endColor));
+    background-image: -webkit-linear-gradient(left, @startColor, @endColor);
+    background-image: -moz-linear-gradient(left, @startColor, @endColor);
+    background-image: -ms-linear-gradient(left, @startColor, @endColor);
+    background-image: -o-linear-gradient(left, @startColor, @endColor);
+}
+
+.animation (@name, @duration: 300ms, @delay: 0, @ease: ease) {
+    -webkit-animation: @name @duration @delay @ease;
+    -moz-animation:    @name @duration @delay @ease;
+    -ms-animation:     @name @duration @delay @ease;
+}
+
+.transition (@transition) {
+    -webkit-transition: @transition;
+    -moz-transition:    @transition;
+    -ms-transition:     @transition;
+    -o-transition:      @transition;
+}
+.transform(@string){
+    -webkit-transform: @string;
+    -moz-transform: 	 @string;
+    -ms-transform: 		 @string;
+    -o-transform: 		 @string;
+}
+.scale (@factor) {
+    -webkit-transform: scale(@factor);
+    -moz-transform: 	 scale(@factor);
+    -ms-transform: 		 scale(@factor);
+    -o-transform: 		 scale(@factor);
+}
+.rotate (@deg) {
+    -webkit-transform: rotate(@deg);
+    -moz-transform: 	 rotate(@deg);
+    -ms-transform: 		 rotate(@deg);
+    -o-transform: 		 rotate(@deg);
+}
+.rotateX (@deg) {
+    -webkit-transform: rotateX(@deg);
+    -moz-transform: 	 rotateX(@deg);
+    -ms-transform: 		 rotateX(@deg);
+    -o-transform: 		 rotateX(@deg);
+}
+.skew (@deg, @deg2) {
+    -webkit-transform:       skew(@deg, @deg2);
+    -moz-transform: 	 skew(@deg, @deg2);
+    -ms-transform: 		 skew(@deg, @deg2);
+    -o-transform: 		 skew(@deg, @deg2);
+}
+.translate (@x, @y:0) {
+    -webkit-transform:       translate(@x, @y);
+    -moz-transform: 	 translate(@x, @y);
+    -ms-transform: 		 translate(@x, @y);
+    -o-transform: 		 translate(@x, @y);
+}
+.translate3d (@x, @y: 0, @z: 0) {
+    -webkit-transform:       translate3d(@x, @y, @z);
+    -moz-transform: 	 translate3d(@x, @y, @z);
+    -ms-transform: 		 translate3d(@x, @y, @z);
+    -o-transform: 		 translate3d(@x, @y, @z);
+}
+.perspective (@value: 1000) {
+    -webkit-perspective: 	@value;
+    -moz-perspective: 	@value;
+    -ms-perspective: 	@value;
+    perspective: 		@value;
+}
+.transform-origin (@x:center, @y:center) {
+    -webkit-transform-origin: @x @y;
+    -moz-transform-origin:    @x @y;
+    -ms-transform-origin:     @x @y;
+    -o-transform-origin:      @x @y;
+}
+
+.select-text-deny () {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+// cut text to max defined width 
+.cropped-text(@max-width){
+    max-width: @max-width;
+    white-space: nowrap; 
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -o-text-overflow: ellipsis;
+}
+@text-placeholder: #eeeeee;
+
+::-webkit-input-placeholder {
+    color: @text-placeholder;
+}
+
+:-moz-placeholder { /* Firefox 18- */
+    color: @text-placeholder;
+}
+
+::-moz-placeholder {  /* Firefox 19+ */
+    color: @text-placeholder;
+}
+
+:-ms-input-placeholder {
+    color: @text-placeholder;
+}
+
+
+.clear() {
+    clear: both;
+    width: 0px;
+    height: 0px;
+    line-height: 0px;
+}
+
+.text-align-right() {
+    text-align: right !important;
+}
+
+.text-align-left() {
+    text-align: left !important;
+}
+
+.text-align-center() {
+    text-align: center !important;
+}
+
+.roboto-bold() {
+    //font-family: "RobotoBold", sans-serif;
+    .roboto-normal();
+    font-weight: bold;
+}
+
+.roboto-light() {
+    font-family: "RobotoLight", sans-serif;
+}
+
+.roboto-normal() {
+    font-family: "Roboto", sans-serif;
+    font-weight: 500;
+}
+
+
+.icomoon() {
+    font-family: 'icomoon' !important;
+    speak: none !important;
+    font-style: normal !important;
+    font-weight: normal !important;
+    font-variant: normal !important;
+    text-transform: none !important;
+    line-height: 1; // !important;
+    -webkit-font-smoothing: antialiased !important;
+}
+
+.ico(@ico){
+    .icomoon();
+    content: @ico;
+}
+
+.md-icomoon() {
+    font-family: 'md-icomoon' !important;
+    speak: none !important;
+    font-style: normal !important;
+    font-weight: normal !important;
+    font-variant: normal !important;
+    text-transform: none !important;
+    line-height: 1; // !important;
+    -webkit-font-smoothing: antialiased !important;
+}
+
+.md-ico(@ico){
+    .md-icomoon();
+    content: @ico;
+}
+
+.triangle-bottom(@width, @height, @color){
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: @height (@width/2) 0 (@width/2);
+    border-color: @color transparent transparent transparent;
+}
+
+.triangle-top(@width, @height, @color){
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0 (@width/2) @height (@width/2);
+    border-color: transparent transparent @color transparent;
+}
+
+.triangle-right(@width, @height, @color){
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: (@height/2) 0 (@height/2) @width;
+    border-color: transparent transparent transparent @color;
+}
+
+.triangle-left(@width, @height, @color){
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: (@height/2) @width (@height/2) 0;
+    border-color: transparent @color transparent transparent;
+}
+
+.triangle-top-left(@width, @height, @color){
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: @height @width 0 0;
+    border-color: @color transparent transparent transparent;
+}
+
+.triangle-top-right(@width, @height, @color){
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0 @width @height 0;
+    border-color: transparent @color transparent transparent;
+}
+
+.triangle-bottom-left(@width, @height, @color){
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: @height 0 0 @width;
+    border-color: transparent transparent transparent @color;
+}
+
+.triangle-bottom-right(@width, @height, @color){
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0 0 @height @width;
+    border-color: transparent transparent @color transparent;
+}
+

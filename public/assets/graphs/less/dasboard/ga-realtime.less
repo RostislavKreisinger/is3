@@ -1,0 +1,24 @@
+.ga-realtime-status-bar-box {
+    .ga-realtime-status-bar {
+        & {
+            .border-radius(@md-default-border-radius);
+            padding: 0.6em 1em;
+            color: #FFFFFF;
+            font-weight: bold;
+        }
+
+        .ga-realtime-status-info {
+            margin-left: 1em;
+        }
+
+        &.ga-realtime-status-bar-enabled {
+            display: inline-block;
+            background-color: @md-graph-color-green;
+        }
+
+        &.ga-realtime-status-bar-disabled {
+            display: none;
+            background-color: @md-graph-color-red;
+        }
+    }
+}

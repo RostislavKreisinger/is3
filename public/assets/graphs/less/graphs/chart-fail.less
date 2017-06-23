@@ -1,0 +1,119 @@
+> .graph-fail-overlay {
+    & {
+        display: none;
+
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: @graph-overlay-z-index;
+
+        .md-graph-box-border();
+        overflow: hidden;
+    }
+
+    > .graph-fail-background {
+        & {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0px;
+            right: 0px;
+            bottom: 0px;
+            left: 0px;
+
+            opacity: 1;
+            background: #ffffff;
+        }
+
+        &::before {
+            .md-icomoon(@md-icon-helpcenter);
+
+            position: absolute;
+            font-size: 15em;
+            left: -0.2em;
+            bottom: -0.2em;
+
+            color: fade(@md-color-mid, 20%);
+        }
+    }
+
+    > .graph-fail-box {
+        & {
+            display: table;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0px;
+            right: 0px;
+            bottom: 0px;
+            left: 0px;
+        }
+
+        > .graph-fail-box-vertical {
+            & {
+                display: table-cell;
+                vertical-align: middle;
+            }
+
+            > .graph-fail-box-middle {
+                & {
+                    width: 100%;
+                }
+
+                > .graph-fail-box-content {
+                    & {
+                        margin: 0 auto;
+                        text-align: center;
+                    }
+
+                    @red-color: #C80003;
+                    .graph-fail-ico {
+                        color: @red-color;
+                        font-size: 3em;
+                        margin-bottom: 10px;
+                    }
+
+                    .graph-fail-text {
+                        & {
+                            font-size: 1.1em;
+                            font-weight: bold;
+                        }
+                        strong {
+                            color: @red-color;
+                        }
+                    }
+
+                    .graph-fail-reload {
+                        margin-top: 2.0em;
+                        padding: 0.5em 1.0em;
+                        line-height: 1.1em;
+                        /* BG */
+                        background: linear-gradient(180deg, #3F8BE9 0%, #3B82DA 100%);
+                        border: 1px solid #3C7ED0;
+                        box-sizing: border-box;
+                        box-shadow: 0px 0px 10px rgba(63, 139, 233, 0.4);
+                        border-radius: @md-default-border-radius;
+
+                        /* RELOAD */
+                        font-family: "Open Sans";
+                        font-style: normal;
+                        font-weight: bold;
+                        font-size: 1.3em;
+                        color: #FFFFFF;
+                        text-shadow: 0px 2px 3px rgba(0, 0, 0, 0.15);
+                    }
+                }
+            }
+        }
+    }
+}
+
+&.chart-fail {
+    > .graph-fail-overlay {
+        display: block;
+    }
+}

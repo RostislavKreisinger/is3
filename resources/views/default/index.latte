@@ -221,14 +221,209 @@
 </div>
 
 <div class="row">
+    <div class="col-md-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Jobs times in queues
+            </div>
+            <div class="panel-body">
+                <div id="chart-import-flow-queues-times"></div>
+                <script>
+
+                    window.chartImportFlowQueuesTimesUrl = "{action 'Api\ImportFlow\Graphs\QueuesTimesStatusController'}";
+                    // window.chartImportFlowQueuesUrl = "http://localhost/import-support-v3.monkeydata.com/public/api/import-flow/graphs/queues-status";
+                </script>
+                <script>
+                    $(function() {
+                        $("#chart-import-flow-queues-times").dxChart({
+                            dataSource: [],
+                            valueAxis: {
+                                label: {
+                                    customizeText: function(arg){
+                                        return mdFormat.formatSecondToTime(arg.value);
+                                    }
+                                }
+                            },
+                            commonSeriesSettings: {
+                                argumentField: "category",
+                                type: "bar",
+                                cornerRadius: 2,
+                                label: {
+                                    visible: false,
+                                    backgroundColor: 'transparent',
+                                    font: {
+                                        weight: 700,
+                                        size: 14
+                                    }
+                                }
+                            },
+
+                            series: [
+                                {
+                                    name: 'MIN',
+                                    valueField: "min",
+                                    color: '#12a010',
+                                    label: {
+                                        font: {
+                                            color: '#12a010',
+                                        }
+                                    }
+                                },
+                                {
+                                    name: 'AVG',
+                                    valueField: "avg",
+                                    color: '#0083ff',
+                                    label: {
+                                        font: {
+                                            color: '#0083ff',
+                                        }
+                                    }
+                                },
+                                {
+                                    name: 'MAX',
+                                    valueField: "max",
+                                    color: '#FF8C00',
+                                    label: {
+                                        font: {
+                                            color: '#FF8C00',
+                                        }
+                                    }
+                                },
+                            ],
+                            tooltip: {
+                                enabled: true,
+                                customizeTooltip: function(point){
+
+                                    return { html: mdFormat.formatSecondToTime(point.value) };
+                                }
+                            },
+                        });
+
+                        function reloadChartImportFlowQueuesTimes(){
+                            var ajax = new MDAjax({
+                                url: window.chartImportFlowQueuesTimesUrl,
+                                data: {},
+                                timeout: 30000,
+                                beforeSend: function (xhr) {},
+                                success: function (data) {
+                                    var dxInstace = $("#chart-import-flow-queues-times").dxChart("instance");
+                                    dxInstace.option('dataSource', data);
+
+                                    setTimeout(reloadChartImportFlowQueuesTimes, 10000);
+                                },
+                                error: function (xhr, status, error) {
+                                    console.log("fail");
+                                },
+                                statusCode: {},
+                            });
+                        }
+                        reloadChartImportFlowQueuesTimes();
+
+
+                    });
+                </script>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Jobs in queues
+            </div>
+            <div class="panel-body">
+                <div id="chart-import-flow-queues"></div>
+                <script>
+
+                    window.chartImportFlowQueuesUrl = "{action 'Api\ImportFlow\Graphs\QueuesStatusController'}";
+                    // window.chartImportFlowQueuesUrl = "http://localhost/import-support-v3.monkeydata.com/public/api/import-flow/graphs/queues-status";
+                </script>
+                <script>
+                    $(function() {
+                        $("#chart-import-flow-queues").dxChart({
+                            dataSource: [],
+                            commonSeriesSettings: {
+                                argumentField: "category",
+                                type: "bar",
+                                cornerRadius: 2,
+                                label: {
+                                    visible: true,
+                                    backgroundColor: 'transparent',
+                                    font: {
+                                        weight: 700,
+                                        size: 14
+                                    }
+                                }
+                            },
+                            series: [
+                                {
+                                    name: 'ACTIVE',
+                                    valueField: "active_1",
+                                    color: '#12a010',
+                                    label: {
+                                        font: {
+                                            color: '#12a010',
+                                        }
+                                    }
+                                },
+                                {
+                                    name: 'PLANNED',
+                                    valueField: "active_2",
+                                    color: '#0083ff',
+                                    label: {
+                                        font: {
+                                            color: '#0083ff',
+                                        }
+                                    }
+                                },
+                                {
+                                    name: 'RUNNING',
+                                    valueField: "active_5",
+                                    color: '#FF8C00',
+                                    label: {
+                                        font: {
+                                            color: '#FF8C00',
+                                        }
+                                    }
+                                },
+                            ]
+                        });
+
+                        function reloadChartImportFlowQueues(){
+                            var ajax = new MDAjax({
+                                url: window.chartImportFlowQueuesUrl,
+                                data: {},
+                                timeout: 30000,
+                                beforeSend: function (xhr) {},
+                                success: function (data) {
+                                    var dxInstace = $("#chart-import-flow-queues").dxChart("instance");
+                                    dxInstace.option('dataSource', data);
+
+                                    setTimeout(reloadChartImportFlowQueues, 10000);
+                                },
+                                error: function (xhr, status, error) {
+                                    console.log("fail");
+                                },
+                                statusCode: {},
+                            });
+                        }
+                        reloadChartImportFlowQueues();
+
+
+                    });
+                </script>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="row">
     <div class="col-lg-4 col-md-6">
         <div class="panel panel-warning panel-error-project-list">
             <div class="panel-heading">
-                <div class="panel-heading">
-                    <i class="fa fa-bell fa-fw"></i>
-                    Import warnings
-                    ({$importStatuses->count()})
-                </div>
+                <i class="fa fa-bell fa-fw"></i>
+                Import warnings
+                ({$importStatuses->count()})
             </div>
             <div class="panel-body">
                 <div class="dataTable_wrapper">
@@ -259,11 +454,9 @@
     <div class="col-lg-4 col-md-6">
         <div class="panel panel-warning panel-error-project-list">
             <div class="panel-heading">
-                <div class="panel-heading">
-                    <i class="fa fa-bell fa-fw"></i>
-                    Etl warnings
-                    ({$etlStatuses->count()})
-                </div>
+                <i class="fa fa-bell fa-fw"></i>
+                Etl warnings
+                ({$etlStatuses->count()})
             </div>
             <div class="panel-body">
                 <div class="dataTable_wrapper">
@@ -294,11 +487,9 @@
     <div class="col-lg-4 col-md-6">
         <div class="panel panel-warning panel-error-project-list">
             <div class="panel-heading">
-                <div class="panel-heading">
-                    <i class="fa fa-bell fa-fw"></i>
-                    Calc warnings
-                    ({$calcStatuses->count()})
-                </div>
+                <i class="fa fa-bell fa-fw"></i>
+                Calc warnings
+                ({$calcStatuses->count()})
             </div>
             <div class="panel-body">
                 <div class="dataTable_wrapper">
@@ -333,11 +524,9 @@
     <div class="col-lg-4 col-md-6">
         <div class="panel panel-warning panel-error-project-list">
             <div class="panel-heading">
-                <div class="panel-heading">
-                    <i class="fa fa-bell fa-fw"></i>
-                    Output warnings
-                    ({$outputStatuses->count()})
-                </div>
+                <i class="fa fa-bell fa-fw"></i>
+                Output warnings
+                ({$outputStatuses->count()})
             </div>
             <div class="panel-body">
                 <div class="dataTable_wrapper">

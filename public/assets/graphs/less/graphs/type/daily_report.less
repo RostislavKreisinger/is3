@@ -1,0 +1,324 @@
+
+.chart-box.chart-daily_report {
+
+    .md-chart-daily_report-content-template(@color) {
+
+        & {
+            padding: 0;
+        }
+
+        .md-chart-colored-menu();
+
+        .chart-ico-compare {
+            & {
+                text-align: center;
+                display: inline-block;
+            }
+
+            .chart-ico-compare-value {
+                & {
+                    position: relative;
+                    display: inline-block;
+                    background: #fff;
+                    .border-radius(50px);
+                    padding: 2px 12px;
+
+                    font-size: 1.1em;
+                    font-weight: bold;
+
+                    color: @md-graph-color-green;
+
+                    border: 1px solid fade(@md-color-mid, 15%);
+
+                }
+
+                .chart-ico-compare-text {
+                    & {
+                        position: relative;
+                        display: inline-block;
+                    }
+
+                    &::before {
+                        .md-icomoon(@md-icon-arrow-icon-10);
+                        color: inherit;
+                        display: inline-block;
+                        margin-right: 1.2em;
+                        font-weight: bold;
+                        position: relative;
+                        font-size: 0.8em;
+
+                    }
+
+                    &.positive {
+                        & {
+                            color: @md-graph-color-green;
+                        }
+
+                        &::before {
+                            .rotate(90deg);
+                            top: 0px;
+                        }
+                    }
+
+                    &.negative {
+                        & {
+                            color: @md-graph-color-red;
+                        }
+
+                        &::before {
+                            .rotate(-90deg);
+                            top: 0px;
+                        }
+                    }
+                }
+
+                &:hover {
+                    .chart-ico-compare-tooltip {
+                        display: block;
+                    }
+                }
+
+                .chart-ico-compare-tooltip {
+                    & {
+                        display: none;
+                        position: absolute;
+                        left: 110%;
+                        top: 2px;
+                        z-index: 20;
+                    }
+
+                    .chart-ico-compare-tooltip-text {
+                        & {
+                            position: relative;
+                            color: #FFF;
+                            background: @md-color-primary;
+                            padding: 2px 7px;
+                            display: inline-block;
+                            .border-radius(@md-default-border-radius);
+                            font-size: 1em;
+                            font-weight: normal;
+                            white-space: nowrap;
+                        }
+                        &::before {
+                            .triangle-left(5px, 10px, @md-color-primary);
+                            content: '';
+                            display: inline-block;
+                            position: absolute;
+                            left: -5px;
+                            top: 0.4em;
+                        }
+                    }
+                }
+            }
+        }
+
+        .chart-value-box {
+            & {
+                padding: 0;
+            }
+            .chart-value-box-content {
+                & {
+                    width: 100%;
+                    padding: 0;
+                    min-height: 20em;
+                }
+
+                .row {
+                    margin-left: 0;
+                    margin-right: 0;
+                }
+
+                .daily-report-item {
+                    & {
+
+                    }
+
+                    .daily-report-item-content {
+                        & {
+                            border: 1px solid fade(@md-color-mid, 25%);
+                            .md-graph-box-border();
+                            text-align: center;
+
+                            padding: @md-chart-padding-top @md-chart-padding-left @md-chart-padding-bottom;
+                        }
+
+                        .value {
+                            font-size: 3.2em;
+                            color: @color;
+                            font-weight: 700;
+                            margin: 0.4em 0;
+                        }
+
+                        .more-information {
+                            & {
+                                color: #FFFFFF;
+                                font-weight: 700;
+                            }
+
+                            .more-information-text {
+                                display: inline-block;
+                                font-weight: 500;
+                            }
+
+                            .more-information-value {
+                                display: inline-block;
+                            }
+                        }
+                    }
+
+                    &.daily-report-today {
+                        & {
+                            background: @color;
+                            .md-graph-box-border();
+                        }
+
+                        .daily-report-item-content {
+                            border: none;
+                            padding: 0;
+                        }
+
+                        .value {
+                            color: #FFFFFF;
+                            margin-top: 0;
+                        }
+                    }
+
+                    &.daily-report-month {
+                        & {
+
+                        }
+
+                        .chart-caption-box {
+                            display: block !important;
+                            max-width: 100% !important;
+                            width: 100% !important;
+                            text-align: left;
+                        }
+
+                        .chart-sub-caption-box-function();
+                    }
+
+                    &.daily-report-last-month {
+                        .daily-report-item-content {
+                            background: fade(@md-color-mid, 7%);
+                        }
+
+                        .chart-caption-box {
+                            display: block !important;
+                            max-width: 100% !important;
+                            width: 100% !important;
+                            text-align: left;
+                        }
+
+                        .chart-sub-caption-box-function();
+                    }
+
+                    &.daily-report-last-year {
+                        .daily-report-item-content {
+                            background: fade(@md-color-mid, 7%);
+                        }
+
+                        .chart-caption-box {
+                            display: block !important;
+                            max-width: 100% !important;
+                            width: 100% !important;
+                            text-align: left;
+                        }
+
+                        .chart-sub-caption-box-function();
+                    }
+
+                    &.daily-report-expected {
+                        & {
+                        }
+
+                        .daily-report-item-content {
+                            border: none;
+                        }
+
+                        @background: #7DA2EF;
+                        @med-background: #7B9FEA;
+                        @dark-background: #5F83CE;
+                        .subcaption {
+                            display: inline-block;
+                            font-size: 1.2em;
+                            margin-top: 1.2em;
+                            color: @md-color-primary;
+                        }
+
+                        .value {
+                            display: inline-block;
+                            font-size: 2em;
+                            font-weight: bold;
+                            margin-top: 0.5em;
+                            color: @color;
+                        }
+
+                        .expacted-bar {
+                            & {
+                                position: relative;
+                                display: block;
+                                width: 96%;
+                                margin: 10px auto;
+                                background-color: @color;
+                                height: 30px;
+                                line-height: 30px;
+                                .border-radius(5px);
+                                overflow: hidden;
+                            }
+
+                            .expacted-value {
+                                & {
+                                    background-color: fade(#000000, 25%);
+                                    position: relative;
+                                    height: 30px;
+                                }
+                                &::after {
+                                    content: '';
+                                    .triangle-right(5px, 30px, fade(#000000, 25%));
+                                    position: absolute;
+                                    top: 0;
+                                    right: -5px;
+                                }
+                            }
+
+                            .expacted-text {
+                                color: #FFF;
+                                position: relative;
+                                top: -30px;
+                                font-size: 1em;
+                            }
+                        }
+
+                    }
+
+                }
+            }
+        }
+
+    }
+
+    @padding: 2%;
+
+    .chart-value-box {
+        & {
+        }
+
+        .chart-value-box-content {
+            & {
+                width: 100% - 2 * @padding;
+                padding: 12px @padding;
+            }
+        }
+    }
+
+    &#chart-1 {
+        .md-chart-daily_report-content-template(@md-graph-color-blue);
+    }
+
+    &#chart-2 {
+        .md-chart-daily_report-content-template(@md-graph-color-green);
+    }
+
+}
+

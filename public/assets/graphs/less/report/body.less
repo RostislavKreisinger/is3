@@ -1,0 +1,143 @@
+* {
+    -webkit-print-color-adjust: exact;
+}
+
+body {
+    position: inherit;
+    margin: 0;
+    padding: 0 1% 10em;
+    font-family: "Open Sans";
+
+    background: fade(@md-color-mid, 7%);
+}
+
+.report-header {
+
+}
+
+@header-bar-height: 4.8em;
+
+.header-bar {
+    & {
+        width: 100%;
+        margin: 0;
+        background: @md-color-primary;
+        color: #FFFFFF;
+
+        position: absolute;
+        left: 0;
+        right: 0;
+
+        min-height: @header-bar-height;
+    }
+
+    .header-bar-logo-container {
+        padding: 1.4em 1.6em 1.4em;
+        height: 20px;
+    }
+
+    .header-bar-buttons-container {
+        & {
+            text-align: right;
+        }
+
+        .menu-item {
+            &{
+                display: inline-block;
+                padding-right: 2.4em;
+                position: relative;
+            }
+
+            .btn-print {
+                & {
+                    display: inline-block;
+                    border: 2px solid #FFFFFF;
+                    color: #FFFFFF;
+                    .border-radius(@md-default-border-radius);
+                    padding: 0.3em;
+                    font-size: 1em;
+                    font-weight: 700;
+                }
+
+                .btn-print-ico {
+                    padding-right: 0.5em;
+                }
+            }
+
+            .menu-help-ico {
+                position: relative;
+                top: 0.3em;
+                font-size: 1.6em;
+            }
+        }
+
+    }
+}
+
+.header-report-name {
+    & {
+        padding-top: @header-bar-height;
+        text-align: center;
+    }
+
+    .report-name {
+        & {
+            font-size: 3.2em;
+            font-weight: 700;
+            color: @md-color-primary;
+            padding-top: 1.5em;
+            padding-bottom: 0.1em;
+            margin: 0 auto;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .report-name-input {
+            &{
+                display: inline-block;
+                margin: 0;
+                border: none;
+                width: auto;
+                background: none;
+                text-align: center;
+                min-width: 10px;
+                max-width: 90%;
+            }
+
+            &:focus {
+                outline: none;
+            }
+        }
+
+        .report-name-edit {
+            color: @md-color-mid;
+            padding-left: 5px;
+            font-size: 0.6em;
+            position: relative;
+            opacity: 0;
+            cursor: pointer;
+        }
+    }
+
+    .report-date-range {
+        font-size: 1.6em;
+        font-weight: 700;
+        color: @md-color-mid;
+        margin: 0;
+        padding: 0;
+   }
+}
+
+.report-dashboard-name {
+    &{
+        position: relative;
+    }
+
+    span {
+        display: inline-block;
+        font-size: 0.6em;
+        position: relative;
+        top: -0.2em;
+        margin: 0 0.7em;
+    }
+}
