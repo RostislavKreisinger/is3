@@ -45,9 +45,10 @@ GROUP BY u.`type`, u.`active`");
         $data = $this->getEmptyObject();
 
         foreach ($result as $row){
-            $data["{$row->type}_{$row->active}"]->min = $row->min;
-            $data["{$row->type}_{$row->active}"]->avg = round($row->avg);
-            $data["{$row->type}_{$row->active}"]->max = $row->max;
+            $serieName = $this->getKeyName($row->type, $row->active);
+            $data[$serieName]->min = $row->min;
+            $data[$serieName]->avg = round($row->avg);
+            $data[$serieName]->max = $row->max;
         }
         $this->getApiResponse()->success(array_values($data));
     }
@@ -60,7 +61,7 @@ GROUP BY u.`type`, u.`active`");
         $times = array("min", "avg", "max");
         foreach ($names as $name){
             foreach ($states as $state){
-                $serieName = "{$name}_{$state}";
+                $serieName = $this->getKeyName($name, $state);//"{$name}_{$state}";
                 $result[$serieName] = (object) array(
                     'category' => $serieName
                 );
@@ -70,7 +71,10 @@ GROUP BY u.`type`, u.`active`");
             }
         }
         return $result;
+    }
 
+    private function getKeyName($type, $active) {
+        return "{$type} - {$active}";
     }
 
 

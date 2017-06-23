@@ -244,6 +244,15 @@
                                     }
                                 }
                             },
+                            argumentAxis: {
+                                label: {
+                                    overlappingBehavior: {
+                                        mode: 'stagger',
+                                        staggeringSpacing: 5,
+                                        rotationAngle: 90
+                                    }
+                                }
+                            },
                             commonSeriesSettings: {
                                 argumentField: "category",
                                 type: "bar",
@@ -272,20 +281,20 @@
                                 {
                                     name: 'AVG',
                                     valueField: "avg",
-                                    color: '#0083ff',
+                                    color: '#FF8C00',
                                     label: {
                                         font: {
-                                            color: '#0083ff',
+                                            color: '#FF8C00',
                                         }
                                     }
                                 },
                                 {
                                     name: 'MAX',
                                     valueField: "max",
-                                    color: '#FF8C00',
+                                    color: '#FF0000',
                                     label: {
                                         font: {
-                                            color: '#FF8C00',
+                                            color: '#FF0000',
                                         }
                                     }
                                 },
