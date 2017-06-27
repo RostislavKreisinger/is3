@@ -64,59 +64,240 @@
     </ul>
 </div>
 
-<table id="table-resource" class="table">
-    <thead>
-    <th>
-        Is history
-    </th>
-    <th>
-        Result
-    </th>
-    <th>
-        Final state
-    </th>
-    <th>
-        Unique
-    </th>
-    <th>
-        Start at
-    </th>
-    <th>
-        Finish at
-    </th>
-    <th>
-        Updated at
-    </th>
-    <th>
-        Action
-    </th>
-    </thead>
-    <tbody>
-    <tr>
-        <td colspan="5" style="text-align: center"> loading...</td>
-    </tr>
-    {*<tr n:foreach="$importFlowStatus as $state">*}
-        {*<td>*}
-            {*<span>{$state->is_history}</span>*}
-        {*</td>*}
-
-        {*<td>*}
-            {*<span>{$state->result}</span>*}
-        {*</td>*}
-        {*<td>*}
-            {*<span>{$state->final_state}</span>*}
-        {*</td>*}
-        {*<td>*}
-            {*<span>{$state->unique}</span>*}
-        {*</td>*}
-        {*<td>*}
-            {*<a href="{$state->refresh_link}"*}
-               {*target="_blank">Refresh</a>*}
-        {*</td>*}
+{*<table id="table-resource" class="table">*}
+    {*<thead>*}
+    {*<th>*}
+        {*Is history*}
+    {*</th>*}
+    {*<th>*}
+        {*Step*}
+    {*</th>*}
+    {*<th>*}
+        {*Final state*}
+    {*</th>*}
+    {*<th>*}
+        {*In gearman*}
+    {*</th>*}
+    {*<th>*}
+        {*Unique*}
+    {*</th>*}
+    {*<th>*}
+        {*Start at*}
+    {*</th>*}
+    {*<th>*}
+        {*Finish at*}
+    {*</th>*}
+    {*<th>*}
+        {*Updated at*}
+    {*</th>*}
+    {*<th>*}
+        {*Action*}
+    {*</th>*}
+    {*</thead>*}
+    {*<tbody>*}
+    {*<tr>*}
+        {*<td colspan="5" style="text-align: center"> loading...</td>*}
     {*</tr>*}
-
-    </tbody>
-</table>
+    {*</tbody>*}
+{*</table>*}
 <div id="missing-resource" class="text-color-green" style="padding: 10px; display: none">
     Successfully downloaded
 </div>
+
+<style>
+    #importFlowStatusDataGrid .dx-header-row .dx-datagrid-text-content {
+        color: #000000 !important;
+        font-weight: bold !important;
+    }
+
+
+    #importFlowStatusDataGrid .dx-freespace-row td,
+    #importFlowStatusDataGrid .dx-data-row td {
+        border: none;
+    }
+</style>
+
+<div id="importFlowStatusDataGrid" style="height: 500px; margin-bottom: 50px; margin-top: 10px;"></div>
+
+<script>
+
+    function getIFStatusIconForOneStep(state){
+        // var ico = $('<span>').addClass('glyphicon glyphicon-search').css('transform', 'rotate(135deg)').css("display", 'inline-block').css('margin-left', '2px');
+        var ico = $('<span>').addClass('glyphicon glyphicon-zoom-in').css('transform', 'rotate(135deg)').css("display", 'inline-block').css('margin-left', '4px').css('font-size', '20px' );
+
+        switch (parseInt(state)){
+            case 0:
+                ico.css('color', '#555555');
+                break;
+            case 1:
+                ico.css('color', '#12a010');
+                break;
+            case 2:
+                ico.css('color', '#0083ff');
+                break;
+            case 3:
+                ico.css('color', '#FF0000');
+                break;
+            case 4:
+                ico.css('color', '#DDDDDD');
+                break;
+            case 5:
+                ico.css('color', '#FF8C00');
+                break;
+        }
+
+        return ico;
+    }
+
+    function getIFStatusIcons(state){
+        var container = $('<div>').css('white-space', 'nowrap');
+        container.append(
+                getIFStatusIconForOneStep(state.toString()[0])
+        ).append(
+                getIFStatusIconForOneStep(state.toString()[1])
+        ).append(
+                getIFStatusIconForOneStep(state.toString()[2])
+        ).append(
+                getIFStatusIconForOneStep(state.toString()[3])
+        );
+        return container;
+    }
+
+    function resolveValue(value){
+        if(isEmpty(value)){
+            return "<span class='not-set-value'>NULL</span>";
+        }
+        return value;
+    }
+
+    function resolveBoolValueImportFlow(value){
+        if(value == 1 || value === true || value.toString().toUpperCase() == 'TRUE'){
+            return "<span class='bool-to-text value-1'>YES</span>";
+        }else{
+            return "<span class='bool-to-text value-0'>NO</span>";
+        }
+    }
+
+    $(function () {
+        $("#importFlowStatusDataGrid").dxDataGrid({
+            dataSource: [],
+            scrolling: {
+                mode: 'virtual',
+                showScrollbar: 'always',
+                useNative: true,
+            },
+            sorting: {
+                mode: 'multiple',
+            },
+            filterRow: {
+                visible: true
+            },
+            allowColumnReordering: true,
+            allowColumnResizing: true,
+            columnAutoWidth: true,
+            columns: [
+                {
+                    dataField: 'is_history_status',
+                    caption: 'Type',
+                    name: 'is_history',
+                    cellTemplate: function(cellElement, cellInfo){
+                        cellElement.html(cellInfo.value.toUpperCase());
+                    },
+                    width: 90
+                },
+                {
+                    dataField: 'flow_step',
+                    caption: 'Step',
+                    name: 'flow_step',
+                    cellTemplate: function(cellElement, cellInfo){
+                        cellElement.html(cellInfo.data.code.toUpperCase() + " (" + cellInfo.value + ")");
+                    },
+                    // width: 90,
+                    width: 120,
+                    sortIndex: 0,
+                    sortOrder: 'asc',
+                },
+                {
+                    dataField: 'final_state',
+                    caption: 'Final state',
+                    name: 'final_state',
+                    // getIFStatusIcons(obj.final_state)
+                    cellTemplate: function(cellElement, cellInfo){
+                        var content = $("<div>");
+                        content.append(getIFStatusIcons(cellInfo.value));
+                        content.append($("<div>").text(cellInfo.value));
+                        cellElement.html(content);
+                    },
+                    width: 120
+                },
+                {
+                    dataField: 'is_in_gearman_queue',
+                    caption: 'In gearman',
+                    name: 'is_in_gearman_queue',
+                    cellTemplate: function(cellElement, cellInfo){
+                        cellElement.html(resolveBoolValueImportFlow(cellInfo.value));
+                    },
+                    width: 90
+                },
+                {
+                    dataField: 'unique',
+                    caption: 'Unique',
+                    name: 'unique',
+                    width: 350
+                },
+                {
+                    dataField: 'start_at',
+                    caption: 'Start',
+                    name: 'start_at',
+                    dataType: 'date',
+                    cellTemplate: function(cellElement, cellInfo){
+                        vd(cellInfo);
+                        cellElement.html(resolveValue(cellInfo.data.start_at));
+                    },
+                    width: 150
+                },
+                {
+                    dataField: 'finist_at',
+                    caption: 'Finist',
+                    name: 'finist_at',
+                    dataType: 'date',
+                    cellTemplate: function(cellElement, cellInfo){
+                        vd(cellInfo);
+                        cellElement.html(resolveValue(cellInfo.data.finist_at));
+                    },
+                    width: 150
+                },
+                {
+                    dataField: 'updated_at',
+                    caption: 'Updated',
+                    name: 'updated_at',
+                    dataType: 'date',
+                    cellTemplate: function(cellElement, cellInfo){
+                        vd(cellInfo);
+                        cellElement.html(resolveValue(cellInfo.data.updated_at));
+                    },
+                    width: 150,
+                    sortIndex: 1,
+                    sortOrder: 'asc',
+                },
+                {
+                    dataField: 'refresh_link',
+                    caption: 'Action',
+                    name: 'action',
+                    cellTemplate: function(cellElement, cellInfo){
+                        cellElement.html("<a href='" + cellInfo.value + "'>Refresh</a>");
+                    }
+                },
+
+            ],
+            summary: {
+                totalItems: [
+                    {
+                        column: 'is_history',
+                        summaryType: 'count'
+                    },
+                ]
+            }
+        });
+    });
+</script>
