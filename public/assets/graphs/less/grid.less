@@ -1,0 +1,137 @@
+// @md-graph-distance: 24px;
+
+
+@min-graph-container-size: 16.0em;
+
+.generate-graph-grid(@graph-tempalte, @graph-extra-spacing: 0){
+    @chart-standart-spacing: 8.4em;
+    @chart-join-spacing: 9.2em;// 10.8em;// 6em + 2.4em;
+    @default-button-spacing: 3em;
+
+    .graph-height-1 {
+
+        &.@{graph-tempalte}, .@{graph-tempalte}, > .@{graph-tempalte} {
+            &{
+                min-height: @min-graph-container-size;
+            }
+
+            .chart-value-box, .chart-empty-box {
+                .chart-value-box-content, .chart-empty-box-content {
+                    height: @min-graph-container-size - @chart-standart-spacing - @graph-extra-spacing;
+                }
+
+                &.chart-with-buttons {
+                    .chart-value-box-content, .chart-empty-box-content  {
+                        height: @min-graph-container-size - @chart-standart-spacing - @default-button-spacing - @graph-extra-spacing;
+                    }
+                }
+            }
+        }
+
+        > .@{graph-tempalte} {
+            &{
+                min-height: @min-graph-container-size !important;
+            }
+
+            .chart-value-box, .chart-empty-box {
+                .chart-value-box-content, .chart-empty-box-content {
+                    height: @min-graph-container-size - @chart-standart-spacing - @graph-extra-spacing  !important;
+                }
+
+                &.chart-with-buttons {
+                    .chart-value-box-content, .chart-empty-box-content  {
+                        height: @min-graph-container-size - @chart-standart-spacing - @default-button-spacing - @graph-extra-spacing !important;
+                    }
+                }
+            }
+        }
+
+        &.chart-join, .chart-join {
+            .@{graph-tempalte} {
+                &{
+                    min-height: @min-graph-container-size - @chart-join-spacing;
+                }
+                .chart-value-box, .chart-empty-box {
+                    .chart-value-box-content, .chart-empty-box-content {
+                        height: @min-graph-container-size - @chart-standart-spacing - @graph-extra-spacing - @chart-join-spacing;
+                    }
+
+                    &.chart-with-buttons {
+                        .chart-value-box-content, .chart-empty-box-content  {
+                            height: @min-graph-container-size - @chart-standart-spacing -  @default-button-spacing - @graph-extra-spacing - @chart-join-spacing;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .generate-graph-height(@n, @i: 2) when (@i =< @n) {
+        .graph-height-@{i} {
+            &.@{graph-tempalte}, .@{graph-tempalte} {
+                &{
+                    min-height: @i * @min-graph-container-size + (@i - 1) * @md-graph-distance;
+                }
+                .chart-value-box, .chart-empty-box {
+                    .chart-value-box-content, .chart-empty-box-content {
+                        height: @i * @min-graph-container-size + (@i - 1) * @md-graph-distance - @chart-standart-spacing - @graph-extra-spacing;
+                    }
+                    &.chart-with-buttons {
+                        .chart-value-box-content, .chart-empty-box-content  {
+                            //@default-button-spacing
+                            height: @i * @min-graph-container-size + (@i - 1) * @md-graph-distance - @default-button-spacing - @chart-standart-spacing - @graph-extra-spacing;
+                        }
+                    }
+                }
+            }
+            &.chart-join, .chart-join {
+                .@{graph-tempalte} {
+                    &{
+                        min-height: @i * @min-graph-container-size + (@i - 1) * @md-graph-distance - @chart-join-spacing;
+                    }
+                    .chart-value-box, .chart-empty-box {
+                        .chart-value-box-content, .chart-empty-box-content {
+                            height: @i * @min-graph-container-size + (@i - 1) * @md-graph-distance - @chart-standart-spacing - @graph-extra-spacing - @chart-join-spacing;
+                        }
+                        &.chart-with-buttons {
+                            .chart-value-box-content, .chart-empty-box-content  {
+                                //@default-button-spacing
+                                height: @i * @min-graph-container-size + (@i - 1) * @md-graph-distance - @default-button-spacing - @chart-standart-spacing - @graph-extra-spacing - @chart-join-spacing;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        .generate-graph-height(@n, (@i + 1));
+    }
+
+    .generate-graph-height(4);
+}
+
+.generate-graph-grid(chart-ico);
+.generate-graph-grid(chart-pie);
+.generate-graph-grid(chart-spline);
+.generate-graph-grid(chart-tachometr, 3em);
+.generate-graph-grid(chart-horizontalbar);
+.generate-graph-grid(chart-verticalbar);
+.generate-graph-grid(chart-table);
+.generate-graph-grid(chart-funnel);
+.generate-graph-grid(chart-stackbar);
+.generate-graph-grid(chart-bar_gauge);
+
+
+.row {
+    margin: 0;
+    .clearfix();
+
+    .row {
+        .make-row();
+    }
+}
+
+
+.md-col-without-padding {
+    padding-top: 0;
+    padding-bottom: 0;
+}

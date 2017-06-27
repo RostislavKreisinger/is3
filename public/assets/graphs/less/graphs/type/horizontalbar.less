@@ -1,0 +1,45 @@
+.chart-box.chart-horizontalbar {
+    .chart-label-box {
+        display: none;
+    }
+    .chart-value-box {
+        .chart-value-box-content {
+            width: 96%;
+            padding: 0 2%;
+        }
+        .chart-value-sign {
+            position: absolute;
+            right: 2%;
+            bottom: 0px;
+            .roboto-bold();
+            color: @graph-label-sign-text-color;
+        }
+    }
+
+    .chart-top-menu {
+        display: block !important;
+    }
+
+    .chart-ico-box {
+
+        & {
+            position: absolute;
+            width: 100%;
+            left: 0;
+            bottom: 0;
+            overflow: hidden;
+        }
+
+        &::before {
+            color: #fff;
+            opacity: 0.15;
+            font-size: 16em;
+
+            position: relative;
+        }
+    }
+}
+.chart-box.chart-horizontalbar{
+
+
+}

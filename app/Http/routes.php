@@ -1,7 +1,6 @@
 <?php
 
 
-
 Route::middleware('auth', App\Http\Middleware\Authenticate::class);
 Route::middleware('admin', App\Http\Middleware\Admin::class);
 
@@ -16,6 +15,15 @@ Route::group(['middleware' => 'web'], function () {
     
     
     Route::group(['middleware' => 'auth'], function (){
+        Route::group(['prefix' => 'api'], function(){
+            Route::group(['prefix' => 'import-flow'], function(){
+                Route::group(['prefix' => 'graphs'], function(){
+                    Route::controller('/queues-status', App\Http\Controllers\Api\ImportFlow\Graphs\QueuesStatusController::class);
+                    Route::controller('/queues-times-status', App\Http\Controllers\Api\ImportFlow\Graphs\QueuesTimesStatusController::class);
+                });
+            });
+        });
+
         Route::group(['prefix' => 'button'], function(){
             Route::group(['prefix' => 'project'], function(){
                 Route::group(['prefix' => 'autoreport'], function(){

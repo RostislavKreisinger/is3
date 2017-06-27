@@ -1,0 +1,233 @@
+.chart-caption {
+    h2 {
+        text-transform: uppercase;
+    }
+}
+
+.chart-top-menu {
+    & {
+        position: relative;
+        width: 100%;
+        margin: 0;
+        .clearfix();
+        margin-bottom: @md-chart-padding-bottom;
+        min-height: @md-chart-menu-min-height;
+    }
+
+    .chart-main-caption-box-function();
+
+    .chart-tool-box {
+        & {
+            float: right;
+        }
+
+        .chart-tool-controls {
+            & {
+                display: inline-block;
+                float: left;
+                margin-left: 0.5em;
+            }
+
+            > span {
+                display: inline-block;
+            }
+
+            select.graph-select-search-control-dimensions {
+                display: none;
+            }
+            select.graph-select-search-control-metrics {
+                display: none;
+            }
+        }
+
+        .chart-tool-box-controls {
+            z-index: 10;
+            white-space: nowrap;
+            display: inline-block;
+        }
+
+        @size: 28px;
+        .chart-tool-item {
+
+            * {
+                white-space: normal;
+            }
+
+
+
+            &.chart-tool-ico-detail {
+                & {
+                    width: auto;
+                    cursor: pointer;
+                    padding-left: 6px;
+                    padding-right: 6px;
+                    display: inline-block;
+                    color: #FFF;
+                    font-weight: bold;
+                }
+
+                a {
+                    color: #fff;
+                }
+
+            }
+
+            &.chart-tool-ico-info {
+
+
+
+                &::before {
+                    // .ico('\e363');
+                    position: relative;
+                    top: 2px;
+                    line-height: none;
+                }
+
+                &:hover {
+                    &{
+                        opacity: 1;
+                    }
+                    .chart-tool-info-box {
+                        display: block;
+                    }
+                }
+
+            }
+
+            &.chart-tool-options {
+                &{
+                    display: inline-block;
+                    width: 1.2em;
+                    height: 1.2em;
+                }
+
+                &::before {
+                    .md-icomoon(@md-icon-three-dots-icon-20);
+                    color: fade(@md-color-mid, 50%);
+                    font-size: 1.5em;
+                }
+
+
+                &:hover {
+                    .chart-tool-options-box {
+                        display: block;
+                    }
+
+                    &::before {
+                        color: @md-color-mid;
+                    }
+                }
+                .chart-tool-options-box {
+                    & {
+                        display: none;
+                        position: absolute;
+                        min-width: 100px;
+                        max-width: 400px;
+                        width: auto;
+                        right: 0px;
+                        z-index: 110;
+                        top: 1em;
+                        background: transparent;
+                        padding: 10px 0px 10px;
+                    }
+                    .chart-tool-options-content {
+                        & {
+                            background: @md-color-primary;
+                            color: #FFF;
+                            position: relative;
+                            width: 100%;
+                            .border-radius(@md-default-border-radius);
+                            font-size: 1em;
+                        }
+
+                        &:before {
+                            .triangle-top(8px, 3px, @md-color-primary);
+                            content: "";
+                            display: block;
+                            position: absolute;
+                            right: 1em;
+                            top: -3px;
+                        }
+
+                        .chart-tool-options-ul {
+                            & {
+                                margin: 0;
+                                padding: 12px;
+                                list-style: none;
+                            }
+
+                            .chart-tool-options-li {
+                                & {
+                                    margin: 0;
+                                    padding: 0;
+                                    text-align: left;
+
+                                }
+
+                                >a {
+                                    display: inline-block;
+                                    width: 100%;
+                                }
+
+                                .chart-tool-options-link {
+                                    & {
+                                        display: inline-block;
+                                        color: @color-white;
+                                        padding: 4px;
+                                        white-space: nowrap;
+                                        cursor: pointer;
+
+                                        font-size: 1em;
+                                        font-weight: bold;
+                                        text-decoration: none;
+                                    }
+
+                                    &:hover {
+                                        color: @md-color-info;
+                                        text-decoration: underline;
+                                    }
+
+                                    .chart-tool-options-link-ico(@ico) {
+                                    }
+
+                                    &.detail {
+                                        .chart-tool-options-link-ico('\e47f');
+                                    }
+
+                                    &.star {
+                                        .chart-tool-options-link-ico('\e2ff');
+                                    }
+
+                                    &.starred {
+                                        .chart-tool-options-link-ico('\e301');
+                                    }
+
+                                    &.download-txt {
+                                        .chart-tool-options-link-ico('\e2b8');
+                                    }
+
+                                    &.download-csv {
+                                        .chart-tool-options-link-ico('\e2b8');
+                                    }
+                                }
+                            }
+
+                        }
+                    }
+                }
+            }
+        }
+
+        .chart-tool-box-loading {
+            display: inline-block;
+            position: absolute;
+            top: 0px;
+            right: 10px;
+            display: none;
+        }
+
+        .clear {
+            .clear();
+        }
+    }
+}

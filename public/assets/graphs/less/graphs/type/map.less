@@ -1,0 +1,65 @@
+
+
+.chart-box.chart-map {
+
+    .chart-value-box {
+        .chart-value-box-content{
+            .dxm-tooltip {
+                width: auto !important;
+                height: auto !important;
+            }
+            
+            .dx-map-tooltip-table {
+                &{
+                    text-align: left;
+                }
+                
+                tr {
+                    &{
+                        
+                    }
+                    
+                    th {
+                        
+                    }
+                    
+                    td {
+                        &{
+                            
+                        }
+                        
+                        &:not(:first-child) {
+                            .dosis-bold();
+                            font-weight: bold;
+                            font-size: 1.5em;
+                        }
+
+                        &:first-child {
+                            color: @color-gray-medium;
+                            font-size: 1em;
+                            .roboto-normal();
+                            padding-right: 10px;
+                        }
+
+                        &.red {
+                            color: #EA7370;
+                        }
+                        
+                        &.blue {
+                            color: #5A79A3;
+                        }
+
+                        &.green {
+                            color: #689A69;
+                        }
+
+                        &.yellow {
+                            color: #E4C35F;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+}
