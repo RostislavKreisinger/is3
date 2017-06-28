@@ -1,0 +1,148 @@
+
+.clearfix() {
+    &:before,
+    &:after {
+        content: " "; // 1
+        display: table; // 2
+    }
+    &:after {
+        clear: both;
+    }
+}
+
+
+.print-header {
+    & {
+        display: none;
+        font-size: 1em;
+        text-align: center;
+
+        width: 100%;
+
+        font-weight: bold;
+        color: @md-color-mid;
+    }
+
+    .print-header-report-name {
+        float: left;
+
+    }
+
+    .print-header-report-dates {
+        float: right;
+    }
+}
+
+@page {
+    //size: A4;
+    //margin: 11mm 17mm 17mm 17mm;
+}
+
+@media print {
+    .print-header {
+        display: inherit;
+        position: fixed;
+        bottom: 0;
+    }
+
+    //html, body {
+    //    width: 210mm;
+    //    height: 297mm;
+    //}
+}
+
+
+@media print {
+    .row    { page-break-inside:auto; }
+
+    [class^="graph-col-"], [class*=" graph-col-"] {
+        page-break-inside:avoid;
+        page-break-after:auto;
+    }
+}
+
+#printing-area {
+    border: none;
+}
+
+.printing-mode {
+    & {
+        background: #FFFFFF;
+        padding: 0;
+    }
+
+    &.printing-mode-landscape {
+        .header-report-name {
+            padding-top: 25%;
+        }
+    }
+
+    &.printing-mode-portrait {
+        .header-report-name {
+            padding-top: 50%;
+        }
+    }
+
+    .header-bar {
+        display: none;
+    }
+
+    .header-report-name {
+        & {
+            page-break-inside: avoid;
+            page-break-after: always;
+        }
+
+        .report-name-edit {
+            opacity: 0 !important;
+        }
+    }
+
+    .chart-box {
+        & {
+//             .md-graph-box-border();
+            // border: 1px solid fade(@md-color-mid, 25%);
+            border: 1px solid @md-color-mid;
+            .box-shadow(none);
+
+        }
+
+        .chart-box {
+            border: 1px solid fade(@md-color-mid, 50%) !important;
+            .box-shadow(none);
+        }
+
+        .md-tooltip {
+            display: none;
+        }
+
+        .dx-column-indicators {
+            &{
+                display: none !important;
+            }
+        }
+
+        .dx-column-indicators + .dx-datagrid-text-content {
+            padding-right: 0 !important;
+        }
+
+        .dx-datagrid-filter-row {
+            display: none !important;
+        }
+
+
+        .chart-tool-item {
+            opacity: 0;
+        }
+
+        .chart-tool-options {
+            opacity: 0;
+        }
+
+        .graph-button-label {
+            &::after {
+                opacity: 0;
+            }
+        }
+    }
+}

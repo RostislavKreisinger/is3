@@ -1,0 +1,139 @@
+.chart-tab {
+    & {
+        background-color: white;
+        .border-radiuses(5px, 0, 0, 5px);
+        .md-graph-box-view();
+        border: 1px solid fade(@md-color-mid, 25%);
+    }
+
+    .nav-tabs {
+        border: none;
+        margin: @md-chart-padding-top @md-chart-padding-right @md-chart-padding-bottom @md-chart-padding-left;
+
+        .dropdown {
+            border: 2px solid #E6ECF5;
+            padding: 5px 10px;
+            border-radius: 5px;
+            margin-left: 40px;
+
+            & .dropdown-toggle {
+                border: none;
+                padding: 0;
+                font-weight: 700;
+                font-size: 1.2em;
+                text-transform: uppercase;
+                text-decoration: underline;
+                cursor: pointer;
+
+                & .caret {
+                    margin-left: 10px;
+                    border-top: 3px solid;
+                    border-right: 3px solid transparent;
+                    border-left: 3px solid transparent;
+                }
+            }
+
+            & .dropdown-menu {
+                margin-top: 5px;
+                border: 1px solid #A5BDDE;
+                border-radius: 5px;
+                box-shadow: 2px 3px 3px rgba(0, 0, 0, 0.11);
+                color: #3f8be9;
+                z-index: 101;
+
+                & .nav-tab-item {
+
+                    &.active {
+                        a {
+                            background-color: transparent;
+                            color: inherit;
+                        }
+                    }
+
+                    & a {
+                        font-size: 1.2em;
+                        font-weight: 600;
+
+                        &:hover {
+                            background-color: transparent;
+                            text-decoration: underline;
+                        }
+
+                    }
+
+                }
+
+            }
+
+        }
+
+        &:not(.dropdown-menu) > .nav-tab-item {
+
+            & {
+                width: 175px;
+                text-align: center;
+                color: @md-graph-color-dark-blue;
+                position: relative;
+                padding-top: 6px;
+                font-size: 1.2em;
+
+
+                &:not(:last-child):after {
+                    content: '';
+                    position: absolute;
+                    right: 0;
+                    bottom: 40%;
+                    width: 2px;
+                    height: 15px;
+                    background-color: #EFF3F9;
+                }
+            }
+
+            &:not(.active) a {
+                &:after {
+                    width: 0;
+                    background: none;
+                }
+                &:hover:after {
+                    width: 100%;
+                    background: @md-graph-color-dark-blue;
+                }
+            }
+
+            &.active a {
+                text-decoration: none;
+            }
+
+            a {
+                border: none !important;
+                text-decoration: none;
+                position: relative;
+                padding: 0 0 3px 0;
+                font-size: 1.2em;
+                font-weight: 700;
+                text-transform: uppercase;
+
+                &:after {
+                    content: '';
+                    display: block;
+                    margin: 5px auto;
+                    height: 3px;
+                    width: 100%;
+                    background: transparent;
+                    transition: width .3s ease, background-color .3s ease;
+                    background: @md-graph-color-dark-blue;
+                }
+            }
+        }
+    }
+
+    .tab-content {
+        .tab-pane{
+            > .chart-box {
+                border-top-left-radius: 0 !important;
+                border-top-right-radius: 0 !important;
+                border-top: none !important;
+            }
+        }
+    }
+}

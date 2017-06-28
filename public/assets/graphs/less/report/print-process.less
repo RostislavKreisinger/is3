@@ -1,0 +1,50 @@
+.print-overlay {
+    & {
+        display: none;
+        position: fixed;
+        top: @header-bar-height;
+        left: 0;
+        right: 0;
+        bottom: 0;
+
+        background: fade(#FFFFFF, 90%);
+        z-index: 100;
+    }
+
+    .print-content {
+        &{
+            margin: 10% auto 0;
+            width: 300px;
+            text-align: center;
+        }
+
+        .print-loader {
+            & {
+                margin: 0 auto;
+                width: 4.8em;
+                display: inline-block;
+                padding-bottom: 2.4em;
+            }
+
+            img {
+                width: 100%;
+            }
+        }
+
+        .print-text {
+            & {
+                margin: 0 auto;
+            }
+
+            .print-text-main {
+                font-size: 1.6em;
+                font-weight: 700;
+            }
+
+            .print-text-subtext {
+                font-size: 1.3em;
+                font-weight: 700;
+            }
+        }
+    }
+}
