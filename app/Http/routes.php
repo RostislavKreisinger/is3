@@ -20,6 +20,8 @@ Route::group(['middleware' => 'web'], function () {
                 Route::group(['prefix' => 'graphs'], function(){
                     Route::controller('/queues-status', App\Http\Controllers\Api\ImportFlow\Graphs\QueuesStatusController::class);
                     Route::controller('/queues-times-status', App\Http\Controllers\Api\ImportFlow\Graphs\QueuesTimesStatusController::class);
+                    Route::controller('/queues-jobs-in-time', App\Http\Controllers\Api\ImportFlow\Graphs\QueuesJobsInTimeController::class);
+                    Route::controller('/queues-jobs-in-time-history', App\Http\Controllers\Api\ImportFlow\Graphs\QueuesJobsInTimeHistoryController::class);
                 });
             });
         });

@@ -36,6 +36,16 @@ var mdDate = {
         
         var d = this.date.getDate();
         format = format.replace('d', (d < 10) ? "0" + d : d);
+
+        var hour = this.date.getHours();
+        format = format.replace('h', (hour < 10) ? "0" + hour : hour);
+
+        var minutes = this.date.getMinutes();
+        format = format.replace('i', (minutes < 10) ? "0" + minutes : minutes);
+
+        var seconds = this.date.getSeconds();
+        format = format.replace('s', (seconds < 10) ? "0" + seconds : seconds);
+
         return format;
     },
     /**
