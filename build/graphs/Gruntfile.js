@@ -22,7 +22,7 @@ module.exports = function (grunt) {
             // /home/tomw/htdocs/app.monkeydata.com/public/assets/graphs/libs/bootstrap/js/bootstrap.min.js
             // '../../public/assets/graphs/libs/**/*.js',
             '../../public/assets/graphs/static-libs/helpers.js',
-            '../../public/assets/graphs/libs/bootstrap/js/bootstrap.min.js',
+            // '../../public/assets/graphs/libs/bootstrap/js/bootstrap.min.js',
 
 
 
@@ -45,7 +45,7 @@ module.exports = function (grunt) {
             '../../public/assets/graphs/static-libs/monkeydata/MonkeyDataSelectSearch.js',
             '../../public/assets/graphs/static-libs/tmpl/tmpl.js',
 
-            '../../public/assets/graphs/static-libs/bootstrap/bootstrap-tabdrop.js',
+            // '../../public/assets/graphs/static-libs/bootstrap/bootstrap-tabdrop.js',
             '../../public/assets/graphs/static-libs/autowidth_input/autowidth_input.js',
         ]
     };
