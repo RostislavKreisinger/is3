@@ -500,11 +500,9 @@
                                 enabled: true,
                                 shared: true,
                                 customizeTooltip: function(point){
-                                    vd(point);
                                     var date = mdDate.clone(point.argument);
                                     var pointsTable = '<table>';
                                     $.each(point.points, function(index, current){
-                                        vd(current.point.getColor());
                                         var pointHtml = "<tr style='color: " + current.point.getColor() + "; font-weight: bold;'><td>"+current.seriesName+"</td><td style='padding-left: 10px;'>"+current.value+"</td></tr>";
                                         pointsTable += pointHtml;
                                     });
@@ -632,11 +630,9 @@
                                 enabled: true,
                                 shared: true,
                                 customizeTooltip: function(point){
-                                    vd(point);
                                     var date = mdDate.clone(point.argument);
                                     var pointsTable = '<table>';
                                     $.each(point.points, function(index, current){
-                                        vd(current.point.getColor());
                                         var pointHtml = "<tr style='color: " + current.point.getColor() + "; font-weight: bold;'><td>"+current.seriesName+"</td><td style='padding-left: 10px;'>"+current.value+"</td></tr>";
                                         pointsTable += pointHtml;
                                     });
