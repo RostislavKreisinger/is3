@@ -1,0 +1,27 @@
+.chart-box.chart-pie {
+    .pie-ico-teplate(@ico, @fontsize: 2em, @top: 44%) {
+        &::before {
+            .ico(@ico);
+            position: absolute;
+            width: 100%;
+            text-align: center;
+            left: 0;
+            top: @top;
+            font-size: @fontsize;
+            display: block;
+            opacity: 0.5;
+        }
+    }
+
+    .chart-value-box {
+        .chart-value-box-content {
+            svg {
+                margin: 0 auto;
+            }
+        }
+    }
+}
+
+.chart-box.chart-pie{
+    
+}

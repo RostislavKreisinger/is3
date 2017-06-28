@@ -1,0 +1,235 @@
+
+.md-chart-sub-graph-view() {
+
+    & {
+        .md-graph-box-border();
+        border: 1px solid fade(@md-color-mid, 25%);
+        .box-shadow(none);
+    }
+
+    > .chart-top-menu {
+        .chart-sub-caption-box-function();
+    }
+
+}
+.md-chart-colored-menu() {
+    .chart-caption-box {
+        .chart-caption {
+            color: #FFFFFF;
+        }
+    }
+
+    .chart-tool-box {
+        .chart-tool-item{
+            &.chart-tool-options {
+                &::before {
+                    color: fade(#FFFFFF, 50%);
+                }
+                &:hover {
+                    &::before {
+                        color: #FFFFFF;
+                    }
+                }
+
+            }
+        }
+    }
+}
+
+.md-chart-hide-top-menu(){
+    > .chart-top-menu {
+        display: none;
+    }
+
+    > .graph-loading-overlay {
+        top: 0;
+        .border-radius(@md-default-border-radius);
+    }
+}
+
+
+.md-chart-colored(@background){
+    &{
+        background: @background;
+    }
+
+    .md-chart-colored-menu();
+
+    > .graph-loading-overlay {
+        > .graph-loading-background {
+            background: @background;
+        }
+
+        .img-loading-bg-white {
+            display: none;
+        }
+
+        .img-loading-bg-colored {
+            display: block;
+        }
+    }
+}
+
+
+
+.chart-main-caption-box-function(){
+    .chart-caption-box {
+        & {
+            max-width: 70%;
+            display: inline-block;
+            float: left;
+        }
+        .chart-caption {
+            & {
+                color: @md-color-secondary;
+            }
+
+            h2 {
+                & {
+                    display: inline-block;
+                    font-size: @md-chart-caption-size;
+                    font-weight: bold;
+                    margin: 0;
+                    padding: 0;
+                }
+
+                > a {
+                    color: inherit;
+                }
+            }
+        }
+
+        .chart-tool-ico-info {
+            &{
+                opacity: 0.75;
+                margin-left: 5px;
+                position: relative;
+            }
+
+            &:hover {
+                & {
+                    opacity: 1;
+                }
+            }
+
+            &::before{
+                @i-icon-size: 1.6em;
+                .md-icomoon(@md-icon-information-icon-32);
+                font-size: @i-icon-size;
+                position: relative;
+                top: (@i-icon-size - @md-chart-caption-size)/2;
+            }
+        }
+    }
+}
+
+
+.chart-sub-caption-box-function(){
+    .chart-main-caption-box-function();
+    .chart-caption-box {
+        &{
+            float: none;
+        }
+        .chart-caption {
+            & {
+                color: fade(@md-color-secondary, 75%);
+            }
+
+            h2 {
+                font-size: 1em;
+            }
+        }
+    }
+}
+
+
+
+// ----------------- OLD
+
+.colored-graph-loading(){
+    //.chart-tool-ico-loading {
+    //    background-image: url('img/graphs/loading/white.svg') !important;
+    //}
+    //
+    //.chart-tool-item:not(.chart-tool-ico-loading) {
+    //    &{
+    //        background: transparent !important;
+    //        border: 2px solid #FFF !important;
+    //    }
+    //
+    //    &:hover {
+    //        & {
+    //            background: #FFF !important;
+    //            color: @graph-top-menu-option-items-color !important;
+    //        }
+    //
+    //        > a {
+    //            color: @graph-top-menu-option-items-color !important;
+    //        }
+    //
+    //        &::before {
+    //            color: @graph-top-menu-option-items-color !important;
+    //        }
+    //    }
+    //
+    //    &::before {
+    //        color: #FFF !important;
+    //    }
+    //}
+}
+
+.colored-chart(@background: inherit){
+    &{
+        background: @background;
+    }
+
+    .dx-datagrid-headers {
+        .dx-header-row {
+            .dx-datagrid-text-content {
+                color: rgba(255, 255, 255, 0.6) !important;
+            }
+        }
+    }
+
+    // .colored-graph-loading();
+
+    .chart-caption,
+    .chart-empty-value,
+    .chart-empty-sign,
+    .chart-label-value,
+    .chart-label-sign {
+        color: #FFF;
+    }
+
+}
+
+.hide-graph-top-menu() {
+    .chart-top-menu {
+        display: none;
+    }
+}
+
+.hide-graph-controls () {
+    .chart-top-menu {
+        .chart-tool-box {
+            .chart-tool-box-controls {
+                > * {
+                    &:not(.chart-tool-ico-detail) {
+                        display: none;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.hide-graph-controls-strict () {
+    .chart-top-menu {
+        .chart-tool-box {
+            .chart-tool-box-controls {
+                display: none;
+            }
+        }
+    }
+}
+

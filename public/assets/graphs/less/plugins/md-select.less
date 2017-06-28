@@ -1,0 +1,149 @@
+/*
+
+    SELECT JQuery plugin converts <select><option> into <ul><li>
+
+*/
+
+
+/* Custom select layouts */
+
+.select-segments {
+    border: 1px solid #A1BADC;
+    background-color: transparent;
+    border-radius: 5px;
+    padding: 5px 10px;
+    color: #555;
+    font-size: 1.2em;
+    font-weight: 500;
+    margin-right: 15px;
+}
+
+.select-recommended-segments {
+    border: 1px solid #A1BADC;
+    background-color: transparent;
+    border-radius: 5px;
+    padding: 4px 20px 4px 10px;
+    color: #A1BADC;
+    font-size: 1.2em;
+    font-weight: 500;
+    display: inline-block;
+    cursor: pointer;
+    z-index: 100;
+}
+
+/* !Custom select layouts */
+
+.md-select {
+
+    position: relative;
+    display: inline-block;
+    z-index: 10;
+    margin-right: 25px;
+    margin-bottom: 15px;
+    cursor: pointer;
+    user-select: none;
+    white-space: nowrap;
+
+
+    &.md-select-opened {
+
+
+        & .md-select-header .ico {
+            transform: rotate(180deg);
+            margin-top: 4px;
+        }
+    }
+
+    /* Select */
+    .md-select-header {
+        width: 100%;
+        display: inline-block;
+        margin-right: 15px;
+    }
+
+    /* Select value */
+    .md-select-header.selected-value {
+        background-color: #F5F8FC;
+        color: #333;
+    }
+
+    /* Select list */
+    ul {
+        position: absolute;
+        width: 100%;
+        margin-top: 5px;
+        background-color: white;
+        border-radius: 5px;
+        padding: 10px;
+        box-shadow: 0 0 30px -5px #97B0D2;
+        color: #385173;
+
+        /* Select options */
+        li {
+            list-style-type: none;
+            padding: 5px;
+            color: #385173;
+            font-size: 1.1em;
+
+            &:not(.selected) {
+
+                &:not(.disabled) {
+
+                    &:hover {
+                        cursor: pointer;
+                        color: black;
+                    }
+
+                }
+
+            }
+
+        }
+
+    }
+
+    /* Select check ico */
+    .ico {
+        position: absolute;
+        right: 10px;
+        margin-top: 6px;
+        font-size: 0.5em;
+        transition: 0.2s;
+    }
+
+
+
+    /* Select selected option */
+    .selected {
+        color: #53B23D;
+
+        /* Show selected icon*/
+        .check-ico {
+            display: inline-block;
+            color: #53B23D;
+        }
+
+    }
+
+    /* Select is selected from another select */
+    .disabled {
+        color: #999;
+    }
+
+    .check-ico {
+        display: none;
+        position: absolute;
+        right: 10px;
+    }
+
+}
+
+/* Remove btn */
+.select-remove {
+    color: #9BB6DA;
+    position: absolute;
+    top: 40%;
+    right: -17px;
+    font-size: 0.9em;
+    cursor: pointer;
+}

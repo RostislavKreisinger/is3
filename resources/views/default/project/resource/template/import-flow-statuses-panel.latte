@@ -24,6 +24,8 @@
 <script>
 
 
+
+
     function refreshImportFlowData() {
 
         $.get({$resource->id}+"/importflowstatus", function (data) {
@@ -117,51 +119,17 @@
 
     }
 
-    function getIFStatusIconForOneStep(state){
-        // var ico = $('<span>').addClass('glyphicon glyphicon-search').css('transform', 'rotate(135deg)').css("display", 'inline-block').css('margin-left', '2px');
-        var ico = $('<span>').addClass('glyphicon glyphicon-zoom-in').css('transform', 'rotate(135deg)').css("display", 'inline-block').css('margin-left', '4px').css('font-size', '20px' );
-        vd(parseInt(state));
-        switch (parseInt(state)){
-            case 0:
-                ico.css('color', '#555555');
-                break;
-            case 1:
-                ico.css('color', '#12a010');
-                break;
-            case 2:
-                ico.css('color', '#0083ff');
-                break;
-            case 3:
-                ico.css('color', '#FF0000');
-                break;
-            case 4:
-                ico.css('color', '#DDDDDD');
-                break;
-            case 5:
-                ico.css('color', '#FF8C00');
-                break;
-        }
-        vd(ico);
-        return ico;
-    }
 
-    function getIFStatusIcons(state){
-        var container = $('<div>').css('white-space', 'nowrap');
-        console.log(state);
-        container.append(
-            getIFStatusIconForOneStep(state.toString()[0])
-        ).append(
-                getIFStatusIconForOneStep(state.toString()[1])
-        ).append(
-                getIFStatusIconForOneStep(state.toString()[2])
-        ).append(
-                getIFStatusIconForOneStep(state.toString()[3])
-        );
-        return container;
-    }
+
+
 
 
     function renderResource(object) {
+
+        $("#importFlowStatusDataGrid").dxDataGrid("instance").option('dataSource', object);
+
+        return;
+
         var tab = "resource";
         var isEmpty = resetBlocks(tab, object);
         if (isEmpty) {
@@ -175,29 +143,15 @@
         var body = target.find('tbody');
         for (var i = 0; i < object.length; i++) {
             var obj = object[i];
-
-            var importType = 'none';
-            switch (obj.is_history){
-                case 0:
-                    importType = 'daily';
-                    break;
-                case 1:
-                    importType = 'history';
-                    break;
-                case 2:
-                    importType = 'tester';
-                    break;
-            }
-
             body.append($('<tr>')
                 .append($('<td>')
                     .append($('<span>')
-                        .text(importType)
+                        .html(resolveValue(obj.is_history_status))
                     )
                 )
                 .append($('<td>')
                     .append($('<span>')
-                        .text(obj.result).css('white-space', 'nowrap')
+                        .html(resolveValue(obj.code.toUpperCase())).css('white-space', 'nowrap').css('font-weight', "bold")
                     )
                 )
                 .append($('<td>')
@@ -205,42 +159,49 @@
                         getIFStatusIcons(obj.final_state)
                     )
                     .append($('<span>')
-                        .text(obj.final_state)
+                        .html(resolveValue(obj.final_state))
                     )
+                )
+                .append($('<td>')
+                        .append($('<span>')
+                                .html(resolveBoolValueImportFlow(obj.is_in_gearman_queue))
+                        )
                 )
                 .append($('<td>')
                     .append($('<span>')
-                        .text(obj.unique)
+                        .html(resolveValue(obj.unique))
                     )
                 )
                 .append($('<td>')
                         .append($('<span>').css('white-space', 'nowrap')
-                                .text(obj.start_at)
+                                .html(resolveValue(obj.start_at))
                         )
                 )
                 .append($('<td>')
                         .append($('<span>').css('white-space', 'nowrap')
-                                .text(obj.finist_at)
+                                .html(resolveValue(obj.finist_at))
                         )
                 )
                 .append($('<td>')
                         .append($('<span>').css('white-space', 'nowrap')
-                                .text(obj.updated_at)
+                                .html(resolveValue(obj.updated_at))
                         )
                 )
                 .append($('<td>')
                     .append($('<a>')
                         .attr('href', obj.refresh_link)
                         .attr('target', "_blank")
-                        .text("Refresh")
+                        .html("Refresh")
                     )
                 )
             );
+            return;
         }
     }
 
 
-
-    refreshImportFlowData();
+    $(function() {
+        refreshImportFlowData();
+    });
 
 </script>

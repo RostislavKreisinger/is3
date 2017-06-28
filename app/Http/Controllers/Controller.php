@@ -4,9 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Project\DetailController as ProjectDetailController;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\DB;
 use Monkey\Connections\MDDatabaseConnections;
+use Monkey\Connections\MDImportFlowConnections;
 use Monkey\DateTime\DateTimeHelper;
+use Monkey\Helpers\Integers;
 use Monkey\ImportSupport\InvalidProject\Project as Project2;
 use Monkey\ImportSupport\InvalidProject\ProjectRepository;
 use Monkey\ImportSupport\Pool\PoolList;
@@ -18,13 +19,13 @@ class Controller extends BaseViewController {
 
     /**
      *
-     * @var Project 
+     * @var Project
      */
     private $newProjects;
 
     /**
      *
-     * @var PoolList 
+     * @var PoolList
      */
     private $poolList;
 
@@ -41,9 +42,7 @@ class Controller extends BaseViewController {
         $k = 0;
         $invalidProjectList = $this->getInvalidProjects();
         foreach ($invalidProjectList as $project) {
-            $menuItem = new Menu(
-                    "{$project->getName()} [{$project->getInvalidResourceCount()}]", action(ProjectDetailController::routeMethod('getIndex'), ['project_id' => $project->getId()])
-            );
+            $menuItem = new Menu("{$project->getName()} [{$project->getInvalidResourceCount()}]", action(ProjectDetailController::routeMethod('getIndex'), ['project_id' => $project->getId()]));
             $menuItem->setTitle($project->getId());
             $invalidProjects->addMenuItem($menuItem);
             if (++$k == 10) {
@@ -54,9 +53,7 @@ class Controller extends BaseViewController {
 
         $newProjects = new Menu('New projects', '#');
         foreach ($this->getNewProjects() as $project) {
-            $menuItem = new Menu(
-                    $project->name, action(ProjectDetailController::routeMethod('getIndex'), ['project_id' => $project->id])
-            );
+            $menuItem = new Menu($project->name, action(ProjectDetailController::routeMethod('getIndex'), ['project_id' => $project->id]));
             $menuItem->setTitle($project->id);
 
             $invalidProject = $invalidProjectList->getProject($project->id);
@@ -78,9 +75,44 @@ class Controller extends BaseViewController {
         $resource->getStateDailyImportFlow();
         $resource->getStateHistoryImportFlow();
 
-        if ($flowStatus) {
+        $uniques = array();
 
-            foreach ($flowStatus as $status) {
+
+        if ($flowStatus) {
+            foreach ($flowStatus as $key => $status) {
+                switch ($status->is_history) {
+                    case 0:
+                        $status->is_history_status = "daily";
+                        break;
+                    case 1:
+                        $status->is_history_status = "history";
+                        break;
+                    case 2:
+                        $status->is_history_status = "tester";
+                        break;
+                    default:
+                        $status->is_history_status = NULL;
+                }
+
+                $step = 1;
+                switch ($status->code){
+                    case 'import':
+                        $step = 1;
+                        break;
+                    case 'etl':
+                        $step = 2;
+                        break;
+                    case 'calc':
+                        $step = 3;
+                        break;
+                    case 'output':
+                        $step = 4;
+                        break;
+                }
+                $status->flow_step = $step;
+                $status->is_in_gearman_queue = 0;
+
+
                 $state = $status->final_state;
 
                 if ($this->getNdDigitFromNumber(1, $state) !== 0) {
@@ -95,19 +127,44 @@ class Controller extends BaseViewController {
 
                 $status->refresh_link = $this->getFlowStatusLink($status->unique, $type);
 
+                $uniques[$status->unique] = $this->getFlowStatusKey($status);
+                $flowStatus[$this->getFlowStatusKey($status)] = $status;
+                unset($flowStatus[$key]);
             }
-
         }
 
-        return $flowStatus;
+        uasort($flowStatus, function ($a, $b) {
+            return Integers::compare($a->flow_step, $b->flow_step);
+        });
+
+        $dbUniques = MDImportFlowConnections::getGearmanConnection()->table('gearman_queue_finished')->get(['unique_key']);
+        foreach ($dbUniques as $dbUnique){
+            if(array_key_exists(substr($dbUnique->unique_key, 0, 43), $flowStatus)){
+                $flowStatus[$dbUnique->unique_key]->is_in_gearman_queue = 2;
+            }
+        }
+
+        $dbUniques = MDImportFlowConnections::getGearmanConnection()->table('gearman_queue')->get(['unique_key']);
+        foreach ($dbUniques as $dbUnique){
+            if(array_key_exists(substr($dbUnique->unique_key, 0, 43), $flowStatus)){
+                $flowStatus[$dbUnique->unique_key]->is_in_gearman_queue = 1;
+            }
+        }
+
+        return array_values($flowStatus);
+    }
+
+    private function getFlowStatusKey($status) {
+
+        return "{$status->unique}--{$status->flow_step}";
     }
 
     private function getNdDigitFromNumber($position, $number) {
-        return (int) $number[--$position];
+        return (int)$number[--$position];
     }
 
     private function getFlowStatus($projectId, $resourceId) {
-        return MDDatabaseConnections::getImportFlowConnection()->select('CALL flowStatus(?,?)', array($projectId, $resourceId));
+        return MDImportFlowConnections::getImportFlowConnection()->select('CALL flowStatus(?,?)', array($projectId, $resourceId));
     }
 
     private function getFlowStatusLink($uniqueId, $type) {
@@ -115,7 +172,7 @@ class Controller extends BaseViewController {
     }
 
     /**
-     * 
+     *
      * @return Project2[]
      */
     protected function getInvalidProjects() {
@@ -123,7 +180,7 @@ class Controller extends BaseViewController {
     }
 
     /**
-     * 
+     *
      * @return Project
      */
     protected function getNewProjects() {
@@ -152,7 +209,7 @@ class Controller extends BaseViewController {
         }
         return $this->poolList;
     }
-    
+
     protected function initPoolList() {
         $this->getHistoryPool();
         $this->getTesterPool();
@@ -192,8 +249,8 @@ class Controller extends BaseViewController {
 
         $this->mergeCollectionsByKey($resultCollection, $projectsCollection, "project_id");
 
-        $resultCollection->map(function($member) {
-            if($member->start_at !== null) {
+        $resultCollection->map(function ($member) {
+            if ($member->start_at !== null) {
                 $date = DateTimeHelper::getCloneSelf($member->start_at);
                 $formatted = $date->format('m-d H:i:s');
 
@@ -201,7 +258,7 @@ class Controller extends BaseViewController {
             } else {
                 $member->start_date = "-";
             }
-            if(!isset($member->name)){
+            if (!isset($member->name)) {
                 $member->name = "name";
             }
         });
@@ -217,17 +274,11 @@ class Controller extends BaseViewController {
     private function getImportFlowStatusesCollection($table) {
         $activeAlias = substr($table, strpos($table, "_") + 1);
 
-        $subQuery = MDDatabaseConnections::getImportFlowConnection()->table("{$table} as t2")
-                       ->selectRaw('MAX(id) as id')
-                       ->groupBy('project_id')
-                       ->toSql();
+        $subQuery = MDDatabaseConnections::getImportFlowConnection()->table("{$table} as t2")->selectRaw('MAX(id) as id')->groupBy('project_id')->toSql();
 
-         $allProjects = new Collection(MDDatabaseConnections::getImportFlowConnection()->table("{$table} as t1")
-                                                   ->select(["t1.project_id", "t1.unique", "t1.active as ". $activeAlias, "t1.start_at"])
-                                                   ->join(\DB::raw('('.$subQuery.') as t2'), "t1.id", "=", "t2.id")
-                                                   ->get());
+        $allProjects = new Collection(MDDatabaseConnections::getImportFlowConnection()->table("{$table} as t1")->select(["t1.project_id", "t1.unique", "t1.active as " . $activeAlias, "t1.start_at"])->join(\DB::raw('(' . $subQuery . ') as t2'), "t1.id", "=", "t2.id")->get());
 
-         return $allProjects->whereIn($activeAlias, [2,3]);
+        return $allProjects->whereIn($activeAlias, [2, 3]);
     }
 
     /**
@@ -238,11 +289,11 @@ class Controller extends BaseViewController {
      */
     private function mergeCollectionsByKey(Collection &$baseCollection, Collection $newCollection, $key) {
 
-        $newCollection->map(function($item) use (&$baseCollection, $key) {
+        $newCollection->map(function ($item) use (&$baseCollection, $key) {
 
             $targets = $baseCollection->where($key, $item->{$key});
 
-            $targets->map(function($target, $baseKey) use (&$baseCollection, $key, $item) {
+            $targets->map(function ($target, $baseKey) use (&$baseCollection, $key, $item) {
                 if ($target->{$key} == $item->{$key}) {
                     foreach ($item as $itemKey => $itemValue) {
                         if (!isset($target->$itemKey)) {
@@ -252,7 +303,7 @@ class Controller extends BaseViewController {
                 }
             });
 
-            if($targets->count() == 0) {
+            if ($targets->count() == 0) {
                 $baseCollection->push($item);
             }
         });
@@ -265,10 +316,7 @@ class Controller extends BaseViewController {
      */
     private function getProjectsCollection($projectIds) {
 
-        return new Collection(MDDatabaseConnections::getMasterAppConnection()->table('project')
-                                                   ->select(['id as project_id', 'name'])
-                                                   ->whereIn('id', $projectIds->all())
-                                                   ->get());
+        return new Collection(MDDatabaseConnections::getMasterAppConnection()->table('project')->select(['id as project_id', 'name'])->whereIn('id', $projectIds->all())->get());
     }
 
 }
