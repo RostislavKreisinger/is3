@@ -46,9 +46,9 @@ GROUP BY u.`type`, u.`active`");
 
         foreach ($result as $row){
             $serieName = $this->getKeyName($row->type, $row->active);
-            $data[$serieName]->min = $row->min;
+            $data[$serieName]->min = round($row->min);
             $data[$serieName]->avg = round($row->avg);
-            $data[$serieName]->max = $row->max;
+            $data[$serieName]->max = round($row->max);
         }
         $this->getApiResponse()->success(array_values($data));
     }

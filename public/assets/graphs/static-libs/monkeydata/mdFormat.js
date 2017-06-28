@@ -52,6 +52,11 @@ var mdFormat = {
         return string;
     },
     formatSecondToTime: function (seconds, empty) {
+        var minus = false;
+        if(seconds < 0){
+            minus = true;
+            seconds = Math.abs(minus);
+        }
         if(empty == undefined){
             empty = "--";
         }
@@ -61,12 +66,24 @@ var mdFormat = {
         var date = new Date(null);
         date.setHours(0); date.setMinutes(0); 
         date.setSeconds(seconds);
-        
+
+        var days = Math.floor(seconds / (24*3600));
+
         var hours = date.getHours() < 10 ? '0'+date.getHours():date.getHours();
         var minutes = date.getMinutes() < 10 ? '0'+date.getMinutes():date.getMinutes();
         var seconds = date.getSeconds() < 10 ? '0'+date.getSeconds():date.getSeconds();
-        
-        return hours+":"+minutes+":"+seconds;
+
+        var result = "";
+
+        if(minus){
+            result += '-';
+        }
+
+        if(days !== 0){
+            result += days + "day ";
+        }
+
+        return result + hours+":"+minutes+":"+seconds;
     },
     loadSetting: function (setting) {
 
