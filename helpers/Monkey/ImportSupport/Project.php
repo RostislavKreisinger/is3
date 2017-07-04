@@ -12,6 +12,7 @@ use App\Model\Project as ProjectModel;
 use DB;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Database\Query\JoinClause;
+use Monkey\ImportSupport\Resource\Interfaces\IResource;
 
 /**
  * Description of Project
@@ -62,7 +63,7 @@ class Project extends ProjectModel {
     /**
      * 
      * @param type $resourceId
-     * @return Resource
+     * @return IResource
      */
     public function getResource($resourceId) {
         return $this->getResources()[$resourceId];
