@@ -36,7 +36,7 @@ class B1_ResetAutomatTestButtonController extends Controller {
                                 'ttl' => 5
                             ));
             $result = DB::connection('mysql-master-app')
-                            ->table('resource_setting_v2')
+                            ->table('resource_setting')
                             ->where('project_id', '=', $projectId)
                             ->where('resource_id', '=', $resourceId)
                             ->update(array(

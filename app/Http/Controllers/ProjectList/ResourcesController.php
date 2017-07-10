@@ -30,7 +30,7 @@ class ResourcesController extends Controller {
         }
         // vde($availableResources);
 
-        $projects = Project::join("resource_setting_v2 as rs", "project.id", '=', 'rs.project_id')
+        $projects = Project::join("resource_setting as rs", "project.id", '=', 'rs.project_id')
             ->where('rs.active', '=', 1)
             ->where('rs.resource_id', '=', $resource_id)
             ->whereNull('project.deleted_at')

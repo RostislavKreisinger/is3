@@ -29,6 +29,7 @@ use Monkey\ImportSupport\Resource\Button\ButtonList;
 use Monkey\ImportSupport\Resource\Button\Other\ClearStackButton;
 use Monkey\ImportSupport\Resource\Button\Other\ShiftNextCheckDateButton;
 use Monkey\ImportSupport\Resource\Button\Other\UnconnectButton;
+use Monkey\ImportSupport\Resource\Interfaces\IResource;
 use Monkey\ImportSupport\Resource\ResourceStats;
 /**
  * Description of Resource
@@ -36,7 +37,7 @@ use Monkey\ImportSupport\Resource\ResourceStats;
  * @method Resource find($id, $columns = array()) 
  * @author Tomas
  */
-class Resource extends ResourceModel {
+class Resource extends ResourceModel implements IResource {
     
     const STATUS_ERROR = 'error';
     const STATUS_DEACTIVE = 'deactive';
@@ -46,7 +47,7 @@ class Resource extends ResourceModel {
     const STATUS_MISSING_RECORD = 'missing';
     
     
-    const RESOURCE_SETTING = 'resource_setting_v2';
+    const RESOURCE_SETTING = 'resource_setting';
 
 
     private $project_id = null;
@@ -54,7 +55,7 @@ class Resource extends ResourceModel {
     
     /**
      *
-     * @var ResourceStats 
+     * @var ResourceStats
      */
     private $resourceStats;
     
