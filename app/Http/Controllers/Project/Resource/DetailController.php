@@ -41,7 +41,6 @@ class DetailController extends Controller {
     public function getIndex($projectId, $resourceId) {
         $this->project = $project = Project::find($projectId);
         $this->resource = $resource = $project->getResource($resourceId);
-
         $resourceErrors = $resource->getResourceErrors($project->id);
 
         $viewName = 'default.project.resource.detail.' . $resource->codename;
@@ -49,8 +48,12 @@ class DetailController extends Controller {
             $this->getView()->setBody($viewName);
         }
         $resource->getStateTester();
-        // vde($resource);
-        $resourceCurrency = Currency::find($resource->getResourceStats()->getResourceSetting()->currency_id);
+
+        $currencyId = 4;
+        if(is_null($resource->getResourceStats()) && $resource->getResourceStats()->getResourceSetting() ){
+            $currencyId = $resource->getResourceStats()->getResourceSetting()->currency_id;
+        }
+        $resourceCurrency = Currency::find($currencyId);
         $resourceDetail = $resource->getResourceDetail();
 
         if ($resourceDetail === null) {
@@ -75,7 +78,6 @@ class DetailController extends Controller {
         if ($this->getUser()->can('project.resource.connection_detail')) {
             $connectionDetail = $resource->getConnectionDetail();
         }
-
 
         $this->getView()->addParameter('stack', $stack);
         $this->getView()->addParameter('stackExtend', $stackExtend);

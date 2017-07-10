@@ -58,7 +58,7 @@ class GaDeleteAndStartHistory extends Command {
        
 
         $query = DB::connection('mysql-master-app')
-                ->table('resource_setting_v2 as rs')
+                ->table('resource_setting as rs')
                 ->select('c.id as client_id', 'rs.project_id as project_id', 'p.user_id as user_id')
                 ->join('project as p', 'rs.project_id', '=', 'p.id')
                 ->join('client as c', 'c.user_id', '=', 'p.user_id')
