@@ -137,7 +137,10 @@ class Controller extends BaseViewController {
             return Integers::compare($a->flow_step, $b->flow_step);
         });
 
-        $dbUniques = MDImportFlowConnections::getGearmanConnection()->table('gearman_queue_finished')->get(['unique_key']);
+        $builder = MDImportFlowConnections::getGearmanConnection()->table('gearman_queue_finished')->select(['unique_key']);
+        $builder->orderBy('id', 'DESC');
+        $builder->take(300000);
+        $dbUniques = $builder->get();
         foreach ($dbUniques as $dbUnique){
             if(array_key_exists(substr($dbUnique->unique_key, 0, 43), $flowStatus)){
                 $flowStatus[$dbUnique->unique_key]->is_in_gearman_queue = 2;
