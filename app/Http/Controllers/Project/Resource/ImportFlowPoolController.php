@@ -31,7 +31,8 @@ class ImportFlowPoolController extends Controller
         $results = [];
         $IFControlPools = MDImportFlowConnections::getImportFlowConnection()
             ->table('if_control')
-            ->limit(2)
+            ->selectRaw("DISTINCT(`unique`) as 'unique', MAX(created_at) as created_at, date_from, date_to, run_time, in_repair, is_history")
+            ->groupBy('unique')
             ->get();
 
         if ($IFControlPools) {
