@@ -89,8 +89,13 @@ Route::group(['middleware' => 'web'], function () {
         Route::group(['prefix' => 'project'], function(){
             Route::group(['prefix' => '{project_id}'], function(){
                 Route::group(['prefix' => 'resource'], function(){
-                    Route::controller('/{resource_id}/importflowstatus', App\Http\Controllers\Project\Resource\ImportFlowStatusController::class);
-                    Route::controller('/{resource_id}', App\Http\Controllers\Project\Resource\DetailController::class);
+                    Route::group(['prefix' => '{resource_id}'], function() {
+                        Route::controller('/importflowstatus', App\Http\Controllers\Project\Resource\ImportFlowStatusController::class);
+                        Route::group(['prefix' => 'pool', 'namespace' => 'App\Http\Controllers\Project\Resource'], function() {
+                            Route::get("control",  ['uses' => 'ImportFlowPoolController@getControlPool']);
+                        });
+                        Route::controller('/', App\Http\Controllers\Project\Resource\DetailController::class);
+                    });
 
                     Route::controller('/', \App\Http\Controllers\Project\IndexController::class);
                 });

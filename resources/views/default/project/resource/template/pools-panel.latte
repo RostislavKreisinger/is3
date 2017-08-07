@@ -2,6 +2,7 @@
                 ['code' => 'Daily',  'value' => (int) $resource->isValidDaily()*10 + 1],
                 ['code' => 'History',  'value' => (int) $resource->isValidHistory()*10 + 2],
                 ['code' => 'Tester',  'value' => (int) $resource->isValidTester()*10 + 3],
+                ['code' => 'ControlPool', 'value' => (int) $resource->isValidTester()*10 + 3]
             );
             usort($statuses, function($item1,$item2){ if ($item1['value'] == $item2['value']) return 0;  return ($item1['value'] > $item2['value']) ? 1 : -1; });
 }
