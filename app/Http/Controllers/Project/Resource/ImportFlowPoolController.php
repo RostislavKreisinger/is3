@@ -33,6 +33,9 @@ class ImportFlowPoolController extends Controller
             ->table('if_control')
             ->selectRaw("DISTINCT(`unique`) as 'unique', MAX(created_at) as created_at, date_from, date_to, run_time, in_repair, is_history")
             ->groupBy('unique')
+            ->where('project_id', '=', $this->project->id)
+            ->where('resource_id', '=', $this->resource->id)
+            ->whereNull('deleted_at')
             ->get();
 
         if ($IFControlPools) {
