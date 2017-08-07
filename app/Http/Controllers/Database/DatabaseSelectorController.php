@@ -57,7 +57,10 @@ class DatabaseSelectorController extends BaseViewController {
                 $tables = $resourceList->getResource($resource_id)->getTables();
                 foreach ($tables as $table) {
                     $snippets[] = new Snippet("`{$table->getQueryName()}`", $table->getDbTableName());
-                    $table->query = $this->getSelect($table, $project_id);
+
+                    $dateFrom = Input::get('date_from', '2017-07-21 00:00:00');
+                    $dateTo = Input::get('date_to', '2017-07-28 00:00:00');
+                    $table->query = $this->getSelect($table, $project_id, 100, $dateFrom, $dateTo);
                     $tableSelect[] = $table;
                     if ($defaultTable === null) {
                         $defaultTable = $table;
@@ -168,13 +171,21 @@ class DatabaseSelectorController extends BaseViewController {
         return $this->resourceList->getResource($resource_id)->getTables();
     }
 
-    private function getSelect($table, $projectId, $count = 100) {
+    private function getSelect($table, $projectId, $count = 100, $dateFrom = null, $dateTo = null) {
         $builder = DB::connection("mysql-select-import")
                 ->table($table->getQueryName());
 
         $table->getTableConfig()->addDefaultColumn((new Column())->setName('date_id')->setOrderBy('desc'));
         $table->getTableConfig()->addDefaultColumn((new Column())->setName('project_id')->setWhere(" = {$projectId} "));
         $table->getTableConfig()->addDefaultColumn((new Column())->setName('row_status')->setWhere(" < 100"));
+
+        if($dateFrom) {
+            $table->getTableConfig()->addColumn((new Column())->setName('date_id')->setRawName("DATE_FORMAT(date_id,'%Y-%m-%d')")->setWhere(" >= DATE_FORMAT('{$dateFrom}', '%Y-%m-%d')"));
+
+            if($dateTo) {
+                $table->getTableConfig()->addColumn((new Column())->setName('date_id')->setRawName("DATE_FORMAT(date_id,'%Y-%m-%d')")->setWhere(" <= DATE_FORMAT('{$dateTo}', '%Y-%m-%d')"));
+            }
+        }
 
         foreach ($table->getTableConfig()->getColumns() as $column) {
             if ($table->hasDbColumn($column->getName())) {
