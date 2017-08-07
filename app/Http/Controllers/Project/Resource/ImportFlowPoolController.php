@@ -4,9 +4,12 @@ namespace App\Http\Controllers\Project\Resource;
 
 
 use App\Http\Controllers\Controller;
+use App\Model\ImportPools\IFControlPool;
+use Monkey\Connections\MDImportFlowConnections;
 use Monkey\ImportSupport\Project;
 
-class ImportFlowStatusController extends Controller {
+class ImportFlowPoolController extends Controller
+{
 
     /**
      *
@@ -20,26 +23,57 @@ class ImportFlowStatusController extends Controller {
      */
     private $resource;
 
-    public function getIndex($projectId, $resourceId) {
+    public function getControlPool($projectId, $resourceId)
+    {
         $this->project = $project = Project::find($projectId);
         $this->resource = $resource = $project->getResource($resourceId);
 
         $results = [];
-        $results["resource"] = $this->getImportFlowStatusForProject($projectId, $this->resource);
+        $IFControlPools = MDImportFlowConnections::getImportFlowConnection()
+            ->table('if_control')
+            ->limit(2)
+            ->get();
 
-        if($this->resource->getResourceStats()->getImportFlowDaily()) {
-            $results["daily"] = $this->resource->getResourceStats()->getImportFlowDaily();
-            $results["daily"]->status = $resource->getStateDailyImportFlow();
-        } else {
-            $results["daily"] = [];
+        if ($IFControlPools) {
+            foreach ($IFControlPools as $key => $status) {
+                switch ($status->is_history) {
+                    case 0:
+                        $status->is_history_status = "daily";
+                        break;
+                    case 1:
+                        $status->is_history_status = "history";
+                        break;
+                    case 2:
+                        $status->is_history_status = "tester";
+                        break;
+                    default:
+                        $status->is_history_status = NULL;
+                }
+
+                switch ($status->is_history) {
+                    case 2:
+                        $status->is_history_status= "Tester";
+                        break;
+                    case 1:
+                        $status->is_history_status= "History";
+                        break;
+                    default:
+                        $status->is_history_status = "Daily";
+                }
+
+                switch ($status->in_repair) {
+                    case 1:
+                        $status->in_repair_status= "In Repair";
+                        break;
+                    default:
+                        $status->in_repair_status = "Success";
+                }
+
+                $results[] = $status;
+            }
         }
 
-        if($this->resource->getResourceStats()->getImportFlowHistory()) {
-            $results["history"] = $this->resource->getResourceStats()->getImportFlowHistory();
-            $results["history"]->status = $resource->getStateHistoryImportFlow();
-        } else {
-            $results["history"] = [];
-        }
+
         return $results;
 
     }

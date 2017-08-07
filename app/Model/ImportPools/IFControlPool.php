@@ -8,24 +8,14 @@
 
 namespace App\Model\ImportPools;
 
-use App\Model\ImportPools\Model;
-use Illuminate\Database\Eloquent\Builder;
+use Eloquent;
 
+class IFControlPool extends Eloquent {
 
+    public $timestamps = true;
 
-class StornoOrderStatus extends Model {
-    
-    // use \Illuminate\Database\Eloquent\SoftDeletes;
-    
-    public $timestamps = false;
+    protected $connection = "md_import_flow";
 
-    protected $table = 'storno_order_status';
-    
-    public static function getAllUnsolvedStornoOrderStatuses (){
-        return self::where('active', '=', 0);
-    }
-    
-    
-    
-    
+    protected $table = 'if_control';
+
 }
