@@ -1,0 +1,156 @@
+<style>
+    #importFlowStatusDataGrid .dx-header-row .dx-datagrid-text-content {
+        color: #000000 !important;
+        font-weight: bold !important;
+    }
+
+    #importFlowStatusDataGrid .dx-freespace-row td,
+    #importFlowStatusDataGrid .dx-data-row td {
+        border: none;
+    }
+</style>
+
+<div id="importFlowControlPoolDataGrid" style="height: 500px; margin-bottom: 50px; margin-top: 10px;"></div>
+
+
+<script>
+
+
+    $(function () {
+
+        $("#importFlowControlPoolDataGrid").dxDataGrid({
+            dataSource: [],
+            scrolling: {
+                mode: 'virtual',
+                showScrollbar: 'always',
+                useNative: true,
+            },
+            sorting: {
+                mode: 'multiple',
+            },
+            filterRow: {
+                visible: true
+            },
+            allowColumnReordering: true,
+            allowColumnResizing: true,
+            columnAutoWidth: true,
+            columns: [
+                {
+                    dataField: 'is_history_status',
+                    caption: 'Type',
+                    name: 'is_history',
+                    width: 80
+                },
+                {
+                    dataField: 'date_from',
+                    caption: 'Date From',
+                    name: 'date_from',
+                    dataType: 'date',
+                    format: "longTime",
+                    editorOptions: { type: "datetime" },
+                    width: 120,
+                    sortIndex: 0,
+                    sortOrder: 'asc',
+                },
+                {
+                    dataField: 'date_to',
+                    caption: 'Date To',
+                    name: 'date_to',
+                    dataType: 'date',
+                    format: "longTime",
+                    editorOptions: { type: "datetime" },
+                    width: 120
+                },
+                {
+                    dataField: 'run_time',
+                    caption: 'Run Time',
+                    name: 'run_time',
+                    dataType: 'date',
+                    format: "longTime",
+                    editorOptions: { type: "datetime" },
+                    width: 120
+                },
+                {
+                    dataField: 'unique',
+                    caption: 'Unique',
+                    name: 'unique',
+                    width: 350
+                },
+                {
+                    dataField: 'in_repair_status',
+                    caption: 'Repaired',
+                    name: 'in_repair',
+                    width: 150
+                },
+                {
+                    dataField: 'unique',
+                    caption: 'IF Import',
+                    name: 'action',
+                    allowFiltering: false,
+                    cellTemplate: function (cellElement, cellInfo) {
+                        cellElement.html("<a href='https://import-flow.monkeydata.com/management/Import/?unique="+cellInfo.value+"'>Import</a>");
+                    }
+                },
+                {
+                    dataField: 'unique',
+                    caption: 'IF Etl',
+                    name: 'action',
+                    allowFiltering: false,
+                    cellTemplate: function (cellElement, cellInfo) {
+                        cellElement.html("<a href='https://import-flow.monkeydata.com/management/Etl/?unique="+cellInfo.value+"'>Etl</a>");
+                    }
+                },
+                {
+                    dataField: 'unique',
+                    caption: 'IF Calc',
+                    name: 'action',
+                    allowFiltering: false,
+                    cellTemplate: function (cellElement, cellInfo) {
+                        cellElement.html("<a href='https://import-flow.monkeydata.com/management/Calc/?unique="+cellInfo.value+"'>Calc</a>");
+                    }
+                },
+                {
+                    dataField: 'unique',
+                    caption: 'IF Output',
+                    name: 'action',
+                    allowFiltering: false,
+                    cellTemplate: function (cellElement, cellInfo) {
+                        cellElement.html("<a href='https://import-flow.monkeydata.com/management/Output/?unique="+cellInfo.value+"'>Output</a>");
+                    }
+                },
+                {
+                    dataField: 'show_data_link',
+                    caption: 'Show Data',
+                    name: 'action',
+                    allowFiltering: false,
+                    cellTemplate: function (cellElement, cellInfo) {
+                        cellElement.html("<a target='_blank' href='"+cellInfo.value+"'>Show</a>");
+                    }
+                }
+
+            ],
+            summary: {
+                totalItems: [
+                    {
+                        column: 'is_history',
+                        summaryType: 'count'
+                    },
+                ]
+            }
+        });
+
+        function refreshImportFlowControlPoolData() {
+
+            $.get({$resource->id}+"/pool/control", function (data) {
+                console.log(data);
+                $("#importFlowControlPoolDataGrid").dxDataGrid("instance").option('dataSource', data);
+                window.setTimeout(function () {
+                    refreshImportFlowControlPoolData();
+                }, 15000);
+            });
+
+        }
+
+        refreshImportFlowControlPoolData();
+    });
+</script>

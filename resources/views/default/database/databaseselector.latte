@@ -5,8 +5,14 @@
         <button id="copy" class="btn">url</button>
     </div>
     <div class="menu">
+        <script>
+            var tables = [];
+        </script>
         {if isset($tableSelect)}
-            <button n:foreach="$tableSelect as $table" class="btn btn-table-query {first} active {/first}" onclick="replaceInEditor('{$table->query[0]|noescape}')">
+            <button n:foreach="$tableSelect as $table" class="btn btn-table-query {first} active {/first}" onclick="replaceInEditor({$table->getId()})">
+                <script>
+                    tables[{$table->getId()}] = "{$table->query[0]|noescape}";
+                </script>
                 {$table->getDbTableName()}
             </button>
         {else}
@@ -146,7 +152,8 @@
         editor.focus();
     }
     
-    function replaceInEditor(myValue){
+    function replaceInEditor(id){
+        var myValue = tables[id];
         editor.session.setValue(myValue);
         editor.focus();
         send();

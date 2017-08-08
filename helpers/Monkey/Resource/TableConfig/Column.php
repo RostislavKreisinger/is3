@@ -25,6 +25,11 @@ class Column implements IJsonSerialize {
      * @var string 
      */
     protected $name = null;
+
+    /**
+     * @var string
+     */
+    protected $rawName = null;
     
     /**
      * @public
@@ -48,7 +53,13 @@ class Column implements IJsonSerialize {
         }
         
         if($this->getWhere() !== null){
-            $builder->whereRaw("{$this->getName()} {$this->getWhere()}");
+            $name = $this->getName();
+
+            if($this->getRawName()) {
+                $name = $this->getRawName();
+            }
+
+            $builder->whereRaw("{$name} {$this->getWhere()}");
         }
     }
     
@@ -114,6 +125,25 @@ class Column implements IJsonSerialize {
         $this->where = $where;
         return $this;
     }
+
+    /**
+     * @return string
+     */
+    public function getRawName()
+    {
+        return $this->rawName;
+    }
+
+    /**
+     * @param string $rawName
+     * @return Column
+     */
+    public function setRawName($rawName)
+    {
+        $this->rawName = $rawName;
+        return $this;
+    }
+
 
 
 }
