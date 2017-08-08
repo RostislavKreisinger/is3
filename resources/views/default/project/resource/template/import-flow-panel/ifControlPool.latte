@@ -46,9 +46,9 @@
                     caption: 'Date From',
                     name: 'date_from',
                     dataType: 'date',
-                    format: "longTime",
+                    format: "shortDateShortTime",
                     editorOptions: { type: "datetime" },
-                    width: 120,
+                    width: 160,
                     sortIndex: 0,
                     sortOrder: 'asc',
                 },
@@ -57,18 +57,18 @@
                     caption: 'Date To',
                     name: 'date_to',
                     dataType: 'date',
-                    format: "longTime",
+                    format: "shortDateShortTime",
                     editorOptions: { type: "datetime" },
-                    width: 120
+                    width: 160
                 },
                 {
                     dataField: 'run_time',
                     caption: 'Run Time',
                     name: 'run_time',
                     dataType: 'date',
-                    format: "longTime",
+                    format: "shortDateShortTime",
                     editorOptions: { type: "datetime" },
-                    width: 120
+                    width: 160
                 },
                 {
                     dataField: 'unique',
@@ -80,7 +80,7 @@
                     dataField: 'in_repair_status',
                     caption: 'Repaired',
                     name: 'in_repair',
-                    width: 150
+                    width: 100
                 },
                 {
                     dataField: 'unique',
@@ -89,7 +89,8 @@
                     allowFiltering: false,
                     cellTemplate: function (cellElement, cellInfo) {
                         cellElement.html("<a href='https://import-flow.monkeydata.com/management/Import/?unique="+cellInfo.value+"'>Import</a>");
-                    }
+                    },
+                    width: 80
                 },
                 {
                     dataField: 'unique',
@@ -98,7 +99,8 @@
                     allowFiltering: false,
                     cellTemplate: function (cellElement, cellInfo) {
                         cellElement.html("<a href='https://import-flow.monkeydata.com/management/Etl/?unique="+cellInfo.value+"'>Etl</a>");
-                    }
+                    },
+                    width: 80
                 },
                 {
                     dataField: 'unique',
@@ -107,7 +109,8 @@
                     allowFiltering: false,
                     cellTemplate: function (cellElement, cellInfo) {
                         cellElement.html("<a href='https://import-flow.monkeydata.com/management/Calc/?unique="+cellInfo.value+"'>Calc</a>");
-                    }
+                    },
+                    width: 80
                 },
                 {
                     dataField: 'unique',
@@ -116,7 +119,8 @@
                     allowFiltering: false,
                     cellTemplate: function (cellElement, cellInfo) {
                         cellElement.html("<a href='https://import-flow.monkeydata.com/management/Output/?unique="+cellInfo.value+"'>Output</a>");
-                    }
+                    },
+                    width: 80
                 },
                 {
                     dataField: 'show_data_link',
@@ -125,7 +129,8 @@
                     allowFiltering: false,
                     cellTemplate: function (cellElement, cellInfo) {
                         cellElement.html("<a target='_blank' href='"+cellInfo.value+"'>Show</a>");
-                    }
+                    },
+                    width: 100
                 }
 
             ],
