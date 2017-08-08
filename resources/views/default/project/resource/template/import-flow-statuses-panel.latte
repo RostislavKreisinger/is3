@@ -8,14 +8,14 @@
 <div>
     <ul class="nav nav-tabs">
         <li n:foreach="$statuses as $status" id="tab-{$status['tab']}"
-                                             class="font-bold {if $tab == 'resource'}active{/if}">
+                                             class="font-bold {if $status['tab'] == 'resource'}active{/if}">
             <a href="#{$status['code']}"
                data-toggle="tab"
                aria-expanded="true">{$status['name']}</a>
         </li>
     </ul>
     <div class="tab-content">
-        <div n:foreach="$statuses as $status" class="tab-pane {if $tab == 'resource'}active in{/if}"
+        <div n:foreach="$statuses as $status" class="tab-pane {if $status['tab'] == 'resource'}active in{/if}"
                                               id="{$status['code']}">
             {view 'default.project.resource.template.import-flow-panel.'.$status['code']}
         </div>
