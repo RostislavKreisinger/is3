@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Model\ImportPools\IFControlPool;
 use Monkey\Connections\MDImportFlowConnections;
 use Monkey\ImportSupport\Project;
+use Monkey\UrlHandler\UrlHandler;
 
 class ImportFlowPoolController extends Controller
 {
@@ -38,8 +39,12 @@ class ImportFlowPoolController extends Controller
             ->whereNull('deleted_at')
             ->get();
 
+
+
         if ($IFControlPools) {
             foreach ($IFControlPools as $key => $status) {
+
+                $status->show_data_link = \URL::to("/database/database-selector/{$project->id}/{$resource->id}?date_from={$status->date_from}&date_to={$status->date_to}");
                 switch ($status->is_history) {
                     case 0:
                         $status->is_history_status = "daily";
