@@ -58,8 +58,8 @@ class DatabaseSelectorController extends BaseViewController {
                 foreach ($tables as $table) {
                     $snippets[] = new Snippet("`{$table->getQueryName()}`", $table->getDbTableName());
 
-                    $dateFrom = Input::get('date_from', '2017-07-21 00:00:00');
-                    $dateTo = Input::get('date_to', '2017-07-28 00:00:00');
+                    $dateFrom = Input::get('date_from', null);
+                    $dateTo = Input::get('date_to', null);
                     $table->query = $this->getSelect($table, $project_id, 100, $dateFrom, $dateTo);
                     $tableSelect[] = $table;
                     if ($defaultTable === null) {
