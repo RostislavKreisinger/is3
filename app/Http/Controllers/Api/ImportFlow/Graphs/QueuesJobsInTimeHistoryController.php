@@ -20,7 +20,7 @@ class QueuesJobsInTimeHistoryController extends Controller {
             ->table('gearman_queue_size_stats')
             ->take(2*24)
             ->orderBy('created_at', 'desc')
-            ->groupBy(MDImportFlowConnections::getGearmanConnection()->raw('HOUR(`created_at`), DAY(`created_at`)'))
+            ->groupBy(MDImportFlowConnections::getGearmanConnection()->raw('HOUR(`created_at`), DATE(`created_at`)'))
             ->select([
                 MDImportFlowConnections::getGearmanConnection()->raw('MIN(created_at) as created_at'),
                 MDImportFlowConnections::getGearmanConnection()->raw('AVG(`jobs_count`) as avg'),
