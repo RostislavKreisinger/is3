@@ -10,13 +10,130 @@
     }
 </style>
 
+<!-- Modal -->
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog modal-lg">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title"><b>Unique: </b><span id="if-modal-header"></span></h4>
+            </div>
+            <div class="modal-body">
+                <table class="table table-bordered table-stripped" id="if-tables-about-unique">
+                    <thead>
+                    <tr>
+                        <th>Type</th>
+                        <th>Id</th>
+                        <th>Active</th>
+                        <th>Ttl</th>
+                        <th>Date From</th>
+                        <th>Date to</th>
+                        <th>Start at</th>
+                        <th>Finish at</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
 <div id="importFlowControlPoolDataGrid" style="height: 500px; margin-bottom: 50px; margin-top: 10px;"></div>
 
 
 <script>
 
-
     $(function () {
+
+        var ControlPoolData = null;
+
+        var Render = {
+            object: null,
+            table: $("#if-tables-about-unique"),
+            init: function (object) {
+                this.object = object;
+
+                this.fillHeader(object.unique);
+                this.clearTable();
+                this.fillTable('Import', object.ifi);
+                this.fillTable('Etl', object.ife);
+                this.fillTable('Calc', object.ifc);
+                this.fillTable('Output', object.ifo);
+            },
+            fillHeader: function (name) {
+                $("#if-modal-header").html(name);
+            },
+            clearTable: function(){
+                this.table.find('tbody').empty();
+            },
+            fillTable: function (type, data) {
+                this.table.find('tbody')
+                    .append(
+                        "<tr>" +
+                            "<td>" +
+                                 type +
+                            "</td>" +
+                            "<td>" +
+                                this.parseData(data.id, 'number') +
+                            "</td>" +
+                            "<td>" +
+                                this.parseData(data.active, 'number') +
+                            "</td>" +
+                            "<td>" +
+                                this.parseData(data.ttl, 'number') +
+                            "</td>" +
+                            "<td>" +
+                                this.parseData(data.date_from, 'datetime') +
+                            "</td>" +
+                            "<td>" +
+                                this.parseData(data.date_to, 'datetime') +
+                            "</td>" +
+                            "<td>" +
+                                this.parseData(data.start_at, 'datetime') +
+                            "</td>" +
+                            "<td>" +
+                                this.parseData(data.finish_at, 'datetime') +
+                            "</td>" +
+                        "</tr>");
+            },
+            parseData:function (value, type) {
+                if(value === null || value === undefined) {
+                    return '-';
+                }
+
+                switch(type) {
+                    case 'datetime':
+                        return value;
+                        break;
+                    case 'number':
+                        return value.toLocaleString();
+                        break;
+                    default:
+                        return value;
+                }
+
+            }
+
+        };
+
+        window.dxDataGridFunctions = {
+            getInfoAboutUniqueStatus: function (index) {
+                var object = getControlPoolData(index);
+
+                Render.init(object);
+            },
+        };
+
+
 
         $("#importFlowControlPoolDataGrid").dxDataGrid({
             dataSource: [],
@@ -74,6 +191,9 @@
                     dataField: 'unique',
                     caption: 'Unique',
                     name: 'unique',
+                    cellTemplate: function (cellEmenent, cellInfo) {
+                        cellEmenent.html("<a href='#' data-toggle='modal' data-target='#myModal' onclick='window.dxDataGridFunctions.getInfoAboutUniqueStatus(" + cellInfo.rowIndex + ")'> " + cellInfo.value + "</a>");
+                    },
                     width: 350
                 },
                 {
@@ -88,7 +208,7 @@
                     name: 'action',
                     allowFiltering: false,
                     cellTemplate: function (cellElement, cellInfo) {
-                        cellElement.html("<a href='https://import-flow.monkeydata.com/management/Import/?unique="+cellInfo.value+"'>Import</a>");
+                        cellElement.html("<a href='https://import-flow.monkeydata.com/management/Import/?unique=" + cellInfo.value + "'>Import</a>");
                     },
                     width: 80
                 },
@@ -98,7 +218,7 @@
                     name: 'action',
                     allowFiltering: false,
                     cellTemplate: function (cellElement, cellInfo) {
-                        cellElement.html("<a href='https://import-flow.monkeydata.com/management/Etl/?unique="+cellInfo.value+"'>Etl</a>");
+                        cellElement.html("<a href='https://import-flow.monkeydata.com/management/Etl/?unique=" + cellInfo.value + "'>Etl</a>");
                     },
                     width: 80
                 },
@@ -108,7 +228,7 @@
                     name: 'action',
                     allowFiltering: false,
                     cellTemplate: function (cellElement, cellInfo) {
-                        cellElement.html("<a href='https://import-flow.monkeydata.com/management/Calc/?unique="+cellInfo.value+"'>Calc</a>");
+                        cellElement.html("<a href='https://import-flow.monkeydata.com/management/Calc/?unique=" + cellInfo.value + "'>Calc</a>");
                     },
                     width: 80
                 },
@@ -118,7 +238,7 @@
                     name: 'action',
                     allowFiltering: false,
                     cellTemplate: function (cellElement, cellInfo) {
-                        cellElement.html("<a href='https://import-flow.monkeydata.com/management/Output/?unique="+cellInfo.value+"'>Output</a>");
+                        cellElement.html("<a href='https://import-flow.monkeydata.com/management/Output/?unique=" + cellInfo.value + "'>Output</a>");
                     },
                     width: 80
                 },
@@ -128,7 +248,7 @@
                     name: 'action',
                     allowFiltering: false,
                     cellTemplate: function (cellElement, cellInfo) {
-                        cellElement.html("<a target='_blank' href='"+cellInfo.value+"'>Show</a>");
+                        cellElement.html("<a target='_blank' href='" + cellInfo.value + "'>Show</a>");
                     },
                     width: 100
                 }
@@ -144,11 +264,23 @@
             }
         });
 
+        function getControlPoolData(index) {
+            if (index !== undefined) {
+                return ControlPoolData[index];
+            }
+            return ControlPoolData;
+        }
+
+        function setControlPoolData(data) {
+            return ControlPoolData = data;
+        }
+
         function refreshImportFlowControlPoolData() {
 
             $.get({$resource->id}+"/pool/control", function (data) {
-                console.log(data);
-                $("#importFlowControlPoolDataGrid").dxDataGrid("instance").option('dataSource', data);
+                setControlPoolData(data);
+
+                $("#importFlowControlPoolDataGrid").dxDataGrid("instance").option('dataSource', getControlPoolData());
                 window.setTimeout(function () {
                     refreshImportFlowControlPoolData();
                 }, 15000);
