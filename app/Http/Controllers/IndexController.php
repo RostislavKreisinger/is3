@@ -9,6 +9,7 @@
 namespace App\Http\Controllers;
 
 use App\Model\ImportPools\CurrencyEtlCatalog;
+use App\Model\Resource;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Input;
 use Monkey\Helpers\Strings;
@@ -48,19 +49,11 @@ class IndexController extends Controller {
 //        }));
 
 
-        $importFlowStatuses->map(function ($importFlowStatus) use ($invalidProjects) {
-            $projectId = $importFlowStatus->project_id;
-            //vde($invalidProjects);
-            $currentProject = $invalidProjects->getProject($projectId);
 
-            $currentResources = collect();
+        $resources = Resource::whereIn('id', $importFlowStatuses->pluck('resource_id')->toArray())->get();
 
-            if($currentProject) {
-                $currentResources = collect($currentProject->getResourceModels());
-            }
-
-            $importFlowStatus->resources = $currentResources;
-
+        $importFlowStatuses->map(function ($importFlowStatus) use ($resources) {
+            $importFlowStatus->resource = $resources->find($importFlowStatus->resource_id)->first();
         });
 
         View::share('importStatuses', $importFlowStatuses->filter(function ($error) {

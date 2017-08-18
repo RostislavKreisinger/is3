@@ -279,7 +279,7 @@ class Controller extends BaseViewController {
 
         $subQuery = MDDatabaseConnections::getImportFlowConnection()->table("{$table} as t2")->selectRaw('MAX(id) as id')->groupBy('project_id')->toSql();
 
-        $allProjects = new Collection(MDDatabaseConnections::getImportFlowConnection()->table("{$table} as t1")->select(["t1.project_id", "t1.unique", "t1.active as " . $activeAlias, "t1.start_at"])->join(\DB::raw('(' . $subQuery . ') as t2'), "t1.id", "=", "t2.id")->get());
+        $allProjects = new Collection(MDDatabaseConnections::getImportFlowConnection()->table("{$table} as t1")->select(["t1.project_id", "t1.resource_id", "t1.unique", "t1.active as " . $activeAlias, "t1.start_at"])->join(\DB::raw('(' . $subQuery . ') as t2'), "t1.id", "=", "t2.id")->get());
 
         return $allProjects->whereIn($activeAlias, [2, 3]);
     }

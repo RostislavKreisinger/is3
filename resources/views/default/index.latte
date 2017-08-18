@@ -710,14 +710,11 @@
                         <tr n:foreach="$importStatuses as $status">
                             <td><a href="{action 'Project\DetailController', ['project_id' => $status->project_id]}">{$status->project_id}</a></td>
                             <td>{$status->name}
-                                <span n:if="count($status->resources) > 0">
-                                    [
-                                        <a n:foreach="$status->resources as $resource"
-                                                href="{action 'Project\Resource\DetailController', ['project_id' => $status->project_id, 'resource_id' => $resource->id] }">
-                                            {$resource->name} <span n:if="!$iterator->last">, </span>
-                                        </a>
-                                    ]
-                                </span>
+                                [
+                                <a href="{action 'Project\Resource\DetailController', ['project_id' => $status->project_id, 'resource_id' => $status->resource->id] }">
+                                    {$status->resource->name}
+                                </a>
+                                ]
                             </td>
                             <td style="width: 115px">{$status->start_date}
                             </td>
