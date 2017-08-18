@@ -741,7 +741,13 @@
                         <thead>
                         <tr>
                             <th>id</th>
-                            <th>name</th>
+                            <th>name
+                                [
+                                <a href="{action 'Project\Resource\DetailController', ['project_id' => $status->project_id, 'resource_id' => $status->resource->id] }">
+                                    {$status->resource->name}
+                                </a>
+                                ]
+                            </th>
                             <th>start_at</th>
                             <th>status</th>
                         </tr>
@@ -774,7 +780,13 @@
                         <thead>
                         <tr>
                             <th>id</th>
-                            <th>name</th>
+                            <th>name
+                                [
+                                <a href="{action 'Project\Resource\DetailController', ['project_id' => $status->project_id, 'resource_id' => $status->resource->id] }">
+                                    {$status->resource->name}
+                                </a>
+                                ]
+                            </th>
                             <th>start_at</th>
                             <th>status</th>
                         </tr>
@@ -811,7 +823,13 @@
                         <thead>
                         <tr>
                             <th>id</th>
-                            <th>name</th>
+                            <th>name
+                                [
+                                <a href="{action 'Project\Resource\DetailController', ['project_id' => $status->project_id, 'resource_id' => $status->resource->id] }">
+                                    {$status->resource->name}
+                                </a>
+                                ]
+                            </th>
                             <th>start_at</th>
                             <th>status</th>
                         </tr>
