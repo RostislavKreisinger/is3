@@ -2,12 +2,13 @@
                 ['code' => 'Daily',  'value' => (int) $resource->isValidDaily()*10 + 1],
                 ['code' => 'History',  'value' => (int) $resource->isValidHistory()*10 + 2],
                 ['code' => 'Tester',  'value' => (int) $resource->isValidTester()*10 + 3],
+                ['code' => 'ControlPool', 'value' => (int) $resource->isValidTester()*10 + 3]
             );
             usort($statuses, function($item1,$item2){ if ($item1['value'] == $item2['value']) return 0;  return ($item1['value'] > $item2['value']) ? 1 : -1; });
 }
 <div>
     <ul class="nav nav-tabs">
-        <li n:foreach="$statuses as $status" class="font-bold {first}active{/first} state-{$resource->{'getState'.$status['code']}()}">
+        <li n:foreach="$statuses as $status" class="font-bold {first}active{/first} {if $status['code'] !== 'ControlPool'} state-{$resource->{'getState'.$status['code']}()}{/if}">
             <a href="#{$status['code']|lower}" data-toggle="tab" aria-expanded="true">{$status['code']}</a>
         </li>
     </ul>        

@@ -23,6 +23,9 @@ class BaseAuthController extends BaseController {
     private $user;
 
 
+    public static function getMethodAction($method = "getIndex") {
+        return static::class . "@" . $method;
+    }
 
     public function __construct() {
         if(Auth::check()){
