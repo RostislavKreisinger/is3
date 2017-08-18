@@ -831,7 +831,13 @@
                         <tbody>
                         <tr n:foreach="$outputStatuses as $status">
                             <td><a href="{action 'Project\DetailController', ['project_id' => $status->project_id]}">{$status->project_id}</a></td>
-                            <td>{$status->name}</td>
+                            <td>{$status->name}
+                                [
+                                <a href="{action 'Project\Resource\DetailController', ['project_id' => $status->project_id, 'resource_id' => $status->resource->id] }">
+                                    {$status->resource->name}
+                                </a>
+                                ]
+                            </td>
                             <td style="width: 115px">{$status->start_date}</td>
                             <td style="width: 50px">{$status->output}</td>
                         </tr>
