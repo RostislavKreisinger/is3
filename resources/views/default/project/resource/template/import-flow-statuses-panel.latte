@@ -29,15 +29,22 @@
 
     function refreshImportFlowData() {
 
+        getDailyHistory();
+
         $.get({$resource->id}+"/importflowstatus", function (data) {
-            renderDaily(data.daily);
-            renderHistory(data.history);
             renderResource(data.resource);
             window.setTimeout(function(){
                 refreshImportFlowData();
             }, 15000);
         });
 
+    }
+
+    function getDailyHistory() {
+        $.get({$resource->id}+"/daily-history", function (data) {
+            renderDaily(data.daily);
+            renderHistory(data.history);
+        });
     }
 
     function resetClass(element) {
