@@ -126,8 +126,8 @@
         };
 
         window.dxDataGridFunctions = {
-            getInfoAboutUniqueStatus: function (index) {
-                var object = getControlPoolData(index);
+            getInfoAboutUniqueStatus: function (unique) {
+                var object = getControlPoolData(unique);
 
                 Render.init(object);
             }
@@ -192,7 +192,9 @@
                     caption: 'Unique',
                     name: 'unique',
                     cellTemplate: function (cellEmenent, cellInfo) {
-                        cellEmenent.html("<a href='#' data-toggle='modal' data-target='#myModal' onclick='window.dxDataGridFunctions.getInfoAboutUniqueStatus(" + cellInfo.rowIndex + ")'> " + cellInfo.value + "</a>");
+                        cellEmenent.html("<a href='#' data-toggle='modal' data-target='#myModal' onclick=\"window.dxDataGridFunctions.getInfoAboutUniqueStatus(" +
+                            "'" + cellInfo.value + "'" +
+                            ")\"> " + cellInfo.value + "</a>");
                     },
                     width: 200
                 },
@@ -270,9 +272,11 @@
             }
         });
 
-        function getControlPoolData(index) {
-            if (index !== undefined) {
-                return ControlPoolData[index];
+        function getControlPoolData(unique) {
+            if (unique !== undefined) {
+                return ControlPoolData.find(function(data) {
+                    return data.unique === unique
+                });
             }
             return ControlPoolData;
         }
