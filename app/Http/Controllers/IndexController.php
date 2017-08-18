@@ -52,8 +52,9 @@ class IndexController extends Controller {
 
         $resources = Resource::whereIn('id', $importFlowStatuses->pluck('resource_id')->toArray())->get();
 
+
         $importFlowStatuses->map(function ($importFlowStatus) use ($resources) {
-            $importFlowStatus->resource = $resources->find($importFlowStatus->resource_id)->first();
+            $importFlowStatus->resource = $resources->where('id', $importFlowStatus->resource_id)->first();
         });
 
         View::share('importStatuses', $importFlowStatuses->filter(function ($error) {
