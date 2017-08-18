@@ -25,7 +25,6 @@ class ImportFlowStatusController extends Controller {
         $this->resource = $resource = $project->getResource($resourceId);
 
         $results = [];
-        $results["resource"] = $this->getImportFlowStatusForProject($projectId, $this->resource);
 
         if($this->resource->getResourceStats()->getImportFlowDaily()) {
             $results["daily"] = $this->resource->getResourceStats()->getImportFlowDaily();
@@ -42,5 +41,13 @@ class ImportFlowStatusController extends Controller {
         }
         return $results;
 
+    }
+
+    public function getResourceInfo($projectId, $resourceId) {
+        $this->project = $project = Project::find($projectId);
+        $this->resource = $resource = $project->getResource($resourceId);
+
+        $results["resource"] = $this->getImportFlowStatusForProject($projectId, $this->resource);
+        return $results;
     }
 }

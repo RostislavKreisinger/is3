@@ -90,7 +90,9 @@ Route::group(['middleware' => 'web'], function () {
             Route::group(['prefix' => '{project_id}'], function(){
                 Route::group(['prefix' => 'resource'], function(){
                     Route::group(['prefix' => '{resource_id}'], function() {
-                        Route::get('/importflowstatus', App\Http\Controllers\Project\Resource\ImportFlowStatusController::getMethodAction('getIndex'));
+                        Route::get('/daily-history', App\Http\Controllers\Project\Resource\ImportFlowStatusController::getMethodAction('getIndex'));
+                        Route::get('/importflowstatus', App\Http\Controllers\Project\Resource\ImportFlowStatusController::getMethodAction('getResourceInfo'));
+
                         Route::group(['prefix' => 'pool'], function() {
                             Route::get("control",  \App\Http\Controllers\Project\Resource\ImportFlowPoolController::getMethodAction('getControlPool'));
                         });

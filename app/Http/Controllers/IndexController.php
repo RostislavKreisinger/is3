@@ -9,6 +9,7 @@
 namespace App\Http\Controllers;
 
 use App\Model\ImportPools\CurrencyEtlCatalog;
+use App\Model\Resource;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Input;
 use Monkey\Helpers\Strings;
@@ -21,19 +22,20 @@ use Monkey\View\View;
  * @author Tomas
  */
 class IndexController extends Controller {
-   
-    
+
+
     public function getIndex() {
 
         $hashId = null;
-        if($id = Input::get('id', null)){
+        if ($id = Input::get('id', null)) {
             $hashId = Strings::id2alpha($id);
         }
         $this->getView()->addParameter('hashId', $hashId);
 
         // vde($this->getDailyProjects());
 
-        View::share('invalidProjects', $this->getInvalidProjects());
+        $invalidProjects = $this->getInvalidProjects();
+        View::share('invalidProjects', $invalidProjects);
         View::share('newProjects', $this->getNewProjects());
         View::share('dailyProjects', $this->getDailyProjects());
         View::share('historyProjects', $this->getHistoryProjects());
@@ -45,19 +47,29 @@ class IndexController extends Controller {
 //        vde($importFlowStatuses->filter(function($error) {
 //            return isset($error->import);
 //        }));
-        View::share('importStatuses', $importFlowStatuses->filter(function($error) {
+
+
+
+        $resources = Resource::whereIn('id', $importFlowStatuses->pluck('resource_id')->toArray())->get();
+
+
+        $importFlowStatuses->map(function ($importFlowStatus) use ($resources) {
+            $importFlowStatus->resource = $resources->where('id', $importFlowStatus->resource_id)->first();
+        });
+
+        View::share('importStatuses', $importFlowStatuses->filter(function ($error) {
             return isset($error->import);
         }));
 
-        View::share('etlStatuses', $importFlowStatuses->filter(function($error) {
+        View::share('etlStatuses', $importFlowStatuses->filter(function ($error) {
             return isset($error->etl);
         }));
 
-        View::share('calcStatuses', $importFlowStatuses->filter(function($error) {
+        View::share('calcStatuses', $importFlowStatuses->filter(function ($error) {
             return isset($error->calc);
         }));
 
-        View::share('outputStatuses', $importFlowStatuses->filter(function($error) {
+        View::share('outputStatuses', $importFlowStatuses->filter(function ($error) {
             return isset($error->output);
         }));
 
@@ -66,9 +78,6 @@ class IndexController extends Controller {
         $this->getView()->addParameter('currencies', CurrencyEtlCatalog::whereNull('currency_names_id')->get());
         $this->getView()->addParameter('stornoOrderStatuses', \App\Model\ImportPools\StornoOrderStatus::getAllUnsolvedStornoOrderStatuses()->get());
     }
-    
-    
-    
-    
-            
+
+
 }
