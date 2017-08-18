@@ -741,13 +741,7 @@
                         <thead>
                         <tr>
                             <th>id</th>
-                            <th>name
-                                [
-                                <a href="{action 'Project\Resource\DetailController', ['project_id' => $status->project_id, 'resource_id' => $status->resource->id] }">
-                                    {$status->resource->name}
-                                </a>
-                                ]
-                            </th>
+                            <th>name</th>
                             <th>start_at</th>
                             <th>status</th>
                         </tr>
@@ -755,7 +749,13 @@
                         <tbody>
                         <tr n:foreach="$etlStatuses as $status">
                             <td><a href="{action 'Project\DetailController', ['project_id' => $status->project_id]}">{$status->project_id}</a></td>
-                            <td>{$status->name}</td>
+                            <td>{$status->name}
+                                [
+                                <a href="{action 'Project\Resource\DetailController', ['project_id' => $status->project_id, 'resource_id' => $status->resource->id] }">
+                                    {$status->resource->name}
+                                </a>
+                                ]
+                            </td>
                             <td style="width: 115px">{$status->start_date}</td>
                             <td style="width: 50px">{$status->etl}</td>
                         </tr>
@@ -780,13 +780,7 @@
                         <thead>
                         <tr>
                             <th>id</th>
-                            <th>name
-                                [
-                                <a href="{action 'Project\Resource\DetailController', ['project_id' => $status->project_id, 'resource_id' => $status->resource->id] }">
-                                    {$status->resource->name}
-                                </a>
-                                ]
-                            </th>
+                            <th>name</th>
                             <th>start_at</th>
                             <th>status</th>
                         </tr>
@@ -794,7 +788,13 @@
                         <tbody>
                         <tr n:foreach="$calcStatuses as $status">
                             <td><a href="{action 'Project\DetailController', ['project_id' => $status->project_id]}">{$status->project_id}</a></td>
-                            <td>{$status->name}</td>
+                            <td>{$status->name}
+                                [
+                                <a href="{action 'Project\Resource\DetailController', ['project_id' => $status->project_id, 'resource_id' => $status->resource->id] }">
+                                    {$status->resource->name}
+                                </a>
+                                ]
+                            </td>
                             <td style="width: 115px">{$status->start_date}</td>
                             <td style="width: 50px">{$status->calc}</td>
                         </tr>
@@ -823,13 +823,7 @@
                         <thead>
                         <tr>
                             <th>id</th>
-                            <th>name
-                                [
-                                <a href="{action 'Project\Resource\DetailController', ['project_id' => $status->project_id, 'resource_id' => $status->resource->id] }">
-                                    {$status->resource->name}
-                                </a>
-                                ]
-                            </th>
+                            <th>name</th>
                             <th>start_at</th>
                             <th>status</th>
                         </tr>
