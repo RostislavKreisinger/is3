@@ -130,7 +130,7 @@
                 var object = getControlPoolData(index);
 
                 Render.init(object);
-            },
+            }
         };
 
 
@@ -167,7 +167,7 @@
                     editorOptions: { type: "datetime" },
                     width: 160,
                     sortIndex: 0,
-                    sortOrder: 'asc',
+                    sortOrder: 'asc'
                 },
                 {
                     dataField: 'date_to',
@@ -194,13 +194,19 @@
                     cellTemplate: function (cellEmenent, cellInfo) {
                         cellEmenent.html("<a href='#' data-toggle='modal' data-target='#myModal' onclick='window.dxDataGridFunctions.getInfoAboutUniqueStatus(" + cellInfo.rowIndex + ")'> " + cellInfo.value + "</a>");
                     },
-                    width: 350
+                    width: 200
                 },
                 {
                     dataField: 'in_repair_status',
                     caption: 'Repaired',
                     name: 'in_repair',
                     width: 100
+                },
+                {
+                    dataField: 'updated_at',
+                    caption: 'Updated at',
+                    name: 'updated_at',
+                    width: 200
                 },
                 {
                     dataField: 'unique',
@@ -259,7 +265,7 @@
                     {
                         column: 'is_history',
                         summaryType: 'count'
-                    },
+                    }
                 ]
             }
         });
@@ -272,7 +278,7 @@
         }
 
         function setControlPoolData(data) {
-            return ControlPoolData = data;
+            ControlPoolData = data;
         }
 
         function refreshImportFlowControlPoolData() {

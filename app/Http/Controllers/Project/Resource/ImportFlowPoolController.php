@@ -30,7 +30,7 @@ class ImportFlowPoolController extends Controller {
             ->table('if_control')
             ->select(
                 [
-                    \DB::raw("DISTINCT(`if_control`.`unique`) as 'unique', MAX(`if_control`.`created_at`) as created_at, `if_control`.`date_from`, `if_control`.`date_to`, `if_control`.`run_time`, `if_control`.`in_repair`, `if_control`.`is_history`"),
+                    \DB::raw("DISTINCT(`if_control`.`unique`) as 'unique', MAX(`if_control`.`created_at`) as created_at, `if_control`.`date_from`, `if_control`.`date_to`, `if_control`.`run_time`, `if_control`.`in_repair`, `if_control`.`is_history`, `if_control`.`updated_at`"),
                     'ifi.id as ifi_id', 'ifi.active as ifi_active', 'ifi.ttl as ifi_ttl', 'ifi.date_from as ifi_date_from', 'ifi.date_to as ifi_date_to', 'ifi.start_at as ifi_start_at', 'ifi.finish_at as ifi_finish_at',
                     'ife.id as ife_id', 'ife.active as ife_active', 'ife.ttl as ife_ttl', 'ife.start_at as ife_start_at', 'ife.finish_at as ife_finish_at',
                     'ifc.id as ifc_id', 'ifc.active as ifc_active', 'ifc.ttl as ifc_ttl', 'ifc.start_at as ifc_start_at', 'ifc.finish_at as ifc_finish_at',
@@ -50,8 +50,6 @@ class ImportFlowPoolController extends Controller {
             ->whereNull('ifc.deleted_at')
             ->whereNull('ifo.deleted_at')
             ->get();
-
-        // TODO NOT NULL deleted_at u všech tabulek
 
         if ($IFControlPools) {
             foreach ($IFControlPools as $key => $status) {
