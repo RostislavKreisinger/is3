@@ -11,6 +11,7 @@ namespace App\Http\Controllers\ProjectList;
 use App\Http\Controllers\Controller;
 use App\Model\Project;
 use App\Model\Resource;
+use Monkey\Connections\MDDatabaseConnections;
 use Monkey\View\ViewRender;
 
 /**
@@ -34,8 +35,10 @@ class ResourcesController extends Controller {
             ->where('rs.active', '=', 1)
             ->where('rs.resource_id', '=', $resource_id)
             ->whereNull('project.deleted_at')
+            ->join('client', 'project.user_id', '=', 'client.user_id')
+            ->orderBy(MDDatabaseConnections::getMasterAppConnection()->raw('client.tariff_expired > NOW()'), 'DESC')
             ->orderBy('project.id', 'DESC')
-            ->select('project.*');
+            ->select(['project.*', MDDatabaseConnections::getMasterAppConnection()->raw('client.tariff_expired > NOW() as tariff')]);
 
 
         ViewRender::addParameter("availableResources", $availableResources);
