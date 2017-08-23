@@ -19,7 +19,7 @@
         </div>
 
         <table class="table table-auto-width">
-            <tr n:foreach="$projects as $project">
+            <tr n:foreach="$projects as $project" {if $project->tariff == 1} style="background: #e6ffce" {/if}>
                 <td>
                     <a href="{action 'Project\Resource\DetailController@getIndex', ['project_id' => $project->id, 'resource_id' => 4]}">
                         {$project->id}
