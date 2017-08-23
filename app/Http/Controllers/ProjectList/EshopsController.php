@@ -12,6 +12,7 @@ use App\Http\Controllers\Controller;
 use App\Model\EshopType;
 use App\Model\Project;
 use App\Model\Resource;
+use Monkey\Connections\MDDatabaseConnections;
 use Monkey\View\ViewRender;
 
 /**
@@ -37,8 +38,11 @@ class EshopsController extends Controller {
             ->where('rs.resource_id', '=', 4)
             ->join('resource_eshop as re', 're.resource_setting_id', '=', 'rs.id')
             ->where('re.eshop_type_id', '=', $eshop_type_id)
+            ->join('client', 'project.user_id', '=', 'client.user_id')
+            ->orderBy(MDDatabaseConnections::getMasterAppConnection()->raw('client.tariff_expired > NOW()'), 'DESC')
             ->orderBy('project.id', 'DESC')
-            ->select('project.*');
+            ->select(['project.*', MDDatabaseConnections::getMasterAppConnection()->raw('client.tariff_expired > NOW() as tariff')]);
+        // vde($projects->get());
 
 
         ViewRender::addParameter("availableResources", $availableResources);
