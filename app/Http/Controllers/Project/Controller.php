@@ -34,12 +34,9 @@ class Controller extends BaseController {
                                 action(DetailController::routeMethod('getIndex'), ['project_id'=>$project->id, 'resource_id' => $resource->id]) 
                                 );
 
-                /**
-                 * REMOVED CLASS DUE TO @Marek_Bialon AND FUTURE PLANED NEW VERSION OF IMPORT SUPPORT
-                 */
-                /*if(!$resource->isValid()){
+                if(!$resource->isValid()){
                     $menuItem->addClass('invalid');
-                }*/
+                }
                 $resources->addMenuItem($menuItem);
             }
             if(count($projectResources) == 0){
