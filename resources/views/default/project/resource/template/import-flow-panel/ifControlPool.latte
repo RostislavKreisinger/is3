@@ -165,9 +165,7 @@
                     dataType: 'date',
                     format: "shortDateShortTime",
                     editorOptions: { type: "datetime" },
-                    width: 160,
-                    sortIndex: 0,
-                    sortOrder: 'asc'
+                    width: 160
                 },
                 {
                     dataField: 'date_to',
@@ -186,6 +184,7 @@
                     format: "shortDateShortTime",
                     editorOptions: { type: "datetime" },
                     width: 160
+
                 },
                 {
                     dataField: 'unique',
@@ -208,7 +207,9 @@
                     dataField: 'updated_at',
                     caption: 'Updated at',
                     name: 'updated_at',
-                    width: 200
+                    width: 180,
+                    sortIndex: 0,
+                    sortOrder: 'desc'
                 },
                 {
                     dataField: 'unique',
