@@ -31,13 +31,34 @@
 
         getDailyHistory();
 
-        $.get({$resource->id}+"/importflowstatus", function (data) {
-            renderResource(data.resource);
+        downloadImportFlowStatusAndShow(function(){
             window.setTimeout(function(){
                 refreshImportFlowData();
             }, 15000);
         });
 
+        {*$.get({$resource->id}+"/importflowstatus", function (data) {*}
+            {*renderResource(data.resource);*}
+        {*});*}
+
+    }
+
+    function downloadImportFlowStatusAndShow(callback){
+        $(".refresh-btn .loader").show();
+        $.get({$resource->id}+"/importflowstatus", function (data) {
+            $("#importFlowStatusDataGrid").dxDataGrid("instance").option('noDataText', "No data");
+            renderResource(data.resource);
+            $(".refresh-btn .loader").hide();
+            if(callback){
+                callback();
+            }
+        }).fail(function() {
+            $("#importFlowStatusDataGrid").dxDataGrid("instance").option('noDataText', "Fail to get data. Click to refresh.");
+            $(".refresh-btn .loader").hide();
+            if(callback){
+                callback();
+            }
+        });
     }
 
     function getDailyHistory() {

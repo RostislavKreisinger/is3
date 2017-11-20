@@ -29,8 +29,24 @@
         margin-right: 5px;
     }
 
+    .refresh-btn {
+        margin-left: 20px;
+        cursor: pointer;
+    }
+
+    .refresh-btn .loader {
+        width: 20px;
+        height: 20px;
+        display: none;
+    }
+
+    .dx-datagrid-nodata {
+        z-index: 1000;
+        cursor: pointer;
+    }
+
 </style>
-<div >
+<div>
     <ul class="import-flow-legend">
         <li>
             <span class="color" style="background: #555555"></span>
@@ -60,6 +76,10 @@
         <li>
             <span class="color" style="background: #FF8C00"></span>
             <span class="name">RUNNING</span>
+        </li>
+        <li class="refresh-btn" onclick="downloadImportFlowStatusAndShow()">
+            <img class="loader" src="{URL::to('assets/graphs/img/loading/loading-colored-48.gif')}">
+            <a><span class="name">REFRESH</span></a>
         </li>
     </ul>
 </div>
@@ -299,5 +319,11 @@
                 ]
             }
         });
+
+        $("#importFlowStatusDataGrid").on("click", ".dx-datagrid-nodata", function(){
+            console.log("dx-datagrid-nodata click");
+            downloadImportFlowStatusAndShow();
+        });
+
     });
 </script>
