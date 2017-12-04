@@ -25,13 +25,6 @@ class ImportFlowStatsController extends BaseController {
 
 
     public function getIndex() {
-        $importFlowStatuses = $this->getImportFlowStatuses();
-        $resources = Resource::whereIn('id', $importFlowStatuses->pluck('resource_id')->toArray())->get();
-
-
-        $importFlowStatuses->map(function ($importFlowStatus) use ($resources) {
-            $importFlowStatus->resource = $resources->where('id', $importFlowStatus->resource_id)->first();
-        });
 
     }
 
