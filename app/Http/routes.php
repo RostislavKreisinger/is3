@@ -128,7 +128,12 @@ Route::group(['middleware' => 'web'], function () {
             });
             Route::controller('/', App\Http\Controllers\Admin\IndexController::class);
         });
-        
+
+        Route::group(['prefix' => 'homepage'], function(){
+            Route::controller('importv2', \App\Http\Controllers\Homepage\Importv2Controller::class);
+            Route::controller('import-flow', \App\Http\Controllers\Homepage\ImportFlowController::class);
+            Route::controller('import-flow-stats', \App\Http\Controllers\Homepage\ImportFlowStatsController::class);
+        });
         
         // Route::get('/', HomepageController::routeMethod('index'));
         Route::controller('/', \App\Http\Controllers\IndexController::class);
