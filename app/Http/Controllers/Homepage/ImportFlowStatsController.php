@@ -6,7 +6,7 @@
  * and open the template in the editor.
  */
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Homepage;
 
 use App\Model\ImportPools\CurrencyEtlCatalog;
 use App\Model\Resource;
@@ -21,11 +21,17 @@ use Monkey\View\View;
  *
  * @author Tomas
  */
-class IndexController extends Controller {
+class ImportFlowStatsController extends BaseController {
 
 
     public function getIndex() {
+        $importFlowStatuses = $this->getImportFlowStatuses();
+        $resources = Resource::whereIn('id', $importFlowStatuses->pluck('resource_id')->toArray())->get();
 
+
+        $importFlowStatuses->map(function ($importFlowStatus) use ($resources) {
+            $importFlowStatus->resource = $resources->where('id', $importFlowStatus->resource_id)->first();
+        });
 
     }
 
