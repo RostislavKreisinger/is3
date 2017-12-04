@@ -27,31 +27,31 @@ class ImportFlowController extends BaseController {
     public function getIndex() {
 
 
-
-        $importFlowStatuses = $this->getImportFlowStatuses();
-
-        $resources = Resource::whereIn('id', $importFlowStatuses->pluck('resource_id')->toArray())->get();
-
-
-        $importFlowStatuses->map(function ($importFlowStatus) use ($resources) {
-            $importFlowStatus->resource = $resources->where('id', $importFlowStatus->resource_id)->first();
-        });
-
-        View::share('importStatuses', $importFlowStatuses->filter(function ($error) {
-            return isset($error->import);
-        }));
-
-        View::share('etlStatuses', $importFlowStatuses->filter(function ($error) {
-            return isset($error->etl);
-        }));
-
-        View::share('calcStatuses', $importFlowStatuses->filter(function ($error) {
-            return isset($error->calc);
-        }));
-
-        View::share('outputStatuses', $importFlowStatuses->filter(function ($error) {
-            return isset($error->output);
-        }));
+//
+//        $importFlowStatuses = $this->getImportFlowStatuses();
+//
+//        $resources = Resource::whereIn('id', $importFlowStatuses->pluck('resource_id')->toArray())->get();
+//
+//
+//        $importFlowStatuses->map(function ($importFlowStatus) use ($resources) {
+//            $importFlowStatus->resource = $resources->where('id', $importFlowStatus->resource_id)->first();
+//        });
+//
+//        View::share('importStatuses', $importFlowStatuses->filter(function ($error) {
+//            return isset($error->import);
+//        }));
+//
+//        View::share('etlStatuses', $importFlowStatuses->filter(function ($error) {
+//            return isset($error->etl);
+//        }));
+//
+//        View::share('calcStatuses', $importFlowStatuses->filter(function ($error) {
+//            return isset($error->calc);
+//        }));
+//
+//        View::share('outputStatuses', $importFlowStatuses->filter(function ($error) {
+//            return isset($error->output);
+//        }));
 
     }
 
