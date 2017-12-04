@@ -136,49 +136,51 @@
     </li>
     *}
     <!-- /.dropdown -->
-    <li class="dropdown">
-        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-            <i class="fa fa-tasks fa-fw"></i>  <i class="fa fa-caret-down"></i>
-        </a>
-        <ul n:ifset="$poolList" class="dropdown-menu dropdown-alerts">
-            <li>
-                <a href="#">
-                    <div>
-                        <i class="fa fa-comment fa-fw"></i> Tester pool
-                        <span class="pull-right text-muted small">{$poolList->getTesterPool()->getImportOut()} / {$poolList->getTesterPool()->getImportAll()}</span>
-                    </div>
-                </a>
-            </li>
-            <li class="divider"></li>
-            <li>
-                <a href="#">
-                    <div>
-                        <i class="fa fa-twitter fa-fw"></i> Daily pool
-                        <span class="pull-right text-muted small">{$poolList->getDailyPool()->getImportOut()} / {$poolList->getDailyPool()->getImportAll()}</span>
-                    </div>
-                </a>
-            </li>
-            <li class="divider"></li>
-            <li>
-                <a href="#">
-                    <div>
-                        <i class="fa fa-envelope fa-fw"></i> History pool
-                        <span class="pull-right text-muted small">{$poolList->getHistoryPool()->getImportOut()} / {$poolList->getHistoryPool()->getImportAll()}</span>
-                    </div>
-                </a>
-            </li>
-            {*
-            <li class="divider"></li>
-            <li>
-                <a class="text-center" href="#">
-                    <strong>See All Alerts</strong>
-                    <i class="fa fa-angle-right"></i>
-                </a>
-            </li>
-            *}
-        </ul>
-        <!-- /.dropdown-alerts -->
-    </li>
+
+    {*<!-- POOL LIST -->*}
+    {*<li class="dropdown">*}
+        {*<a class="dropdown-toggle" data-toggle="dropdown" href="#">*}
+            {*<i class="fa fa-tasks fa-fw"></i>  <i class="fa fa-caret-down"></i>*}
+        {*</a>*}
+        {*<ul n:ifset="$poolList" class="dropdown-menu dropdown-alerts">*}
+            {*<li>*}
+                {*<a href="#">*}
+                    {*<div>*}
+                        {*<i class="fa fa-comment fa-fw"></i> Tester pool*}
+                        {*<span class="pull-right text-muted small">{$poolList->getTesterPool()->getImportOut()} / {$poolList->getTesterPool()->getImportAll()}</span>*}
+                    {*</div>*}
+                {*</a>*}
+            {*</li>*}
+            {*<li class="divider"></li>*}
+            {*<li>*}
+                {*<a href="#">*}
+                    {*<div>*}
+                        {*<i class="fa fa-twitter fa-fw"></i> Daily pool*}
+                        {*<span class="pull-right text-muted small">{$poolList->getDailyPool()->getImportOut()} / {$poolList->getDailyPool()->getImportAll()}</span>*}
+                    {*</div>*}
+                {*</a>*}
+            {*</li>*}
+            {*<li class="divider"></li>*}
+            {*<li>*}
+                {*<a href="#">*}
+                    {*<div>*}
+                        {*<i class="fa fa-envelope fa-fw"></i> History pool*}
+                        {*<span class="pull-right text-muted small">{$poolList->getHistoryPool()->getImportOut()} / {$poolList->getHistoryPool()->getImportAll()}</span>*}
+                    {*</div>*}
+                {*</a>*}
+            {*</li>*}
+            {**}
+            {*<li class="divider"></li>*}
+            {*<li>*}
+                {*<a class="text-center" href="#">*}
+                    {*<strong>See All Alerts</strong>*}
+                    {*<i class="fa fa-angle-right"></i>*}
+                {*</a>*}
+            {*</li>*}
+            {**}
+        {*</ul>*}
+        {*<!-- /.dropdown-alerts -->*}
+    {*</li>*}
     <!-- /.dropdown -->
     <li class="dropdown">
         <a class="dropdown-toggle" data-toggle="dropdown" href="#">

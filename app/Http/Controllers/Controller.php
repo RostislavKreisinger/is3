@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Homepage\ImportFlowController;
+use App\Http\Controllers\Homepage\ImportFlowStatsController;
+use App\Http\Controllers\Homepage\Importv2Controller;
 use App\Http\Controllers\Project\DetailController as ProjectDetailController;
 use Illuminate\Support\Collection;
 use Monkey\Connections\MDDatabaseConnections;
@@ -13,6 +16,7 @@ use Monkey\ImportSupport\InvalidProject\ProjectRepository;
 use Monkey\ImportSupport\Pool\PoolList;
 use Monkey\ImportSupport\Project;
 use Monkey\Menu\Menu;
+use Monkey\Structures\MenuItem;
 use Monkey\View\View;
 
 class Controller extends BaseViewController {
@@ -37,35 +41,39 @@ class Controller extends BaseViewController {
     protected function prepareMenu() {
         $menu = $this->getMenu();
 
-        $invalidProjects = new Menu('Invalid projects (' . count($this->getInvalidProjects()) . ')', '#');
-        $invalidProjects->setOpened(true);
-        $k = 0;
-        $invalidProjectList = $this->getInvalidProjects();
-        foreach ($invalidProjectList as $project) {
-            $menuItem = new Menu("{$project->getName()} [{$project->getInvalidResourceCount()}]", action(ProjectDetailController::routeMethod('getIndex'), ['project_id' => $project->getId()]));
-            $menuItem->setTitle($project->getId());
-            $invalidProjects->addMenuItem($menuItem);
-            if (++$k == 10) {
-                break;
-            }
-        }
-        $menu->addMenuItem($invalidProjects);
+        $menu->addMenuItem(new Menu("Import v2", \URL::action(Importv2Controller::getMethodAction())));
+        $menu->addMenuItem(new Menu("Import-flow", \URL::action(ImportFlowController::getMethodAction())));
+        $menu->addMenuItem(new Menu("Import-flow stats", \URL::action(ImportFlowStatsController::getMethodAction())));
 
-        $newProjects = new Menu('New projects', '#');
-        foreach ($this->getNewProjects() as $project) {
-            $menuItem = new Menu($project->name, action(ProjectDetailController::routeMethod('getIndex'), ['project_id' => $project->id]));
-            $menuItem->setTitle($project->id);
-
-            $invalidProject = $invalidProjectList->getProject($project->id);
-            if ($invalidProject) {
-                $menuItem->setName("{$invalidProject->getName()} [{$invalidProject->getInvalidResourceCount()}]");
-                $menuItem->setTitle($project->id);
-                $menuItem->addClass('invalid');
-            }
-
-            $newProjects->addMenuItem($menuItem);
-        }
-        $menu->addMenuItem($newProjects);
+//        $invalidProjects = new Menu('Invalid projects (' . count($this->getInvalidProjects()) . ')', '#');
+//        $invalidProjects->setOpened(true);
+//        $k = 0;
+//        $invalidProjectList = $this->getInvalidProjects();
+//        foreach ($invalidProjectList as $project) {
+//            $menuItem = new Menu("{$project->getName()} [{$project->getInvalidResourceCount()}]", action(ProjectDetailController::routeMethod('getIndex'), ['project_id' => $project->getId()]));
+//            $menuItem->setTitle($project->getId());
+//            $invalidProjects->addMenuItem($menuItem);
+//            if (++$k == 10) {
+//                break;
+//            }
+//        }
+//        $menu->addMenuItem($invalidProjects);
+//
+//        $newProjects = new Menu('New projects', '#');
+//        foreach ($this->getNewProjects() as $project) {
+//            $menuItem = new Menu($project->name, action(ProjectDetailController::routeMethod('getIndex'), ['project_id' => $project->id]));
+//            $menuItem->setTitle($project->id);
+//
+//            $invalidProject = $invalidProjectList->getProject($project->id);
+//            if ($invalidProject) {
+//                $menuItem->setName("{$invalidProject->getName()} [{$invalidProject->getInvalidResourceCount()}]");
+//                $menuItem->setTitle($project->id);
+//                $menuItem->addClass('invalid');
+//            }
+//
+//            $newProjects->addMenuItem($menuItem);
+//        }
+//        $menu->addMenuItem($newProjects);
         return $menu;
     }
 
