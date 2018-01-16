@@ -34,7 +34,7 @@
                         <td>{$eshop->language}</td>
                     </tr>
                     <tr>
-                        <td>Currnecy:</td>
+                        <td>Currency:</td>
                         <td>{$eshop->code}</td>
                     </tr>
                     <tr>
@@ -84,44 +84,11 @@
             },
             headerFilter: {
                 visible: true
-            }
-            //{{ !!}}
-//            columns: [
-//                "number", "status", "priceIncl", "email", {
-//                    caption: "Customer Name",
-//                    calculateCellValue: function(data) {
-//                        return [data.firstname,
-//                            data.middlename, data.lastname]
-//                            .join(" ");
-//                    }
-//                }
-//            ]
-
-//            columns: [{
-//                caption: "Employee",
-//                width: 230,
-//                fixed: true,
-//                calculateCellValue: function(data) {
-//                    return [data.Title,
-//                        data.FirstName, data.LastName]
-//                        .join(" ");
-//                }
-//            }, {
-//                dataField: "BirthDate",
-//                dataType: "date"
-//            }, {
-//                dataField: "HireDate",
-//                dataType: "date"
-//            }, {
-//                dataField: "Position",
-//                alignment: "right",
-//            }, {
-//                dataField: "Address",
-//                width: 230,
-//            }, "City", "State", {
-//                dataField: "Zipcode",
-//                visible: false
-//            }, "HomePhone", "MobilePhone", "Skype", "Email"]
+            },
+            columns: [
+                {$columns|noescape}
+//                { caption: "Customer Name", calculateCellValue: function(data) { return [data.firstname, data.middlename, data.lastname].join(" "); }}
+            ]
         });
     });
 </script>
