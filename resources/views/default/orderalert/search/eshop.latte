@@ -1,0 +1,90 @@
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">Order alert</h1>
+    </div>
+</div>
+
+Search: <strong>{$search}</strong>
+
+<div class="demo-container">
+    <div id="gridContainer"></div>
+</div>
+
+<script>
+    var eshops = {$eshops};
+    $(function(){
+        $("#gridContainer").dxDataGrid({
+            dataSource: eshops,
+            allowColumnReordering: true,
+            allowColumnResizing: true,
+            columnAutoWidth: true,
+            columnChooser: {
+                enabled: true,
+                mode: 'select'
+            },
+            columnFixing: {
+                enabled: true
+            },
+            columns: [{
+                dataField: "id",
+                visible: false
+            }, {
+                dataField: "eshop_id",
+                cellTemplate: function (cellEmenent, cellInfo) {
+                    console.log(cellInfo);
+                    cellEmenent.html("<a href='" + cellInfo.data.link + "'> " + cellInfo.value + "</a>");
+                }
+            }, {
+                dataField: "eshop_name",
+                cellTemplate: function (cellEmenent, cellInfo) {
+                    console.log(cellInfo);
+                    cellEmenent.html("<a href='" + cellInfo.data.link + "'> " + cellInfo.value + "</a>");
+                }
+            }, {
+                dataField: "owner",
+                cellTemplate: function (cellEmenent, cellInfo) {
+                    console.log(cellInfo);
+                    cellEmenent.html("<a href='" + cellInfo.data.link + "'> " + cellInfo.value + "</a>");
+                }
+            }, {
+                dataField: "email",
+                cellTemplate: function (cellEmenent, cellInfo) {
+                    console.log(cellInfo);
+                    cellEmenent.html("<a href='" + cellInfo.data.link + "'> " + cellInfo.value + "</a>");
+                }
+            }, {
+                dataField: "type",
+                cellTemplate: function (cellEmenent, cellInfo) {
+                    console.log(cellInfo);
+                    cellEmenent.html("<a href='" + cellInfo.data.link + "'> " + cellInfo.value + "</a>");
+                }
+            }]
+
+//            columns: [{
+//                caption: "Employee",
+//                width: 230,
+//                fixed: true,
+//                calculateCellValue: function(data) {
+//                    return [data.Title,
+//                        data.FirstName, data.LastName]
+//                        .join(" ");
+//                }
+//            }, {
+//                dataField: "BirthDate",
+//                dataType: "date"
+//            }, {
+//                dataField: "HireDate",
+//                dataType: "date"
+//            }, {
+//                dataField: "Position",
+//                alignment: "right",
+//            }, {
+//                dataField: "Address",
+//                width: 230,
+//            }, "City", "State", {
+//                dataField: "Zipcode",
+//                visible: false
+//            }, "HomePhone", "MobilePhone", "Skype", "Email"]
+        });
+    });
+</script>

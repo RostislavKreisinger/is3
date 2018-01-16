@@ -130,6 +130,8 @@ Route::group(['middleware' => 'web'], function () {
         });
 
         Route::group(['prefix' => 'order-alert'], function(){
+            Route::controller('/search}', \App\Http\Controllers\OrderAlert\Search\EshopController::class);
+            Route::controller('/detail/{storeId}', \App\Http\Controllers\OrderAlert\DetailController::class);
             Route::controller('/', \App\Http\Controllers\OrderAlert\IndexController::class);
         });
 

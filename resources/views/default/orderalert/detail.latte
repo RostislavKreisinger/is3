@@ -1,0 +1,127 @@
+<div class="row">
+    <div class="col-lg-12">
+        <h2 class="page-header">Eshop: {$eshop->eshop_name} ({$eshop->eshop_id})</h2>
+        <div class="col-lg-6 col-md-6">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <tbody>
+                    <tr>
+                        <td>Owner: </td>
+                        <td>{$eshop->owner}</td>
+                    </tr>
+                    <tr>
+                        <td>Eshop type:</td>
+                        <td>{$eshop->type}</td>
+                    </tr>
+                    <tr>
+                        <td>Token:</td>
+                        <td>{$eshop->token}</td>
+                    </tr>
+                    <tr>
+                        <td>Email:</td>
+                        <td>{$eshop->email}</td>
+                    </tr>
+                    <tr>
+                        <td>Phone</td>
+                        <td>{$eshop->phone}</td>
+                    </tr>
+                    <tr>
+                        <td>Cluster:</td>
+                        <td>{$eshop->cluster}</td>
+                    </tr>
+                    <tr>
+                        <td>Language:</td>
+                        <td>{$eshop->language}</td>
+                    </tr>
+                    <tr>
+                        <td>Currnecy:</td>
+                        <td>{$eshop->code}</td>
+                    </tr>
+                    <tr>
+                        <td>Created at</td>
+                        <td>{$eshop->created_at}</td>
+                    </tr>
+                    <tr>
+                        <td>Updated at</td>
+                        <td>{$eshop->updated_at}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<h3>Orders:</h3>
+<div class="demo-container">
+    <div id="gridContainer"></div>
+</div>
+
+<script>
+    var orders = {$orders};
+    $(function(){
+        $("#gridContainer").dxDataGrid({
+            dataSource: orders,
+            allowColumnReordering: true,
+            allowColumnResizing: true,
+            columnAutoWidth: true,
+            columnChooser: {
+                enabled: true,
+                mode: 'select'
+            },
+            columnFixing: {
+                enabled: true
+            },
+            columnsAutoWidth: true,
+            filterRow: {
+                visible: true,
+                applyFilter: "auto"
+            },
+            searchPanel: {
+                visible: true,
+                width: 240,
+                placeholder: "Search..."
+            },
+            headerFilter: {
+                visible: true
+            }
+            //{{ !!}}
+//            columns: [
+//                "number", "status", "priceIncl", "email", {
+//                    caption: "Customer Name",
+//                    calculateCellValue: function(data) {
+//                        return [data.firstname,
+//                            data.middlename, data.lastname]
+//                            .join(" ");
+//                    }
+//                }
+//            ]
+
+//            columns: [{
+//                caption: "Employee",
+//                width: 230,
+//                fixed: true,
+//                calculateCellValue: function(data) {
+//                    return [data.Title,
+//                        data.FirstName, data.LastName]
+//                        .join(" ");
+//                }
+//            }, {
+//                dataField: "BirthDate",
+//                dataType: "date"
+//            }, {
+//                dataField: "HireDate",
+//                dataType: "date"
+//            }, {
+//                dataField: "Position",
+//                alignment: "right",
+//            }, {
+//                dataField: "Address",
+//                width: 230,
+//            }, "City", "State", {
+//                dataField: "Zipcode",
+//                visible: false
+//            }, "HomePhone", "MobilePhone", "Skype", "Email"]
+        });
+    });
+</script>

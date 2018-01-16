@@ -4,12 +4,23 @@
     </div>
 </div>
 
-<div class="row">
-    <div class="col-lg-12">
-
-        {vd($eshops)}
+<div class="col-sm-6">
+    <div class="row" style="margin-top: 8px;">
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <form class="form-inline" action="{action 'OrderAlert\Search\EshopController'}">
+                <div class="form-group">
+                    <input type="text" class="form-control" id="eshop" name="search" placeholder="Eshop" value="" style="width: 100%;">
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 
 
-<div>data url: <a href="{action 'OrderAlert\IndexController@getEshopOrderAlertData'}">{action 'OrderAlert\IndexController@getEshopOrderAlertData'}</a></div>
+{*<div>data url: <a href="{action 'OrderAlert\IndexController@getEshopOrderAlertData'}">{action 'OrderAlert\IndexController@getEshopOrderAlertData'}</a></div>*}
+{*<div>data url: <a href="{action 'OrderAlert\DetailController', ['storeId'=>123]}">{action 'OrderAlert\DetailController', ['storeId'=>123]}</a></div>*}
+
+{*<div class="demo-container">*}
+    {*<div id="gridContainer"></div>*}
+{*</div>*}
+
