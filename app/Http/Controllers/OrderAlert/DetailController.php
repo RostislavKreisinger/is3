@@ -10,22 +10,17 @@ namespace App\Http\Controllers\OrderAlert;
 
 
 use Illuminate\Database\Query\Builder;
-use Illuminate\Support\Facades\Input;
 use Monkey\Connections\MDOrderAlertConnections;
 use Monkey\View\View;
 
 class DetailController extends BaseController {
     public function getIndex($storeId) {
-//        $a = Input::get("storeId");
-//        vd($a);
         $data = MDOrderAlertConnections::getOrderAlertConnection()->table('eshop')->where(function(Builder $where) use ($storeId) {
             $where->orWhere('eshop_id', '=', "$storeId");
         })
             ->leftJoin('currency', 'eshop.currency_id', '=', 'currency.id')
             ->leftJoin('eshop_type', 'eshop.eshop_type_id', '=', 'eshop_type.id')
             ->get(['eshop.*','currency.code', 'eshop_type.type']);
-//            ->joinWhere('currency', 'currency_id', '=', 'id')->get();
-//            ->get();
 
         if (!empty($data)) {
             View::share("eshop", $data[0]);
@@ -41,7 +36,7 @@ class DetailController extends BaseController {
             $order = array();
             $order['statusCode'] = $orderRaw->status;
             $order['statusTitle'] = $orderRaw->title;
-//            vd($orderRaw);
+
             foreach ($orderJSON as $key => $val) {
                 if (is_array($val)) {
                     foreach ($val as $arrayKey => $arrayVal) {
@@ -58,6 +53,7 @@ class DetailController extends BaseController {
         $visibleColumns = ["number", "priceIncl", "email", "channel", "statusTitle"];
         $omittedColumns = ["status", "customStatusId", "firstname", "middlename", "lastname"];
         $columnsConfig = '';
+
         if (!empty($orders)) {
             foreach ($orders[0] as $key => $val) {
                 if (in_array($key, $visibleColumns)) {
@@ -79,8 +75,9 @@ class DetailController extends BaseController {
                 }
             }
         }
+
         $columnsConfig .= ', { caption: "Customer Name", calculateCellValue: function(data) { return [data.firstname, data.middlename, data.lastname].join(" "); }}';
-//        vd($columnsConfig);
+
         View::share("orders", $orders);
         View::share("columns", $columnsConfig);
     }
