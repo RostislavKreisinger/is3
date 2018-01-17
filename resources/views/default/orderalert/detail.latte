@@ -57,9 +57,13 @@
     </div>
 </div>
 
-<h3>Orders:</h3>
-<div class="demo-container">
-    <div id="gridContainer"></div>
+<div class="row" style="margin-bottom: 100px;">
+    <div class="col-lg-12">
+        <h3>Orders:</h3>
+        <div class="demo-container fa-border">
+            <div id="gridContainer"></div>
+        </div>
+    </div>
 </div>
 
 <script>
@@ -70,6 +74,7 @@
             allowColumnReordering: true,
             allowColumnResizing: true,
             columnAutoWidth: true,
+            height: 700,
             columnChooser: {
                 enabled: true,
                 mode: 'select'
@@ -91,7 +96,12 @@
                 visible: true
             },
             scrolling: {
-                mode: "infinite"
+                // mode: "standart",
+                mode: "infinite",
+                showScrollbar: "always"
+            },
+            loadPanel: {
+                enabled: true,
             },
             columns: [
                 {$columns|noescape}
