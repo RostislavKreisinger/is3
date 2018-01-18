@@ -1,54 +1,58 @@
 <div class="row">
     <div class="col-lg-12">
-        <h2 class="page-header">Eshop: {$eshop->eshop_name} ({$eshop->eshop_id})</h2>
-        <div class="col-lg-6 col-md-6">
-            <div class="table-responsive">
-                <table class="table table-hover">
-                    <tbody>
-                    <tr>
-                        <td>Owner: </td>
-                        <td>{$eshop->owner}</td>
-                    </tr>
-                    <tr>
-                        <td>Eshop type:</td>
-                        <td>{$eshop->type}</td>
-                    </tr>
-                    <tr>
-                        <td>Token:</td>
-                        <td>{$eshop->token}</td>
-                    </tr>
-                    <tr>
-                        <td>Email:</td>
-                        <td>{$eshop->email}</td>
-                    </tr>
-                    <tr>
-                        <td>Phone</td>
-                        <td>{$eshop->phone}</td>
-                    </tr>
-                    <tr>
-                        <td>Cluster:</td>
-                        <td>{$eshop->cluster}</td>
-                    </tr>
-                    <tr>
-                        <td>Language:</td>
-                        <td>{$eshop->language}</td>
-                    </tr>
-                    <tr>
-                        <td>Currency:</td>
-                        <td>{$eshop->code}</td>
-                    </tr>
-                    <tr>
-                        <td>Created at</td>
-                        <td>{$eshop->created_at}</td>
-                    </tr>
-                    <tr>
-                        <td>Updated at</td>
-                        <td>{$eshop->updated_at}</td>
-                    </tr>
-                    </tbody>
-                </table>
+        {ifset $eshop}
+            <h2 class="page-header">Eshop: {$eshop->eshop_name} ({$eshop->eshop_id})</h2>
+            <div class="col-lg-6 col-md-6">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <tbody>
+                        <tr>
+                            <td>Owner: </td>
+                            <td>{$eshop->owner}</td>
+                        </tr>
+                        <tr>
+                            <td>Eshop type:</td>
+                            <td>{$eshop->type}</td>
+                        </tr>
+                        <tr>
+                            <td>Token:</td>
+                            <td>{$eshop->token}</td>
+                        </tr>
+                        <tr>
+                            <td>Email:</td>
+                            <td>{$eshop->email}</td>
+                        </tr>
+                        <tr>
+                            <td>Phone</td>
+                            <td>{$eshop->phone}</td>
+                        </tr>
+                        <tr>
+                            <td>Cluster:</td>
+                            <td>{$eshop->cluster}</td>
+                        </tr>
+                        <tr>
+                            <td>Language:</td>
+                            <td>{$eshop->language}</td>
+                        </tr>
+                        <tr>
+                            <td>Currency:</td>
+                            <td>{$eshop->code}</td>
+                        </tr>
+                        <tr>
+                            <td>Created at</td>
+                            <td>{$eshop->created_at}</td>
+                        </tr>
+                        <tr>
+                            <td>Updated at</td>
+                            <td>{$eshop->updated_at}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
-        </div>
+        {else}
+            <h2 class="page-header">Eshop not found</h2>
+        {/ifset}
         <div class="col-lg-6">
             <a href="#" id="pop">
                 <img id="imageresource" src="{assets 'images/description.png'}" width="500px">
@@ -67,6 +71,7 @@
 </div>
 
 <script>
+    {ifset $eshop}
     var orders = {$orders};
     $(function(){
         $("#gridContainer").dxDataGrid({
@@ -108,6 +113,7 @@
             ]
         });
     });
+    {/ifset}
 </script>
 
 <!-- Creates the bootstrap modal where the image will appear -->

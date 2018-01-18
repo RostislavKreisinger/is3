@@ -27,7 +27,7 @@ class IndexController extends BaseController {
             ->leftJoin('eshop_type', 'eshop.eshop_type_id', '=', 'eshop_type.id')
             ->get(['eshop.*', 'eshop_type.type']);
 
-        if (sizeof($eshops) == 1) {
+        if (count($eshops) == 1) {
             return Redirect::action(DetailController::routeMethod('getIndex'), ['storeId'=>$eshops[0]->eshop_id]);
         }
 
