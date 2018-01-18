@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Database\Query\Builder;
 use Monkey\Connections\MDOrderAlertConnections;
+use Monkey\Constants\MonkeyData\Resource\EshopType;
 use Monkey\View\View;
 
 class IndexController extends BaseController {
@@ -24,14 +25,16 @@ class IndexController extends BaseController {
                 ->orWhere('email', 'like', "%$originSearch%")
                 ->orWhere('owner', 'like', "%$originSearch%");
         })
-            ->leftJoin('eshop_type', 'eshop.eshop_type_id', '=', 'eshop_type.id')
-            ->get(['eshop.*', 'eshop_type.type']);
+            // ->leftJoin('eshop_type', 'eshop.eshop_type_id', '=', 'eshop_type.id')
+            //->get(['eshop.*', 'eshop_type.type']);
+        ->get(['eshop.*']);
 
         if (count($eshops) == 1) {
             return Redirect::action(DetailController::routeMethod('getIndex'), ['storeId'=>$eshops[0]->eshop_id]);
         }
 
         foreach ($eshops as $eshop) {
+            $eshop->type = EshopType::getById($eshop->eshop_type_id);
             $eshop->link = \URL::action(DetailController::routeMethod("getIndex"), ['storeId'=>$eshop->eshop_id]);
         }
         View::share('search', $search);
