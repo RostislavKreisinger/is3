@@ -27,7 +27,8 @@
         },
         "bootstrap": {
             "js": "dist/js/bootstrap.min.js",
-            "less": "*",
+            "less": "less/*.less",
+            "less/mixins": "less/mixins/*.less",
             "fonts": "dist/fonts/*",
             "css": "dist/css/bootstrap.min.css"
         },

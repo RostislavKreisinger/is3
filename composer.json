@@ -21,7 +21,8 @@
         "monkey/config": "^1.3.0",
         "monkey/url-handler": "^1.1.0",
         "monkey/connections": "^2.6.0",
-        "monkey/raven": "^2.0.0"
+        "monkey/raven": "^2.0.0",
+        "monkey/constants": "^1.1.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

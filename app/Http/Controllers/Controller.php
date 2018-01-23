@@ -44,6 +44,7 @@ class Controller extends BaseViewController {
         $menu->addMenuItem(new Menu("Import v2", \URL::action(Importv2Controller::getMethodAction())));
         $menu->addMenuItem(new Menu("Import-flow", \URL::action(ImportFlowController::getMethodAction())));
         $menu->addMenuItem(new Menu("Import-flow stats", \URL::action(ImportFlowStatsController::getMethodAction())));
+        $menu->addMenuItem(new Menu("Order Alert", \URL::action(\App\Http\Controllers\OrderAlert\IndexController::getMethodAction())));
 
 //        $invalidProjects = new Menu('Invalid projects (' . count($this->getInvalidProjects()) . ')', '#');
 //        $invalidProjects->setOpened(true);
