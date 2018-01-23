@@ -6,3 +6,6 @@ Homestead.json
 /.idea/
 .monkeydata.env
 .monkeydata.env.backup
+
+.monkeydata.env.backup-*
+/.DS_Store

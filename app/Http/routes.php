@@ -129,6 +129,11 @@ Route::group(['middleware' => 'web'], function () {
             Route::controller('/', App\Http\Controllers\Admin\IndexController::class);
         });
 
+        Route::group(['prefix' => 'order-alert'], function(){
+            Route::controller('/detail/{storeId}', \App\Http\Controllers\OrderAlert\DetailController::class);
+            Route::controller('/', \App\Http\Controllers\OrderAlert\IndexController::class);
+        });
+
         Route::group(['prefix' => 'homepage'], function(){
             Route::controller('importv2', \App\Http\Controllers\Homepage\Importv2Controller::class);
             Route::controller('import-flow', \App\Http\Controllers\Homepage\ImportFlowController::class);
