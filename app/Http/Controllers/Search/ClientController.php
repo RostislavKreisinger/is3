@@ -1,17 +1,13 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 namespace App\Http\Controllers\Search;
+
 
 use App\Http\Controllers\User\DetailController;
 use App\Model\Client;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Input;
+use Monkey\Helpers\Strings;
 use Monkey\View\View;
 use Redirect;
 
@@ -21,12 +17,17 @@ use Redirect;
  * @author Tomas
  */
 class ClientController extends BaseController {
-    
     public function getIndex() {
         $search = Input::get('search', null);
-        if(intValue($search)){
+
+        if (!is_numeric($search)) {
+            $search = Strings::alpha2id($search);
+        }
+
+        if (is_numeric($search)) {
             $client = Client::find($search);
-            if($client){
+
+            if ($client) {
                 return Redirect::action(DetailController::routeMethod('getIndex'), ['user_id' => $client->user_id]);
             }
         }
@@ -39,7 +40,5 @@ class ClientController extends BaseController {
                 ->get();
                 
         $this->getView()->addParameter('clients', $clients);
-        
     }
-    
 }
