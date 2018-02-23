@@ -1,0 +1,49 @@
+<div>
+    <script src="{assets 'js/scripts/default/project/resource/debug.js'}"></script>
+    <div class="form-control-static">
+        <ul class="list-inline" id="endpoint-buttons"></ul>
+    </div>
+    <div class="form-control-static" id="param-controls">
+        <label for="date-from-input" id="date-from-label">From:
+            <input type="datetime-local" id="date-from-input" name="from" class="form-control">
+        </label>
+        <label for="date-to-input" id="date-to-label">To:
+            <input type="datetime-local" id="date-to-input" name="to" class="form-control">
+        </label>
+        <label for="since-id-input" id="since-id-label">Since ID:
+            <input type="number" id="since-id-input" name="since" class="form-control" min="1">
+        </label>
+        <label for="max-id-input" id="max-id-label">Max ID:
+            <input type="number" id="max-id-input" name="max" class="form-control" min="1">
+        </label>
+        <label for="only-id-input" id="only-id-label">Only ID:
+            <input id="only-id-input" name="id" class="form-control">
+        </label>
+        <label for="only-foreign-input" id="only-foreign-label">Only Foreign Key:
+            <input id="only-foreign-input" name="foreign" class="form-control">
+        </label>
+        <input id="endpoint-input" type="hidden">
+        <input class="form-control" value="TEST" type="button" onclick="testCall()">
+    </div>
+    <div id="result-block">
+
+    </div>
+    <div>
+        <h4>Differences</h4>
+        <div class="col-sm-4">
+            <h5>Columns</h5>
+            <div id="add-column-difference">
+                <label for="column-name-input">Column name:
+                    <input class="form-control" id="column-name-input" name="name">
+                </label>
+                <label for="column-alias-input">Column alias:
+                    <input class="form-control" id="column-alias-input" name="alias">
+                </label>
+                <label for="column-raw-input">Raw column alias text:
+                    <input class="form-control" id="column-raw-input" name="raw">
+                </label>
+                <input class="form-control" value="ADD" type="button" onclick="addColumn()">
+            </div>
+        </div>
+    </div>
+</div>

@@ -70,8 +70,54 @@ etVBSppLCTboRQaET99ZTg==
             $decrypted = $tcrypt->decryptPhrase($text);
             return $decrypted;
         }
-
     // }
+
+    /**
+     * @param $object
+     * @return array
+     */
+    function objectToArray($object) {
+        $array = (array)$object;
+        $newArray = [];
+
+        foreach ($array as $key => $value) {
+            if (is_array($value)) {
+                $newValue = [];
+
+                foreach ($value as $subKey => $subValue) {
+                    $newValue[fixKey($subKey)] = is_object($subValue) ? objectToArray($subValue) : $subValue;
+                }
+
+                $value = $newValue;
+            }
+
+            if (is_object($value)) {
+                $value = objectToArray($value);
+            }
+
+            $newArray[fixKey($key)] = $value;
+        }
+
+        return $newArray;
+    }
+
+    /**
+     * @param $key
+     * @return mixed
+     */
+    function fixKey($key) {
+        if (!is_string($key)) {
+            return $key;
+        }
+
+        $delimiterPos = mb_strrpos($key, "\0");
+
+        if ($delimiterPos === false || $delimiterPos === mb_strlen($key) - 1) {
+            return $key;
+        }
+
+        return mb_substr($key,  $delimiterPos + 1);
+    }
 }
 
 namespace Monkey {
@@ -82,7 +128,6 @@ namespace Monkey {
         }
         return \action($name, $parameters, $absolute);
     }
-
 }
 
 
