@@ -75,7 +75,12 @@ function manageData(data) {
 }
 
 function manageDifferences(differences) {
-    console.log(differences);
+    var columnTable = document.getElementById('colsTable');
+
+    differences.forEach(function (difference) {
+        columnTable.innerHTML += '<tr><td>' + difference['difference'] + '</td>' +
+            '<td><i class="fa fa-remove hover-hand" title="Delete" onclick="deleteDifference(' + difference['id'] + ')"></i></td></tr>';
+    });
 }
 
 function addButtons(endpoints) {
@@ -108,6 +113,12 @@ function addColumn() {
 
 function addDifference(data) {
     sendRequest('/debug/differences/add', 'GET', data);
+}
+
+function deleteDifference(id) {
+    if (confirm('Do you really want to remove this difference?')) {
+        sendRequest('/debug/differences/delete', 'GET', {'id': id});
+    }
 }
 
 function showControls(controlsList) {

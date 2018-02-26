@@ -104,6 +104,7 @@ Route::group(['middleware' => 'web'], function () {
                             });
                             Route::group(['prefix' => 'differences'], function () {
                                 Route::get('add', 'DifferencesController@add');
+                                Route::get('delete', 'DifferencesController@delete');
                                 Route::get('/', 'DifferencesController@load');
                             });
                         });
