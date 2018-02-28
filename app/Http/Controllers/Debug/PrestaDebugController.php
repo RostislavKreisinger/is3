@@ -5,12 +5,14 @@ namespace App\Http\Controllers\Debug;
 
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Monkey\ImportEshopDataObjects\Base\Differences;
 use Monkey\ImportEshopDataObjects\Base\Request as APIRequest;
 use Monkey\ImportEshopDataObjects\Base\Response;
 use Monkey\ImportEshopDataObjects\Entity\Simple\CurrentSetting;
 use Monkey\ImportEshopSdk\ImportEshopSdk;
 use Monkey\ImportEshopSdk\Request\BaseRequestManager;
 use Monkey\ImportSupport\Project;
+use Monkey\ImportSupport\ResourceSettingDifference;
 use NilPortugues\Serializer\JsonSerializer;
 
 /**
@@ -74,9 +76,12 @@ class PrestaDebugController extends Controller {
          * @var Response $item
          */
         $resource = $project_id->getResource($resource_id)->getConnectionDetail();
+        $endpoint = $request->input('endpoint');
+        $active = $request->input('active');
+        $inactive = $request->input('inactive');
         $sdk = new ImportEshopSdk($resource['url'], '53298ea642218f2e034fa3c006b4a344a997e055e2093ec23ddc0e1356e708d0', new JsonSerializer());
         $info = $this->getEshopInformation($sdk);
-        $managerFunction = 'get' . str_replace(' ', '', self::ENDPOINTS[$request->input('endpoint')]) . 'Manager';
+        $managerFunction = 'get' . str_replace(' ', '', self::ENDPOINTS[$endpoint]) . 'Manager';
         $requestManager = $sdk->$managerFunction();
         $apiRequest = $requestManager->getRequest();
         $apiRequest->setDebug(true);
@@ -107,6 +112,38 @@ class PrestaDebugController extends Controller {
 
         if (!empty($request->input('foreign'))) {
             $apiRequest->setForeignKey($request->input('foreign'));
+        }
+
+        if ($active || $inactive) {
+            $differencesBuilder = ResourceSettingDifference::byResourceSettingId($project_id->getResourceSettings($resource_id)->first()->id)
+                ->byEndpoint($endpoint);
+
+            if (!$active || !$inactive) {
+                if ($active) {
+                    $differencesBuilder->active();
+                }
+
+                if ($inactive) {
+                    $differencesBuilder->inactive();
+                }
+            }
+
+            $differences = $differencesBuilder->get();
+            $apiRequest->setDifferences(new Differences());
+
+            foreach ($differences as $difference) {
+                switch ($difference->type) {
+                    case Differences::TYPE_COLUMNS:
+                        $apiRequest->getDifferences()->addColumn($difference->difference);
+                        break;
+                    case Differences::TYPE_TABLE_ALIAS:
+                        $apiRequest->getDifferences()->addTableAlias($difference->difference);
+                        break;
+                    case Differences::TYPE_CONDITION:
+                        $apiRequest->getDifferences()->addAdditionalCondition($difference->difference);
+                        break;
+                }
+            }
         }
 
         foreach ($requestManager->get() as $item) {

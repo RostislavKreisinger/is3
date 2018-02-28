@@ -4,6 +4,7 @@
         <ul class="list-inline" id="endpoint-buttons"></ul>
     </div>
     <div class="form-control-static" id="param-controls">
+        <h4>Filters</h4>
         <label for="date-from-input" id="date-from-label">From:
             <input type="datetime-local" id="date-from-input" name="from" class="form-control">
         </label>
@@ -23,30 +24,76 @@
             <input id="only-foreign-input" name="foreign" class="form-control">
         </label>
         <input id="endpoint-input" type="hidden">
-        <input class="form-control" value="TEST" type="button" onclick="testCall()">
     </div>
-    <div id="result-block">
-
-    </div>
-    <div>
+    <div class="form-control-static">
         <h4>Differences</h4>
         <div class="col-sm-4">
             <h5>Columns</h5>
-            <table id="colsTable" class="table table-hover">
-
-            </table>
+            <table id="colsTable" class="table table-hover"></table>
             <div id="add-column-difference">
                 <label for="column-name-input">Column name:
-                    <input class="form-control" id="column-name-input" name="name">
+                    <input class="form-control" id="column-name-input" name="name" onchange="columnInputManager()">
                 </label>
                 <label for="column-alias-input">Column alias:
-                    <input class="form-control" id="column-alias-input" name="alias">
+                    <input class="form-control" id="column-alias-input" name="alias" onchange="columnInputManager()">
                 </label>
                 <label for="column-raw-input">Raw column alias text:
-                    <input class="form-control" id="column-raw-input" name="raw">
+                    <input class="form-control" id="column-raw-input" name="raw" onchange="columnInputManager()">
                 </label>
                 <input class="form-control" value="ADD" type="button" onclick="addColumn()">
             </div>
         </div>
+        <div class="col-sm-4">
+            <h5>Tables</h5>
+            <table id="tablesTable" class="table table-hover"></table>
+            <div id="add-table-difference">
+                <label for="table-join-type">Join type:
+                    <select class="form-control" id="table-join-select"></select>
+                </label>
+                <label for="table-name-input">Table name:
+                    <input class="form-control" id="table-name-input" name="name">
+                </label>
+                <label for="table-alias-input">Table alias:
+                    <input class="form-control" id="table-alias-input" name="alias">
+                </label>
+                <input class="form-control" value="ADD" type="button" onclick="addTable()">
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <h5>Conditions</h5>
+            <table id="conditionsTable" class="table table-hover"></table>
+            <div id="add-condition-difference">
+                <label for="condition-operator-select">Operator:
+                    <select class="form-control" id="condition-operator-select" name="operator"></select>
+                </label>
+                <label for="condition-first-input">First:
+                    <input class="form-control" id="condition-first-input" name="first" onchange="conditionInputManager()">
+                </label>
+                <label for="condition-compare-operator-select">Compare operator:
+                    <select class="form-control" id="condition-compare-operator-select" name="compare-operator"></select>
+                </label>
+                <label for="condition-second-input">Second:
+                    <input class="form-control" id="condition-second-input" name="second" onchange="conditionInputManager()">
+                </label>
+                <label for="condition-raw-input">Raw table alias text:
+                    <input class="form-control" id="condition-raw-input" name="raw" onchange="conditionInputManager()">
+                </label>
+                <input class="form-control" value="ADD" type="button" onclick="addCondition()">
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <div>
+            <h5>Additional test call settings</h5>
+            <label for="use-active-cb">Use active:
+                <input type="checkbox" id="use-active-cb" checked>
+            </label>
+            <label for="use-inactive-cb">Use inactive:
+                <input type="checkbox" id="use-inactive-cb" checked>
+            </label>
+        </div>
     </div>
+    <div class="form-control-static">
+        <input class="form-control" value="TEST" type="button" onclick="testCall()">
+    </div>
+    <div id="result-block"></div>
 </div>
