@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "84cbfa5ffeb9e36de0fa898cb044f241",
+    "content-hash": "292afedfae06b967341779a91f9da1c1",
     "packages": [
         {
             "name": "barryvdh/laravel-ide-helper",
@@ -2137,17 +2137,17 @@
         },
         {
             "name": "monkey/import-eshop-data-objects",
-            "version": "1.0.0",
+            "version": "dev-feature/is-2-presta-api-debug",
             "source": {
                 "type": "git",
                 "url": "git@gitlab.monkeydata.com:composer/import-eshop-data-objects.git",
-                "reference": "db75dcfd44f56ea944c3cfd700527f12d5ae4c47"
+                "reference": "fd9ad195e318febc8c8178aed2d2819d733c326a"
             },
             "dist": {
                 "type": "tar",
-                "url": "https://composer:uxJ4EhTaf61fo3pnTvK5@composer.monkeydata.com/dist/monkey-import-eshop-data-objects-1.0.0-d4e5e4.tar",
-                "reference": "db75dcfd44f56ea944c3cfd700527f12d5ae4c47",
-                "shasum": "fb82bd4fa92ddec5260735f90059d4eb1e98692a"
+                "url": "https://composer:uxJ4EhTaf61fo3pnTvK5@composer.monkeydata.com/dist/monkey-import-eshop-data-objects-dev-feature-is-2-presta-api-debug-4db9c5.tar",
+                "reference": "fd9ad195e318febc8c8178aed2d2819d733c326a",
+                "shasum": "98c58a1572735b89196e860ea5279d3f9c589bf8"
             },
             "require": {
                 "php": ">=5.3"
@@ -2169,21 +2169,21 @@
                 }
             ],
             "description": "Data objects for import eshop api feed",
-            "time": "2018-02-15T14:47:05+00:00"
+            "time": "2018-03-01T08:45:15+00:00"
         },
         {
             "name": "monkey/import-eshop-sdk",
-            "version": "1.0.0",
+            "version": "dev-feature/is-2-presta-api-debug",
             "source": {
                 "type": "git",
                 "url": "git@gitlab.monkeydata.com:composer/import-eshop-sdk.git",
-                "reference": "073a0d3069433ee6776cee27b98584800d79fb23"
+                "reference": "46264573f59fec39e76d6dad072f8522901f95b8"
             },
             "dist": {
                 "type": "tar",
-                "url": "https://composer:uxJ4EhTaf61fo3pnTvK5@composer.monkeydata.com/dist/monkey-import-eshop-sdk-1.0.0-a194d9.tar",
-                "reference": "073a0d3069433ee6776cee27b98584800d79fb23",
-                "shasum": "9d1fb3df68449363d2fa54ce6ec4c63b83615837"
+                "url": "https://composer:uxJ4EhTaf61fo3pnTvK5@composer.monkeydata.com/dist/monkey-import-eshop-sdk-dev-feature-is-2-presta-api-debug-8eda74.tar",
+                "reference": "46264573f59fec39e76d6dad072f8522901f95b8",
+                "shasum": "82d49d65a7a1865464deb260a778a4c7295c0a2c"
             },
             "require": {
                 "guzzlehttp/guzzle": "^6.3",
@@ -2212,7 +2212,7 @@
                 }
             ],
             "description": "SDK for import-eshop-api",
-            "time": "2018-02-15T14:54:47+00:00"
+            "time": "2018-03-01T08:40:30+00:00"
         },
         {
             "name": "monkey/o-auth2",
@@ -2688,25 +2688,25 @@
         },
         {
             "name": "nesbot/carbon",
-            "version": "1.22.1",
+            "version": "1.23.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/briannesbitt/Carbon.git",
-                "reference": "7cdf42c0b1cc763ab7e4c33c47a24e27c66bfccc"
+                "reference": "4a874a39b2b00d7e0146cd46fab6f47c41ce9e65"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/7cdf42c0b1cc763ab7e4c33c47a24e27c66bfccc",
-                "reference": "7cdf42c0b1cc763ab7e4c33c47a24e27c66bfccc",
+                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/4a874a39b2b00d7e0146cd46fab6f47c41ce9e65",
+                "reference": "4a874a39b2b00d7e0146cd46fab6f47c41ce9e65",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.0",
-                "symfony/translation": "~2.6 || ~3.0"
+                "symfony/translation": "~2.6 || ~3.0 || ~4.0"
             },
             "require-dev": {
                 "friendsofphp/php-cs-fixer": "~2",
-                "phpunit/phpunit": "~4.0 || ~5.0"
+                "phpunit/phpunit": "^4.8.35 || ^5.7"
             },
             "type": "library",
             "extra": {
@@ -2737,7 +2737,7 @@
                 "datetime",
                 "time"
             ],
-            "time": "2017-01-16T07:55:07+00:00"
+            "time": "2018-02-28T09:22:05+00:00"
         },
         {
             "name": "nikic/php-parser",
@@ -2792,17 +2792,17 @@
         },
         {
             "name": "nilportugues/serializer",
-            "version": "1.3.0",
+            "version": "dev-is-2-presta-api-debug",
             "source": {
                 "type": "git",
                 "url": "git@gitlab.monkeydata.com:nilportugues/php-serializer.git",
-                "reference": "ad55af03a965eec6257dd799024cd8d033150f95"
+                "reference": "2d12a51726589b220f386573af86392c2504f97d"
             },
             "dist": {
                 "type": "tar",
-                "url": "https://composer:uxJ4EhTaf61fo3pnTvK5@composer.monkeydata.com/dist/nilportugues-serializer-1.3.0-68acb5.tar",
-                "reference": "ad55af03a965eec6257dd799024cd8d033150f95",
-                "shasum": "79cb3de037c782534544c34f70e2eef9e64d4829"
+                "url": "https://composer:uxJ4EhTaf61fo3pnTvK5@composer.monkeydata.com/dist/nilportugues-serializer-dev-is-2-presta-api-debug-f9d35a.tar",
+                "reference": "2d12a51726589b220f386573af86392c2504f97d",
+                "shasum": "c76290cec21c311c4cfdedb9875356c23d2d9869"
             },
             "require": {
                 "php": ">=5.3.3",
@@ -2847,7 +2847,7 @@
                 "serialize",
                 "serializer"
             ],
-            "time": "2018-02-15T14:39:35+00:00"
+            "time": "2018-03-01T09:13:35+00:00"
         },
         {
             "name": "paragonie/random_compat",
@@ -5634,9 +5634,32 @@
             "time": "2018-01-29T19:49:41+00:00"
         }
     ],
-    "aliases": [],
+    "aliases": [
+        {
+            "alias": "1.0.1",
+            "alias_normalized": "1.0.1.0",
+            "version": "dev-feature/is-2-presta-api-debug",
+            "package": "monkey/import-eshop-sdk"
+        },
+        {
+            "alias": "1.0.1",
+            "alias_normalized": "1.0.1.0",
+            "version": "dev-feature/is-2-presta-api-debug",
+            "package": "monkey/import-eshop-data-objects"
+        },
+        {
+            "alias": "1.3.1",
+            "alias_normalized": "1.3.1.0",
+            "version": "dev-is-2-presta-api-debug",
+            "package": "nilportugues/serializer"
+        }
+    ],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "monkey/import-eshop-sdk": 20,
+        "monkey/import-eshop-data-objects": 20,
+        "nilportugues/serializer": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
