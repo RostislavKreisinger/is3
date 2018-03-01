@@ -74,7 +74,6 @@ function selectEndpoint(endpoint) {
 
 function manageData(data) {
     addButtons(data['endpoints']);
-    loadDifferences();
 }
 
 function loadDifferences() {
