@@ -45,8 +45,8 @@ function testCall() {
     var endpoint = document.getElementById('endpoint-input').value;
     var paramLabels = document.querySelectorAll('#param-controls label');
     var params = [];
-    params['active'] = document.getElementById('use-active-cb').checked;
-    params['inactive'] = document.getElementById('use-inactive-cb').checked;
+    params['active'] = document.getElementById('use-active-cb').checked ? 1 : 0;
+    params['inactive'] = document.getElementById('use-inactive-cb').checked ? 1 : 0;
     params['endpoint'] = endpoint;
     [].forEach.call(paramLabels, function (label) {
         if (label.style.display !== 'none') {
