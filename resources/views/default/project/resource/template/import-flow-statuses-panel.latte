@@ -1,16 +1,18 @@
 {php $statuses = array(
-                ['tab' => 'daily', 'code' => 'ifDaily', 'methodName' => 'DailyImportFlow', 'name'=> 'Daily'],
-                ['tab' => 'history', 'code' => 'ifHistory', 'methodName' => 'HistoryImportFlow', 'name'=> 'History'],
-                ['tab' => 'resource', 'code' => 'ifResource', 'name'=> $resource->name],
-                ['tab' => 'controlPool', 'code' => 'ifControlPool', 'name' => 'IF Control Pool'],
-                ['tab' => 'debug', 'code' => 'debug', 'name' => 'Debug']
-            );
-            $debugEshopTypes = [50, 51, 52];
+        ['tab' => 'daily', 'code' => 'ifDaily', 'methodName' => 'DailyImportFlow', 'name'=> 'Daily'],
+        ['tab' => 'history', 'code' => 'ifHistory', 'methodName' => 'HistoryImportFlow', 'name'=> 'History'],
+        ['tab' => 'resource', 'code' => 'ifResource', 'name'=> $resource->name],
+        ['tab' => 'controlPool', 'code' => 'ifControlPool', 'name' => 'IF Control Pool']
+    );
+    $debugEshopTypes = [50, 51, 52];
+
+    if (isset($eshopType) && in_array($eshopType->id, $debugEshopTypes)) {
+        $statuses[] = ['tab' => 'debug', 'code' => 'debug', 'name' => 'Debug'];
+    }
 }
 <div>
     <ul class="nav nav-tabs">
         <li n:foreach="$statuses as $status"
-                n:if="$status['code'] != 'debug' || (isset($eshopType) && in_array($eshopType->id, $debugEshopTypes))"
                 id="tab-{$status['tab']}"
                 class="font-bold {if $status['tab'] == 'resource'}active{/if}">
             <a href="#{$status['code']}"
@@ -20,7 +22,6 @@
     </ul>
     <div class="tab-content">
         <div n:foreach="$statuses as $status"
-                n:if="$status['code'] != 'debug' || (isset($eshopType) && in_array($eshopType->id, $debugEshopTypes))"
                 class="tab-pane {if $status['tab'] == 'resource'}active in{/if}"
                 id="{$status['code']}">
             {view 'default.project.resource.template.import-flow-panel.'.$status['code']}
