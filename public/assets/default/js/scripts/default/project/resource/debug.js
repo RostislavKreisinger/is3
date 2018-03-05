@@ -251,6 +251,7 @@ function showResult(result) {
 
 function refresh() {
     sendRequest('/debug/presta/debug-data', 'GET', {}, manageData);
+    setDefaultFilters();
 }
 
 function columnInputManager() {
@@ -304,4 +305,12 @@ function showJoinConditionForm(id) {
     } else {
         conditionForm.style.display = 'table-row';
     }
+}
+
+function setDefaultFilters() {
+    var today = new Date();
+    var twoDaysAgo = new Date();
+    twoDaysAgo.setDate(today.getDate() - 2);
+    document.getElementById('date-from-input').value = twoDaysAgo.toISOString().split('T', 1)[0] + 'T00:00';
+    document.getElementById('date-to-input').value = today.toISOString().split('T', 1)[0] + 'T23:59';
 }
