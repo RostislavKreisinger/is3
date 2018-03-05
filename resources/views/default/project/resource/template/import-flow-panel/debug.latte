@@ -34,6 +34,12 @@
     </div>
     <div class="form-control-static">
         <h4>Differences <i class="fa fa-info-circle" title="Differences change query that our API in plugin uses to select objects. When you create a Difference it isn't activated so Import Flow isn't influenced right away. You can activate the difference after you make sure it is working properly using Activate button next to it."></i></h4>
+        <div class="col-sm-12">
+            <label for="show-deleted-cb">
+                <i class="fa fa-info-circle" title="Show all differences including deleted. Deleted differences aren't used in any calls. This option will show them to provide an opportunity to restore some of them in case they weren't deleted intentionally."></i> Show deleted:
+                <input type="checkbox" id="show-deleted-cb" onchange="loadDifferences()">
+            </label>
+        </div>
         <div class="col-sm-4">
             <h5>Columns <i class="fa fa-info-circle" title="Columns are used after typically used between SELECT and FROM keywords in query. You can either set column name (including table alias) and column alias which will be transformed into string similar to 'name AS alias' or you can enter your own construction that should remain unchanged."></i></h5>
             <table id="colsTable" class="table table-hover"></table>
@@ -54,16 +60,19 @@
             </div>
         </div>
         <div class="col-sm-4">
-            <h5>Tables</h5>
+            <h5>Tables <i class="fa fa-info-circle" title="When you add a table and its alias it is typically used in FROM section of the query, but you can then add a condition to existing table which moves it to JOIN section."></i></h5>
             <table id="tablesTable" class="table table-hover"></table>
             <div id="add-table-difference">
-                <label for="table-join-type">Join type:
+                <label for="table-join-type">
+                    <i class="fa fa-info-circle" title="If table doesn't have any condition, this is ignored. Otherwise INNER is default type of JOIN."></i> Join type:
                     <select class="form-control" id="table-join-select"></select>
                 </label>
-                <label for="table-name-input">Table name:
+                <label for="table-name-input">
+                    <i class="fa fa-info-circle" title="Name of the table. Some platforms put prefix in front of their table names, but it is prepended automatically, so it shouldn't be used here."></i> Table name:
                     <input class="form-control" id="table-name-input" name="name">
                 </label>
-                <label for="table-alias-input">Table alias:
+                <label for="table-alias-input">
+                    <i class="fa fa-info-circle" title="Table's alias. It should always be used because it solves work with table prefixes."></i> Table alias:
                     <input class="form-control" id="table-alias-input" name="alias">
                 </label>
                 <input class="form-control" value="ADD" type="button" onclick="addTable()">

@@ -106,6 +106,7 @@ Route::group(['middleware' => 'web'], function () {
                                 Route::get('add', 'DifferencesController@add');
                                 Route::get('activate', 'DifferencesController@activate');
                                 Route::get('deactivate', 'DifferencesController@deactivate');
+                                Route::get('restore', 'DifferencesController@restore');
                                 Route::get('delete', 'DifferencesController@delete');
                                 Route::get('/', 'DifferencesController@load');
                             });

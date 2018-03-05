@@ -106,9 +106,15 @@ class DifferencesController extends Controller {
      * @return array
      */
     public function load(Project $project_id, int $resource_id, Request $request) {
-        $differences = ResourceSettingDifference::byResourceSettingId(
+        $differencesQuery = ResourceSettingDifference::byResourceSettingId(
             $this->getResourceSettingId($project_id, $resource_id)
-        )->byEndpoint($request->input('endpoint'))->get(['id', 'type', 'active', 'difference'])->map(function ($item, $key) {
+        )->byEndpoint($request->input('endpoint'));
+
+        if ($request->input('deleted')) {
+            $differencesQuery->withTrashed();
+        }
+
+        $differences = $differencesQuery->get(['id', 'type', 'active', 'difference', 'deleted_at'])->map(function ($item, $key) {
             $item->difference = $item->difference->__toString();
             return $item;
         });
@@ -156,6 +162,17 @@ class DifferencesController extends Controller {
      */
     public function deactivate(Project $project_id, int $resource_id, Request $request) {
         ResourceSettingDifference::find($request->input('id'))->deactivate();
+        return $this->load($project_id, $resource_id, $request);
+    }
+
+    /**
+     * @param Project $project_id
+     * @param int $resource_id
+     * @param Request $request
+     * @return array
+     */
+    public function restore(Project $project_id, int $resource_id, Request $request) {
+        ResourceSettingDifference::withTrashed()->find($request->input('id'))->restore();
         return $this->load($project_id, $resource_id, $request);
     }
 

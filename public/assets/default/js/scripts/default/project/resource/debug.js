@@ -77,7 +77,8 @@ function manageData(data) {
 }
 
 function loadDifferences() {
-    sendRequest('/debug/differences', 'GET', {}, manageDifferences);
+    var data = {deleted: document.getElementById('show-deleted-cb').checked ? 1 : 0};
+    sendRequest('/debug/differences', 'GET', data, manageDifferences);
 }
 
 function manageDifferences(differences) {
@@ -92,13 +93,13 @@ function manageDifferences(differences) {
     differences['differences'].forEach(function (difference) {
         var activationCode = '<input type="checkbox" class="checkbox hover-hand" ' + (difference['active'] ? 'title="Deactivate" onchange="deactivateDifference(' + difference['id'] + ')" checked' : 'title="Activate" onchange="activateDifference(' + difference['id'] + ')"') + '>';
         var differenceCode = '<tr><td>' + difference['difference'] + '</td>';
+        var deleteCode = '<i class="fa hover-hand ' + (difference['deleted_at'] ? 'fa-recycle" title="Restore" onclick="restoreDifference(' + difference['id'] + ')"' : 'fa-trash" title="Delete" onclick="deleteDifference(' + difference['id'] + ')"') + '></i>';
 
         if (difference['type'] === 2) {
-            differenceCode += '<td><i class="fa fa-plus hover-hand" title="Add condition" onclick="showJoinConditionForm(' + difference['id'] + ')"></i></td>'
+            differenceCode += '<td><i class="fa fa-plus hover-hand" title="Add condition" onclick="showJoinConditionForm(' + difference['id'] + ')"></i></td>';
         }
 
-        differenceCode += '<td>' + activationCode + '</td>' +
-            '<td><i class="fa fa-remove hover-hand" title="Delete" onclick="deleteDifference(' + difference['id'] + ')"></i></td></tr>';
+        differenceCode += '<td>' + activationCode + '</td><td>' + deleteCode + '</td></tr>';
 
         if (difference['type'] === 2) {
             differenceCode += getJoinConditionForm(difference['id']);
@@ -209,6 +210,12 @@ function activateDifference(id) {
 function deactivateDifference(id) {
     if (confirm('Do you really want to deactivate this difference?')) {
         sendRequest('/debug/differences/deactivate', 'GET', {'id': id}, manageDifferences);
+    }
+}
+
+function restoreDifference(id) {
+    if (confirm('Do you really want to restore this difference?')) {
+        sendRequest('/debug/differences/restore', 'GET', {'id': id}, manageDifferences);
     }
 }
 
