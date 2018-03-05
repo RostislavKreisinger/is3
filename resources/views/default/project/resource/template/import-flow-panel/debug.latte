@@ -33,7 +33,7 @@
         <input id="endpoint-input" type="hidden">
     </div>
     <div class="form-control-static">
-        <h4>Differences <i class="fa fa-info-circle" title="Differences change query that our API in plugin uses to select objects. When you create a Difference it isn't activated so Import Flow isn't influenced right away. You can activate the difference after you make sure it is working properly using Activate button next to it."></i></h4>
+        <h4>Differences <i class="fa fa-info-circle" title="Differences change query that our API in plugin uses to select objects. When you create a Difference it isn't activated so Import Flow isn't influenced right away. You can activate the difference after you make sure it is working properly using Activate checkbox next to it."></i></h4>
         <div class="col-sm-12">
             <label for="show-deleted-cb">
                 <i class="fa fa-info-circle" title="Show all differences including deleted. Deleted differences aren't used in any calls. This option will show them to provide an opportunity to restore some of them in case they weren't deleted intentionally."></i> Show deleted:
@@ -60,7 +60,7 @@
             </div>
         </div>
         <div class="col-sm-4">
-            <h5>Tables <i class="fa fa-info-circle" title="When you add a table and its alias it is typically used in FROM section of the query, but you can then add a condition to existing table which moves it to JOIN section."></i></h5>
+            <h5>Tables <i class="fa fa-info-circle" title="Table aliases are typically used in FROM section of the query, but adding a condition to existing table moves it to JOIN section."></i></h5>
             <table id="tablesTable" class="table table-hover"></table>
             <div id="add-table-difference">
                 <label for="table-join-type">
@@ -79,22 +79,27 @@
             </div>
         </div>
         <div class="col-sm-4">
-            <h5>Conditions</h5>
+            <h5>Conditions <i class="fa fa-info-circle" title="Conditions are typically used in WHERE section of the query. (But these tips also work for JOIN conditions which are used in ON section of the query.) If any custom condition is used it overrides all default condition which means there should be conditions such as &quot;date_add BETWEEN [[createdFrom]] AND [[createdTo]]&quot; in order for default filters to work. To find out which of the default filters should be specified as conditions, please see what is used in Import-Flow. Default list of values replaced is:&#xA[[createdFrom]]&#xA[[createdTo]]&#xA[[updatedFrom]]&#xA[[updatedTo]]&#xA[[sinceId]]&#xA[[maxId]]&#xA[[id]]&#xA[[foreignId]]&#xASome others such as [[langId]] or [[shopId]] can also be replaced if they are used for that specific endpoint call."></i></h5>
             <table id="conditionsTable" class="table table-hover"></table>
             <div id="add-condition-difference">
-                <label for="condition-operator-select">Operator:
+                <label for="condition-operator-select">
+                    <i class="fa fa-info-circle" title="Operator in front of condition. Space should be used only for first condition."></i> Operator:
                     <select class="form-control" id="condition-operator-select" name="operator"></select>
                 </label>
-                <label for="condition-first-input">First:
+                <label for="condition-first-input">
+                    <i class="fa fa-info-circle" title="Left side of condition. Typically column name (with table alias)."></i> First:
                     <input class="form-control" id="condition-first-input" name="first" onchange="conditionInputManager('')">
                 </label>
-                <label for="condition-compare-operator-select">Compare operator:
+                <label for="condition-compare-operator-select">
+                    <i class="fa fa-info-circle" title="Comparison operator. If the operator needed is missing, raw condition can be specified instead."></i> Compare operator:
                     <select class="form-control" id="condition-compare-operator-select" name="compare-operator"></select>
                 </label>
-                <label for="condition-second-input">Second:
+                <label for="condition-second-input">
+                    <i class="fa fa-info-circle" title="Right side of condition. Typically value or column name (with table alias)."></i> Second:
                     <input class="form-control" id="condition-second-input" name="second" onchange="conditionInputManager('')">
                 </label>
-                <label for="condition-raw-input">Raw table alias text:
+                <label for="condition-raw-input">
+                    <i class="fa fa-info-circle" title="Raw condition input provides ability to enter more complicated conditions. Typical usage could be more conditions that need to be in specific brackets or conditions using comparison operators that are missing in the selection above such as BETWEEN or IN."></i> Raw condition text:
                     <input class="form-control" id="condition-raw-input" name="raw" onchange="conditionInputManager('')">
                 </label>
                 <input class="form-control" value="ADD" type="button" onclick="addCondition('')">
@@ -103,10 +108,12 @@
         <div class="clearfix"></div>
         <div>
             <h5>Additional test call settings</h5>
-            <label for="use-active-cb">Use active:
+            <label for="use-active-cb">
+                <i class="fa fa-info-circle" title="Use active differences. Active differences are used in Import-Flow API calls. If there is a need to create whole new set of differences, active differences can be temporarily disabled for test calls by unchecking this checkbox."></i> Use active:
                 <input type="checkbox" id="use-active-cb" checked>
             </label>
-            <label for="use-inactive-cb">Use inactive:
+            <label for="use-inactive-cb">
+                <i class="fa fa-info-circle" title="Use inactive differences. Inactive differences are only used in test/debug API calls. By unchecking this checkbox it is possible to make test calls using only active differences to simulate Import-Flow calls. By unchecking both checkboxes it is possible to make API calls using original query that can provide useful information on what the tables used for the specified endpoint look like and which column aliases are used for sorting data to resulting data objects."></i> Use inactive:
                 <input type="checkbox" id="use-inactive-cb" checked>
             </label>
         </div>
@@ -114,5 +121,6 @@
     <div class="form-control-static">
         <input class="form-control" value="TEST" type="button" onclick="testCall()">
     </div>
+    <i class="fa fa-info-circle" title="Below are the results of current debug call (or will be after the call is made and the results are retrieved (which can take quite a long time if the server isn't responding, so the TEST button shouldn't be pushed more than once if the results aren't showing yet)). If differences used make any sense and remote server is available, there should be schema of the tables used in query and the query itself included along with one result object, if the query is in good shape and there are any objects that match it, (there will always only be a maximum of ONE object in debug response)."></i>
     <div id="result-block"></div>
 </div>

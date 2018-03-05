@@ -296,7 +296,7 @@ function getJoinConditionForm(id) {
         '<label for="condition-second-input' + id + '">Second: ' +
         '<input class="form-control" id="condition-second-input' + id + '" name="second" onchange="conditionInputManager(' + id + ')">' +
         '</label>' +
-        '<label for="condition-raw-input' + id + '">Raw table alias text: ' +
+        '<label for="condition-raw-input' + id + '">Raw condition text: ' +
         '<input class="form-control" id="condition-raw-input' + id + '" name="raw" onchange="conditionInputManager(' + id + ')">' +
         '</label>' +
         '<input class="form-control" value="ADD" type="button" onclick="addCondition(' + id + ')">' +
