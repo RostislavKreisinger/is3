@@ -27,7 +27,6 @@ class DifferencesController extends Controller {
      * @param Project $project_id
      * @param int $resource_id
      * @param Request $request
-     * @return array
      */
     public function add(Project $project_id, int $resource_id, Request $request) {
         $difference = null;
@@ -95,8 +94,6 @@ class DifferencesController extends Controller {
                 'difference' => $difference
             ]);
         }
-
-        return $this->load($project_id, $resource_id, $request);
     }
 
     /**
@@ -147,44 +144,36 @@ class DifferencesController extends Controller {
      * @param Project $project_id
      * @param int $resource_id
      * @param Request $request
-     * @return array
      */
     public function activate(Project $project_id, int $resource_id, Request $request) {
         ResourceSettingDifference::find($request->input('id'))->activate();
-        return $this->load($project_id, $resource_id, $request);
     }
 
     /**
      * @param Project $project_id
      * @param int $resource_id
      * @param Request $request
-     * @return array
      */
     public function deactivate(Project $project_id, int $resource_id, Request $request) {
         ResourceSettingDifference::find($request->input('id'))->deactivate();
-        return $this->load($project_id, $resource_id, $request);
     }
 
     /**
      * @param Project $project_id
      * @param int $resource_id
      * @param Request $request
-     * @return array
      */
     public function restore(Project $project_id, int $resource_id, Request $request) {
         ResourceSettingDifference::withTrashed()->find($request->input('id'))->restore();
-        return $this->load($project_id, $resource_id, $request);
     }
 
     /**
      * @param Project $project_id
      * @param int $resource_id
      * @param Request $request
-     * @return array
      */
     public function delete(Project $project_id, int $resource_id, Request $request) {
         ResourceSettingDifference::find($request->input('id'))->delete();
-        return $this->load($project_id, $resource_id, $request);
     }
 
     /**

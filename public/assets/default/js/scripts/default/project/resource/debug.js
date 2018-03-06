@@ -198,30 +198,35 @@ function addCondition(id) {
 }
 
 function addDifference(data) {
-    sendRequest('/debug/differences/add', 'GET', data, manageDifferences);
+    sendRequest('/debug/differences/add', 'GET', data);
+    loadDifferences();
 }
 
 function activateDifference(id) {
     if (confirm('Do you really want to activate this difference?')) {
-        sendRequest('/debug/differences/activate', 'GET', {'id': id}, manageDifferences);
+        sendRequest('/debug/differences/activate', 'GET', {'id': id});
+        loadDifferences();
     }
 }
 
 function deactivateDifference(id) {
     if (confirm('Do you really want to deactivate this difference?')) {
-        sendRequest('/debug/differences/deactivate', 'GET', {'id': id}, manageDifferences);
+        sendRequest('/debug/differences/deactivate', 'GET', {'id': id});
+        loadDifferences();
     }
 }
 
 function restoreDifference(id) {
     if (confirm('Do you really want to restore this difference?')) {
-        sendRequest('/debug/differences/restore', 'GET', {'id': id}, manageDifferences);
+        sendRequest('/debug/differences/restore', 'GET', {'id': id});
+        loadDifferences();
     }
 }
 
 function deleteDifference(id) {
     if (confirm('Do you really want to remove this difference?')) {
-        sendRequest('/debug/differences/delete', 'GET', {'id': id}, manageDifferences);
+        sendRequest('/debug/differences/delete', 'GET', {'id': id});
+        loadDifferences();
     }
 }
 
