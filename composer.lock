@@ -1383,16 +1383,16 @@
         },
         {
             "name": "league/flysystem",
-            "version": "1.0.42",
+            "version": "1.0.43",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/flysystem.git",
-                "reference": "09eabc54e199950041aef258a85847676496fe8e"
+                "reference": "1ce7cc142d906ba58dc54c82915d355a9191c8a8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/09eabc54e199950041aef258a85847676496fe8e",
-                "reference": "09eabc54e199950041aef258a85847676496fe8e",
+                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/1ce7cc142d906ba58dc54c82915d355a9191c8a8",
+                "reference": "1ce7cc142d906ba58dc54c82915d355a9191c8a8",
                 "shasum": ""
             },
             "require": {
@@ -1463,7 +1463,7 @@
                 "sftp",
                 "storage"
             ],
-            "time": "2018-01-27T16:03:56+00:00"
+            "time": "2018-03-01T10:27:04+00:00"
         },
         {
             "name": "mikehaertl/php-shellcommand",
@@ -2141,13 +2141,13 @@
             "source": {
                 "type": "git",
                 "url": "git@gitlab.monkeydata.com:composer/import-eshop-data-objects.git",
-                "reference": "fd9ad195e318febc8c8178aed2d2819d733c326a"
+                "reference": "860bd5eada4d8366d6b7dc9ea4ec3f56663b1481"
             },
             "dist": {
                 "type": "tar",
-                "url": "https://composer:uxJ4EhTaf61fo3pnTvK5@composer.monkeydata.com/dist/monkey-import-eshop-data-objects-dev-feature-is-2-presta-api-debug-4db9c5.tar",
-                "reference": "fd9ad195e318febc8c8178aed2d2819d733c326a",
-                "shasum": "98c58a1572735b89196e860ea5279d3f9c589bf8"
+                "url": "https://composer:uxJ4EhTaf61fo3pnTvK5@composer.monkeydata.com/dist/monkey-import-eshop-data-objects-dev-feature-is-2-presta-api-debug-9389e2.tar",
+                "reference": "860bd5eada4d8366d6b7dc9ea4ec3f56663b1481",
+                "shasum": "b30f725b99f5f8281562bc08ece8bbc548cd951b"
             },
             "require": {
                 "php": ">=5.3"
@@ -2169,7 +2169,7 @@
                 }
             ],
             "description": "Data objects for import eshop api feed",
-            "time": "2018-03-01T08:45:15+00:00"
+            "time": "2018-03-05T11:14:52+00:00"
         },
         {
             "name": "monkey/import-eshop-sdk",
@@ -2177,13 +2177,13 @@
             "source": {
                 "type": "git",
                 "url": "git@gitlab.monkeydata.com:composer/import-eshop-sdk.git",
-                "reference": "46264573f59fec39e76d6dad072f8522901f95b8"
+                "reference": "1db18eb9da8b21f1542413e5f5d08771d72d7752"
             },
             "dist": {
                 "type": "tar",
-                "url": "https://composer:uxJ4EhTaf61fo3pnTvK5@composer.monkeydata.com/dist/monkey-import-eshop-sdk-dev-feature-is-2-presta-api-debug-8eda74.tar",
-                "reference": "46264573f59fec39e76d6dad072f8522901f95b8",
-                "shasum": "82d49d65a7a1865464deb260a778a4c7295c0a2c"
+                "url": "https://composer:uxJ4EhTaf61fo3pnTvK5@composer.monkeydata.com/dist/monkey-import-eshop-sdk-dev-feature-is-2-presta-api-debug-d7334a.tar",
+                "reference": "1db18eb9da8b21f1542413e5f5d08771d72d7752",
+                "shasum": "4e894b610a3d914550ad0b951ebfe70645861262"
             },
             "require": {
                 "guzzlehttp/guzzle": "^6.3",
@@ -2212,7 +2212,7 @@
                 }
             ],
             "description": "SDK for import-eshop-api",
-            "time": "2018-03-01T08:40:30+00:00"
+            "time": "2018-03-05T11:06:42+00:00"
         },
         {
             "name": "monkey/o-auth2",

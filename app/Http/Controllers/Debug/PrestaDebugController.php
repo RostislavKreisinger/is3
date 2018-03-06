@@ -79,7 +79,7 @@ class PrestaDebugController extends Controller {
         $endpoint = $request->input('endpoint');
         $active = $request->input('active');
         $inactive = $request->input('inactive');
-        $sdk = new ImportEshopSdk($resource['url'], '53298ea642218f2e034fa3c006b4a344a997e055e2093ec23ddc0e1356e708d0', new JsonSerializer());
+        $sdk = new ImportEshopSdk($resource['url'], $resource['password'], new JsonSerializer());
         $info = $this->getEshopInformation($sdk);
         $managerFunction = 'get' . str_replace(' ', '', self::ENDPOINTS[$endpoint]) . 'Manager';
         $requestManager = $sdk->$managerFunction();
@@ -147,7 +147,6 @@ class PrestaDebugController extends Controller {
         }
 
         foreach ($requestManager->get() as $item) {
-            //return objectToArray($item);
             vd($item);
         }
     }
