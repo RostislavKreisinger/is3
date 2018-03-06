@@ -9,6 +9,7 @@ use Monkey\ImportEshopDataObjects\Base\Differences;
 use Monkey\ImportEshopDataObjects\Entity\Simple\Alias;
 use Monkey\ImportEshopDataObjects\Entity\Simple\Condition;
 use Monkey\ImportEshopDataObjects\Entity\Simple\Join;
+use Monkey\ImportEshopSdk\Helper\DifferencesHelper;
 use Monkey\ImportSupport\Project;
 use Monkey\ImportSupport\ResourceSettingDifference;
 
@@ -18,6 +19,11 @@ use Monkey\ImportSupport\ResourceSettingDifference;
  * @author Lukáš Kielar
  */
 class DifferencesController extends Controller {
+    /**
+     * @var DifferencesHelper $differencesHelper
+     */
+    private $differencesHelper;
+
     /**
      * @var int $resourceSettingId
      */
@@ -85,7 +91,7 @@ class DifferencesController extends Controller {
                 break;
         }
 
-        if (!empty($difference)) {
+        if (!empty($difference) && $this->getDifferencesHelper($project_id, $resource_id)->tableExists()) {
             ResourceSettingDifference::updateOrCreate([
                 'resource_setting_id' => $this->getResourceSettingId($project_id, $resource_id),
                 'endpoint' => $request->input('endpoint'),
@@ -103,6 +109,10 @@ class DifferencesController extends Controller {
      * @return array
      */
     public function load(Project $project_id, int $resource_id, Request $request) {
+        if ($this->getDifferencesHelper($project_id, $resource_id)->tableExists()) {
+            return [];
+        }
+
         $differencesQuery = ResourceSettingDifference::byResourceSettingId(
             $this->getResourceSettingId($project_id, $resource_id)
         )->byEndpoint($request->input('endpoint'));
@@ -177,13 +187,24 @@ class DifferencesController extends Controller {
     }
 
     /**
-     * @param Project $project_id
-     * @param int $resource_id
+     * @return DifferencesHelper
+     */
+    public function getDifferencesHelper(Project $project, int $resourceId): DifferencesHelper {
+        if (is_null($this->differencesHelper)) {
+            $this->differencesHelper = new DifferencesHelper($this->getResourceSettingId($project, $resourceId));
+        }
+
+        return $this->differencesHelper;
+    }
+
+    /**
+     * @param Project $project
+     * @param int $resourceId
      * @return int
      */
-    private function getResourceSettingId(Project $project_id, int $resource_id): int {
+    private function getResourceSettingId(Project $project, int $resourceId): int {
         if (is_null($this->resourceSettingId)) {
-            $this->resourceSettingId = $project_id->getResourceSettings($resource_id)->first()->id;
+            $this->resourceSettingId = $project->getResourceSettings($resourceId)->first()->id;
         }
 
         return $this->resourceSettingId;
