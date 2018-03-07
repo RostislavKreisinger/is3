@@ -118,6 +118,12 @@ etVBSppLCTboRQaET99ZTg==
 
         return mb_substr($key,  $delimiterPos + 1);
     }
+
+    if (!function_exists('is_iterable')) {
+        function is_iterable($var) {
+            return (is_array($var) || $var instanceof Traversable);
+        }
+    }
 }
 
 namespace Monkey {
