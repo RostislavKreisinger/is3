@@ -109,7 +109,7 @@ class DifferencesController extends Controller {
      * @return array
      */
     public function load(Project $project_id, int $resource_id, Request $request) {
-        if ($this->getDifferencesHelper($project_id, $resource_id)->tableExists()) {
+        if (!$this->getDifferencesHelper($project_id, $resource_id)->tableExists()) {
             return [];
         }
 
