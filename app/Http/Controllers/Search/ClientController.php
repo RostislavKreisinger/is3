@@ -20,10 +20,6 @@ class ClientController extends BaseController {
     public function getIndex() {
         $search = Input::get('search', null);
 
-        if (!is_numeric($search)) {
-            $search = Strings::alpha2id($search);
-        }
-
         if (is_numeric($search)) {
             $client = Client::find($search);
 
