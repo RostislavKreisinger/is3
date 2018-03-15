@@ -25,17 +25,21 @@ class IndexController extends BaseController {
                 ->orWhere('email', 'like', "%$originSearch%")
                 ->orWhere('owner', 'like', "%$originSearch%");
         })
-            // ->leftJoin('eshop_type', 'eshop.eshop_type_id', '=', 'eshop_type.id')
-            //->get(['eshop.*', 'eshop_type.type']);
         ->get(['eshop.*']);
 
         if (count($eshops) == 1) {
-            return Redirect::action(DetailController::routeMethod('getIndex'), ['storeId'=>$eshops[0]->eshop_id]);
+            return Redirect::action(DetailController::routeMethod('getIndex'), ['storeId'=>$eshops[0]->id]);
         }
 
         foreach ($eshops as $eshop) {
+            foreach($eshop as $key=>$value) {
+                if ($value == '') {
+                    $eshop->$key = '--';
+                }
+            }
+
             $eshop->type = EshopType::getById($eshop->eshop_type_id);
-            $eshop->link = \URL::action(DetailController::routeMethod("getIndex"), ['storeId'=>$eshop->eshop_id]);
+            $eshop->link = \URL::action(DetailController::routeMethod("getIndex"), ['storeId'=>$eshop->id]);
         }
         View::share('search', $search);
         View::share('eshops', $eshops);

@@ -13,33 +13,57 @@ use Illuminate\Database\Query\Builder;
 use Monkey\Connections\MDOrderAlertConnections;
 use Monkey\Constants\MonkeyData\Resource\EshopType;
 use Monkey\View\View;
+use Monkey\Translator;
 
 class DetailController extends BaseController {
     public function getIndex($storeId) {
-        $eshop = MDOrderAlertConnections::getOrderAlertConnection()->table('eshop')->where('eshop_id', '=', "$storeId")
+        $eshop = MDOrderAlertConnections::getOrderAlertConnection()->table('eshop')->where('eshop.id', '=', "$storeId")
             ->leftJoin('currency', 'eshop.currency_id', '=', 'currency.id')
-            // ->leftJoin('eshop_type', 'eshop.eshop_type_id', '=', 'eshop_type.id')
             ->first(['eshop.*','currency.code']);
 
         if (!is_null($eshop)) {
             $eshop->type = EshopType::getById($eshop->eshop_type_id);
-            View::share("eshop", $eshop);
+
+            if ($eshop->eshop_id == '') {
+                $eshop->eshop_id = '??';
+            }
+
+            foreach($eshop as $key=>$value) {
+                if ($value == '') {
+                    $eshop->$key = '--';
+                }
+            }
+
+            View::share('eshop', $eshop);
+
+            $eshopType = '';
+            if ($eshop->eshop_type_id == EshopType::CODE_LIGHTSPEED) {
+                $eshopType = 'ls';
+            }
+            else if ($eshop->eshop_type_id == EshopType::CODE_WOOCOMMERCE) {
+                $eshopType = 'wc';
+            }
 
             $ordersRaw = MDOrderAlertConnections::getOrderAlertDwConnection()->table("f_order_eshop_" . $storeId)
-                ->leftJoin('d_order_status', 'f_order_eshop_' . $storeId . '.status_id', '=', 'd_order_status.id')
-                ->get(['f_order_eshop_' . $storeId . '.*', 'd_order_status.status', 'd_order_status.title']);
+                ->leftJoin('d_'.$eshopType.'_order_status', 'f_order_eshop_' . $storeId . '.status_id', '=', 'd_'.$eshopType.'_order_status.id')
+                ->get(['f_order_eshop_' . $storeId . '.*', 'd_'.$eshopType.'_order_status.status', 'd_'.$eshopType.'_order_status.title']);
 
             $orders = array();
             foreach ($ordersRaw as $orderRaw) {
                 $orderJSON = json_decode($orderRaw->json, true);
                 $order = array();
-                $order['statusCode'] = $orderRaw->status;
-                $order['statusTitle'] = $orderRaw->title;
+                $order['statusTitle'] = \Tr::translate($orderRaw->title);
 
                 foreach ($orderJSON as $key => $val) {
                     if (is_array($val)) {
                         foreach ($val as $arrayKey => $arrayVal) {
-                            $order[$arrayKey] = $arrayVal;
+                            // skip objects
+                            if (is_integer($arrayKey)) {
+                                continue;
+                            }
+                            else {
+                                $order[$arrayKey] = $arrayVal;
+                            }
                         }
                     } else {
                         $order[$key] = $val;
@@ -48,8 +72,18 @@ class DetailController extends BaseController {
                 array_push($orders, $order);
             }
 
-            $visibleColumns = ["number", "priceIncl", "email", "channel", "statusTitle"];
-            $omittedColumns = ["status", "customStatusId", "firstname", "middlename", "lastname"];
+            $visibleColumns = [];
+            $omittedColumns = [];
+
+            if ($eshop->eshop_type_id == EshopType::CODE_LIGHTSPEED) {
+                $visibleColumns = ["number", "priceIncl", "email", "channel", "statusTitle"];
+                $omittedColumns = ["status", "customStatusId", "firstname", "middlename", "lastname"];
+            }
+            else if ($eshop->eshop_type_id == EshopType::CODE_WOOCOMMERCE) {
+                $visibleColumns = ["number", "email", "channel", "statusTitle", "total","payment_method_title"];
+                $omittedColumns = ["status", "customStatusId", "first_name", "last_name"];
+            }
+
             $columnsConfig = '';
 
             if (!empty($orders)) {
@@ -72,10 +106,15 @@ class DetailController extends BaseController {
                 }
             }
 
-            $columnsConfig .= ', { caption: "Customer Name", calculateCellValue: function(data) { return [data.firstname, data.middlename, data.lastname].join(" "); }}';
+            if ($eshop->eshop_type_id == EshopType::CODE_LIGHTSPEED) {
+                $columnsConfig .= ', { caption: "Customer Name", calculateCellValue: function(data) { return [data.firstname, data.middlename, data.lastname].join(" "); }}';
+            }
+            else if ($eshop->eshop_type_id == EshopType::CODE_WOOCOMMERCE) {
+                $columnsConfig .= ', { caption: "Customer Name", calculateCellValue: function(data) { return [data.first_name, data.last_name].join(" "); }}';
+            }
 
-            View::share("orders", $orders);
-            View::share("columns", $columnsConfig);
+            View::share('orders', $orders);
+            View::share('columns', $columnsConfig);
         }
     }
 }
