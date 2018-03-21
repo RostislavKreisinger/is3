@@ -9,3 +9,5 @@ Homestead.json
 
 .monkeydata.env.backup-*
 /.DS_Store
+
+package-lock.json

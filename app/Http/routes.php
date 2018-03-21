@@ -96,6 +96,21 @@ Route::group(['middleware' => 'web'], function () {
                         Route::group(['prefix' => 'pool'], function() {
                             Route::get("control",  \App\Http\Controllers\Project\Resource\ImportFlowPoolController::getMethodAction('getControlPool'));
                         });
+                        Route::group(['prefix' =>'debug', 'namespace' => 'App\Http\Controllers\Debug'], function () {
+                            Route::group(['prefix' =>'presta'], function () {
+                                Route::get('debug-data', 'PrestaDebugController@debugData');
+                                Route::get('select-endpoint', 'PrestaDebugController@selectEndpoint');
+                                Route::get('/', 'PrestaDebugController@testCall');
+                            });
+                            Route::group(['prefix' => 'differences'], function () {
+                                Route::get('add', 'DifferencesController@add');
+                                Route::get('activate', 'DifferencesController@activate');
+                                Route::get('deactivate', 'DifferencesController@deactivate');
+                                Route::get('restore', 'DifferencesController@restore');
+                                Route::get('delete', 'DifferencesController@delete');
+                                Route::get('/', 'DifferencesController@load');
+                            });
+                        });
                         Route::controller('/', App\Http\Controllers\Project\Resource\DetailController::class);
                     });
 

@@ -70,8 +70,13 @@ etVBSppLCTboRQaET99ZTg==
             $decrypted = $tcrypt->decryptPhrase($text);
             return $decrypted;
         }
-
     // }
+
+    if (!function_exists('is_iterable')) {
+        function is_iterable($var) {
+            return (is_array($var) || $var instanceof Traversable);
+        }
+    }
 }
 
 namespace Monkey {
@@ -82,7 +87,6 @@ namespace Monkey {
         }
         return \action($name, $parameters, $absolute);
     }
-
 }
 
 
