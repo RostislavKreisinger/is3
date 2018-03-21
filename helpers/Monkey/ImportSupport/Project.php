@@ -62,7 +62,7 @@ class Project extends ProjectModel {
     
     /**
      * 
-     * @param type $resourceId
+     * @param int $resourceId
      * @return IResource
      */
     public function getResource($resourceId) {

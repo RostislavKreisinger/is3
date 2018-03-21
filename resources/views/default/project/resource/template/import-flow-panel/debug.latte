@@ -1,0 +1,126 @@
+<div>
+    <script src="{assets 'js/scripts/default/project/resource/debug.js'}"></script>
+    <div class="form-control-static">
+        <i class="fa fa-info-circle pull-right" title="Select which endpoint you want to debug."></i>
+        <ul class="list-inline" id="endpoint-buttons"></ul>
+    </div>
+    <div class="form-control-static" id="param-controls">
+        <h4>Filters <i class="fa fa-info-circle" title="Default filters for selected endpoint."></i></h4>
+        <label for="date-from-input" id="date-from-label">
+            <i class="fa fa-info-circle" title="Select starting datetime for objects' date of creation or update."></i> From:
+            <input type="datetime-local" id="date-from-input" name="from" class="form-control">
+        </label>
+        <label for="date-to-input" id="date-to-label">
+            <i class="fa fa-info-circle" title="Select ending datetime for objects' date of creation or update."></i> To:
+            <input type="datetime-local" id="date-to-input" name="to" class="form-control">
+        </label>
+        <label for="since-id-input" id="since-id-label">
+            <i class="fa fa-info-circle" title="Select the lowest ID of objects (excluded)."></i> Since ID:
+            <input type="number" id="since-id-input" name="since" class="form-control" min="1">
+        </label>
+        <label for="max-id-input" id="max-id-label">
+            <i class="fa fa-info-circle" title="Select the highest ID of objects (excluded)."></i> Max ID:
+            <input type="number" id="max-id-input" name="max" class="form-control" min="1">
+        </label>
+        <label for="only-id-input" id="only-id-label">
+            <i class="fa fa-info-circle" title="Select only one object with this ID."></i> Only ID:
+            <input id="only-id-input" name="id" class="form-control">
+        </label>
+        <label for="only-foreign-input" id="only-foreign-label">
+            <i class="fa fa-info-circle" title="Select objects with this foreign key (for example parent category ID for categories endpoint or order ID for order items endpoint)."></i> Only Foreign Key:
+            <input id="only-foreign-input" name="foreign" class="form-control">
+        </label>
+        <input id="endpoint-input" type="hidden">
+    </div>
+    <div class="form-control-static">
+        <h4>Differences <i class="fa fa-info-circle" title="Differences change query that our API in plugin uses to select objects. When you create a Difference it isn't activated so Import Flow isn't influenced right away. You can activate the difference after you make sure it is working properly using Activate checkbox next to it."></i></h4>
+        <div class="col-sm-12">
+            <label for="show-deleted-cb">
+                <i class="fa fa-info-circle" title="Show all differences including deleted. Deleted differences aren't used in any calls. This option will show them to provide an opportunity to restore some of them in case they weren't deleted intentionally."></i> Show deleted:
+                <input type="checkbox" id="show-deleted-cb" onchange="loadDifferences()">
+            </label>
+        </div>
+        <div class="col-sm-4">
+            <h5>Columns <i class="fa fa-info-circle" title="Columns are used after typically used between SELECT and FROM keywords in query. You can either set column name (including table alias) and column alias which will be transformed into string similar to 'name AS alias' or you can enter your own construction that should remain unchanged."></i></h5>
+            <table id="colsTable" class="table table-hover"></table>
+            <div id="add-column-difference">
+                <label for="column-name-input">
+                    <i class="fa fa-info-circle" title="Input for column name. If more than one table is used in query for this particular endpoint make sure you use correct table alias in column name."></i> Column name:
+                    <input class="form-control" id="column-name-input" name="name" onchange="columnInputManager()">
+                </label>
+                <label for="column-alias-input">
+                    <i class="fa fa-info-circle" title="Input for column alias. The alias should match one of the column aliases in original query otherwise it can't be assigned to response data object."></i> Column alias:
+                    <input class="form-control" id="column-alias-input" name="alias" onchange="columnInputManager()">
+                </label>
+                <label for="column-raw-input">
+                    <i class="fa fa-info-circle" title="Input for raw select statement. If you for example need to use function in select, you should probably enter it here, but remember that you need to include alias matching one of those in original query if you want to see result in response. If you enter something here, those two inputs above it will be ignored."></i> Raw column alias text:
+                    <input class="form-control" id="column-raw-input" name="raw" onchange="columnInputManager()">
+                </label>
+                <input class="form-control" value="ADD" type="button" onclick="addColumn()">
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <h5>Tables <i class="fa fa-info-circle" title="Table aliases are typically used in FROM section of the query, but adding a condition to existing table moves it to JOIN section."></i></h5>
+            <table id="tablesTable" class="table table-hover"></table>
+            <div id="add-table-difference">
+                <label for="table-join-type">
+                    <i class="fa fa-info-circle" title="If table doesn't have any condition, this is ignored. Otherwise INNER is default type of JOIN."></i> Join type:
+                    <select class="form-control" id="table-join-select"></select>
+                </label>
+                <label for="table-name-input">
+                    <i class="fa fa-info-circle" title="Name of the table. Some platforms put prefix in front of their table names, but it is prepended automatically, so it shouldn't be used here."></i> Table name:
+                    <input class="form-control" id="table-name-input" name="name">
+                </label>
+                <label for="table-alias-input">
+                    <i class="fa fa-info-circle" title="Table's alias. It should always be used because it solves work with table prefixes."></i> Table alias:
+                    <input class="form-control" id="table-alias-input" name="alias">
+                </label>
+                <input class="form-control" value="ADD" type="button" onclick="addTable()">
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <h5>Conditions <i class="fa fa-info-circle" title="Conditions are typically used in WHERE section of the query. (But these tips also work for JOIN conditions which are used in ON section of the query.) If any custom condition is used it overrides all default condition which means there should be conditions such as &quot;date_add BETWEEN [[createdFrom]] AND [[createdTo]]&quot; in order for default filters to work. To find out which of the default filters should be specified as conditions, please see what is used in Import-Flow. Default list of values replaced is:&#xA[[createdFrom]]&#xA[[createdTo]]&#xA[[updatedFrom]]&#xA[[updatedTo]]&#xA[[sinceId]]&#xA[[maxId]]&#xA[[id]]&#xA[[foreignId]]&#xASome others such as [[langId]] or [[id_shop]] can also be replaced if they are used for that specific endpoint call."></i></h5>
+            <table id="conditionsTable" class="table table-hover"></table>
+            <div id="add-condition-difference">
+                <label for="condition-operator-select">
+                    <i class="fa fa-info-circle" title="Operator in front of condition. Space should be used only for first condition."></i> Operator:
+                    <select class="form-control" id="condition-operator-select" name="operator"></select>
+                </label>
+                <label for="condition-first-input">
+                    <i class="fa fa-info-circle" title="Left side of condition. Typically column name (with table alias)."></i> First:
+                    <input class="form-control" id="condition-first-input" name="first" onchange="conditionInputManager('')">
+                </label>
+                <label for="condition-compare-operator-select">
+                    <i class="fa fa-info-circle" title="Comparison operator. If the operator needed is missing, raw condition can be specified instead."></i> Compare operator:
+                    <select class="form-control" id="condition-compare-operator-select" name="compare-operator"></select>
+                </label>
+                <label for="condition-second-input">
+                    <i class="fa fa-info-circle" title="Right side of condition. Typically value or column name (with table alias)."></i> Second:
+                    <input class="form-control" id="condition-second-input" name="second" onchange="conditionInputManager('')">
+                </label>
+                <label for="condition-raw-input">
+                    <i class="fa fa-info-circle" title="Raw condition input provides ability to enter more complicated conditions. Typical usage could be more conditions that need to be in specific brackets or conditions using comparison operators that are missing in the selection above such as BETWEEN or IN."></i> Raw condition text:
+                    <input class="form-control" id="condition-raw-input" name="raw" onchange="conditionInputManager('')">
+                </label>
+                <input class="form-control" value="ADD" type="button" onclick="addCondition('')">
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <div>
+            <h5>Additional test call settings</h5>
+            <label for="use-active-cb">
+                <i class="fa fa-info-circle" title="Use active differences. Active differences are used in Import-Flow API calls. If there is a need to create whole new set of differences, active differences can be temporarily disabled for test calls by unchecking this checkbox."></i> Use active:
+                <input type="checkbox" id="use-active-cb" checked>
+            </label>
+            <label for="use-inactive-cb">
+                <i class="fa fa-info-circle" title="Use inactive differences. Inactive differences are only used in test/debug API calls. By unchecking this checkbox it is possible to make test calls using only active differences to simulate Import-Flow calls. By unchecking both checkboxes it is possible to make API calls using original query that can provide useful information on what the tables used for the specified endpoint look like and which column aliases are used for sorting data to resulting data objects."></i> Use inactive:
+                <input type="checkbox" id="use-inactive-cb" checked>
+            </label>
+        </div>
+    </div>
+    <div class="form-control-static">
+        <input class="form-control" value="TEST" type="button" onclick="testCall()">
+    </div>
+    <i class="fa fa-info-circle" title="Below are the results of current debug call (or will be after the call is made and the results are retrieved (which can take quite a long time if the server isn't responding, so the TEST button shouldn't be pushed more than once if the results aren't showing yet)). If differences used make any sense and remote server is available, there should be schema of the tables used in query and the query itself included along with one result object, if the query is in good shape and there are any objects that match it, (there will always only be a maximum of ONE object in debug response)."></i>
+    <div id="result-block"></div>
+</div>
