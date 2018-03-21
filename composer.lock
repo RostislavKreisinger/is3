@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "292afedfae06b967341779a91f9da1c1",
+    "content-hash": "5ea7e0cf24e886fae92a38ab2c670060",
     "packages": [
         {
             "name": "barryvdh/laravel-ide-helper",
@@ -2137,17 +2137,17 @@
         },
         {
             "name": "monkey/import-eshop-data-objects",
-            "version": "dev-feature/is-2-presta-api-debug",
+            "version": "1.1.0",
             "source": {
                 "type": "git",
                 "url": "git@gitlab.monkeydata.com:composer/import-eshop-data-objects.git",
-                "reference": "860bd5eada4d8366d6b7dc9ea4ec3f56663b1481"
+                "reference": "3c7652caa373c9c1eedbc5cd44d15705411c344a"
             },
             "dist": {
                 "type": "tar",
-                "url": "https://composer:uxJ4EhTaf61fo3pnTvK5@composer.monkeydata.com/dist/monkey-import-eshop-data-objects-dev-feature-is-2-presta-api-debug-9389e2.tar",
-                "reference": "860bd5eada4d8366d6b7dc9ea4ec3f56663b1481",
-                "shasum": "b30f725b99f5f8281562bc08ece8bbc548cd951b"
+                "url": "https://composer:uxJ4EhTaf61fo3pnTvK5@composer.monkeydata.com/dist/monkey-import-eshop-data-objects-1.1.0-749c80.tar",
+                "reference": "3c7652caa373c9c1eedbc5cd44d15705411c344a",
+                "shasum": "c5e38f881430bc846f7f392ed77a5aa7f62c94a1"
             },
             "require": {
                 "php": ">=5.3"
@@ -2169,21 +2169,21 @@
                 }
             ],
             "description": "Data objects for import eshop api feed",
-            "time": "2018-03-05T11:14:52+00:00"
+            "time": "2018-03-21T18:05:22+00:00"
         },
         {
             "name": "monkey/import-eshop-sdk",
-            "version": "dev-feature/is-2-presta-api-debug",
+            "version": "1.1.0",
             "source": {
                 "type": "git",
                 "url": "git@gitlab.monkeydata.com:composer/import-eshop-sdk.git",
-                "reference": "05a33a245252e0f0e96c4132b241a6f36c45853e"
+                "reference": "7ea8defef78861c50d5718bd695ae47f345da32f"
             },
             "dist": {
                 "type": "tar",
-                "url": "https://composer:uxJ4EhTaf61fo3pnTvK5@composer.monkeydata.com/dist/monkey-import-eshop-sdk-dev-feature-is-2-presta-api-debug-f32bab.tar",
-                "reference": "05a33a245252e0f0e96c4132b241a6f36c45853e",
-                "shasum": "736b484dc50d58ac795944a6e07dbf7314d5bb7c"
+                "url": "https://composer:uxJ4EhTaf61fo3pnTvK5@composer.monkeydata.com/dist/monkey-import-eshop-sdk-1.1.0-5a7676.tar",
+                "reference": "7ea8defef78861c50d5718bd695ae47f345da32f",
+                "shasum": "678599d763aff8b360453ce2be574105c40876fc"
             },
             "require": {
                 "guzzlehttp/guzzle": "^6.3",
@@ -2191,7 +2191,7 @@
                 "monkey/date-time": "^1.3",
                 "monkey/import-eshop-data-objects": "^1.0.0",
                 "monkey/vardump": "^1.2",
-                "nilportugues/serializer": "^1.3.0",
+                "nilportugues/serializer": "^1.4.0",
                 "php": ">=7.0.0"
             },
             "require-dev": {
@@ -2212,7 +2212,7 @@
                 }
             ],
             "description": "SDK for import-eshop-api",
-            "time": "2018-03-06T14:59:06+00:00"
+            "time": "2018-03-21T18:09:17+00:00"
         },
         {
             "name": "monkey/o-auth2",
@@ -2792,17 +2792,17 @@
         },
         {
             "name": "nilportugues/serializer",
-            "version": "dev-is-2-presta-api-debug",
+            "version": "1.4.0",
             "source": {
                 "type": "git",
                 "url": "git@gitlab.monkeydata.com:nilportugues/php-serializer.git",
-                "reference": "2d12a51726589b220f386573af86392c2504f97d"
+                "reference": "5501624845c7053410525435573ca708792d39cd"
             },
             "dist": {
                 "type": "tar",
-                "url": "https://composer:uxJ4EhTaf61fo3pnTvK5@composer.monkeydata.com/dist/nilportugues-serializer-dev-is-2-presta-api-debug-f9d35a.tar",
-                "reference": "2d12a51726589b220f386573af86392c2504f97d",
-                "shasum": "c76290cec21c311c4cfdedb9875356c23d2d9869"
+                "url": "https://composer:uxJ4EhTaf61fo3pnTvK5@composer.monkeydata.com/dist/nilportugues-serializer-1.4.0-98e3e0.tar",
+                "reference": "5501624845c7053410525435573ca708792d39cd",
+                "shasum": "9b289fa9ef7d918c97833239974ae1c89960d72d"
             },
             "require": {
                 "php": ">=5.3.3",
@@ -2847,7 +2847,7 @@
                 "serialize",
                 "serializer"
             ],
-            "time": "2018-03-01T09:13:35+00:00"
+            "time": "2018-03-21T18:01:16+00:00"
         },
         {
             "name": "paragonie/random_compat",
@@ -5634,32 +5634,9 @@
             "time": "2018-01-29T19:49:41+00:00"
         }
     ],
-    "aliases": [
-        {
-            "alias": "1.0.1",
-            "alias_normalized": "1.0.1.0",
-            "version": "dev-feature/is-2-presta-api-debug",
-            "package": "monkey/import-eshop-sdk"
-        },
-        {
-            "alias": "1.0.1",
-            "alias_normalized": "1.0.1.0",
-            "version": "dev-feature/is-2-presta-api-debug",
-            "package": "monkey/import-eshop-data-objects"
-        },
-        {
-            "alias": "1.3.1",
-            "alias_normalized": "1.3.1.0",
-            "version": "dev-is-2-presta-api-debug",
-            "package": "nilportugues/serializer"
-        }
-    ],
+    "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "monkey/import-eshop-sdk": 20,
-        "monkey/import-eshop-data-objects": 20,
-        "nilportugues/serializer": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
