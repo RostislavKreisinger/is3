@@ -10,6 +10,7 @@ function sendRequest(url, method, data, callback) {
 
             try {
                 response = JSON.parse(response);
+            } catch (e) {
             } finally {
                 callback(response);
             }
