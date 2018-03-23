@@ -61,8 +61,11 @@ function testCall() {
     sendRequest('/debug/presta', 'GET', params, showResult);
 }
 
-function selectEndpoint(endpoint) {
-    event.preventDefault();
+function selectEndpoint(event, endpoint) {
+    if (event) {
+        event.preventDefault();
+    }
+
     var focusedButtons = document.querySelectorAll('#endpoint-buttons .focus');
     [].forEach.call(focusedButtons, function (button) {
         button.classList.remove('focus');
@@ -143,11 +146,11 @@ function addButtons(endpoints) {
 
     for (var index in endpoints) {
         if (endpoints.hasOwnProperty(index)) {
-            document.getElementById('endpoint-buttons').innerHTML += '<li><button id="button-' + index + '" class="btn btn-default" onclick="selectEndpoint(\'' + index + '\')">' + endpoints[index] + '</button></li>';
+            document.getElementById('endpoint-buttons').innerHTML += '<li><button id="button-' + index + '" class="btn btn-default" onclick="selectEndpoint(event, \'' + index + '\')">' + endpoints[index] + '</button></li>';
         }
     }
 
-    selectEndpoint('orders');
+    selectEndpoint(null, 'orders');
 }
 
 function addColumn() {
