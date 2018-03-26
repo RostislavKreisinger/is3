@@ -116,6 +116,10 @@
                 <i class="fa fa-info-circle" title="Use inactive differences. Inactive differences are only used in test/debug API calls. By unchecking this checkbox it is possible to make test calls using only active differences to simulate Import-Flow calls. By unchecking both checkboxes it is possible to make API calls using original query that can provide useful information on what the tables used for the specified endpoint look like and which column aliases are used for sorting data to resulting data objects."></i> Use inactive:
                 <input type="checkbox" id="use-inactive-cb" checked>
             </label>
+            <label for="use-debug-cb">
+                <i class="fa fa-info-circle" title="Use debug call. By default debug calls are used in this context as their responses contain debug data - schema of tables used in query, current SQL query and 1 data object. Non-debug call will return all matching data objects, which isn't desirable in most cases."></i> Use debug call:
+                <input type="checkbox" id="use-debug-cb" checked onchange="nonDebugConfirm()">
+            </label>
         </div>
     </div>
     <div class="form-control-static">

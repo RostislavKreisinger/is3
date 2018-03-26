@@ -48,6 +48,7 @@ function testCall() {
     var params = [];
     params['active'] = document.getElementById('use-active-cb').checked ? 1 : 0;
     params['inactive'] = document.getElementById('use-inactive-cb').checked ? 1 : 0;
+    params['debug'] = document.getElementById('use-debug-cb').checked ? 1 : 0;
     params['endpoint'] = endpoint;
     [].forEach.call(paramLabels, function (label) {
         if (label.style.display !== 'none') {
@@ -226,6 +227,14 @@ function restoreDifference(id) {
 function deleteDifference(id) {
     if (confirm('Do you really want to remove this difference?')) {
         sendRequest('/debug/differences/delete', 'GET', {'id': id}, loadDifferences);
+    }
+}
+
+function nonDebugConfirm() {
+    var debugCB = document.getElementById('use-debug-cb');
+
+    if (!debugCB.checked && !confirm("Are you sure you want to make non-debug call? Please make sure there won't be too many results.")) {
+        debugCB.checked = true;
     }
 }
 
