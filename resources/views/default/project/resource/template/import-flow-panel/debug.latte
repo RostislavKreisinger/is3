@@ -79,7 +79,7 @@
             </div>
         </div>
         <div class="col-sm-4">
-            <h5>Conditions <i class="fa fa-info-circle" title="Conditions are typically used in WHERE section of the query. (But these tips also work for JOIN conditions which are used in ON section of the query.) If any custom condition is used it overrides all default condition which means there should be conditions such as &quot;date_add BETWEEN [[createdFrom]] AND [[createdTo]]&quot; in order for default filters to work. To find out which of the default filters should be specified as conditions, please see what is used in Import-Flow. Default list of values replaced is:&#xA[[createdFrom]]&#xA[[createdTo]]&#xA[[updatedFrom]]&#xA[[updatedTo]]&#xA[[sinceId]]&#xA[[maxId]]&#xA[[id]]&#xA[[foreignId]]&#xASome others such as [[langId]] or [[id_shop]] can also be replaced if they are used for that specific endpoint call."></i></h5>
+            <h5>Conditions <i class="fa fa-info-circle" title="Conditions are typically used in WHERE section of the query. (But these tips also work for JOIN conditions which are used in ON section of the query.) If any custom condition is used it overrides all default condition which means there should be conditions such as &quot;date_add BETWEEN [[createdFrom]] AND [[createdTo]]&quot; in order for default filters to work. To find out which of the default filters should be specified as conditions, please see what is used in Import-Flow. Default list of values replaced is:&#xA[[createdFrom]]&#xA[[createdTo]]&#xA[[updatedFrom]]&#xA[[updatedTo]]&#xA[[sinceId]]&#xA[[maxId]]&#xA[[id]]&#xA[[foreignKey]]&#xASome others such as [[langId]] or [[id_shop]] can also be replaced if they are used for that specific endpoint call."></i></h5>
             <table id="conditionsTable" class="table table-hover"></table>
             <div id="add-condition-difference">
                 <label for="condition-operator-select">
@@ -115,6 +115,10 @@
             <label for="use-inactive-cb">
                 <i class="fa fa-info-circle" title="Use inactive differences. Inactive differences are only used in test/debug API calls. By unchecking this checkbox it is possible to make test calls using only active differences to simulate Import-Flow calls. By unchecking both checkboxes it is possible to make API calls using original query that can provide useful information on what the tables used for the specified endpoint look like and which column aliases are used for sorting data to resulting data objects."></i> Use inactive:
                 <input type="checkbox" id="use-inactive-cb" checked>
+            </label>
+            <label for="use-debug-cb">
+                <i class="fa fa-info-circle" title="Use debug call. By default debug calls are used in this context as their responses contain debug data - schema of tables used in query, current SQL query and 1 data object. Non-debug call will return all matching data objects, which isn't desirable in most cases."></i> Use debug call:
+                <input type="checkbox" id="use-debug-cb" checked onchange="nonDebugConfirm()">
             </label>
         </div>
     </div>

@@ -10,6 +10,7 @@ function sendRequest(url, method, data, callback) {
 
             try {
                 response = JSON.parse(response);
+            } catch (e) {
             } finally {
                 callback(response);
             }
@@ -47,6 +48,7 @@ function testCall() {
     var params = [];
     params['active'] = document.getElementById('use-active-cb').checked ? 1 : 0;
     params['inactive'] = document.getElementById('use-inactive-cb').checked ? 1 : 0;
+    params['debug'] = document.getElementById('use-debug-cb').checked ? 1 : 0;
     params['endpoint'] = endpoint;
     [].forEach.call(paramLabels, function (label) {
         if (label.style.display !== 'none') {
@@ -60,8 +62,11 @@ function testCall() {
     sendRequest('/debug/presta', 'GET', params, showResult);
 }
 
-function selectEndpoint(endpoint) {
-    event.preventDefault();
+function selectEndpoint(event, endpoint) {
+    if (event) {
+        event.preventDefault();
+    }
+
     var focusedButtons = document.querySelectorAll('#endpoint-buttons .focus');
     [].forEach.call(focusedButtons, function (button) {
         button.classList.remove('focus');
@@ -142,11 +147,11 @@ function addButtons(endpoints) {
 
     for (var index in endpoints) {
         if (endpoints.hasOwnProperty(index)) {
-            document.getElementById('endpoint-buttons').innerHTML += '<li><button id="button-' + index + '" class="btn btn-default" onclick="selectEndpoint(\'' + index + '\')">' + endpoints[index] + '</button></li>';
+            document.getElementById('endpoint-buttons').innerHTML += '<li><button id="button-' + index + '" class="btn btn-default" onclick="selectEndpoint(event, \'' + index + '\')">' + endpoints[index] + '</button></li>';
         }
     }
 
-    selectEndpoint('orders');
+    selectEndpoint(null, 'orders');
 }
 
 function addColumn() {
@@ -222,6 +227,14 @@ function restoreDifference(id) {
 function deleteDifference(id) {
     if (confirm('Do you really want to remove this difference?')) {
         sendRequest('/debug/differences/delete', 'GET', {'id': id}, loadDifferences);
+    }
+}
+
+function nonDebugConfirm() {
+    var debugCB = document.getElementById('use-debug-cb');
+
+    if (!debugCB.checked && !confirm("Are you sure you want to make non-debug call? Please make sure there won't be too many results.")) {
+        debugCB.checked = true;
     }
 }
 

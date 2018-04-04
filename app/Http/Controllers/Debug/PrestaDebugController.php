@@ -84,7 +84,7 @@ class PrestaDebugController extends Controller {
         $managerFunction = 'get' . str_replace(' ', '', self::ENDPOINTS[$endpoint]) . 'Manager';
         $requestManager = $sdk->$managerFunction();
         $apiRequest = $requestManager->getRequest();
-        $apiRequest->setDebug(true);
+        $apiRequest->setDebug($request->input('debug') ?? true);
         $apiRequest->addCurrentDefaultSettings((new CurrentSetting())->setKey('id_shop')->setValue($info['id_shop']));
         $apiRequest->addCurrentDefaultSettings((new CurrentSetting())->setKey('id_shop_group')->setValue($info['id_shop_group']));
 
