@@ -75,7 +75,7 @@
     "repositories": [
         {
             "type": "composer",
-            "url": "https://composer:uxJ4EhTaf61fo3pnTvK5@composer.monkeydata.com"
+            "url": "https://composer.monkeydata.com"
         }
     ]
 }
