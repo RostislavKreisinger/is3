@@ -1,43 +1,45 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 namespace App\Http\Controllers\Project\Resource;
+
 
 use App\Http\Controllers\Project\Controller;
 use App\Http\Controllers\Project\DetailController as ProjectDetailController;
 use App\Http\Controllers\User\DetailController as UserDetailController;
 use App\Model\Currency;
 use App\Model\EshopType;
+use App\Model\ImportSupport\ResourceError;
+use Eloquent;
 use Exception;
+use Illuminate\Database\Eloquent\Collection;
 use Monkey\Breadcrump\BreadcrumbItem;
 use Monkey\Connections\MDDatabaseConnections;
 use Monkey\ImportSupport\Project;
 use Monkey\View\ViewFinder;
+use stdClass;
 
 /**
- * Description of HomepageController
- *
+ * Class DetailController
+ * @package App\Http\Controllers\Project\Resource
  * @author Tomas
  */
 class DetailController extends Controller {
-
     /**
-     *
      * @var Project
      */
     private $project;
 
     /**
-     *
      * @var Resource
      */
     private $resource;
 
+    /**
+     * @param $projectId
+     * @param $resourceId
+     * @throws Exception
+     */
     public function getIndex($projectId, $resourceId) {
         $this->project = $project = Project::find($projectId);
         $this->resource = $resource = $project->getResource($resourceId);
@@ -88,10 +90,20 @@ class DetailController extends Controller {
         $this->getView()->addParameter('connectionDetail', $connectionDetail);
         $this->getView()->addParameter('resourceErrors', $resourceErrors);
 
-        $this->prepareMenu($project);
+        $sqls = $this->getSqlFromModel($project);
+        $sqls .= $this->getSqlFromModel($project->getUser());
+        $sqls .= $this->getSqlFromModel($project->getUser()->getClient());
+        $sqls .= $this->getSqlFromModel($project->getResourceSettings($resourceId)->first());
+        $sqls .= $this->getResourceDetailSql($resourceDetail, $resource->tbl_setting);
+        $this->getView()->addParameter('rsexport', $sqls);
 
+        $this->prepareMenu($project);
     }
 
+    /**
+     * @param array $parameters
+     * @return void
+     */
     protected function breadcrumbAfterAction($parameters = array()) {
         $breadcrumbs = parent::breadcrumbAfterAction();
         $breadcrumbs->addBreadcrumbItem(new BreadcrumbItem('user', 'User', \Monkey\action(UserDetailController::class, ['user_id' => $this->project->user_id])));
@@ -99,8 +111,56 @@ class DetailController extends Controller {
         $breadcrumbs->addBreadcrumbItem(new BreadcrumbItem('resource', 'Resource', \Monkey\action(self::class, ['project_id' => $this->project->id, 'resource_id' => $this->resource->id])));
     }
 
+    /**
+     * @return Collection|static[]
+     */
     protected function getErrors() {
-        return \App\Model\ImportSupport\ResourceError::all();
+        return ResourceError::all();
     }
-    
+
+    /**
+     * @param Eloquent $model
+     * @return string
+     */
+    private function getSqlFromModel(Eloquent $model): string {
+        $sql = "INSERT INTO `" . $model->getTable() . "` SET ";
+        $values = [];
+
+        foreach ($model->getAttributes() as $name => $value) {
+            if (is_null($value)) {
+                $values[] = "`{$name}` = NULL";
+            } else {
+                $values[] = "`{$name}` = '{$value}'";
+            }
+        }
+
+        $sql .= implode(', ', $values) . ';' . PHP_EOL;
+        return $sql;
+    }
+
+    /**
+     * @param stdClass $object
+     * @param string $table
+     * @return string
+     */
+    private function getResourceDetailSql(stdClass $object, string $table) {
+        $resource_detail_columns = MDDatabaseConnections::getMasterAppConnection()->getSchemaBuilder()->getColumnListing($table);
+        $sql = "INSERT INTO `" . $table . "` SET ";
+        $values = [];
+
+        foreach (get_object_vars($object) as $name => $value) {
+            if (!in_array($name, $resource_detail_columns)) {
+                continue;
+            }
+
+            if (is_null($value)) {
+                $values[] = "`{$name}` = NULL";
+            } else {
+                $values[] = "`{$name}` = '{$value}'";
+            }
+        }
+
+        $sql .= implode(', ', $values) . ';' . PHP_EOL;
+        return $sql;
+    }
 }
