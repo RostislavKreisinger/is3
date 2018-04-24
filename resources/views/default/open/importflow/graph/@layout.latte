@@ -1,0 +1,44 @@
+{*
+
+<div id="wrapper">
+    {view 'default.views.menu'}
+
+    <div id="page-wrapper">
+        <div class="row breadcrumbs">
+            <div class="col-lg-12 col-md-12">
+                <span n:foreach="$breadcrumbs as $key => $breadcrumb">
+                    <a href="{$breadcrumb->getUrl()}">{$breadcrumb->getBtf()}</a> 
+                    <span n:if="$key+1 !== count($breadcrumbs)" class="fa fa-caret-right"></span>
+                </span>
+            </div>
+        </div>
+        {view $body}
+    </div>
+</div>
+{view 'default.scripts'}
+
+ *}
+
+
+{view $body}
+{view 'default.scripts'}
+
+<script>
+    var results = "";
+
+    function getTwoDigitNumber(num) {
+        if(num < 10) {
+            num = "0" + num;
+        }
+        return num;
+    }
+
+    var date = new Date();
+    results = getTwoDigitNumber(date.getMonth()+1) + "-"
+        + getTwoDigitNumber(date.getDate()) + " "
+        + getTwoDigitNumber(date.getHours()) + ":"
+        + getTwoDigitNumber(date.getMinutes()) + ":"
+        + getTwoDigitNumber(date.getSeconds());
+
+    $("#currentDateIFStatuses").text(results);
+</script>

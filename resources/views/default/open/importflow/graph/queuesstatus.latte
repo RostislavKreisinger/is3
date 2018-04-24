@@ -1,0 +1,110 @@
+
+
+
+<div id="chart-import-flow-queues" style="position: fixed; bottom: 1%; left: 1%; right: 1%; top: 1%; "></div>
+<script>
+
+    window.chartImportFlowQueuesUrl = "{action 'Api\ImportFlow\Graphs\QueuesStatusController'}";
+    // window.chartImportFlowQueuesUrl = "http://localhost/import-support-v3.monkeydata.com/public/api/import-flow/graphs/queues-status";
+</script>
+<script>
+                $(function() {
+                    $("#chart-import-flow-queues").dxChart({
+                        dataSource: [],
+                        title:{
+                            text: "Jobs in queues",
+                            horizontalAlignment: "left"
+                        },
+                        commonSeriesSettings: {
+                            argumentField: "category",
+                            type: "bar",
+                            cornerRadius: 2,
+                            label: {
+                                visible: true,
+                                backgroundColor: 'transparent',
+                                font: {
+                                    weight: 700,
+                                    size: 14
+                                }
+                            }
+                        },
+                        series: [
+                            {
+                                name: 'ACTIVE',
+                                valueField: "active_1",
+                                color: '#12a010',
+                                label: {
+                                    font: {
+                                        color: '#12a010',
+                                    }
+                                }
+                            },
+                            {
+                                name: 'PLANNED',
+                                valueField: "active_2",
+                                color: '#0083ff',
+                                label: {
+                                    font: {
+                                        color: '#0083ff',
+                                    }
+                                }
+                            },
+                            {
+                                name: 'RUNNING',
+                                valueField: "active_5",
+                                color: '#FF8C00',
+                                label: {
+                                    font: {
+                                        color: '#FF8C00',
+                                    }
+                                }
+                            },
+                        ]
+                    });
+
+                    function reloadChartImportFlowQueues(){
+                        var ajax = new MDAjax({
+                            url: window.chartImportFlowQueuesUrl,
+                            data: {},
+                            timeout: 30000,
+                            beforeSend: function (xhr) {},
+                            success: function (data) {
+                                var dxInstace = $("#chart-import-flow-queues").dxChart("instance");
+                                dxInstace.option('dataSource', data);
+
+                                setTimeout(reloadChartImportFlowQueues, 10000);
+                            },
+                            error: function (xhr, status, error) {
+                                setTimeout(reloadChartImportFlowQueues, 10000);
+                            },
+                            statusCode: {},
+                        });
+                    }
+                    reloadChartImportFlowQueues();
+
+
+                });
+            </script>
+
+
+
+
+<script>
+    var results = "";
+
+    function getTwoDigitNumber(num) {
+        if(num < 10) {
+            num = "0" + num;
+        }
+        return num;
+    }
+
+    var date = new Date();
+    results = getTwoDigitNumber(date.getMonth()+1) + "-"
+            + getTwoDigitNumber(date.getDate()) + " "
+            + getTwoDigitNumber(date.getHours()) + ":"
+            + getTwoDigitNumber(date.getMinutes()) + ":"
+            + getTwoDigitNumber(date.getSeconds());
+
+    $("#currentDateIFStatuses").text(results);
+</script>

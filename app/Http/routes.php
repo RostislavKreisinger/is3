@@ -12,18 +12,32 @@ Route::group(['middleware' => 'web'], function () {
     });
     
     Route::controller('test', App\Http\Controllers\Test\TestController::class);
-    
+
+    Route::group(['prefix' => 'open'], function (){
+        Route::group(['prefix' => 'import-flow'], function (){
+            Route::group(['prefix' => 'graph'], function (){
+                Route::controller('/queues-status', \App\Http\Controllers\Open\ImportFlow\Graph\QueuesStatusController::class);
+                Route::controller('/queues-jobs-in-time', App\Http\Controllers\Open\ImportFlow\Graph\QueuesJobsInTimeController::class);
+                Route::controller('/queues-jobs-in-time-history', App\Http\Controllers\Open\ImportFlow\Graph\QueuesJobsInTimeHistoryController::class);
+            });
+        });
+    });
+
+    Route::group(['prefix' => 'api'], function(){
+        Route::group(['prefix' => 'import-flow'], function(){
+            Route::group(['prefix' => 'graphs'], function(){
+                Route::controller('/queues-status', App\Http\Controllers\Api\ImportFlow\Graphs\QueuesStatusController::class);
+                Route::controller('/queues-times-status', App\Http\Controllers\Api\ImportFlow\Graphs\QueuesTimesStatusController::class);
+                Route::controller('/queues-jobs-in-time', App\Http\Controllers\Api\ImportFlow\Graphs\QueuesJobsInTimeController::class);
+                Route::controller('/queues-jobs-in-time-history', App\Http\Controllers\Api\ImportFlow\Graphs\QueuesJobsInTimeHistoryController::class);
+            });
+        });
+    });
     
     Route::group(['middleware' => 'auth'], function (){
+
         Route::group(['prefix' => 'api'], function(){
-            Route::group(['prefix' => 'import-flow'], function(){
-                Route::group(['prefix' => 'graphs'], function(){
-                    Route::controller('/queues-status', App\Http\Controllers\Api\ImportFlow\Graphs\QueuesStatusController::class);
-                    Route::controller('/queues-times-status', App\Http\Controllers\Api\ImportFlow\Graphs\QueuesTimesStatusController::class);
-                    Route::controller('/queues-jobs-in-time', App\Http\Controllers\Api\ImportFlow\Graphs\QueuesJobsInTimeController::class);
-                    Route::controller('/queues-jobs-in-time-history', App\Http\Controllers\Api\ImportFlow\Graphs\QueuesJobsInTimeHistoryController::class);
-                });
-            });
+
         });
 
         Route::group(['prefix' => 'button'], function(){

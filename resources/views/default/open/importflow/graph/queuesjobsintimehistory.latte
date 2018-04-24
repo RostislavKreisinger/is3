@@ -1,0 +1,129 @@
+
+<div id="chart-import-flow-queues-jobs-in-time-history"  style="position: fixed; bottom: 1%; left: 1%; right: 1%; top: 1%; "></div>
+<script>
+    window.chartImportFlowQueuesJobsInTimeHistoryUrl = "{action 'Api\ImportFlow\Graphs\QueuesJobsInTimeHistoryController'}";
+    // window.chartImportFlowQueuesUrl = "http://localhost/import-support-v3.monkeydata.com/public/api/import-flow/graphs/queues-status";
+</script>
+<script>
+    $(function() {
+        var selector =$("#chart-import-flow-queues-jobs-in-time-history");
+        selector.dxChart({
+            dataSource: [],
+            title:{
+                text: "Jobs in queue in time (history)",
+                horizontalAlignment: "left"
+            },
+            valueAxis: {
+                min: 0
+//                                label: {
+//                                    customizeText: function(arg){
+//                                        return mdFormat.formatSecondToTime(arg.value);
+//                                    }
+//                                }
+            },
+            argumentAxis: {
+                argumentType: 'datetime',
+                label: {
+                    overlappingBehavior: {
+                        mode: 'stagger',
+                        staggeringSpacing: 5,
+                        rotationAngle: 90
+                    }
+                }
+            },
+            commonSeriesSettings: {
+                argumentField: "category",
+                type: "spline",
+                point: {
+                    size: 1
+                },
+                hoverMode: 'allArgumentPoints'
+//                                label: {
+//                                    visible: false,
+//                                    backgroundColor: 'transparent',
+//                                    font: {
+//                                        weight: 700,
+//                                        size: 14
+//                                    }
+//                                }
+            },
+
+            series: [
+                {
+                    name: 'MIN',
+                    valueField: "min",
+                    color: '#12a010',
+                    label: {
+                        font: {
+                            color: '#12a010',
+                        }
+                    },
+                    width: 1
+                },
+                {
+                    name: 'AVG',
+                    valueField: "value",
+                    color: '#0083ff',
+                    label: {
+                        font: {
+                            color: '#0083ff',
+                        }
+                    },
+                    width: 3
+                },
+                {
+                    name: 'MAX',
+                    valueField: "max",
+                    color: '#FF8C00',
+                    label: {
+                        font: {
+                            color: '#FF8C00',
+                        }
+                    },
+                    width: 1
+                }
+
+            ],
+            tooltip: {
+                enabled: true,
+                shared: true,
+                customizeTooltip: function(point){
+                    var date = mdDate.clone(point.argument);
+                    var pointsTable = '<table>';
+                    $.each(point.points, function(index, current){
+                        var pointHtml = "<tr style='color: " + current.point.getColor() + "; font-weight: bold;'><td>"+current.seriesName+"</td><td style='padding-left: 10px;'>"+current.value+"</td></tr>";
+                        pointsTable += pointHtml;
+                    });
+                    pointsTable += '</table>';
+                    return { html: '<div>' + date.getFormatDate('y-m-d h:i:s') + '</div><div>' + pointsTable + '</div>' };
+                }
+            },
+        });
+
+        function reloadChartImportFlowQueuesJobsInTimeHistory(){
+            var ajax = new MDAjax({
+                url: window.chartImportFlowQueuesJobsInTimeHistoryUrl,
+                data: {},
+                timeout: 30000,
+                beforeSend: function (xhr) {},
+                success: function (data) {
+                    var dxInstace = selector.dxChart("instance");
+                    dxInstace.option('dataSource', data);
+
+                    setTimeout(reloadChartImportFlowQueuesJobsInTimeHistory, 100000);
+                },
+                error: function (xhr, status, error) {
+                    setTimeout(reloadChartImportFlowQueuesJobsInTimeHistory, 100000);
+                },
+                statusCode: {},
+            });
+        }
+        reloadChartImportFlowQueuesJobsInTimeHistory();
+
+
+    });
+</script>
+
+
+
+
