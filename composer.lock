@@ -851,16 +851,16 @@
         },
         {
             "name": "guzzlehttp/guzzle",
-            "version": "6.3.2",
+            "version": "6.3.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/guzzle.git",
-                "reference": "68d0ea14d5a3f42a20e87632a5f84931e2709c90"
+                "reference": "407b0cb880ace85c9b63c5f9551db498cb2d50ba"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/68d0ea14d5a3f42a20e87632a5f84931e2709c90",
-                "reference": "68d0ea14d5a3f42a20e87632a5f84931e2709c90",
+                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/407b0cb880ace85c9b63c5f9551db498cb2d50ba",
+                "reference": "407b0cb880ace85c9b63c5f9551db498cb2d50ba",
                 "shasum": ""
             },
             "require": {
@@ -870,7 +870,7 @@
             },
             "require-dev": {
                 "ext-curl": "*",
-                "phpunit/phpunit": "^4.8.35 || ^5.7 || ^6.4",
+                "phpunit/phpunit": "^4.8.35 || ^5.7 || ^6.4 || ^7.0",
                 "psr/log": "^1.0"
             },
             "suggest": {
@@ -912,7 +912,7 @@
                 "rest",
                 "web service"
             ],
-            "time": "2018-03-26T16:33:04+00:00"
+            "time": "2018-04-22T15:46:56+00:00"
         },
         {
             "name": "guzzlehttp/promises",
@@ -1626,17 +1626,17 @@
         },
         {
             "name": "monkey/access-control-list",
-            "version": "1.3.0",
+            "version": "1.3.1",
             "source": {
                 "type": "git",
                 "url": "git@gitlab.monkeydata.com:composer/access-control-list.git",
-                "reference": "1fc761aea8cc7dc3a6bec17e0c98526088848855"
+                "reference": "24dd2164eb90222f3921bfc1ed7dab39b774ace6"
             },
             "dist": {
                 "type": "tar",
-                "url": "https://composer:uxJ4EhTaf61fo3pnTvK5@composer.monkeydata.com/dist/monkey-access-control-list-1.3.0-b92f2f.tar",
-                "reference": "1fc761aea8cc7dc3a6bec17e0c98526088848855",
-                "shasum": "b8cbb711855db50926f5f75a85e9f2c216806c4d"
+                "url": "https://composer.monkeydata.com/dist/monkey-access-control-list-1.3.1-bcfe3f.tar",
+                "reference": "24dd2164eb90222f3921bfc1ed7dab39b774ace6",
+                "shasum": "0431458460315ee2556ec1dbef7ad79f05cb0f89"
             },
             "require": {
                 "monkey/connections": "^2.0.8",
@@ -1653,7 +1653,7 @@
                     "Monkey\\AccessControlList\\": "src/"
                 }
             },
-            "notification-url": "https://composer:uxJ4EhTaf61fo3pnTvK5@composer.monkeydata.com/notify-download/",
+            "notification-url": "https://composer.monkeydata.com/notify-download/",
             "authors": [
                 {
                     "name": "henry",
@@ -1661,21 +1661,21 @@
                 }
             ],
             "description": "package for composer",
-            "time": "2017-04-24T14:28:26+00:00"
+            "time": "2018-04-10T14:30:16+00:00"
         },
         {
             "name": "monkey/cache-v2",
-            "version": "1.1.1",
+            "version": "1.1.2",
             "source": {
                 "type": "git",
                 "url": "git@gitlab.monkeydata.com:composer/cache-v2.git",
-                "reference": "5a94c2ee2516d5e0abc3d81487c3fbeb36446cd8"
+                "reference": "fcc8347e21d1b93f646ab0f7847035656e612f18"
             },
             "dist": {
                 "type": "tar",
-                "url": "https://composer:uxJ4EhTaf61fo3pnTvK5@composer.monkeydata.com/dist/monkey-cache-v2-1.1.1-e6daaf.tar",
-                "reference": "5a94c2ee2516d5e0abc3d81487c3fbeb36446cd8",
-                "shasum": "39f7793124cb0f42f0ef094bf80cb03aa06a8d7c"
+                "url": "https://composer.monkeydata.com/dist/monkey-cache-v2-1.1.2-b40155.tar",
+                "reference": "fcc8347e21d1b93f646ab0f7847035656e612f18",
+                "shasum": "829080957a7feb9a0ef343ba677197a6339c69a5"
             },
             "require": {
                 "php": ">=5.5.0"
@@ -1691,7 +1691,7 @@
                     "Monkey\\CacheV2\\": "src/"
                 }
             },
-            "notification-url": "https://composer:uxJ4EhTaf61fo3pnTvK5@composer.monkeydata.com/notify-download/",
+            "notification-url": "https://composer.monkeydata.com/notify-download/",
             "authors": [
                 {
                     "name": "henry",
@@ -1699,21 +1699,21 @@
                 }
             ],
             "description": "package for composer",
-            "time": "2017-11-21T13:26:10+00:00"
+            "time": "2018-04-10T14:21:55+00:00"
         },
         {
             "name": "monkey/config",
-            "version": "1.20.0",
+            "version": "1.21.0",
             "source": {
                 "type": "git",
                 "url": "git@gitlab.monkeydata.com:composer/config.git",
-                "reference": "d1f50bfd7bde9cbdd1b46a5092c2692c21778817"
+                "reference": "c75100fc61b443e0f0ba4a0acada694ceb25dc77"
             },
             "dist": {
                 "type": "tar",
-                "url": "https://composer:uxJ4EhTaf61fo3pnTvK5@composer.monkeydata.com/dist/monkey-config-1.20.0-d905e0.tar",
-                "reference": "d1f50bfd7bde9cbdd1b46a5092c2692c21778817",
-                "shasum": "f03f042882cadebdccfdc8935b14341e04d6741d"
+                "url": "https://composer.monkeydata.com/dist/monkey-config-1.21.0-b3098f.tar",
+                "reference": "c75100fc61b443e0f0ba4a0acada694ceb25dc77",
+                "shasum": "b5b45a993438cd6460afa348c58d0cddb0a33abc"
             },
             "require": {
                 "monkey/dotenv": "^1.2.0",
@@ -1731,7 +1731,7 @@
                     "Monkey\\Config\\": "src/"
                 }
             },
-            "notification-url": "https://composer:uxJ4EhTaf61fo3pnTvK5@composer.monkeydata.com/notify-download/",
+            "notification-url": "https://composer.monkeydata.com/notify-download/",
             "authors": [
                 {
                     "name": "toms049",
@@ -1739,21 +1739,21 @@
                 }
             ],
             "description": "General configuration for common things and setting",
-            "time": "2018-02-20T09:49:47+00:00"
+            "time": "2018-04-19T08:46:09+00:00"
         },
         {
             "name": "monkey/connections",
-            "version": "2.14.0",
+            "version": "2.16.0",
             "source": {
                 "type": "git",
                 "url": "git@gitlab.monkeydata.com:composer/connections.git",
-                "reference": "b91f99145e57ad20e2f70e00f960e383350f82e9"
+                "reference": "d60ac06e9ca6bfbdb1b95f0a56e1dc9118f2c424"
             },
             "dist": {
                 "type": "tar",
-                "url": "https://composer:uxJ4EhTaf61fo3pnTvK5@composer.monkeydata.com/dist/monkey-connections-2.14.0-745bcf.tar",
-                "reference": "b91f99145e57ad20e2f70e00f960e383350f82e9",
-                "shasum": "94490ed22317da661de9aea41fa5a84a431e4f58"
+                "url": "https://composer.monkeydata.com/dist/monkey-connections-2.16.0-0d5e61.tar",
+                "reference": "d60ac06e9ca6bfbdb1b95f0a56e1dc9118f2c424",
+                "shasum": "82d92460eb3fa10668a2a6dcb2831d278ddedf9d"
             },
             "require": {
                 "illuminate/database": "4.*|5.2.*|5.4.*",
@@ -1776,7 +1776,7 @@
                     "Monkey\\Connections\\": "src/"
                 }
             },
-            "notification-url": "https://composer:uxJ4EhTaf61fo3pnTvK5@composer.monkeydata.com/notify-download/",
+            "notification-url": "https://composer.monkeydata.com/notify-download/",
             "authors": [
                 {
                     "name": "henry",
@@ -1784,21 +1784,21 @@
                 }
             ],
             "description": "package for composer",
-            "time": "2018-02-13T19:09:46+00:00"
+            "time": "2018-04-19T08:48:09+00:00"
         },
         {
             "name": "monkey/constants",
-            "version": "1.3.0",
+            "version": "1.4.0",
             "source": {
                 "type": "git",
                 "url": "git@gitlab.monkeydata.com:composer/constants.git",
-                "reference": "dda0c36eb48e3776750d47542f1a01cb0541cae2"
+                "reference": "05f7d14cd21043ab5268ad54279b1875e246ea53"
             },
             "dist": {
                 "type": "tar",
-                "url": "https://composer:uxJ4EhTaf61fo3pnTvK5@composer.monkeydata.com/dist/monkey-constants-1.3.0-128266.tar",
-                "reference": "dda0c36eb48e3776750d47542f1a01cb0541cae2",
-                "shasum": "c1cda1c7e59c2a5ddd0b2e63b3918b4a8d501226"
+                "url": "https://composer.monkeydata.com/dist/monkey-constants-1.4.0-5c93e6.tar",
+                "reference": "05f7d14cd21043ab5268ad54279b1875e246ea53",
+                "shasum": "5aa5022409a614766df73ba94b38ebf187a603eb"
             },
             "require": {
                 "php": ">=5.3.0"
@@ -1813,7 +1813,7 @@
                     "Monkey\\Constants\\": "src/"
                 }
             },
-            "notification-url": "https://composer:uxJ4EhTaf61fo3pnTvK5@composer.monkeydata.com/notify-download/",
+            "notification-url": "https://composer.monkeydata.com/notify-download/",
             "authors": [
                 {
                     "name": "toms049",
@@ -1821,21 +1821,21 @@
                 }
             ],
             "description": "Should contain all global constants used in MD apps",
-            "time": "2018-02-13T23:17:05+00:00"
+            "time": "2018-04-19T15:40:53+00:00"
         },
         {
             "name": "monkey/crypt",
-            "version": "1.0.2",
+            "version": "1.0.3",
             "source": {
                 "type": "git",
                 "url": "git@gitlab.monkeydata.com:composer/crypt.git",
-                "reference": "eb48c106d149c6451e1d656ba21076f1c2999a97"
+                "reference": "09e2ba4bbab45d90503825e8484c44476e9092f9"
             },
             "dist": {
                 "type": "tar",
-                "url": "https://composer:uxJ4EhTaf61fo3pnTvK5@composer.monkeydata.com/dist/monkey-crypt-1.0.2-2253fe.tar",
-                "reference": "eb48c106d149c6451e1d656ba21076f1c2999a97",
-                "shasum": "785410116c0cc48cff2322aa9ff3119edde2fdff"
+                "url": "https://composer.monkeydata.com/dist/monkey-crypt-1.0.3-2ed9c1.tar",
+                "reference": "09e2ba4bbab45d90503825e8484c44476e9092f9",
+                "shasum": "746a48a2c6de23914cacce6bf0a42f5af13be428"
             },
             "require": {
                 "php": ">=5.5.0"
@@ -1850,7 +1850,7 @@
                     "Monkey\\Crypt\\": "src/"
                 }
             },
-            "notification-url": "https://composer:uxJ4EhTaf61fo3pnTvK5@composer.monkeydata.com/notify-download/",
+            "notification-url": "https://composer.monkeydata.com/notify-download/",
             "authors": [
                 {
                     "name": "henry",
@@ -1858,21 +1858,21 @@
                 }
             ],
             "description": "package for composer",
-            "time": "2016-06-09T11:03:13+00:00"
+            "time": "2018-04-10T13:26:05+00:00"
         },
         {
             "name": "monkey/date-time",
-            "version": "1.3.0",
+            "version": "1.3.1",
             "source": {
                 "type": "git",
                 "url": "git@gitlab.monkeydata.com:composer/date-time.git",
-                "reference": "8e48a9bbf7285e18e1c5465dc071f249ceca480a"
+                "reference": "93a8e53eee9b32082fdade833404417073ba795d"
             },
             "dist": {
                 "type": "tar",
-                "url": "https://composer:uxJ4EhTaf61fo3pnTvK5@composer.monkeydata.com/dist/monkey-date-time-1.3.0-90f6b1.tar",
-                "reference": "8e48a9bbf7285e18e1c5465dc071f249ceca480a",
-                "shasum": "41dc5e8a032f9f61dc07c69b15a298500be7c00a"
+                "url": "https://composer.monkeydata.com/dist/monkey-date-time-1.3.1-52f476.tar",
+                "reference": "93a8e53eee9b32082fdade833404417073ba795d",
+                "shasum": "9faa1ce144b10d5a9b020b389d58d0ab3fddb23a"
             },
             "require": {
                 "php": ">=7.0.0"
@@ -1888,7 +1888,7 @@
                     "Monkey\\DateTime\\": "src/"
                 }
             },
-            "notification-url": "https://composer:uxJ4EhTaf61fo3pnTvK5@composer.monkeydata.com/notify-download/",
+            "notification-url": "https://composer.monkeydata.com/notify-download/",
             "authors": [
                 {
                     "name": "henry",
@@ -1896,7 +1896,7 @@
                 }
             ],
             "description": "DateTime package as an extension for standard PHP DateTime class",
-            "time": "2017-09-04T07:47:02+00:00"
+            "time": "2018-04-10T14:24:01+00:00"
         },
         {
             "name": "monkey/domain-model",
@@ -1938,17 +1938,17 @@
         },
         {
             "name": "monkey/dotenv",
-            "version": "1.5.0",
+            "version": "1.5.1",
             "source": {
                 "type": "git",
                 "url": "git@gitlab.monkeydata.com:composer/dotenv.git",
-                "reference": "5a4e319594d709dc5c4e7eb5fd77e36bbd8597c1"
+                "reference": "1731192ea8ace2cd362c65b2acfd6a396b29b25e"
             },
             "dist": {
                 "type": "tar",
-                "url": "https://composer:uxJ4EhTaf61fo3pnTvK5@composer.monkeydata.com/dist/monkey-dotenv-1.5.0-efd20b.tar",
-                "reference": "5a4e319594d709dc5c4e7eb5fd77e36bbd8597c1",
-                "shasum": "256995ceab4d1ddbf8d421ebb5e01fc80e44f881"
+                "url": "https://composer.monkeydata.com/dist/monkey-dotenv-1.5.1-805542.tar",
+                "reference": "1731192ea8ace2cd362c65b2acfd6a396b29b25e",
+                "shasum": "8fc104bed8f88b4f600d68568b97756b04181567"
             },
             "require": {
                 "monkey/environment": "^1.3.0",
@@ -1969,7 +1969,7 @@
                     "Monkey\\Dotenv\\": "src/"
                 }
             },
-            "notification-url": "https://composer:uxJ4EhTaf61fo3pnTvK5@composer.monkeydata.com/notify-download/",
+            "notification-url": "https://composer.monkeydata.com/notify-download/",
             "authors": [
                 {
                     "name": "toms049",
@@ -1977,21 +1977,21 @@
                 }
             ],
             "description": "MonkeyData environment handler and parser",
-            "time": "2018-02-13T18:06:22+00:00"
+            "time": "2018-04-10T13:21:17+00:00"
         },
         {
             "name": "monkey/email",
-            "version": "2.3.0",
+            "version": "2.3.1",
             "source": {
                 "type": "git",
                 "url": "git@gitlab.monkeydata.com:composer/email.git",
-                "reference": "904764322ec4f4fcf4fad9036043cf3455622952"
+                "reference": "ba9ef8d4d201315fb7bf4b13aac6cce35b64a93e"
             },
             "dist": {
                 "type": "tar",
-                "url": "https://composer:uxJ4EhTaf61fo3pnTvK5@composer.monkeydata.com/dist/monkey-email-2.3.0-78b878.tar",
-                "reference": "904764322ec4f4fcf4fad9036043cf3455622952",
-                "shasum": "da2594ed712d93ab3bb83ea90f116a98c4f619d5"
+                "url": "https://composer.monkeydata.com/dist/monkey-email-2.3.1-122bce.tar",
+                "reference": "ba9ef8d4d201315fb7bf4b13aac6cce35b64a93e",
+                "shasum": "98344a805346213a6b671508469e2e2b18925398"
             },
             "require": {
                 "mikehaertl/phpwkhtmltopdf": "~2.1",
@@ -2009,7 +2009,7 @@
                     "Monkey\\Email\\": "src/"
                 }
             },
-            "notification-url": "https://composer:uxJ4EhTaf61fo3pnTvK5@composer.monkeydata.com/notify-download/",
+            "notification-url": "https://composer.monkeydata.com/notify-download/",
             "authors": [
                 {
                     "name": "henry",
@@ -2017,21 +2017,21 @@
                 }
             ],
             "description": "package for composer",
-            "time": "2017-08-14T23:05:15+00:00"
+            "time": "2018-04-10T14:19:42+00:00"
         },
         {
             "name": "monkey/environment",
-            "version": "1.8.0",
+            "version": "1.8.1",
             "source": {
                 "type": "git",
                 "url": "git@gitlab.monkeydata.com:composer/environment.git",
-                "reference": "172d92520c219ab1ce2042a75274a594a3c7b88b"
+                "reference": "6e6e341e90cb5b1003667b43b0354a00c2e0be76"
             },
             "dist": {
                 "type": "tar",
-                "url": "https://composer:uxJ4EhTaf61fo3pnTvK5@composer.monkeydata.com/dist/monkey-environment-1.8.0-b95f53.tar",
-                "reference": "172d92520c219ab1ce2042a75274a594a3c7b88b",
-                "shasum": "b8a8334c2d6cc25dca70dce5d4741838b49466c1"
+                "url": "https://composer.monkeydata.com/dist/monkey-environment-1.8.1-9558ab.tar",
+                "reference": "6e6e341e90cb5b1003667b43b0354a00c2e0be76",
+                "shasum": "8410f5855c8eeb7270cf95d01b3af5e69523b233"
             },
             "require": {
                 "php": ">=5.5.0"
@@ -2049,7 +2049,7 @@
                     "Monkey\\Environment\\": "src/"
                 }
             },
-            "notification-url": "https://composer:uxJ4EhTaf61fo3pnTvK5@composer.monkeydata.com/notify-download/",
+            "notification-url": "https://composer.monkeydata.com/notify-download/",
             "authors": [
                 {
                     "name": "toms049",
@@ -2057,21 +2057,21 @@
                 }
             ],
             "description": "package for composer",
-            "time": "2017-10-09T21:40:14+00:00"
+            "time": "2018-04-10T13:42:00+00:00"
         },
         {
             "name": "monkey/graph-structure",
-            "version": "1.3.0",
+            "version": "1.3.1",
             "source": {
                 "type": "git",
                 "url": "git@gitlab.monkeydata.com:composer/graph-structure.git",
-                "reference": "514fc68df29c2332f1f149ed29b8b0512c5a0b2e"
+                "reference": "f91df66542c580879648db97273ad1c01d785f87"
             },
             "dist": {
                 "type": "tar",
-                "url": "https://composer:uxJ4EhTaf61fo3pnTvK5@composer.monkeydata.com/dist/monkey-graph-structure-1.3.0-85c38a.tar",
-                "reference": "514fc68df29c2332f1f149ed29b8b0512c5a0b2e",
-                "shasum": "c5e1eb2726f4d8c9a18054fd116c2a473d9f68da"
+                "url": "https://composer.monkeydata.com/dist/monkey-graph-structure-1.3.1-e405ce.tar",
+                "reference": "f91df66542c580879648db97273ad1c01d785f87",
+                "shasum": "30611277f39951aabd3f7d0d5ad9aaeaa0d2719d"
             },
             "require": {
                 "monkey/date-time": "^1.1.0",
@@ -2087,7 +2087,7 @@
                     "Monkey\\GraphStructure\\": "src/"
                 }
             },
-            "notification-url": "https://composer:uxJ4EhTaf61fo3pnTvK5@composer.monkeydata.com/notify-download/",
+            "notification-url": "https://composer.monkeydata.com/notify-download/",
             "authors": [
                 {
                     "name": "toms049",
@@ -2095,21 +2095,21 @@
                 }
             ],
             "description": "package for composer",
-            "time": "2017-11-28T14:58:08+00:00"
+            "time": "2018-04-10T14:01:04+00:00"
         },
         {
             "name": "monkey/helpers",
-            "version": "1.16.0",
+            "version": "1.16.1",
             "source": {
                 "type": "git",
                 "url": "git@gitlab.monkeydata.com:composer/helpers.git",
-                "reference": "f6e868c35254a6814ebfdb836d0baba40a414899"
+                "reference": "a476c608745f42d9c0298ed0fe946c380a05821e"
             },
             "dist": {
                 "type": "tar",
-                "url": "https://composer:uxJ4EhTaf61fo3pnTvK5@composer.monkeydata.com/dist/monkey-helpers-1.16.0-34155a.tar",
-                "reference": "f6e868c35254a6814ebfdb836d0baba40a414899",
-                "shasum": "112197b16aaee4a9b7f1f65e7b2ce1f716db9b2e"
+                "url": "https://composer.monkeydata.com/dist/monkey-helpers-1.16.1-fdc08e.tar",
+                "reference": "a476c608745f42d9c0298ed0fe946c380a05821e",
+                "shasum": "cbcd4f2db3c6632cb5d071b9c79d50585dcd1ae8"
             },
             "require": {
                 "monkey/environment": "^1.7.0",
@@ -2125,7 +2125,7 @@
                     "Monkey\\Helpers\\": "src/"
                 }
             },
-            "notification-url": "https://composer:uxJ4EhTaf61fo3pnTvK5@composer.monkeydata.com/notify-download/",
+            "notification-url": "https://composer.monkeydata.com/notify-download/",
             "authors": [
                 {
                     "name": "henry",
@@ -2133,21 +2133,21 @@
                 }
             ],
             "description": "helper functions",
-            "time": "2018-02-13T18:42:47+00:00"
+            "time": "2018-04-10T13:30:27+00:00"
         },
         {
             "name": "monkey/import-eshop-data-objects",
-            "version": "1.1.0",
+            "version": "1.1.1",
             "source": {
                 "type": "git",
                 "url": "git@gitlab.monkeydata.com:composer/import-eshop-data-objects.git",
-                "reference": "3c7652caa373c9c1eedbc5cd44d15705411c344a"
+                "reference": "1ed4eb080251ea3f963234ed2a4e508f3d809b7f"
             },
             "dist": {
                 "type": "tar",
-                "url": "https://composer:uxJ4EhTaf61fo3pnTvK5@composer.monkeydata.com/dist/monkey-import-eshop-data-objects-1.1.0-749c80.tar",
-                "reference": "3c7652caa373c9c1eedbc5cd44d15705411c344a",
-                "shasum": "c5e38f881430bc846f7f392ed77a5aa7f62c94a1"
+                "url": "https://composer.monkeydata.com/dist/monkey-import-eshop-data-objects-1.1.1-bacfd2.tar",
+                "reference": "1ed4eb080251ea3f963234ed2a4e508f3d809b7f",
+                "shasum": "98e3f1a08e1f8d2fd350e3ad15e766600496ed10"
             },
             "require": {
                 "php": ">=5.3"
@@ -2161,7 +2161,7 @@
                     "Monkey\\ImportEshopDataObjects\\": "src/"
                 }
             },
-            "notification-url": "https://composer:uxJ4EhTaf61fo3pnTvK5@composer.monkeydata.com/notify-download/",
+            "notification-url": "https://composer.monkeydata.com/notify-download/",
             "authors": [
                 {
                     "name": "MonkeyData",
@@ -2169,21 +2169,21 @@
                 }
             ],
             "description": "Data objects for import eshop api feed",
-            "time": "2018-03-21T18:05:22+00:00"
+            "time": "2018-04-10T14:28:18+00:00"
         },
         {
             "name": "monkey/import-eshop-sdk",
-            "version": "1.1.0",
+            "version": "1.1.2",
             "source": {
                 "type": "git",
                 "url": "git@gitlab.monkeydata.com:composer/import-eshop-sdk.git",
-                "reference": "7ea8defef78861c50d5718bd695ae47f345da32f"
+                "reference": "77e0a466f07baa89bc1fa4a9a7b67234861beb40"
             },
             "dist": {
                 "type": "tar",
-                "url": "https://composer:uxJ4EhTaf61fo3pnTvK5@composer.monkeydata.com/dist/monkey-import-eshop-sdk-1.1.0-5a7676.tar",
-                "reference": "7ea8defef78861c50d5718bd695ae47f345da32f",
-                "shasum": "678599d763aff8b360453ce2be574105c40876fc"
+                "url": "https://composer.monkeydata.com/dist/monkey-import-eshop-sdk-1.1.2-74a0aa.tar",
+                "reference": "77e0a466f07baa89bc1fa4a9a7b67234861beb40",
+                "shasum": "0b09545ff19f5ed3fc1471773f3313a6c98c4d54"
             },
             "require": {
                 "guzzlehttp/guzzle": "^6.3",
@@ -2204,7 +2204,7 @@
                     "Monkey\\ImportEshopSdk\\": "src/"
                 }
             },
-            "notification-url": "https://composer:uxJ4EhTaf61fo3pnTvK5@composer.monkeydata.com/notify-download/",
+            "notification-url": "https://composer.monkeydata.com/notify-download/",
             "authors": [
                 {
                     "name": "toms049",
@@ -2212,21 +2212,21 @@
                 }
             ],
             "description": "SDK for import-eshop-api",
-            "time": "2018-03-21T18:09:17+00:00"
+            "time": "2018-04-23T11:58:25+00:00"
         },
         {
             "name": "monkey/o-auth2",
-            "version": "1.1.2",
+            "version": "1.1.3",
             "source": {
                 "type": "git",
                 "url": "git@gitlab.monkeydata.com:composer/o-auth2.git",
-                "reference": "97df091614fec5482d9d09fda81529347fae467a"
+                "reference": "cd69f7e26154a904d705c46f1ac78db8f1ec176a"
             },
             "dist": {
                 "type": "tar",
-                "url": "https://composer:uxJ4EhTaf61fo3pnTvK5@composer.monkeydata.com/dist/monkey-o-auth2-1.1.2-471002.tar",
-                "reference": "97df091614fec5482d9d09fda81529347fae467a",
-                "shasum": "e39667f8649e2700747e20435ea70828b9b55034"
+                "url": "https://composer.monkeydata.com/dist/monkey-o-auth2-1.1.3-3e7cf5.tar",
+                "reference": "cd69f7e26154a904d705c46f1ac78db8f1ec176a",
+                "shasum": "508f36d35c386a091c648f480d8592322c1e99b6"
             },
             "require": {
                 "bshaffer/oauth2-server-php": "~1.7",
@@ -2245,7 +2245,7 @@
                     "Monkey\\OAuth2\\": "src/"
                 }
             },
-            "notification-url": "https://composer:uxJ4EhTaf61fo3pnTvK5@composer.monkeydata.com/notify-download/",
+            "notification-url": "https://composer.monkeydata.com/notify-download/",
             "authors": [
                 {
                     "name": "toms049",
@@ -2253,21 +2253,21 @@
                 }
             ],
             "description": "package for composer",
-            "time": "2018-01-24T07:13:25+00:00"
+            "time": "2018-04-10T14:03:01+00:00"
         },
         {
             "name": "monkey/old-monkey",
-            "version": "1.5.0",
+            "version": "1.5.1",
             "source": {
                 "type": "git",
                 "url": "git@gitlab.monkeydata.com:composer/old-monkey.git",
-                "reference": "8100d179d798ce7f473a281ea2db694edba64933"
+                "reference": "c276c23f8bf854a1ed97813534590210bbd835a8"
             },
             "dist": {
                 "type": "tar",
-                "url": "https://composer:uxJ4EhTaf61fo3pnTvK5@composer.monkeydata.com/dist/monkey-old-monkey-1.5.0-6c1a18.tar",
-                "reference": "8100d179d798ce7f473a281ea2db694edba64933",
-                "shasum": "9011ca0ed270b36c73c2c2b565b6668b6a112514"
+                "url": "https://composer.monkeydata.com/dist/monkey-old-monkey-1.5.1-6ef344.tar",
+                "reference": "c276c23f8bf854a1ed97813534590210bbd835a8",
+                "shasum": "bea5ba439019d5de2e5ffc1d9eed6275ff30ad41"
             },
             "require": {
                 "monkey/cache-v2": "^1.0.0",
@@ -2292,7 +2292,7 @@
                     "Monkey\\": "src/"
                 }
             },
-            "notification-url": "https://composer:uxJ4EhTaf61fo3pnTvK5@composer.monkeydata.com/notify-download/",
+            "notification-url": "https://composer.monkeydata.com/notify-download/",
             "authors": [
                 {
                     "name": "henry",
@@ -2304,21 +2304,21 @@
                 "monkey",
                 "old-monkey"
             ],
-            "time": "2017-07-25T16:04:45+00:00"
+            "time": "2018-04-10T13:34:55+00:00"
         },
         {
             "name": "monkey/payments",
-            "version": "1.8.0",
+            "version": "1.8.1",
             "source": {
                 "type": "git",
                 "url": "git@gitlab.monkeydata.com:composer/payments.git",
-                "reference": "ca64efcfc3ad73a6aad1d82adb04f9c583779a4f"
+                "reference": "7cf7a6cf253b148f3ef97b3f15e74138f481e114"
             },
             "dist": {
                 "type": "tar",
-                "url": "https://composer:uxJ4EhTaf61fo3pnTvK5@composer.monkeydata.com/dist/monkey-payments-1.8.0-38f335.tar",
-                "reference": "ca64efcfc3ad73a6aad1d82adb04f9c583779a4f",
-                "shasum": "244ab7307b6592449ab6554851822c6b25684555"
+                "url": "https://composer.monkeydata.com/dist/monkey-payments-1.8.1-efc505.tar",
+                "reference": "7cf7a6cf253b148f3ef97b3f15e74138f481e114",
+                "shasum": "f90f3bee652fb27504f458d6ee850d792ba988a2"
             },
             "require": {
                 "braintree/braintree_php": "3.5.*",
@@ -2340,7 +2340,7 @@
                     "Monkey\\Payments\\": "src/"
                 }
             },
-            "notification-url": "https://composer:uxJ4EhTaf61fo3pnTvK5@composer.monkeydata.com/notify-download/",
+            "notification-url": "https://composer.monkeydata.com/notify-download/",
             "authors": [
                 {
                     "name": "henry",
@@ -2348,21 +2348,21 @@
                 }
             ],
             "description": "package for composer",
-            "time": "2018-03-09T09:12:40+00:00"
+            "time": "2018-04-10T14:29:18+00:00"
         },
         {
             "name": "monkey/raven",
-            "version": "2.4.0",
+            "version": "2.4.1",
             "source": {
                 "type": "git",
                 "url": "git@gitlab.monkeydata.com:composer/raven.git",
-                "reference": "e16720f7a7743cc2e81242b7eaafd622f9538b4c"
+                "reference": "ca43b531583cab7c9e76d4b3d184fa49a77684c5"
             },
             "dist": {
                 "type": "tar",
-                "url": "https://composer:uxJ4EhTaf61fo3pnTvK5@composer.monkeydata.com/dist/monkey-raven-2.4.0-3349e7.tar",
-                "reference": "e16720f7a7743cc2e81242b7eaafd622f9538b4c",
-                "shasum": "717b873b047ae2261a8e99a9ca6cecadc02f549a"
+                "url": "https://composer.monkeydata.com/dist/monkey-raven-2.4.1-be7abe.tar",
+                "reference": "ca43b531583cab7c9e76d4b3d184fa49a77684c5",
+                "shasum": "8950583afe5183dadd0d7f9cf2f511cbe1eb1d2e"
             },
             "require": {
                 "illuminate/support": "4.2.*|5.2.*|5.4.*",
@@ -2387,7 +2387,7 @@
                     "Monkey\\Raven\\": "src/"
                 }
             },
-            "notification-url": "https://composer:uxJ4EhTaf61fo3pnTvK5@composer.monkeydata.com/notify-download/",
+            "notification-url": "https://composer.monkeydata.com/notify-download/",
             "authors": [
                 {
                     "name": "toms049",
@@ -2399,21 +2399,21 @@
                 }
             ],
             "description": "package for composer",
-            "time": "2018-02-13T16:58:21+00:00"
+            "time": "2018-04-10T14:22:59+00:00"
         },
         {
             "name": "monkey/restriction",
-            "version": "1.2.1",
+            "version": "1.2.2",
             "source": {
                 "type": "git",
                 "url": "git@gitlab.monkeydata.com:composer/restriction.git",
-                "reference": "7bf9a7df9ced4edce98a74f3ba51c64962387bd5"
+                "reference": "a2c2adabb1ed2363442963ad15c8f31e130f9ffa"
             },
             "dist": {
                 "type": "tar",
-                "url": "https://composer:uxJ4EhTaf61fo3pnTvK5@composer.monkeydata.com/dist/monkey-restriction-1.2.1-c14030.tar",
-                "reference": "7bf9a7df9ced4edce98a74f3ba51c64962387bd5",
-                "shasum": "859df40aa98f3f0cd3997a6b30fdd306ee2078b8"
+                "url": "https://composer.monkeydata.com/dist/monkey-restriction-1.2.2-d0323f.tar",
+                "reference": "a2c2adabb1ed2363442963ad15c8f31e130f9ffa",
+                "shasum": "d356adf3f241b0275c0ea646caae9616152a5d32"
             },
             "require": {
                 "monkey/access-control-list": "^1.1.0",
@@ -2432,7 +2432,7 @@
                     "Monkey\\Restriction\\": "src/"
                 }
             },
-            "notification-url": "https://composer:uxJ4EhTaf61fo3pnTvK5@composer.monkeydata.com/notify-download/",
+            "notification-url": "https://composer.monkeydata.com/notify-download/",
             "authors": [
                 {
                     "name": "henry",
@@ -2440,7 +2440,7 @@
                 }
             ],
             "description": "package for composer",
-            "time": "2018-01-08T12:23:13+00:00"
+            "time": "2018-04-10T12:51:54+00:00"
         },
         {
             "name": "monkey/translator",
@@ -2484,17 +2484,17 @@
         },
         {
             "name": "monkey/url-handler",
-            "version": "1.5.0",
+            "version": "1.5.1",
             "source": {
                 "type": "git",
                 "url": "git@gitlab.monkeydata.com:composer/url-handler.git",
-                "reference": "460fe93051d177ef8c2f24c268f5ff0596076a49"
+                "reference": "88750500482a9d4629006b9f8bb47f6d32949b60"
             },
             "dist": {
                 "type": "tar",
-                "url": "https://composer:uxJ4EhTaf61fo3pnTvK5@composer.monkeydata.com/dist/monkey-url-handler-1.5.0-b9a2c1.tar",
-                "reference": "460fe93051d177ef8c2f24c268f5ff0596076a49",
-                "shasum": "fa4c70f468c0321b78645ffe0431597e6e58a826"
+                "url": "https://composer.monkeydata.com/dist/monkey-url-handler-1.5.1-b41766.tar",
+                "reference": "88750500482a9d4629006b9f8bb47f6d32949b60",
+                "shasum": "4bf1161fc27eeb86b4d77d757e00ce33778879e0"
             },
             "require": {
                 "laravel/framework": "4.2.*|5.2.*|5.4.*",
@@ -2511,7 +2511,7 @@
                     "Monkey\\UrlHandler\\": "src/"
                 }
             },
-            "notification-url": "https://composer:uxJ4EhTaf61fo3pnTvK5@composer.monkeydata.com/notify-download/",
+            "notification-url": "https://composer.monkeydata.com/notify-download/",
             "authors": [
                 {
                     "name": "toms049",
@@ -2519,21 +2519,21 @@
                 }
             ],
             "description": "UrlHandler for helping to get correct URL when on MonkeyData staging or develop environment",
-            "time": "2017-10-06T08:17:22+00:00"
+            "time": "2018-04-10T14:05:13+00:00"
         },
         {
             "name": "monkey/vardump",
-            "version": "1.2.0",
+            "version": "1.2.1",
             "source": {
                 "type": "git",
                 "url": "git@gitlab.monkeydata.com:composer/vardump.git",
-                "reference": "8de4f5fac62e02f72740bffbde88ea746ee3c8d2"
+                "reference": "5069b426cd9fa89e088077dfb061f9a03b971512"
             },
             "dist": {
                 "type": "tar",
-                "url": "https://composer:uxJ4EhTaf61fo3pnTvK5@composer.monkeydata.com/dist/monkey-vardump-1.2.0-329cfd.tar",
-                "reference": "8de4f5fac62e02f72740bffbde88ea746ee3c8d2",
-                "shasum": "292d987ce02c1adedcf327b97091b12750e26854"
+                "url": "https://composer.monkeydata.com/dist/monkey-vardump-1.2.1-7b9afb.tar",
+                "reference": "5069b426cd9fa89e088077dfb061f9a03b971512",
+                "shasum": "3dab5b34178f4477042f4b9a1145783f5234363a"
             },
             "require": {
                 "monkey/environment": "^1.3.0",
@@ -2554,7 +2554,7 @@
                     "Monkey\\Vardump\\": "src/"
                 }
             },
-            "notification-url": "https://composer:uxJ4EhTaf61fo3pnTvK5@composer.monkeydata.com/notify-download/",
+            "notification-url": "https://composer.monkeydata.com/notify-download/",
             "authors": [
                 {
                     "name": "henry",
@@ -2562,7 +2562,7 @@
                 }
             ],
             "description": "package for composer",
-            "time": "2017-01-13T14:07:18+00:00"
+            "time": "2018-04-10T13:52:52+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -2688,16 +2688,16 @@
         },
         {
             "name": "nesbot/carbon",
-            "version": "1.25.0",
+            "version": "1.27.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/briannesbitt/Carbon.git",
-                "reference": "cbcf13da0b531767e39eb86e9687f5deba9857b4"
+                "reference": "ef81c39b67200dcd7401c24363dcac05ac3a4fe9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/cbcf13da0b531767e39eb86e9687f5deba9857b4",
-                "reference": "cbcf13da0b531767e39eb86e9687f5deba9857b4",
+                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/ef81c39b67200dcd7401c24363dcac05ac3a4fe9",
+                "reference": "ef81c39b67200dcd7401c24363dcac05ac3a4fe9",
                 "shasum": ""
             },
             "require": {
@@ -2709,14 +2709,9 @@
                 "phpunit/phpunit": "^4.8.35 || ^5.7"
             },
             "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.23-dev"
-                }
-            },
             "autoload": {
                 "psr-4": {
-                    "Carbon\\": "src/Carbon/"
+                    "": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -2737,7 +2732,7 @@
                 "datetime",
                 "time"
             ],
-            "time": "2018-03-19T15:50:49+00:00"
+            "time": "2018-04-23T09:02:57+00:00"
         },
         {
             "name": "nikic/php-parser",
@@ -2800,7 +2795,7 @@
             },
             "dist": {
                 "type": "tar",
-                "url": "https://composer:uxJ4EhTaf61fo3pnTvK5@composer.monkeydata.com/dist/nilportugues-serializer-1.4.1-5ba97e.tar",
+                "url": "https://composer.monkeydata.com/dist/nilportugues-serializer-1.4.1-5ba97e.tar",
                 "reference": "e6a6022e48f988d93c66273944fe808200f1c208",
                 "shasum": "c3053ca4d070100c531681ad980f10b671a22d0b"
             },
@@ -2819,7 +2814,7 @@
                     "NilPortugues\\Test\\Serializer\\": "tests/"
                 }
             },
-            "notification-url": "https://composer:uxJ4EhTaf61fo3pnTvK5@composer.monkeydata.com/notify-download/",
+            "notification-url": "https://composer.monkeydata.com/notify-download/",
             "license": [
                 "MIT"
             ],
@@ -4718,23 +4713,23 @@
         },
         {
             "name": "phpspec/prophecy",
-            "version": "1.7.5",
+            "version": "1.7.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpspec/prophecy.git",
-                "reference": "dfd6be44111a7c41c2e884a336cc4f461b3b2401"
+                "reference": "33a7e3c4fda54e912ff6338c48823bd5c0f0b712"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpspec/prophecy/zipball/dfd6be44111a7c41c2e884a336cc4f461b3b2401",
-                "reference": "dfd6be44111a7c41c2e884a336cc4f461b3b2401",
+                "url": "https://api.github.com/repos/phpspec/prophecy/zipball/33a7e3c4fda54e912ff6338c48823bd5c0f0b712",
+                "reference": "33a7e3c4fda54e912ff6338c48823bd5c0f0b712",
                 "shasum": ""
             },
             "require": {
                 "doctrine/instantiator": "^1.0.2",
                 "php": "^5.3|^7.0",
                 "phpdocumentor/reflection-docblock": "^2.0|^3.0.2|^4.0",
-                "sebastian/comparator": "^1.1|^2.0",
+                "sebastian/comparator": "^1.1|^2.0|^3.0",
                 "sebastian/recursion-context": "^1.0|^2.0|^3.0"
             },
             "require-dev": {
@@ -4777,7 +4772,7 @@
                 "spy",
                 "stub"
             ],
-            "time": "2018-02-19T10:16:54+00:00"
+            "time": "2018-04-18T13:57:24+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
