@@ -7,6 +7,9 @@ use DB;
 use Exception;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Input;
+use Monkey\Connections\MDDatabaseConnections;
+use Monkey\Connections\MDDataStorageConnections;
+use Monkey\Constants\MonkeyData\Resource\Resource;
 use Monkey\DateTime\DateTimeHelper;
 use Monkey\Resource\ResourceList;
 use Monkey\Resource\Table;
@@ -42,7 +45,7 @@ class DatabaseSelectorController extends BaseViewController {
 
         $defaultTable = null;
         if ($project_id !== null) {
-            $queryBuilder = DB::connection('mysql-select-app')->table('monkeydata.project as p')
+            $queryBuilder = MDDatabaseConnections::getMasterAppConnection()->table('monkeydata.project as p')
                     ->where('p.id', '=', $project_id)
                     ->join('monkeydata.client as c', 'c.user_id', '=', 'p.user_id')
                     ->select(array('p.user_id as user_id', 'p.id as project_id', 'c.id as client_id'))
@@ -123,14 +126,31 @@ class DatabaseSelectorController extends BaseViewController {
         }
     }
 
-    public function postIndex() {
+
+
+
+
+    public function postIndex($project_id = null, $resource_id = null) {
+        $connection = DB::connection('mysql-select-import');
+        if($project_id !== null && $resource_id !== null) {
+            $eshopDetail = MDDatabaseConnections::getMasterAppConnection()->table("resource_setting as rs")
+                ->where("rs.project_id", '=', $project_id)
+                ->where('rs.resource_id', '=', $resource_id)
+                ->join("resource_eshop as re", 're.resource_setting_id', '=', 'rs.id')
+                ->join("eshop_type as et", 'et.id', '=', 're.eshop_type_id')
+                ->first(['et.*']);
+            if(!empty($eshopDetail)){
+                $dataStorageConnection = $eshopDetail->data_storage_connection;
+                $connection = MDDataStorageConnections::createDataStoreConnection($dataStorageConnection);
+            }
+        }
         $view = new View("default.database.output");
         try {
             $query = Input::get('query', false);
             if (empty($query)) {
                 return $view;
             }
-            $data = DB::connection('mysql-select-import')->select(DB::raw($query));
+            $data = $connection->select(DB::raw($query));
             $view->with('data', $data);
         } catch (Exception $e) {
             $view->with('error', $e);
