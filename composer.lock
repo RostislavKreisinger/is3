@@ -1185,7 +1185,7 @@
             },
             "dist": {
                 "type": "tar",
-                "url": "https://composer:uxJ4EhTaf61fo3pnTvK5@composer.monkeydata.com/dist/laravel-framework-v5.2.45-d32539.tar",
+                "url": "https://composer.monkeydata.com/dist/laravel-framework-v5.2.45-d32539.tar",
                 "reference": "2a79f920d5584ec6df7cf996d922a742d11095d1",
                 "shasum": "7f46e069acd0cda5695ab5eb35e544a3a9d4e348"
             },
@@ -1287,7 +1287,7 @@
                     "Illuminate\\": "src/Illuminate/"
                 }
             },
-            "notification-url": "https://composer:uxJ4EhTaf61fo3pnTvK5@composer.monkeydata.com/notify-download/",
+            "notification-url": "https://composer.monkeydata.com/notify-download/",
             "license": [
                 "MIT"
             ],
@@ -1383,16 +1383,16 @@
         },
         {
             "name": "league/flysystem",
-            "version": "1.0.44",
+            "version": "1.0.45",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/flysystem.git",
-                "reference": "168dbe519737221dc87d17385cde33073881fd02"
+                "reference": "a99f94e63b512d75f851b181afcdf0ee9ebef7e6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/168dbe519737221dc87d17385cde33073881fd02",
-                "reference": "168dbe519737221dc87d17385cde33073881fd02",
+                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/a99f94e63b512d75f851b181afcdf0ee9ebef7e6",
+                "reference": "a99f94e63b512d75f851b181afcdf0ee9ebef7e6",
                 "shasum": ""
             },
             "require": {
@@ -1463,7 +1463,7 @@
                 "sftp",
                 "storage"
             ],
-            "time": "2018-04-06T09:58:14+00:00"
+            "time": "2018-05-07T08:44:23+00:00"
         },
         {
             "name": "mikehaertl/php-shellcommand",
@@ -1596,7 +1596,7 @@
             },
             "dist": {
                 "type": "tar",
-                "url": "https://composer:uxJ4EhTaf61fo3pnTvK5@composer.monkeydata.com/dist/monkey-abstract-domain-model-1.4.1-316360.tar",
+                "url": "https://composer.monkeydata.com/dist/monkey-abstract-domain-model-1.4.1-316360.tar",
                 "reference": "efbc28d4a56fe22981bdec1a0430f927736e3b41",
                 "shasum": "68a56d783dc349c500dfa8a851c8f489c4bfa184"
             },
@@ -1614,7 +1614,7 @@
                     "Monkey\\AbstractDomainModel\\": "src/"
                 }
             },
-            "notification-url": "https://composer:uxJ4EhTaf61fo3pnTvK5@composer.monkeydata.com/notify-download/",
+            "notification-url": "https://composer.monkeydata.com/notify-download/",
             "authors": [
                 {
                     "name": "henry",
@@ -1703,17 +1703,17 @@
         },
         {
             "name": "monkey/config",
-            "version": "1.21.0",
+            "version": "1.22.0",
             "source": {
                 "type": "git",
                 "url": "git@gitlab.monkeydata.com:composer/config.git",
-                "reference": "c75100fc61b443e0f0ba4a0acada694ceb25dc77"
+                "reference": "a77ce3e0fc4496cd7a5c16120ef92f69256f9144"
             },
             "dist": {
                 "type": "tar",
-                "url": "https://composer.monkeydata.com/dist/monkey-config-1.21.0-b3098f.tar",
-                "reference": "c75100fc61b443e0f0ba4a0acada694ceb25dc77",
-                "shasum": "b5b45a993438cd6460afa348c58d0cddb0a33abc"
+                "url": "https://composer.monkeydata.com/dist/monkey-config-1.22.0-32f316.tar",
+                "reference": "a77ce3e0fc4496cd7a5c16120ef92f69256f9144",
+                "shasum": "497547d441cf07a5bb02b7ea4eda9023a5752244"
             },
             "require": {
                 "monkey/dotenv": "^1.2.0",
@@ -1739,7 +1739,7 @@
                 }
             ],
             "description": "General configuration for common things and setting",
-            "time": "2018-04-19T08:46:09+00:00"
+            "time": "2018-04-25T11:31:15+00:00"
         },
         {
             "name": "monkey/connections",
@@ -1908,7 +1908,7 @@
             },
             "dist": {
                 "type": "tar",
-                "url": "https://composer:uxJ4EhTaf61fo3pnTvK5@composer.monkeydata.com/dist/monkey-domain-model-1.5.1-0e48fe.tar",
+                "url": "https://composer.monkeydata.com/dist/monkey-domain-model-1.5.1-0e48fe.tar",
                 "reference": "d27009a62b0d921a12f0bb2c9fb03f46b9e59f72",
                 "shasum": "06f5a5c64321fd06c9851077790547c087ade3fa"
             },
@@ -1926,7 +1926,7 @@
                     "Monkey\\DomainModel\\": "src/"
                 }
             },
-            "notification-url": "https://composer:uxJ4EhTaf61fo3pnTvK5@composer.monkeydata.com/notify-download/",
+            "notification-url": "https://composer.monkeydata.com/notify-download/",
             "authors": [
                 {
                     "name": "henry",
@@ -2216,17 +2216,17 @@
         },
         {
             "name": "monkey/o-auth2",
-            "version": "1.1.3",
+            "version": "1.1.4",
             "source": {
                 "type": "git",
                 "url": "git@gitlab.monkeydata.com:composer/o-auth2.git",
-                "reference": "cd69f7e26154a904d705c46f1ac78db8f1ec176a"
+                "reference": "c16c381d031e46c0e01de20bfcf7169963a88522"
             },
             "dist": {
                 "type": "tar",
-                "url": "https://composer.monkeydata.com/dist/monkey-o-auth2-1.1.3-3e7cf5.tar",
-                "reference": "cd69f7e26154a904d705c46f1ac78db8f1ec176a",
-                "shasum": "508f36d35c386a091c648f480d8592322c1e99b6"
+                "url": "https://composer.monkeydata.com/dist/monkey-o-auth2-1.1.4-117459.tar",
+                "reference": "c16c381d031e46c0e01de20bfcf7169963a88522",
+                "shasum": "930ed1e7eb98b2507628087cdfbbe11a9bf727e4"
             },
             "require": {
                 "bshaffer/oauth2-server-php": "~1.7",
@@ -2253,7 +2253,7 @@
                 }
             ],
             "description": "package for composer",
-            "time": "2018-04-10T14:03:01+00:00"
+            "time": "2018-04-24T09:49:17+00:00"
         },
         {
             "name": "monkey/old-monkey",
@@ -2452,7 +2452,7 @@
             },
             "dist": {
                 "type": "tar",
-                "url": "https://composer:uxJ4EhTaf61fo3pnTvK5@composer.monkeydata.com/dist/monkey-translator-1.1.1-f3439c.tar",
+                "url": "https://composer.monkeydata.com/dist/monkey-translator-1.1.1-f3439c.tar",
                 "reference": "e0eab79393c6ca4cb9068d5826642b973656bbf9",
                 "shasum": "99f4992b05e588f370e72e8981d681f84b6fa613"
             },
@@ -2472,7 +2472,7 @@
                     "Monkey\\Translator\\": "src/"
                 }
             },
-            "notification-url": "https://composer:uxJ4EhTaf61fo3pnTvK5@composer.monkeydata.com/notify-download/",
+            "notification-url": "https://composer.monkeydata.com/notify-download/",
             "authors": [
                 {
                     "name": "henry",
@@ -3184,16 +3184,16 @@
         },
         {
             "name": "sentry/sentry",
-            "version": "1.8.4",
+            "version": "1.9.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/getsentry/sentry-php.git",
-                "reference": "643ec20d181ca55317d4ccda6ad658b9a8b4f06a"
+                "reference": "c90567d78382b803e563939654d1563ddee61707"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/getsentry/sentry-php/zipball/643ec20d181ca55317d4ccda6ad658b9a8b4f06a",
-                "reference": "643ec20d181ca55317d4ccda6ad658b9a8b4f06a",
+                "url": "https://api.github.com/repos/getsentry/sentry-php/zipball/c90567d78382b803e563939654d1563ddee61707",
+                "reference": "c90567d78382b803e563939654d1563ddee61707",
                 "shasum": ""
             },
             "require": {
@@ -3244,7 +3244,7 @@
                 "log",
                 "logging"
             ],
-            "time": "2018-03-20T12:52:10+00:00"
+            "time": "2018-05-03T12:06:52+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -3775,16 +3775,16 @@
         },
         {
             "name": "symfony/polyfill-mbstring",
-            "version": "v1.7.0",
+            "version": "v1.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-mbstring.git",
-                "reference": "78be803ce01e55d3491c1397cf1c64beb9c1b63b"
+                "reference": "3296adf6a6454a050679cde90f95350ad604b171"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/78be803ce01e55d3491c1397cf1c64beb9c1b63b",
-                "reference": "78be803ce01e55d3491c1397cf1c64beb9c1b63b",
+                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/3296adf6a6454a050679cde90f95350ad604b171",
+                "reference": "3296adf6a6454a050679cde90f95350ad604b171",
                 "shasum": ""
             },
             "require": {
@@ -3796,7 +3796,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.7-dev"
+                    "dev-master": "1.8-dev"
                 }
             },
             "autoload": {
@@ -3830,20 +3830,20 @@
                 "portable",
                 "shim"
             ],
-            "time": "2018-01-30T19:27:44+00:00"
+            "time": "2018-04-26T10:06:28+00:00"
         },
         {
             "name": "symfony/polyfill-php56",
-            "version": "v1.7.0",
+            "version": "v1.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-php56.git",
-                "reference": "ebc999ce5f14204c5150b9bd15f8f04e621409d8"
+                "reference": "af98553c84912459db3f636329567809d639a8f6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-php56/zipball/ebc999ce5f14204c5150b9bd15f8f04e621409d8",
-                "reference": "ebc999ce5f14204c5150b9bd15f8f04e621409d8",
+                "url": "https://api.github.com/repos/symfony/polyfill-php56/zipball/af98553c84912459db3f636329567809d639a8f6",
+                "reference": "af98553c84912459db3f636329567809d639a8f6",
                 "shasum": ""
             },
             "require": {
@@ -3853,7 +3853,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.7-dev"
+                    "dev-master": "1.8-dev"
                 }
             },
             "autoload": {
@@ -3886,20 +3886,20 @@
                 "portable",
                 "shim"
             ],
-            "time": "2018-01-30T19:27:44+00:00"
+            "time": "2018-04-26T10:06:28+00:00"
         },
         {
             "name": "symfony/polyfill-util",
-            "version": "v1.7.0",
+            "version": "v1.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-util.git",
-                "reference": "e17c808ec4228026d4f5a8832afa19be85979563"
+                "reference": "1a5ad95d9436cbff3296034fe9f8d586dce3fb3a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-util/zipball/e17c808ec4228026d4f5a8832afa19be85979563",
-                "reference": "e17c808ec4228026d4f5a8832afa19be85979563",
+                "url": "https://api.github.com/repos/symfony/polyfill-util/zipball/1a5ad95d9436cbff3296034fe9f8d586dce3fb3a",
+                "reference": "1a5ad95d9436cbff3296034fe9f8d586dce3fb3a",
                 "shasum": ""
             },
             "require": {
@@ -3908,7 +3908,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.7-dev"
+                    "dev-master": "1.8-dev"
                 }
             },
             "autoload": {
@@ -3938,7 +3938,7 @@
                 "polyfill",
                 "shim"
             ],
-            "time": "2018-01-31T18:08:44+00:00"
+            "time": "2018-04-26T10:06:28+00:00"
         },
         {
             "name": "symfony/process",
