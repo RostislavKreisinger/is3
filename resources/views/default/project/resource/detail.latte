@@ -98,6 +98,9 @@
             <li class="">
                 <a href="#errors" data-toggle="tab" aria-expanded="true">Errors</a>
             </li>
+            <li>
+                <a href="#export" data-toggle="tab" aria-expanded="true">Export</a>
+            </li>
         </ul>        
         <div class="tab-content">
             <div class="tab-pane active in" id="connection-detail"  n:if="count($connectionDetail)">
@@ -115,6 +118,11 @@
             </div>
             <div class="tab-pane" id="errors">
                 {view 'default.project.resource.template.error-panel'}
+            </div>
+            <div class="tab-pane" id="export">
+                <textarea id="rsexport" title="SQL of this resource setting" readonly class="form-control"
+                          style="resize: none; user-select: all;" rows="5"
+                          onclick="$(this).select()">{n $rsexport }</textarea>
             </div>
         </div>
     </div>
