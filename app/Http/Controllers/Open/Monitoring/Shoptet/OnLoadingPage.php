@@ -8,7 +8,9 @@ use Monkey\Connections\MDDatabaseConnections;
 use Monkey\Connections\MDDataStorageConnections;
 use Monkey\Connections\MDImportFlowConnections;
 use Monkey\DateTime\DateTimeHelper;
+use Monkey\Helpers\Arrays;
 use Monkey\View\View;
+use PhpParser\Node\Expr\Array_;
 
 class OnLoadingPage extends BaseController {
 
@@ -28,19 +30,64 @@ class OnLoadingPage extends BaseController {
         $data = $query->get();
         //vd($data);
 
-        // foreach ($projects as )
-
-        $projectsOnLoadingPage = array();
-        foreach ($data as $item){
-            $project = $projects[$item->project_id];
-            $dth = new DateTimeHelper($project->created_at, 'UTC');
-            $project->timeOnLoadingPage = gmdate("H:i:s", $dth->diffInSeconds());
-            $projectsOnLoadingPage[] = $project;
+        foreach ($projects as $project){
+            $project->timeOnLoadingPage = null;
+            $project->historyDownloadPercent = null;
+            $project->historyDownloadSkipped = false;
         }
+
+       //  $projectsOnLoadingPage = $projects;
+        $data = [];
+        foreach ($data as $item){
+            $project = &$projects[$item->project_id];
+            $dth = new DateTimeHelper($project->created_at, 'UTC');
+            $project->timeOnLoadingPageSec = $dth->diffInSeconds();
+            $project->timeOnLoadingPage = gmdate("H:i:s", $dth->diffInSeconds());
+
+            list($percent, $skipped) = $this->historyDownload($item);
+            $project->historyDownloadPercent = $percent;
+            $project->historyDownloadSkipped = $skipped;
+            // $projectsOnLoadingPage[] = $project;
+        }
+
+
+        $projectsOnLoadingPage = Arrays::sortArrayOfObjects($projects, function($project){
+            return (int)$project->historyDownloadSkipped*100000000000 + 100000000000-$project->timeOnLoadingPageSec;
+        });
+
 
 
 
         View::share("projectsCount", count($projectsOnLoadingPage));
         View::share("projects", $projectsOnLoadingPage);
+    }
+
+
+    private function historyDownload($history) {
+        $createdAt = DateTimeHelper::getCloneSelf($history->created_at);
+        $dateFrom = DateTimeHelper::getCloneSelf($history->date_from);
+        $dateTo = DateTimeHelper::getCloneSelf($history->date_to);
+
+        if($dateFrom > $dateTo){
+            return [100, true];
+        }
+
+        $allDaysDiff = $createdAt->diffInDays($dateFrom);
+        $remaining = $dateTo->diffInDays($dateFrom);
+
+        // min 1 day for UX
+        $alreadyDownloaded = max($allDaysDiff - $remaining, 1);
+
+        $percents = round(($alreadyDownloaded / $allDaysDiff)*100);
+        // min 1% for UX
+        // $percents = max($percents, 1);
+
+        $skipped = false;
+        if($percents >= 100){
+            $percents = 100;
+            $skipped = true;
+        }
+
+        return [$percents, $skipped];
     }
 }

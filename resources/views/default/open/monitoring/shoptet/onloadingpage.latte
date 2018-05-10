@@ -1,19 +1,32 @@
 <h2>Projects on loading page</h2>
 
 <h3>Projects: {$projectsCount}</h3>
+
+<style>
+    .skipped {
+        opacity: 0.5;
+    }
+
+    red {
+        color: red;
+    }
+</style>
+
 <table class="table">
     <thead>
     <tr>
         <th scope="col">UID</th>
         <th scope="col">PID</th>
         <th scope="col">On loading page</th>
+        <th scope="col"></th>
     </tr>
     </thead>
     <tbody>
-    <tr n:foreach="$projects as $project">
+    <tr n:foreach="$projects as $project" class="{$project->historyDownloadSkipped?'skipped'}">
         <th>{$project->user_id}</th>
         <th>{$project->id}</th>
-        <th>{$project->timeOnLoadingPage}</th>
+        <th>{$project->timeOnLoadingPage?:'<red>NULL</red>'|noescape}</th>
+        <th class="state">{$project->historyDownloadPercent?:'-- '}%</th>
     </tr>
     </tbody>
 </table>
