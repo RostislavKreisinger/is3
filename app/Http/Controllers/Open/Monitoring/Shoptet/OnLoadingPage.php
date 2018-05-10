@@ -52,7 +52,12 @@ class OnLoadingPage extends BaseController {
 
 
         $projectsOnLoadingPage = Arrays::sortArrayOfObjects($projects, function($project){
-            return (int)$project->historyDownloadSkipped*100000000000 + 100000000000-$project->timeOnLoadingPageSec;
+            $result = ((int)$project->historyDownloadSkipped)*pow(10, 12);
+            if($project->historyDownloadSkipped){
+                $result +=pow(10, 8)*$project->historyDownloadPercent;
+            }
+            $result += pow(10, 8) - $project->timeOnLoadingPageSec;
+            return $result;
         });
 
 
@@ -85,11 +90,11 @@ class OnLoadingPage extends BaseController {
         $skipped = false;
         if($percents >= 100){
             $percents = 100;
-            $skipped = true;
+            $skipped = 2;
         }
 
         if($alreadyDownloaded > 5){
-            $skipped = true;
+            $skipped = 1;
         }
 
 

@@ -11,7 +11,7 @@
     </tr>
     </thead>
     <tbody>
-    <tr n:foreach="$projects as $project">
+    <tr n:foreach="$projects as $project" class="{$project->rs_active == 1?'skipped'}">
         <th>{$project->user_id}</th>
         <th>{$project->id}</th>
         <th>{$project->created_at}</th>
