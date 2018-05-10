@@ -14,6 +14,7 @@ class BaseController extends \App\Http\Controllers\Open\Monitoring\BaseControlle
     public function __construct() {
         parent::__construct();
         $this->setPageRefresh(5000);
+
     }
 
     protected function cleanRoute($route) {
@@ -27,7 +28,8 @@ class BaseController extends \App\Http\Controllers\Open\Monitoring\BaseControlle
     }
 
     public function getIndex() {
-
+        $fontSize = Input::get("fontSize", '1em');
+        View::share("fontSize", $fontSize);
     }
 
     /**
