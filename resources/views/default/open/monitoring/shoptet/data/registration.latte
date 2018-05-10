@@ -1,0 +1,21 @@
+<h3>Projects: {$projectsCount}</h3>
+<div class="content">
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">UID</th>
+        <th scope="col">PID</th>
+        <th scope="col">Created at</th>
+        <th scope="col">RS active</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr n:foreach="$projects as $project" class="{$project->rs_active == 1?'skipped'}">
+        <th>{$project->user_id}</th>
+        <th>{$project->id}</th>
+        <th>{$project->created_at}</th>
+        <th>{$project->rs_active}</th>
+    </tr>
+    </tbody>
+</table>
+</div>

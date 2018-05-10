@@ -1,24 +1,15 @@
 <h2>Projects on loading page</h2>
+<div class="content"></div>
+<script>
+    function download(){
+        $.get('{action "Open\\Monitoring\\Shoptet\\OnLoadingPageController@getData"}', function(data){
+            $(".content").html(data);
 
-<h3>Projects: {$projectsCount}</h3>
-
-
-
-<table class="table">
-    <thead>
-    <tr>
-        <th scope="col">UID</th>
-        <th scope="col">PID</th>
-        <th scope="col">On loading page</th>
-        <th scope="col"></th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr n:foreach="$projects as $project" class="{$project->historyDownloadSkipped?'skipped'}">
-        <th>{$project->user_id}</th>
-        <th>{$project->id}</th>
-        <th>{$project->timeOnLoadingPage?:'<red>NULL</red>'|noescape}</th>
-        <th class="state">{$project->historyDownloadPercent?:'-- '}%</th>
-    </tr>
-    </tbody>
-</table>
+        }).always(function() {
+            window.setTimeout(function(){
+                download()
+            }, window.pageRefresh);
+        });
+    }
+    download();
+</script>

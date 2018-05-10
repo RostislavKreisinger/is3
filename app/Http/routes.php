@@ -24,8 +24,8 @@ Route::group(['middleware' => 'web'], function () {
 
         Route::group(['prefix' => 'monitoring'], function (){
             Route::group(['prefix' => 'shoptet'], function (){
-                Route::controller('registration', \App\Http\Controllers\Open\Monitoring\Shoptet\Registration::class);
-                Route::controller('on-loading-page', \App\Http\Controllers\Open\Monitoring\Shoptet\OnLoadingPage::class);
+                Route::controller('registration', \App\Http\Controllers\Open\Monitoring\Shoptet\RegistrationController::class);
+                Route::controller('on-loading-page', \App\Http\Controllers\Open\Monitoring\Shoptet\OnLoadingPageController::class);
             });
 
 

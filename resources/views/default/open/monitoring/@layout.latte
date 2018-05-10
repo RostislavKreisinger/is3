@@ -30,13 +30,16 @@
     }
 </style>
 
+<script>
+    window.pageRefresh = {$pageRefresh};
+    {*window.setInterval(function(){*}
+    {*location.reload();*}
+    {*}, {$pageRefresh})*}
+</script>
+
 {view $body}
 {view 'default.scripts'}
-<script>
-    window.setInterval(function(){
-        location.reload();
-    }, {$pageRefresh})
-</script>
+
 
 <script>
     var results = "";

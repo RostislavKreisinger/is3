@@ -16,6 +16,16 @@ class BaseController extends \App\Http\Controllers\Open\Monitoring\BaseControlle
         $this->setPageRefresh(5000);
     }
 
+    protected function cleanRoute($route) {
+        $pathArray = parent::cleanRoute($route);
+        if(strpos($route, "@getData") !== false) {
+            $tmp = $pathArray[count($pathArray) - 1];
+            $pathArray[count($pathArray) - 1] = "data";
+            $pathArray[] = $tmp;
+        }
+        return $pathArray;
+    }
+
     public function getIndex() {
 
     }

@@ -12,9 +12,12 @@ use Monkey\Helpers\Arrays;
 use Monkey\View\View;
 use PhpParser\Node\Expr\Array_;
 
-class OnLoadingPage extends BaseController {
+class OnLoadingPageController extends BaseController {
 
-    public function getIndex() {
+
+
+    public function getData() {
+
         $projects = $this->getShoptetProjects();
         $projectIds = array_keys($projects);
 //        foreach ($projects as $project){

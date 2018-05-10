@@ -7,9 +7,9 @@ use Illuminate\Database\Query\JoinClause;
 use Monkey\Connections\MDDatabaseConnections;
 use Monkey\View\View;
 
-class Registration extends BaseController {
+class RegistrationController extends BaseController {
 
-    public function getIndex() {
+    public function getData() {
         $projects = $this->getShoptetProjects();
 
         View::share("projectsCount", count($projects));
