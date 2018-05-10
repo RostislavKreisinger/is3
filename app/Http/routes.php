@@ -21,6 +21,12 @@ Route::group(['middleware' => 'web'], function () {
                 Route::controller('/queues-jobs-in-time-history', App\Http\Controllers\Open\ImportFlow\Graph\QueuesJobsInTimeHistoryController::class);
             });
         });
+
+        Route::group(['prefix' => 'monitoring'], function (){
+            Route::controller('/shoptet-registration', \App\Http\Controllers\Open\Monitoring\ShoptetRegistration::class);
+//            Route::controller('/queues-jobs-in-time', App\Http\Controllers\Open\ImportFlow\Graph\QueuesJobsInTimeController::class);
+//            Route::controller('/queues-jobs-in-time-history', App\Http\Controllers\Open\ImportFlow\Graph\QueuesJobsInTimeHistoryController::class);
+        });
     });
 
     Route::group(['prefix' => 'api'], function(){

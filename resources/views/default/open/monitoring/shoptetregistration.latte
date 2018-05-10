@@ -1,0 +1,18 @@
+<h2>Projects: {$projectsCount}</h2>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">UID</th>
+        <th scope="col">PID</th>
+        <th scope="col">Created at</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr n:foreach="$projects as $project">
+        <th>{$project->user_id}</th>
+        <th>{$project->id}</th>
+        <th>{$project->created_at}</th>
+    </tr>
+    </tbody>
+</table>
