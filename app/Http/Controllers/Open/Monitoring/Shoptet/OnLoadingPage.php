@@ -32,6 +32,7 @@ class OnLoadingPage extends BaseController {
 
         foreach ($projects as $project){
             $project->timeOnLoadingPage = null;
+            $project->timeOnLoadingPageSec = null;
             $project->historyDownloadPercent = null;
             $project->historyDownloadSkipped = false;
         }
