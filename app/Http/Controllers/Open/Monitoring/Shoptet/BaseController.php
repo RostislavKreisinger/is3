@@ -1,16 +1,31 @@
 <?php
 
-namespace App\Http\Controllers\Open\Monitoring;
+namespace App\Http\Controllers\Open\Monitoring\Shoptet;
+
 
 
 use Illuminate\Database\Query\JoinClause;
+use Illuminate\Support\Facades\Input;
 use Monkey\Connections\MDDatabaseConnections;
 use Monkey\View\View;
 
-class ShoptetRegistration extends BaseController {
+class BaseController extends \App\Http\Controllers\Open\Monitoring\BaseController {
+
+    public function __construct() {
+        parent::__construct();
+        $this->setPageRefresh(5000);
+    }
 
     public function getIndex() {
 
+    }
+
+    /**
+     * @return array projects array
+     */
+    protected function getShoptetProjects() {
+
+        $dateFrom = Input::get("date_from", '2018-05-10 00:00:00');
         /*
          SELECT * FROM project as p
             JOIN resource_setting as rs ON rs.project_id = p.id AND rs.resource_id = 4
@@ -27,14 +42,26 @@ class ShoptetRegistration extends BaseController {
                 $join->on("re.resource_setting_id", '=', 'rs.id')
                     ->where("re.eshop_type_id", '=', 56);
             })
-            ->where("p.created_at", '>', '2018-05-10 00:00:00')
+            ->where("rs.created_at", '>', $dateFrom)
             ->orderBy("p.created_at", 'DESC')
-            ->select(['p.created_at', 'p.id', 'p.user_id'])
+            ->select(['rs.created_at', 'p.id', 'p.user_id'])
         ;
+        // vdQuery($query);
 
         $data = $query->get();
+        $projects = array();
+        foreach ($data as $project){
+            $projects[$project->id] = $project;
+        }
 
-        View::share("projectsCount", count($data));
-        View::share("projects", $data);
+        return $projects;
     }
+
+    /**
+     * @param int $pageRefresh
+     */
+    protected function setPageRefresh($pageRefresh) {
+        View::share("pageRefresh", $pageRefresh);
+    }
+
 }

@@ -22,6 +22,11 @@
 
 {view $body}
 {view 'default.scripts'}
+<script>
+    window.setInterval(function(){
+        location.reload();
+    }, {$pageRefresh})
+</script>
 
 <script>
     var results = "";

@@ -1,0 +1,19 @@
+<h2>Projects on loading page</h2>
+
+<h3>Projects: {$projectsCount}</h3>
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">UID</th>
+        <th scope="col">PID</th>
+        <th scope="col">On loading page</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr n:foreach="$projects as $project">
+        <th>{$project->user_id}</th>
+        <th>{$project->id}</th>
+        <th>{$project->timeOnLoadingPage}</th>
+    </tr>
+    </tbody>
+</table>

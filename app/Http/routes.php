@@ -23,7 +23,12 @@ Route::group(['middleware' => 'web'], function () {
         });
 
         Route::group(['prefix' => 'monitoring'], function (){
-            Route::controller('/shoptet-registration', \App\Http\Controllers\Open\Monitoring\ShoptetRegistration::class);
+            Route::group(['prefix' => 'shoptet'], function (){
+                Route::controller('registration', \App\Http\Controllers\Open\Monitoring\Shoptet\Registration::class);
+                Route::controller('on-loading-page', \App\Http\Controllers\Open\Monitoring\Shoptet\OnLoadingPage::class);
+            });
+
+
 //            Route::controller('/queues-jobs-in-time', App\Http\Controllers\Open\ImportFlow\Graph\QueuesJobsInTimeController::class);
 //            Route::controller('/queues-jobs-in-time-history', App\Http\Controllers\Open\ImportFlow\Graph\QueuesJobsInTimeHistoryController::class);
         });
