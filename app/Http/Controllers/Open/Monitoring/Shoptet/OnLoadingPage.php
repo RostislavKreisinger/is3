@@ -38,7 +38,6 @@ class OnLoadingPage extends BaseController {
         }
 
        //  $projectsOnLoadingPage = $projects;
-        $data = [];
         foreach ($data as $item){
             $project = &$projects[$item->project_id];
             $dth = new DateTimeHelper($project->created_at, 'UTC');
@@ -88,6 +87,11 @@ class OnLoadingPage extends BaseController {
             $percents = 100;
             $skipped = true;
         }
+
+        if($alreadyDownloaded > 5){
+            $skipped = true;
+        }
+
 
         return [$percents, $skipped];
     }
