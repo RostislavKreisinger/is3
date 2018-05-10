@@ -44,7 +44,7 @@ class BaseController extends \App\Http\Controllers\Open\Monitoring\BaseControlle
             })
             ->where("rs.created_at", '>', $dateFrom)
             ->orderBy("p.created_at", 'DESC')
-            ->select(['rs.created_at', 'p.id', 'p.user_id'])
+            ->select(['rs.created_at', 'p.id', 'p.user_id', 'rs.active as rs_active'])
         ;
         // vdQuery($query);
 
