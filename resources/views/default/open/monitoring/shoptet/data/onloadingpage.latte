@@ -10,10 +10,10 @@
     </thead>
     <tbody>
     <tr n:foreach="$projects as $project" class="{$project->historyDownloadSkipped?'skipped'}">
-        <th>{$project->user_id}</th>
-        <th>{$project->id}</th>
-        <th>{$project->timeOnLoadingPage?:'<red>NULL</red>'|noescape}</th>
-        <th class="state">{$project->historyDownloadPercent?:'-- '}%</th>
+        <td>{$project->user_id}</td>
+        <td>{$project->id}</td>
+        <td>{$project->timeOnLoadingPage?:'<red>NULL</red>'|noescape}</td>
+        <td class="state">{$project->historyDownloadPercent?:'-- '}%</td>
     </tr>
     </tbody>
 </table>

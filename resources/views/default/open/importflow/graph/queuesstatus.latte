@@ -1,7 +1,7 @@
 
 
 
-<div id="chart-import-flow-queues" style="position: fixed; bottom: 1%; left: 1%; right: 1%; top: 1%; "></div>
+<div id="chart-import-flow-queues" class="chart" style="position: fixed; bottom: 1%; left: 1%; right: 1%; top: 1%; "></div>
 <script>
 
     window.chartImportFlowQueuesUrl = "{action 'Api\ImportFlow\Graphs\QueuesStatusController'}";
@@ -15,6 +15,18 @@
                             text: "Jobs in queues",
                             horizontalAlignment: "left"
                         },
+                        commonAxisSettings: {
+                            label: {
+                                font: {
+                                    size: '0.7em'
+                                }
+                            }
+                        },
+                        legend: {
+                            font: {
+                                size: '0.7em'
+                            }
+                        },
                         commonSeriesSettings: {
                             argumentField: "category",
                             type: "bar",
@@ -24,7 +36,7 @@
                                 backgroundColor: 'transparent',
                                 font: {
                                     weight: 700,
-                                    size: 14
+                                    size: '1em'
                                 }
                             }
                         },

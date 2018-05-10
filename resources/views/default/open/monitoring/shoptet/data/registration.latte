@@ -10,10 +10,10 @@
     </thead>
     <tbody>
     <tr n:foreach="$projects as $project" class="{$project->rs_active == 1?'skipped'}">
-        <th>{$project->user_id}</th>
-        <th>{$project->id}</th>
-        <th>{$project->created_at}</th>
-        <th>{$project->rs_active}</th>
+        <td>{$project->user_id}</td>
+        <td>{$project->id}</td>
+        <td>{$project->created_at}</td>
+        <td>{$project->rs_active}</td>
     </tr>
     </tbody>
 </table>

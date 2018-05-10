@@ -1,5 +1,5 @@
 
-<div id="chart-import-flow-queues-jobs-in-time-history"  style="position: fixed; bottom: 1%; left: 1%; right: 1%; top: 1%; "></div>
+<div id="chart-import-flow-queues-jobs-in-time-history" class="chart" style="position: fixed; bottom: 1%; left: 1%; right: 1%; top: 1%; "></div>
 <script>
     window.chartImportFlowQueuesJobsInTimeHistoryUrl = "{action 'Api\ImportFlow\Graphs\QueuesJobsInTimeHistoryController'}";
     // window.chartImportFlowQueuesUrl = "http://localhost/import-support-v3.monkeydata.com/public/api/import-flow/graphs/queues-status";
@@ -14,7 +14,12 @@
                 horizontalAlignment: "left"
             },
             valueAxis: {
-                min: 0
+                min: 0,
+                label: {
+                    font: {
+                        size: '1em'
+                    }
+                }
 //                                label: {
 //                                    customizeText: function(arg){
 //                                        return mdFormat.formatSecondToTime(arg.value);
@@ -28,6 +33,9 @@
                         mode: 'stagger',
                         staggeringSpacing: 5,
                         rotationAngle: 90
+                    },
+                    font: {
+                        size: '1em'
                     }
                 }
             },
