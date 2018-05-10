@@ -28,10 +28,12 @@ class OnLoadingPage extends BaseController {
         $data = $query->get();
         //vd($data);
 
+        // foreach ($projects as )
+
         $projectsOnLoadingPage = array();
         foreach ($data as $item){
             $project = $projects[$item->project_id];
-            $dth = new DateTimeHelper($project->created_at);
+            $dth = new DateTimeHelper($project->created_at, 'UTC');
             $project->timeOnLoadingPage = gmdate("H:i:s", $dth->diffInSeconds());
             $projectsOnLoadingPage[] = $project;
         }
