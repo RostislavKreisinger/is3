@@ -2,17 +2,12 @@
 
 namespace App\Http\Controllers\Open\Monitoring\Shoptet;
 
-
 use App\Http\Controllers\Open\Monitoring\Shoptet\Objects\Project;
-use Illuminate\Database\Query\JoinClause;
 use Illuminate\Http\JsonResponse;
-use Monkey\Connections\MDDatabaseConnections;
-use Monkey\Connections\MDDataStorageConnections;
 use Monkey\Connections\MDImportFlowConnections;
 use Monkey\DateTime\DateTimeHelper;
 use Monkey\Helpers\Arrays;
 use Monkey\View\View;
-use PhpParser\Node\Expr\Array_;
 
 class OnLoadingPageController extends BaseController {
 
@@ -86,7 +81,7 @@ class OnLoadingPageController extends BaseController {
                 $project->important = 1;
             }
         }
- // vde($projectsOnLoadingPage);
+        // vde($projectsOnLoadingPage);
 
 
 

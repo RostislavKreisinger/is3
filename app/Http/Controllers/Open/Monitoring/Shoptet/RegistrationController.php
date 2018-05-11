@@ -2,10 +2,7 @@
 
 namespace App\Http\Controllers\Open\Monitoring\Shoptet;
 
-
-use Illuminate\Database\Query\JoinClause;
 use Illuminate\Http\JsonResponse;
-use Monkey\Connections\MDDatabaseConnections;
 use Monkey\View\View;
 
 class RegistrationController extends BaseController {

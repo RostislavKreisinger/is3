@@ -2,6 +2,7 @@
 <table class="table">
     <thead>
     <tr>
+        <th style="width: 20px; text-align: right;">#</th>
         <th scope="col">UID</th>
         <th scope="col">PID</th>
         <th scope="col">Created at</th>
@@ -10,6 +11,7 @@
     </thead>
     <tbody>
     <tr n:foreach="$projects as $project" class="{$project->rs_active == 1?'skipped'} {$project->getImportantClass()}">
+        <td style="text-align: right; opacity: 0.9">{$iterator->counter}.</td>
         <td>{$project->user_id}</td>
         <td>{$project->id}</td>
         <td>{$project->created_at}</td>
