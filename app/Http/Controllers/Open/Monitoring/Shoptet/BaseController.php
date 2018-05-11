@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Open\Monitoring\Shoptet;
 
 
 
+use App\Http\Controllers\Open\Monitoring\Shoptet\Objects\Project;
 use Illuminate\Database\Query\JoinClause;
 use Illuminate\Support\Facades\Input;
 use Monkey\Connections\MDDatabaseConnections;
@@ -33,7 +34,7 @@ class BaseController extends \App\Http\Controllers\Open\Monitoring\BaseControlle
     }
 
     /**
-     * @return array projects array
+     * @return Project[] projects array
      */
     protected function getShoptetProjects() {
 
@@ -63,7 +64,7 @@ class BaseController extends \App\Http\Controllers\Open\Monitoring\BaseControlle
         $data = $query->get();
         $projects = array();
         foreach ($data as $project){
-            $projects[$project->id] = $project;
+            $projects[$project->id] = new Project($project);
         }
 
         return $projects;

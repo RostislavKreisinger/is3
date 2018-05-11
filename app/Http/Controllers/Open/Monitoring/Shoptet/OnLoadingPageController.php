@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Open\Monitoring\Shoptet;
 
 
+use App\Http\Controllers\Open\Monitoring\Shoptet\Objects\Project;
 use Illuminate\Database\Query\JoinClause;
 use Illuminate\Http\JsonResponse;
 use Monkey\Connections\MDDatabaseConnections;
@@ -59,6 +60,9 @@ class OnLoadingPageController extends BaseController {
         }
 
 
+        /**
+         * @var $projectsOnLoadingPage Project[]
+         */
         $projectsOnLoadingPage = Arrays::sortArrayOfObjects($projects, function($project){
             $result = ((int)$project->historyDownloadSkipped)*pow(10, 12);
             if($project->historyDownloadSkipped){
@@ -72,6 +76,14 @@ class OnLoadingPageController extends BaseController {
             }
             return $result;
         });
+
+
+        // IMPORTANT
+        foreach ($projectsOnLoadingPage as $project){
+            if($project->timeOnLoadingPageSec > 60*10){
+                $project->important = 1;
+            }
+        }
 
 
 
