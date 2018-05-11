@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Open\Monitoring\Shoptet;
 
 
 use Illuminate\Database\Query\JoinClause;
+use Illuminate\Http\JsonResponse;
 use Monkey\Connections\MDDatabaseConnections;
 use Monkey\Connections\MDDataStorageConnections;
 use Monkey\Connections\MDImportFlowConnections;
@@ -73,6 +74,13 @@ class OnLoadingPageController extends BaseController {
 
         View::share("projectsCount", count($projectsOnLoadingPage));
         View::share("projects", $projectsOnLoadingPage);
+
+        $response = new JsonResponse();
+        $response->setData(array(
+            "html" => $this->getView()->render(),
+            "projectCount" => count($projectsOnLoadingPage)
+        ));
+        return $response;
     }
 
 

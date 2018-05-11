@@ -18,8 +18,6 @@
 {view 'default.scripts'}
 
  *}
-
-
 <style>
     .skipped {
         opacity: 0.5;
@@ -32,13 +30,35 @@
     .content {
         font-size: {$fontSize|noescape};
     }
+
+    .loader {
+        width: 100%;
+        height: 2px;
+    }
+
+    .loader .progress {
+        width: 0%;
+        height: 2px;
+        background: blue;
+    }
 </style>
+
+<div class="loader">
+    <div class="progress"></div>
+</div>
 
 <script>
     window.pageRefresh = {$pageRefresh};
     {*window.setInterval(function(){*}
     {*location.reload();*}
     {*}, {$pageRefresh})*}
+
+    function loader(timeout){
+        var element = $(".loader .progress");
+        element.css("width", "0%").animate({
+            width: '100%'
+        }, timeout, "linear");
+    }
 </script>
 
 {view $body}

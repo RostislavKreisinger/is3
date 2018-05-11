@@ -2,12 +2,13 @@
 <div class="content"></div>
 <script>
     function download(){
+        loader(window.pageRefresh);
         $.get('{action "Open\\Monitoring\\Shoptet\\OnLoadingPageController@getData"}', function(data){
-            $(".content").html(data);
+            $(".content").html(data.html);
 
         }).always(function() {
             window.setTimeout(function(){
-                download()
+                download();
             }, window.pageRefresh);
         });
     }
