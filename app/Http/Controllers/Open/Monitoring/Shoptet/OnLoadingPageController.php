@@ -51,7 +51,7 @@ class OnLoadingPageController extends BaseController {
 
        //  $projectsOnLoadingPage = $projects;
         foreach ($data as $item){
-            $project = &$projects[$item->project_id];
+            $project = $projects[$item->project_id];
 
             list($percent, $skipped) = $this->historyDownload($item);
             $project->historyDownloadPercent = $percent;
@@ -63,20 +63,22 @@ class OnLoadingPageController extends BaseController {
         /**
          * @var $projectsOnLoadingPage Project[]
          */
-        $projectsOnLoadingPage = Arrays::sortArrayOfObjects($projects, function($project){
-            $result = ((int)$project->historyDownloadSkipped)*pow(10, 12);
-            if($project->historyDownloadSkipped){
-                $result +=pow(10, 8)*$project->historyDownloadPercent;
+        $projectsOnLoadingPage = Arrays::sortArrayOfObjects($projects, function($obj){
+            $result = ((int)$obj->historyDownloadSkipped)*pow(10, 12);
+            if($obj->historyDownloadSkipped){
+                $result +=pow(10, 8)*$obj->historyDownloadPercent;
             }
 
-            if($project->historyDownloadSkipped == 2){
-                $result += $project->timeOnLoadingPageSec;
+            if($obj->historyDownloadSkipped == 2){
+                $result += $obj->timeOnLoadingPageSec;
             }else {
-                $result += pow(10, 8) - $project->timeOnLoadingPageSec;
+                $result += pow(10, 8) - $obj->timeOnLoadingPageSec;
             }
             return $result;
         });
 
+
+        // vd($projectsOnLoadingPage);
 
         // IMPORTANT
         foreach ($projectsOnLoadingPage as $project){
@@ -84,7 +86,7 @@ class OnLoadingPageController extends BaseController {
                 $project->important = 1;
             }
         }
-
+ // vde($projectsOnLoadingPage);
 
 
 
