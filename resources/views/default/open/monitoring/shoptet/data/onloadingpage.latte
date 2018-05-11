@@ -13,7 +13,7 @@
         <td>{$project->user_id}</td>
         <td>{$project->id}</td>
         <td>{$project->timeOnLoadingPage?:'<red>NULL</red>'|noescape}</td>
-        <td class="state">{$project->historyDownloadPercent?:'-- '}%</td>
+        <td class="state">{$project->historyDownloadPercent?$project->historyDownloadPercent.'%':'<red>NULL</red>'|noescape}</td>
     </tr>
     </tbody>
 </table>

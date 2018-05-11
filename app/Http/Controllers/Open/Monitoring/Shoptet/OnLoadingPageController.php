@@ -35,8 +35,15 @@ class OnLoadingPageController extends BaseController {
         //vd($data);
 
         foreach ($projects as $project){
-            $project->timeOnLoadingPage = null;
             $project->timeOnLoadingPageSec = null;
+            $project->timeOnLoadingPage = null;
+
+            $dth = new DateTimeHelper($project->created_at, 'UTC');
+            $project->timeOnLoadingPageSec = $dth->diffInSeconds();
+            $days = (int)($project->timeOnLoadingPageSec / (3600*24));
+            $project->timeOnLoadingPage = ($days > 0?"{$days}d ": '') . gmdate("H:i:s", $dth->diffInSeconds());
+
+
             $project->historyDownloadPercent = null;
             $project->historyDownloadSkipped = false;
         }
@@ -44,9 +51,6 @@ class OnLoadingPageController extends BaseController {
        //  $projectsOnLoadingPage = $projects;
         foreach ($data as $item){
             $project = &$projects[$item->project_id];
-            $dth = new DateTimeHelper($project->created_at, 'UTC');
-            $project->timeOnLoadingPageSec = $dth->diffInSeconds();
-            $project->timeOnLoadingPage = gmdate("H:i:s", $dth->diffInSeconds());
 
             list($percent, $skipped) = $this->historyDownload($item);
             $project->historyDownloadPercent = $percent;
