@@ -80,7 +80,7 @@ class OnLoadingPageController extends BaseController {
 
         // IMPORTANT
         foreach ($projectsOnLoadingPage as $project){
-            if($project->timeOnLoadingPageSec > 60*10){
+            if($project->historyDownloadSkipped == 0 && $project->timeOnLoadingPageSec > 60*10){
                 $project->important = 1;
             }
         }
