@@ -59,7 +59,12 @@ class OnLoadingPageController extends BaseController {
             if($project->historyDownloadSkipped){
                 $result +=pow(10, 8)*$project->historyDownloadPercent;
             }
-            $result += pow(10, 8) - $project->timeOnLoadingPageSec;
+
+            if($project->historyDownloadSkipped == 2){
+                $result += $project->timeOnLoadingPageSec;
+            }else {
+                $result += pow(10, 8) - $project->timeOnLoadingPageSec;
+            }
             return $result;
         });
 
