@@ -26,7 +26,11 @@ class OnLoadingPageController extends BaseController {
         $query = $connection->table("if_history")
             ->whereIn("project_id", $projectIds)
             ;
-        // vdQuery($query);
+
+        if($this->isDebug()) {
+            vdQuery($query);
+        }
+
         $data = $query->get();
         //vd($data);
 

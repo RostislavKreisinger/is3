@@ -34,6 +34,13 @@ class BaseController extends \App\Http\Controllers\Open\Monitoring\BaseControlle
     }
 
     /**
+     * @return mixed
+     */
+    protected function isDebug() {
+        return Input::exists("debug");
+    }
+
+    /**
      * @return Project[] projects array
      */
     protected function getShoptetProjects() {
