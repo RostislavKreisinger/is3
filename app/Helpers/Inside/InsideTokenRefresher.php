@@ -22,14 +22,15 @@ class InsideTokenRefresher {
      * @throws Oauth2ClientException
      * @throws \Exception
      */
-    public function refreshSecret($userId) {
-
+    public function refreshSecret($userId, \Closure $echo = null) {
+        if($echo === null){
+            $echo = function($text){};
+        }
         $user = $this->getSsoUser($userId);
 
         $userEmail = $user->getEmail();
 
         $secretToken = $this->getSecretToken($userId);
-
 
         MDDatabaseConnections::getMiddlewareInsideConnection()->table("eshop_identity")
             ->where("email", '=', $userEmail)
@@ -43,7 +44,7 @@ class InsideTokenRefresher {
         }
 
         $project = $projects[0];
-
+        $echo("Affected project id ".$project->id);
         MDDatabaseConnections::getInsideConnection()->table("project")
             ->where("id", '=', $project->id)
             ->update(["secret_token" => hash("sha256", $secretToken->getAccessToken())]);

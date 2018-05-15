@@ -34,7 +34,10 @@ class InsideTokenRefresherCommand extends Command {
             }
 
             $provider = new InsideTokenRefresher();
-            $provider->refreshSecret($userId);
+            $command = $this;
+            $provider->refreshSecret($userId, function($text) use ($command){
+                $command->info($text);
+            });
 
 
         } catch (\Throwable $e) {
