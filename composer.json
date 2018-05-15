@@ -25,7 +25,9 @@
         "monkey/constants": "^1.1.0",
         "monkey/import-eshop-sdk": "^1.1.0",
         "monkey/import-eshop-data-objects": "^1.1.0",
-        "nilportugues/serializer": "^1.4.0"
+        "nilportugues/serializer": "^1.4.0",
+        "monkey/oauth2-client": "^1.0.1",
+        "monkey/oauth2-api": "^1.2.2"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

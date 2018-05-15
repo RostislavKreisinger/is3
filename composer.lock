@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "1d9c3957c29d8ce0e4c936796bc28ad9",
+    "content-hash": "2da1559536821321715f7c36ade20743",
     "packages": [
         {
             "name": "barryvdh/laravel-ide-helper",
@@ -1185,7 +1185,7 @@
             },
             "dist": {
                 "type": "tar",
-                "url": "https://composer.monkeydata.com/dist/laravel-framework-v5.2.45-d32539.tar",
+                "url": "https://composer:uxJ4EhTaf61fo3pnTvK5@composer.monkeydata.com/dist/laravel-framework-v5.2.45-d32539.tar",
                 "reference": "2a79f920d5584ec6df7cf996d922a742d11095d1",
                 "shasum": "7f46e069acd0cda5695ab5eb35e544a3a9d4e348"
             },
@@ -1287,7 +1287,7 @@
                     "Illuminate\\": "src/Illuminate/"
                 }
             },
-            "notification-url": "https://composer.monkeydata.com/notify-download/",
+            "notification-url": "https://composer:uxJ4EhTaf61fo3pnTvK5@composer.monkeydata.com/notify-download/",
             "license": [
                 "MIT"
             ],
@@ -1596,7 +1596,7 @@
             },
             "dist": {
                 "type": "tar",
-                "url": "https://composer.monkeydata.com/dist/monkey-abstract-domain-model-1.4.1-316360.tar",
+                "url": "https://composer:uxJ4EhTaf61fo3pnTvK5@composer.monkeydata.com/dist/monkey-abstract-domain-model-1.4.1-316360.tar",
                 "reference": "efbc28d4a56fe22981bdec1a0430f927736e3b41",
                 "shasum": "68a56d783dc349c500dfa8a851c8f489c4bfa184"
             },
@@ -1614,7 +1614,7 @@
                     "Monkey\\AbstractDomainModel\\": "src/"
                 }
             },
-            "notification-url": "https://composer.monkeydata.com/notify-download/",
+            "notification-url": "https://composer:uxJ4EhTaf61fo3pnTvK5@composer.monkeydata.com/notify-download/",
             "authors": [
                 {
                     "name": "henry",
@@ -1703,17 +1703,17 @@
         },
         {
             "name": "monkey/config",
-            "version": "1.22.0",
+            "version": "1.22.1",
             "source": {
                 "type": "git",
                 "url": "git@gitlab.monkeydata.com:composer/config.git",
-                "reference": "a77ce3e0fc4496cd7a5c16120ef92f69256f9144"
+                "reference": "44a6d19a829cd47f0fab6062ace5556da480cfb9"
             },
             "dist": {
                 "type": "tar",
-                "url": "https://composer.monkeydata.com/dist/monkey-config-1.22.0-32f316.tar",
-                "reference": "a77ce3e0fc4496cd7a5c16120ef92f69256f9144",
-                "shasum": "497547d441cf07a5bb02b7ea4eda9023a5752244"
+                "url": "https://composer.monkeydata.com/dist/monkey-config-1.22.1-97fcbf.tar",
+                "reference": "44a6d19a829cd47f0fab6062ace5556da480cfb9",
+                "shasum": "47e1b36dc39ade0feec068f9a2f81d69c31bdfaa"
             },
             "require": {
                 "monkey/dotenv": "^1.2.0",
@@ -1739,7 +1739,7 @@
                 }
             ],
             "description": "General configuration for common things and setting",
-            "time": "2018-04-25T11:31:15+00:00"
+            "time": "2018-05-11T16:06:46+00:00"
         },
         {
             "name": "monkey/connections",
@@ -1861,6 +1861,43 @@
             "time": "2018-04-10T13:26:05+00:00"
         },
         {
+            "name": "monkey/curl",
+            "version": "1.4.0",
+            "source": {
+                "type": "git",
+                "url": "git@gitlab.monkeydata.com:composer/curl.git",
+                "reference": "abbba8b8ab1161f440c20a8f6bcb75fa1ae8180e"
+            },
+            "dist": {
+                "type": "tar",
+                "url": "https://composer.monkeydata.com/dist/monkey-curl-1.4.0-2ba851.tar",
+                "reference": "abbba8b8ab1161f440c20a8f6bcb75fa1ae8180e",
+                "shasum": "157114b678615c88bb14c8c331f9c81ddd944c46"
+            },
+            "require": {
+                "monkey/php7-compatibility": "^1.0.1",
+                "php": ">=5.3.3"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "4.*"
+            },
+            "type": "package",
+            "autoload": {
+                "psr-4": {
+                    "Monkey\\Curl\\": "src/"
+                }
+            },
+            "notification-url": "https://composer.monkeydata.com/notify-download/",
+            "authors": [
+                {
+                    "name": "MonkeyData",
+                    "email": "api@monkeydata.com"
+                }
+            ],
+            "description": "Curl client by MonkeyData",
+            "time": "2018-05-08T10:03:54+00:00"
+        },
+        {
             "name": "monkey/date-time",
             "version": "1.3.1",
             "source": {
@@ -1908,7 +1945,7 @@
             },
             "dist": {
                 "type": "tar",
-                "url": "https://composer.monkeydata.com/dist/monkey-domain-model-1.5.1-0e48fe.tar",
+                "url": "https://composer:uxJ4EhTaf61fo3pnTvK5@composer.monkeydata.com/dist/monkey-domain-model-1.5.1-0e48fe.tar",
                 "reference": "d27009a62b0d921a12f0bb2c9fb03f46b9e59f72",
                 "shasum": "06f5a5c64321fd06c9851077790547c087ade3fa"
             },
@@ -1926,7 +1963,7 @@
                     "Monkey\\DomainModel\\": "src/"
                 }
             },
-            "notification-url": "https://composer.monkeydata.com/notify-download/",
+            "notification-url": "https://composer:uxJ4EhTaf61fo3pnTvK5@composer.monkeydata.com/notify-download/",
             "authors": [
                 {
                     "name": "henry",
@@ -2215,6 +2252,43 @@
             "time": "2018-04-23T11:58:25+00:00"
         },
         {
+            "name": "monkey/json",
+            "version": "1.0.2",
+            "source": {
+                "type": "git",
+                "url": "git@gitlab.monkeydata.com:composer/json.git",
+                "reference": "11d90a657d43d083bc74130a9bf48c06be1eda2d"
+            },
+            "dist": {
+                "type": "tar",
+                "url": "https://composer.monkeydata.com/dist/monkey-json-1.0.2-d9af98.tar",
+                "reference": "11d90a657d43d083bc74130a9bf48c06be1eda2d",
+                "shasum": "beff293ded892deaf86ee1df10a8bd0003c81167"
+            },
+            "require": {
+                "monkey/php7-compatibility": "^1.0.0",
+                "php": ">=5.3.3"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "4.*"
+            },
+            "type": "package",
+            "autoload": {
+                "psr-4": {
+                    "Monkey\\Json\\": "src/"
+                }
+            },
+            "notification-url": "https://composer.monkeydata.com/notify-download/",
+            "authors": [
+                {
+                    "name": "MonkeyData",
+                    "email": "api@monkeydata.com"
+                }
+            ],
+            "description": "MonkeyData JSON serializer",
+            "time": "2018-04-10T13:38:57+00:00"
+        },
+        {
             "name": "monkey/o-auth2",
             "version": "1.1.4",
             "source": {
@@ -2254,6 +2328,246 @@
             ],
             "description": "package for composer",
             "time": "2018-04-24T09:49:17+00:00"
+        },
+        {
+            "name": "monkey/oauth2-api",
+            "version": "1.2.2",
+            "source": {
+                "type": "git",
+                "url": "git@gitlab.monkeydata.com:composer/oauth2-api.git",
+                "reference": "d7dda1fbd5905de060918d1bd13b61556e19a1e7"
+            },
+            "dist": {
+                "type": "tar",
+                "url": "https://composer.monkeydata.com/dist/monkey-oauth2-api-1.2.2-146046.tar",
+                "reference": "d7dda1fbd5905de060918d1bd13b61556e19a1e7",
+                "shasum": "77717207016b56e44edba9ffc04904850bb3f61b"
+            },
+            "require": {
+                "monkey/config": "^1.19.0",
+                "monkey/curl": "^1.0.0",
+                "monkey/oauth2-client": "^1.0.0",
+                "monkey/oauth2-sso-user": "^1.0.0",
+                "monkey/oauth2-verify": "^1.0.0",
+                "php": ">=7.0.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "*",
+                "monkey/dotenv": "^1.5.0",
+                "phpunit/phpunit": "5.*"
+            },
+            "type": "package",
+            "autoload": {
+                "psr-4": {
+                    "Monkey\\Oauth2Api\\": "src/"
+                }
+            },
+            "notification-url": "https://composer.monkeydata.com/notify-download/",
+            "authors": [
+                {
+                    "name": "toms049",
+                    "email": "tomas.stanek@monkeydata.com"
+                }
+            ],
+            "description": "package for composer",
+            "time": "2018-04-16T13:18:00+00:00"
+        },
+        {
+            "name": "monkey/oauth2-client",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "git@gitlab.monkeydata.com:composer/oauth2-client.git",
+                "reference": "2411c39d6be9780b250b3d55dab416f9b4963387"
+            },
+            "dist": {
+                "type": "tar",
+                "url": "https://composer.monkeydata.com/dist/monkey-oauth2-client-1.0.1-734ff0.tar",
+                "reference": "2411c39d6be9780b250b3d55dab416f9b4963387",
+                "shasum": "04b3bd33e7b5cdef3e35e53395f301bd16994a42"
+            },
+            "require": {
+                "monkey/curl": "^1.0.0",
+                "monkey/dotenv": "^1.5.0",
+                "monkey/helpers": "^1.16.0",
+                "monkey/oauth2-contract": "^2.1.0",
+                "monkey/oauth2-token": "^1.0.0",
+                "php": ">=7.0.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "*",
+                "phpunit/phpunit": "5.*"
+            },
+            "type": "package",
+            "autoload": {
+                "psr-4": {
+                    "Monkey\\Oauth2Client\\": "src/"
+                }
+            },
+            "notification-url": "https://composer.monkeydata.com/notify-download/",
+            "authors": [
+                {
+                    "name": "toms049",
+                    "email": "tomas.stanek@monkeydata.com"
+                }
+            ],
+            "description": "OAuth2 client with basic methods providing communication to OAuth2 Server",
+            "time": "2018-04-10T13:32:31+00:00"
+        },
+        {
+            "name": "monkey/oauth2-contract",
+            "version": "2.1.1",
+            "source": {
+                "type": "git",
+                "url": "git@gitlab.monkeydata.com:composer/oauth2-contract.git",
+                "reference": "af5de88efc39bf78fdabefebd02757766701782e"
+            },
+            "dist": {
+                "type": "tar",
+                "url": "https://composer.monkeydata.com/dist/monkey-oauth2-contract-2.1.1-e6a0d2.tar",
+                "reference": "af5de88efc39bf78fdabefebd02757766701782e",
+                "shasum": "6b2b32c418db69c2ce6389fb54c9ca10716b6ea6"
+            },
+            "require": {
+                "php": ">=7.0.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "*",
+                "phpunit/phpunit": "5.*"
+            },
+            "type": "package",
+            "autoload": {
+                "psr-4": {
+                    "Monkey\\Oauth2Contract\\": "src/"
+                }
+            },
+            "notification-url": "https://composer.monkeydata.com/notify-download/",
+            "authors": [
+                {
+                    "name": "MonkeyData",
+                    "email": "api@monkeydata.com"
+                }
+            ],
+            "description": "package for composer",
+            "time": "2018-04-10T13:20:01+00:00"
+        },
+        {
+            "name": "monkey/oauth2-sso-user",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "git@gitlab.monkeydata.com:composer/oauth2-sso-user.git",
+                "reference": "772c5927aa7947620b2155c10834839dfaef22b3"
+            },
+            "dist": {
+                "type": "tar",
+                "url": "https://composer.monkeydata.com/dist/monkey-oauth2-sso-user-1.0.1-b2ffca.tar",
+                "reference": "772c5927aa7947620b2155c10834839dfaef22b3",
+                "shasum": "a76776bde637181cdb007a002fe58844fad39879"
+            },
+            "require": {
+                "monkey/date-time": "^1.3.0",
+                "monkey/json": "^1.0.0",
+                "php": ">=7.0.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "*",
+                "phpunit/phpunit": "5.*"
+            },
+            "type": "package",
+            "autoload": {
+                "psr-4": {
+                    "Monkey\\Oauth2SsoUser\\": "src/"
+                }
+            },
+            "notification-url": "https://composer.monkeydata.com/notify-download/",
+            "authors": [
+                {
+                    "name": "MonkeyData",
+                    "email": "api@monkeydata.com"
+                }
+            ],
+            "description": "Base of SSO user",
+            "time": "2018-04-10T14:20:43+00:00"
+        },
+        {
+            "name": "monkey/oauth2-token",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "git@gitlab.monkeydata.com:composer/oauth2-token.git",
+                "reference": "81baaaa0478eeeb4ccb334d41ec349507921d150"
+            },
+            "dist": {
+                "type": "tar",
+                "url": "https://composer.monkeydata.com/dist/monkey-oauth2-token-1.0.1-48385b.tar",
+                "reference": "81baaaa0478eeeb4ccb334d41ec349507921d150",
+                "shasum": "9c1d766c2e6567cbf4d4e85128c63ff38c81df8a"
+            },
+            "require": {
+                "monkey/json": "^1.0.1",
+                "php": ">=5.3.3"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "4.*"
+            },
+            "type": "package",
+            "autoload": {
+                "psr-4": {
+                    "Monkey\\Oauth2Token\\": "src/"
+                }
+            },
+            "notification-url": "https://composer.monkeydata.com/notify-download/",
+            "authors": [
+                {
+                    "name": "MonkeyData",
+                    "email": "api@monkeydata.com"
+                }
+            ],
+            "description": "OAuth2 basic classes for tokens, scopes",
+            "time": "2018-04-10T14:14:38+00:00"
+        },
+        {
+            "name": "monkey/oauth2-verify",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "git@gitlab.monkeydata.com:composer/oauth2-verify.git",
+                "reference": "b9144527a6a9a7d1e030f815e539f580189a1902"
+            },
+            "dist": {
+                "type": "tar",
+                "url": "https://composer.monkeydata.com/dist/monkey-oauth2-verify-1.0.1-631138.tar",
+                "reference": "b9144527a6a9a7d1e030f815e539f580189a1902",
+                "shasum": "c4312b54704e5fb3f32af34cf99e85f0fe73f009"
+            },
+            "require": {
+                "monkey/curl": "^1.0.0",
+                "monkey/oauth2-client": "^1.0.0",
+                "monkey/oauth2-contract": "^2.1.0",
+                "monkey/oauth2-sso-user": "^1.0.0",
+                "monkey/oauth2-token": "^1.0.0",
+                "php": ">=7.0.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "*",
+                "phpunit/phpunit": "5.*"
+            },
+            "type": "package",
+            "autoload": {
+                "psr-4": {
+                    "Monkey\\Oauth2Verify\\": "src/"
+                }
+            },
+            "notification-url": "https://composer.monkeydata.com/notify-download/",
+            "authors": [
+                {
+                    "name": "toms049",
+                    "email": "tomas.stanek@monkeydata.com"
+                }
+            ],
+            "description": "package for composer without description",
+            "time": "2018-04-10T13:18:51+00:00"
         },
         {
             "name": "monkey/old-monkey",
@@ -2349,6 +2663,42 @@
             ],
             "description": "package for composer",
             "time": "2018-04-10T14:29:18+00:00"
+        },
+        {
+            "name": "monkey/php7-compatibility",
+            "version": "1.0.2",
+            "source": {
+                "type": "git",
+                "url": "git@gitlab.monkeydata.com:composer/php7-compatibility.git",
+                "reference": "cdae1c187fe67f66bd6172ff98a9b69605795db4"
+            },
+            "dist": {
+                "type": "tar",
+                "url": "https://composer.monkeydata.com/dist/monkey-php7-compatibility-1.0.2-eccd9e.tar",
+                "reference": "cdae1c187fe67f66bd6172ff98a9b69605795db4",
+                "shasum": "ed8f11833025ccc176e7d7e58532187e9df6abe3"
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "4.*"
+            },
+            "type": "package",
+            "autoload": {
+                "classmap": [
+                    "src"
+                ]
+            },
+            "notification-url": "https://composer.monkeydata.com/notify-download/",
+            "authors": [
+                {
+                    "name": "MonkeyData",
+                    "email": "api@monkeydata.com"
+                }
+            ],
+            "description": "Package with interfaces and classes of PHP 7 comatible for older PHP",
+            "time": "2018-04-10T14:06:14+00:00"
         },
         {
             "name": "monkey/raven",
@@ -2452,7 +2802,7 @@
             },
             "dist": {
                 "type": "tar",
-                "url": "https://composer.monkeydata.com/dist/monkey-translator-1.1.1-f3439c.tar",
+                "url": "https://composer:uxJ4EhTaf61fo3pnTvK5@composer.monkeydata.com/dist/monkey-translator-1.1.1-f3439c.tar",
                 "reference": "e0eab79393c6ca4cb9068d5826642b973656bbf9",
                 "shasum": "99f4992b05e588f370e72e8981d681f84b6fa613"
             },
@@ -2472,7 +2822,7 @@
                     "Monkey\\Translator\\": "src/"
                 }
             },
-            "notification-url": "https://composer.monkeydata.com/notify-download/",
+            "notification-url": "https://composer:uxJ4EhTaf61fo3pnTvK5@composer.monkeydata.com/notify-download/",
             "authors": [
                 {
                     "name": "henry",
