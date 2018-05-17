@@ -1,59 +1,71 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 namespace App\Http\Controllers\Homepage;
 
-use App\Model\ImportPools\CurrencyEtlCatalog;
-use App\Model\Resource;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Input;
-use Monkey\Helpers\Strings;
-use Monkey\ImportSupport\InvalidProject\ProjectRepository;
-use Monkey\View\View;
+
+use App\Http\Controllers\Project\DetailController;
+use App\Http\Controllers\Project\Resource\DetailController as ResourceDetailController;
+use Monkey\Connections\Extension\LaravelMySqlConnection;
+use Monkey\Connections\MDDatabaseConnections;
+use Request;
 
 /**
- * Description of HomepageController
- *
+ * Class ImportFlowController
+ * @package App\Http\Controllers\Homepage
  * @author Tomas
  */
 class ImportFlowController extends BaseController {
+    const LIMIT = 10;
+    const SHUTDOWN_LOG_TABLE = 'if_shutdown_log';
 
+    /**
+     * @var LaravelMySqlConnection $logsConnection
+     */
+    private $logsConnection;
 
     public function getIndex() {
+        $currentPage = Request::get('page') ?? 1;
 
+        if (!is_int($currentPage)) {
+            $currentPage = intval($currentPage);
+        }
 
-//
-//        $importFlowStatuses = $this->getImportFlowStatuses();
-//
-//        $resources = Resource::whereIn('id', $importFlowStatuses->pluck('resource_id')->toArray())->get();
-//
-//
-//        $importFlowStatuses->map(function ($importFlowStatus) use ($resources) {
-//            $importFlowStatus->resource = $resources->where('id', $importFlowStatus->resource_id)->first();
-//        });
-//
-//        View::share('importStatuses', $importFlowStatuses->filter(function ($error) {
-//            return isset($error->import);
-//        }));
-//
-//        View::share('etlStatuses', $importFlowStatuses->filter(function ($error) {
-//            return isset($error->etl);
-//        }));
-//
-//        View::share('calcStatuses', $importFlowStatuses->filter(function ($error) {
-//            return isset($error->calc);
-//        }));
-//
-//        View::share('outputStatuses', $importFlowStatuses->filter(function ($error) {
-//            return isset($error->output);
-//        }));
+        if ($currentPage < 1) {
+            $currentPage = 1;
+        }
 
+        $logs = $this->getLogsConnection()->table(self::SHUTDOWN_LOG_TABLE)
+            ->orderBy('datetime', 'desc')
+            ->offset(self::LIMIT * ($currentPage - 1))
+            ->limit(self::LIMIT)
+            ->get();
+
+        for ($i = 0; $i < count($logs); $i++) {
+            $logs[$i]->project_url = action(DetailController::routeMethod('getIndex'), [
+                'project_id' => $logs[$i]->project_id
+            ]);
+            $logs[$i]->resource_url = action(ResourceDetailController::routeMethod('getIndex'), [
+                'project_id' => $logs[$i]->project_id,
+                'resource_id' => $logs[$i]->resource_id
+            ]);
+        }
+
+        $this->getView()->addParameter('logs', $logs);
+
+        $count = $this->getLogsConnection()->table(self::SHUTDOWN_LOG_TABLE)->count();
+        $pages = 5;//ceil($count / self::LIMIT);
+        $this->getView()->addParameter('pages', $pages);
+        $this->getView()->addParameter('currentPage', $currentPage);
     }
 
+    /**
+     * @return LaravelMySqlConnection
+     */
+    public function getLogsConnection(): LaravelMySqlConnection {
+        if (is_null($this->logsConnection)) {
+            $this->logsConnection = MDDatabaseConnections::getLogsConnection();
+        }
 
+        return $this->logsConnection;
+    }
 }
