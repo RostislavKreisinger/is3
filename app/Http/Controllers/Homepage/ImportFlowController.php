@@ -53,7 +53,7 @@ class ImportFlowController extends BaseController {
         $this->getView()->addParameter('logs', $logs);
 
         $count = $this->getLogsConnection()->table(self::SHUTDOWN_LOG_TABLE)->count();
-        $pages = 5;//ceil($count / self::LIMIT);
+        $pages = ceil($count / self::LIMIT);
         $this->getView()->addParameter('pages', $pages);
         $this->getView()->addParameter('currentPage', $currentPage);
     }
