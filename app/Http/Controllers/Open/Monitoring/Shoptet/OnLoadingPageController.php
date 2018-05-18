@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Open\Monitoring\Shoptet;
 
 use App\Http\Controllers\Open\Monitoring\Shoptet\Objects\Project;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Input;
 use Monkey\Connections\MDImportFlowConnections;
 use Monkey\DateTime\DateTimeHelper;
 use Monkey\Helpers\Arrays;
@@ -46,6 +47,9 @@ class OnLoadingPageController extends BaseController {
 
             $project->historyDownloadPercent = null;
             $project->historyDownloadSkipped = false;
+
+            $project->historyDownloadPercentOld = null;
+            $project->historyDownloadSkippedOld = false;
         }
 
        //  $projectsOnLoadingPage = $projects;
@@ -55,6 +59,19 @@ class OnLoadingPageController extends BaseController {
             list($percent, $skipped) = $this->historyDownload($item);
             $project->historyDownloadPercent = $percent;
             $project->historyDownloadSkipped = $skipped;
+
+            list($percentOld, $skippedOld) = $this->historyDownloadOld($item);
+            $project->historyDownloadPercentOld = $percentOld;
+            $project->historyDownloadSkippedOld = $skippedOld;
+
+            if($project->historyDownloadSkipped == 2){
+                $dth = new DateTimeHelper($item->created_at);
+                $project->timeOnLoadingPageSec = $dth->diffInSeconds($item->updated_at);
+
+                $days = (int)($project->timeOnLoadingPageSec / (3600*24));
+                $project->timeOnLoadingPage = ($days > 0?"{$days}d ": '') . gmdate("H:i:s", $project->timeOnLoadingPageSec);
+            }
+
             // $projectsOnLoadingPage[] = $project;
         }
 
@@ -101,10 +118,43 @@ class OnLoadingPageController extends BaseController {
     }
 
 
-    private function historyDownload($history) {
+    private function historyDownloadOld($history) {
         $createdAt = DateTimeHelper::getCloneSelf($history->created_at);
         $dateFrom = DateTimeHelper::getCloneSelf($history->date_from);
         $dateTo = DateTimeHelper::getCloneSelf($history->date_to);
+
+        if($dateFrom > $dateTo){
+            return [100, true];
+        }
+
+        $allDaysDiff = $createdAt->diffInDays($dateFrom);
+        $remaining = $dateTo->diffInDays($dateFrom);
+
+        // min 1 day for UX
+        $alreadyDownloaded = max($allDaysDiff - $remaining, 1);
+
+        $percents = round(($alreadyDownloaded / $allDaysDiff)*100);
+        // min 1% for UX
+        // $percents = max($percents, 1);
+
+        $skipped = false;
+        if($percents >= 100){
+            $percents = 100;
+            $skipped = 2;
+        }
+
+        if($alreadyDownloaded > 5){
+            $skipped = 1;
+        }
+
+
+        return [$percents, $skipped];
+    }
+
+    private function historyDownload($history) {
+        $createdAt = DateTimeHelper::getCloneSelf($history->created_at);
+        $dateFrom = DateTimeHelper::getCloneSelf($history->date_from);
+        $dateTo = DateTimeHelper::getCloneSelf($history->output_date_to);
 
         if($dateFrom > $dateTo){
             return [100, true];

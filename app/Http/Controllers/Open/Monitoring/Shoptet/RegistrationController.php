@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Open\Monitoring\Shoptet;
 
 use Illuminate\Http\JsonResponse;
+use Monkey\DateTime\DateTimeHelper;
 use Monkey\View\View;
 
 class RegistrationController extends BaseController {
@@ -16,6 +17,8 @@ class RegistrationController extends BaseController {
             if($project->rs_active == 3){
                 $project->important = 1;
             }
+
+            $project->created_at = (new DateTimeHelper($project->created_at))->format("d.m. h:i");
         }
 
         View::share("projectsCount", count($projects));
