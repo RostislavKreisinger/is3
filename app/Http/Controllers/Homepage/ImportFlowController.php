@@ -34,28 +34,30 @@ class ImportFlowController extends BaseController {
             $currentPage = 1;
         }
 
-        $logs = $this->getLogsConnection()->table(self::SHUTDOWN_LOG_TABLE)
-            ->orderBy('datetime', 'desc')
-            ->offset(self::LIMIT * ($currentPage - 1))
-            ->limit(self::LIMIT)
-            ->get();
+        if ($this->getLogsConnection()->getSchemaBuilder()->hasTable(self::SHUTDOWN_LOG_TABLE)) {
+            $logs = $this->getLogsConnection()->table(self::SHUTDOWN_LOG_TABLE)
+                ->orderBy('datetime', 'desc')
+                ->offset(self::LIMIT * ($currentPage - 1))
+                ->limit(self::LIMIT)
+                ->get();
 
-        for ($i = 0; $i < count($logs); $i++) {
-            $logs[$i]->project_url = action(DetailController::routeMethod('getIndex'), [
-                'project_id' => $logs[$i]->project_id
-            ]);
-            $logs[$i]->resource_url = action(ResourceDetailController::routeMethod('getIndex'), [
-                'project_id' => $logs[$i]->project_id,
-                'resource_id' => $logs[$i]->resource_id
-            ]);
+            for ($i = 0; $i < count($logs); $i++) {
+                $logs[$i]->project_url = action(DetailController::routeMethod('getIndex'), [
+                    'project_id' => $logs[$i]->project_id
+                ]);
+                $logs[$i]->resource_url = action(ResourceDetailController::routeMethod('getIndex'), [
+                    'project_id' => $logs[$i]->project_id,
+                    'resource_id' => $logs[$i]->resource_id
+                ]);
+            }
+
+            $this->getView()->addParameter('logs', $logs);
+
+            $count = $this->getLogsConnection()->table(self::SHUTDOWN_LOG_TABLE)->count();
+            $pages = ceil($count / self::LIMIT);
+            $this->getView()->addParameter('pages', $pages);
+            $this->getView()->addParameter('currentPage', $currentPage);
         }
-
-        $this->getView()->addParameter('logs', $logs);
-
-        $count = $this->getLogsConnection()->table(self::SHUTDOWN_LOG_TABLE)->count();
-        $pages = ceil($count / self::LIMIT);
-        $this->getView()->addParameter('pages', $pages);
-        $this->getView()->addParameter('currentPage', $currentPage);
     }
 
     /**
