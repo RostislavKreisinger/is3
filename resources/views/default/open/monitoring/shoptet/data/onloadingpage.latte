@@ -5,7 +5,8 @@
         <th style="width: 20px; text-align: right;">#</th>
         <th scope="col">UID</th>
         <th scope="col">PID</th>
-        <th scope="col">On loading page</th>
+        <th scope="col">On loading</th>
+        <th scope="col"></th>
         <th scope="col"></th>
     </tr>
     </thead>
@@ -16,9 +17,10 @@
         <td>{$project->id}</td>
         <td>{$project->timeOnLoadingPage?:'<red>NULL</red>'|noescape}</td>
         <td class="state">
-            {$project->historyDownloadPercent !== null?$project->historyDownloadPercent.'%':'<red>NULL</red>'|noescape}
-            &nbsp;/&nbsp;
             {$project->historyDownloadPercentOld !== null?$project->historyDownloadPercentOld.'%':'<red>NULL</red>'|noescape}
+        </td>
+        <td class="state">
+            {$project->historyDownloadPercent !== null?$project->historyDownloadPercent.'%':'<red>NULL</red>'|noescape}
         </td>
 
     </tr>

@@ -56,11 +56,11 @@ class OnLoadingPageController extends BaseController {
         foreach ($data as $item){
             $project = $projects[$item->project_id];
 
-            list($percent, $skipped) = $this->historyDownload($item);
+            list($percent, $skipped) = $this->historyDownloadOld($item);
             $project->historyDownloadPercent = $percent;
             $project->historyDownloadSkipped = $skipped;
 
-            list($percentOld, $skippedOld) = $this->historyDownloadOld($item);
+            list($percentOld, $skippedOld) = $this->historyDownload($item);
             $project->historyDownloadPercentOld = $percentOld;
             $project->historyDownloadSkippedOld = $skippedOld;
 
