@@ -25,6 +25,8 @@ class ImportFlowController extends BaseController {
 
     public function getIndex() {
         $currentPage = Request::get('page') ?? 1;
+        $logs = [];
+        $pages = 1;
 
         if (!is_int($currentPage)) {
             $currentPage = intval($currentPage);
@@ -51,13 +53,15 @@ class ImportFlowController extends BaseController {
                 ]);
             }
 
-            $this->getView()->addParameter('logs', $logs);
+
 
             $count = $this->getLogsConnection()->table(self::SHUTDOWN_LOG_TABLE)->count();
             $pages = ceil($count / self::LIMIT);
-            $this->getView()->addParameter('pages', $pages);
-            $this->getView()->addParameter('currentPage', $currentPage);
         }
+
+        $this->getView()->addParameter('logs', $logs);
+        $this->getView()->addParameter('pages', $pages);
+        $this->getView()->addParameter('currentPage', $currentPage);
     }
 
     /**
