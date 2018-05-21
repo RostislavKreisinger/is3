@@ -1743,17 +1743,17 @@
         },
         {
             "name": "monkey/connections",
-            "version": "2.16.0",
+            "version": "2.16.1",
             "source": {
                 "type": "git",
                 "url": "git@gitlab.monkeydata.com:composer/connections.git",
-                "reference": "d60ac06e9ca6bfbdb1b95f0a56e1dc9118f2c424"
+                "reference": "08e3714741fe023792763cbbb7987a1d2a6738f6"
             },
             "dist": {
                 "type": "tar",
-                "url": "https://composer.monkeydata.com/dist/monkey-connections-2.16.0-0d5e61.tar",
-                "reference": "d60ac06e9ca6bfbdb1b95f0a56e1dc9118f2c424",
-                "shasum": "82d92460eb3fa10668a2a6dcb2831d278ddedf9d"
+                "url": "https://composer.monkeydata.com/dist/monkey-connections-2.16.1-cecb6d.tar",
+                "reference": "08e3714741fe023792763cbbb7987a1d2a6738f6",
+                "shasum": "a04017b7133236ffd11c33e43bc92d9bbbe37ca8"
             },
             "require": {
                 "illuminate/database": "4.*|5.2.*|5.4.*",
@@ -1784,7 +1784,7 @@
                 }
             ],
             "description": "package for composer",
-            "time": "2018-04-19T08:48:09+00:00"
+            "time": "2018-05-16T20:00:34+00:00"
         },
         {
             "name": "monkey/constants",
@@ -1862,17 +1862,17 @@
         },
         {
             "name": "monkey/curl",
-            "version": "1.4.0",
+            "version": "1.4.1",
             "source": {
                 "type": "git",
                 "url": "git@gitlab.monkeydata.com:composer/curl.git",
-                "reference": "abbba8b8ab1161f440c20a8f6bcb75fa1ae8180e"
+                "reference": "7afb44b4f202e7735881d14948b343b759151a06"
             },
             "dist": {
                 "type": "tar",
-                "url": "https://composer.monkeydata.com/dist/monkey-curl-1.4.0-2ba851.tar",
-                "reference": "abbba8b8ab1161f440c20a8f6bcb75fa1ae8180e",
-                "shasum": "157114b678615c88bb14c8c331f9c81ddd944c46"
+                "url": "https://composer.monkeydata.com/dist/monkey-curl-1.4.1-305e10.tar",
+                "reference": "7afb44b4f202e7735881d14948b343b759151a06",
+                "shasum": "52d9ab668036fdea8de9c90960bd10cb5ce42456"
             },
             "require": {
                 "monkey/php7-compatibility": "^1.0.1",
@@ -1895,7 +1895,7 @@
                 }
             ],
             "description": "Curl client by MonkeyData",
-            "time": "2018-05-08T10:03:54+00:00"
+            "time": "2018-05-21T08:36:37+00:00"
         },
         {
             "name": "monkey/date-time",
@@ -3145,7 +3145,7 @@
             },
             "dist": {
                 "type": "tar",
-                "url": "https://composer.monkeydata.com/dist/nilportugues-serializer-1.4.1-5ba97e.tar",
+                "url": "https://composer:uxJ4EhTaf61fo3pnTvK5@composer.monkeydata.com/dist/nilportugues-serializer-1.4.1-5ba97e.tar",
                 "reference": "e6a6022e48f988d93c66273944fe808200f1c208",
                 "shasum": "c3053ca4d070100c531681ad980f10b671a22d0b"
             },
@@ -3164,7 +3164,7 @@
                     "NilPortugues\\Test\\Serializer\\": "tests/"
                 }
             },
-            "notification-url": "https://composer.monkeydata.com/notify-download/",
+            "notification-url": "https://composer:uxJ4EhTaf61fo3pnTvK5@composer.monkeydata.com/notify-download/",
             "license": [
                 "MIT"
             ],
