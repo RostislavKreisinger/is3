@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Console\Commands\InsideTokenRefresherCommand;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -14,7 +15,8 @@ class Kernel extends ConsoleKernel {
      */
     protected $commands = [
         Commands\FillStornoOrderStatuses::class,
-        Commands\GaDeleteAndStartHistory::class
+        Commands\GaDeleteAndStartHistory::class,
+        InsideTokenRefresherCommand::class
             // Commands\Inspire::class,
     ];
 
