@@ -27,27 +27,57 @@ class ProccessedOrderCountController extends BaseController {
 
 
         $ordersSum = 0;
+        $productsSum = 0;
+        $productsVariantSum = 0;
+
         $proccessedProjects = 0;
 
+        $this->out("Start processing data for ". count($projects) . " projects");
+
         foreach ($projects as $project){
+            $table = "f_eshop_order_{$project->user_id}";
             $query = MDDataStorageConnections::getImportDw2Connection()
-                ->table("f_eshop_order_{$project->user_id}")
+                ->table($table)
                 ->selectRaw("count(id) as orderSum")
             ;
+
+            $this->out("process orders for: {$table}");
             try {
-                $data = $query->first();
+                $orders = $query->first();
             }catch (\Throwable $e){
-                // vd($e->getMessage());
+                $this->out($e->getMessage());
                 continue;
             }
-
-            if(empty($data)){
+            if(empty($orders)){
                 continue;
             }
+            $ordersSum += $orders->orderSum;
 
 
-            $ordersSum += $data->orderSum;
+
+
+            $tableProducts = "d_eshop_product_{$project->user_id}";
+            $query = MDDataStorageConnections::getImportDw2Connection()
+                ->table($tableProducts)
+                ->selectRaw("count(id) as productsVariantSum, count(distinct product_parent_id) as productsSum")
+            ;
+
+            $this->out("process products for: {$tableProducts}");
+            try {
+                $products = $query->first();
+            }catch (\Throwable $e){
+                $this->out($e->getMessage());
+                continue;
+            }
+            if(empty($products)){
+                continue;
+            }
+            $productsSum += $products->productsSum;
+            $productsVariantSum += $products->productsVariantSum;
+
             $proccessedProjects++;
+
+
         }
 //
 //        vde($ordersSum);
@@ -60,9 +90,17 @@ class ProccessedOrderCountController extends BaseController {
         $response->setData(array(
          //    "html" => $this->getView()->render(),
             "projectCount" => $proccessedProjects,
-            "orderSum" => $ordersSum
+            "orderSum" => $ordersSum,
+            "productsSum" => $productsSum,
+            "productsVariantSum" => $productsVariantSum,
         ));
         return $response;
+    }
+
+    private function out($text) {
+        if(Input::exists("debug")){
+            vdEcho($text);
+        }
     }
 
 }
