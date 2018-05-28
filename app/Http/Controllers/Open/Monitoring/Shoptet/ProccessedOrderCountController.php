@@ -21,11 +21,6 @@ class ProccessedOrderCountController extends BaseController {
         $projects = $this->getShoptetProjects();
         $projectIds = array_keys($projects);
 
-        if($this->isDebug()) {
-            vdQuery($query);
-        }
-
-
         $ordersSum = 0;
         $productsSum = 0;
         $productsVariantSum = 0;
