@@ -7,41 +7,49 @@
     <div class="panel panel-danger">
         <div class="panel-heading">Import Shutdowns</div>
         <div class="panel-body">
-            <table class="table table-hover table-striped">
-                <thead>
-                <tr>
-                    <th class="col-sm-2">Date</th>
-                    <th class="col-sm-1">PID</th>
-                    <th class="col-sm-1">Resource ID</th>
-                    <th class="col-sm-8">Message</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr n:foreach="$logs as $log">
-                    <td>{$log->datetime}</td>
-                    <td>
-                        <a href="{$log->project_url}">{$log->project_id}</a>
-                    </td>
-                    <td>
-                        <a href="{$log->resource_url}">{$log->resource_id}</a>
-                    </td>
-                    <td>{$log->message}</td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-        <div n:if="$pages > 1" class="panel-footer">
-            <ul class="pagination">
-                <li n:if="$currentPage > 1">
-                    <a href="?page={$currentPage - 1}">Previous</a>
-                </li>
-                <li class="active">
-                    <a href="">{$currentPage}</a>
-                </li>
-                <li n:if="$currentPage < $pages">
-                    <a href="?page={$currentPage + 1}">Next</a>
-                </li>
-            </ul>
+            <div id="import-flow-shutdown-table"></div>
         </div>
     </div>
+    <script>
+        $(function () {
+            $.get('/api/import-shutdown-log', function (data) {
+                $("#import-flow-shutdown-table").dxDataGrid({
+                    columnAutoWidth: true,
+                    columns: [
+                        {
+                            caption: 'ID',
+                            dataField: 'id'
+                        },
+                        {
+                            dataField: 'datetime'
+                        },
+                        {
+                            caption: 'PID',
+                            cellTemplate: function (cellElement, cellInfo) {
+                                cellElement.html('<a href="' + cellInfo.data.project_url + '">' + cellInfo.value + '</a>');
+                            },
+                            dataField: 'project_id',
+                            selectedFilterOperation: 'contains'
+                        },
+                        {
+                            caption: 'Resource',
+                            cellTemplate: function (cellElement, cellInfo) {
+                                cellElement.html('<a href="' + cellInfo.data.resource_url + '">' + cellInfo.value + '</a>');
+                            },
+                            dataField: 'resource_id',
+                            selectedFilterOperation: 'contains'
+                        },
+                        {
+                            dataField: 'message'
+                        }
+
+                    ],
+                    dataSource: data,
+                    filterRow: {
+                        visible: true
+                    }
+                });
+            });
+        });
+    </script>
 </div>
