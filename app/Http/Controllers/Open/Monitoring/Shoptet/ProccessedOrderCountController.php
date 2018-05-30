@@ -93,6 +93,7 @@ class ProccessedOrderCountController extends BaseController {
             $project->products = null;
             $project->productsVariant = null;
             $project->revenue = array();
+            $project->user_email = null;
 
             $user = MDDatabaseConnections::getMasterAppConnection()
                 ->table("user")

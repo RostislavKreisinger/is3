@@ -10,8 +10,10 @@
 </style>
 <table>
     <tr>
-        <th>#</th>
+        <th>UID</th>
+        <th>PID</th>
         <th>url</th>
+        <th>email</th>
         <th>order count</th>
         <th>product count</th>
         <th>product variant count</th>
@@ -22,10 +24,16 @@
     @foreach ($projects as $project)
     <tr>
         <td>
+            <a href="https://app-support.monkeydata.com/crm/plugins/{{$project->user_id}}" target="_blank">{{$project->user_id}}</a>
+        </td>
+        <td>
             <a href="https://app-support.monkeydata.com/crm/plugins/{{$project->user_id}}" target="_blank">{{$project->id}}</a>
         </td>
         <td>
             <a href="{{$project->weburl}}" target="_blank">{{$project->weburl}}</a>
+        </td>
+        <td>
+            {{$project->user_email}}
         </td>
         <td>
             {{$project->orders}}
