@@ -15,6 +15,7 @@
         <th>order count</th>
         <th>product count</th>
         <th>product variant count</th>
+        <th>created_at</th>
 
     </tr>
     @foreach ($projects as $project)
@@ -33,6 +34,9 @@
         </td>
         <td>
             {{$project->productsVariant}}
+        </td>
+        <td>
+            {{$project->created_at}}
         </td>
     </tr>
     @endforeach

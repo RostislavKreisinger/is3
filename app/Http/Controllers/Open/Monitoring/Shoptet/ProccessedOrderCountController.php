@@ -133,7 +133,7 @@ class ProccessedOrderCountController extends BaseController {
         }
 
 
-       //   vde($projects);
+        //   vde($projects);
         $view = \View::make('tmp.shoptet-project-stats', ["projects" => $projects]);
         return $view;
 //        $response = new JsonResponse();
