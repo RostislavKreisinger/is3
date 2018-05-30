@@ -15,6 +15,7 @@
         <th>order count</th>
         <th>product count</th>
         <th>product variant count</th>
+        <th>revenue</th>
         <th>created_at</th>
 
     </tr>
@@ -34,6 +35,11 @@
         </td>
         <td>
             {{$project->productsVariant}}
+        </td>
+        <td>
+            @foreach ($project->revenue as $currency => $value)
+                {{$currency}}: {{$value}} <br>
+            @endforeach
         </td>
         <td>
             {{$project->created_at}}

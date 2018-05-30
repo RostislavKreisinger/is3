@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Open\Monitoring\Shoptet;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Input;
+use Monkey\Connections\MDDatabaseConnections;
 use Monkey\Connections\MDDataStorageConnections;
+use Monkey\Constants\MonkeyData\Currency\CurrencyNames;
 
 class ProccessedOrderCountController extends BaseController {
 
@@ -90,16 +92,26 @@ class ProccessedOrderCountController extends BaseController {
             $project->orders = null;
             $project->products = null;
             $project->productsVariant = null;
+            $project->revenue = array();
+
+            $user = MDDatabaseConnections::getMasterAppConnection()
+                ->table("user")
+                ->where("id", '=', $project->user_id)
+                ->first(["email"]);
+            if($user !== null) {
+                $project->user_email = $user->email;
+            }
 
             $table = "f_eshop_order_{$project->user_id}";
             $query = MDDataStorageConnections::getImportDw2Connection()
                 ->table($table)
-                ->selectRaw("count(id) as orderSum")
+                ->selectRaw("count(id) as orderSum, SUM(price_without_vat) as revenue, currency_id")
+                ->groupBy("currency_id")
             ;
 
             $this->out("process orders for: {$table}");
             try {
-                $orders = $query->first();
+                $orders = $query->get();
             }catch (\Throwable $e){
                 $this->out($e->getMessage());
                 continue;
@@ -107,7 +119,15 @@ class ProccessedOrderCountController extends BaseController {
             if(empty($orders)){
                 continue;
             }
-            $project->orders = $orders->orderSum;
+
+            $project->orders = 0;
+
+            foreach ($orders as $order){
+                $project->orders +=  $order->orderSum;
+                $code = CurrencyNames::getById($order->currency_id);
+                $project->revenue[$code] = $order->revenue;
+            }
+
 
 
 
@@ -133,7 +153,7 @@ class ProccessedOrderCountController extends BaseController {
         }
 
 
-        //   vde($projects);
+        // vde($projects);
         $view = \View::make('tmp.shoptet-project-stats', ["projects" => $projects]);
         return $view;
 //        $response = new JsonResponse();
