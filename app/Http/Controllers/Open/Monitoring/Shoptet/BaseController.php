@@ -43,7 +43,7 @@ class BaseController extends \App\Http\Controllers\Open\Monitoring\BaseControlle
     /**
      * @return Project[] projects array
      */
-    protected function getShoptetProjects() {
+    protected function getShoptetProjects($columns = array()) {
 
         $dateFrom = Input::get("date_from", '2018-05-10 00:00:00');
         /*
@@ -64,7 +64,7 @@ class BaseController extends \App\Http\Controllers\Open\Monitoring\BaseControlle
             })
             ->where("rs.created_at", '>', $dateFrom)
             ->orderBy("p.created_at", 'DESC')
-            ->select(['rs.created_at', 'p.id', 'p.user_id', 'rs.active as rs_active'])
+            ->select(array_merge(['rs.created_at', 'p.id', 'p.user_id', 'rs.active as rs_active'], $columns))
         ;
         // vdQuery($query);
 

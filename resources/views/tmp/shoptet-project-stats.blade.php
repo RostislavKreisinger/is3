@@ -1,0 +1,21 @@
+<table>
+    @foreach ($projects as $project)
+    <tr>
+        <td>
+            {{$project->id}}
+        </td>
+        <td>
+            {{$project->weburl}}
+        </td>
+        <td>
+            {{$project->orders}}
+        </td>
+        <td>
+            {{$project->products}}
+        </td>
+        <td>
+            {{$project->productsVariant}}
+        </td>
+    </tr>
+    @endforeach
+</table>
