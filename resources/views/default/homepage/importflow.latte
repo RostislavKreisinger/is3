@@ -12,7 +12,7 @@
     </div>
     <script>
         $(function () {
-            $.get('/api/import-shutdown-log', function (data) {
+            $.get({$baseUrl} + "/api/import-shutdown-log", function (data) {
                 $("#import-flow-shutdown-table").dxDataGrid({
                     columnAutoWidth: true,
                     columns: [
