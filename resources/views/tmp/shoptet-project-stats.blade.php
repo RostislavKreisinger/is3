@@ -14,8 +14,7 @@
     }
 
     .empty {
-        background-color: orange;
-        color: white;
+        background-color: rgba(158,158,158,0.18);
     }
 </style>
 <table>
@@ -42,10 +41,6 @@
 
         function checkColumnClass($value) {
             $className = "";
-
-            if(is_array($value)) {
-                var_dump($value);
-            }
 
             if ((is_array($value) && count($value) == 0) || is_null($value)) {
                 $className = "null";
@@ -83,9 +78,9 @@
             {{$project->productsVariant}}
             <?php $sumProductsVariants += (int) $project->productsVariant; ?>
         </td>
-        <td>
+        <td class="<?php echo checkColumnClass($project->revenue); ?>">
             @foreach ($project->revenue as $currency => $value)
-                {{$currency}}: {{$value}} <br>
+                {{$currency}}: {{ number_format($value, 2, ",", ".")}} <br>
                 <?php
                     if(!isset($sumRevenue[$currency])) {
                         $sumRevenue[$currency] = 0;
