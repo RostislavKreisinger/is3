@@ -43,6 +43,10 @@
         function checkColumnClass($value) {
             $className = "";
 
+            if(is_array($value)) {
+                var_dump($value);
+            }
+
             if ((is_array($value) && count($value) == 0) || is_null($value)) {
                 $className = "null";
             } else if ($value === 0) {
