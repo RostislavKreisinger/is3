@@ -76,28 +76,28 @@
     @endforeach
     <tr>
         <td colspan="4">
-            Rows: {{ count($projects) }}
+            Rows: {{ number_format(count($projects),2,",",".") }}
         </td>
         <td>
-            Sum: {{ $sumOrders }}
+            Sum: {{ number_format($sumOrders,2,",",".") }}
         </td>
         <td>
-            Sum: {{ $sumProducts }}
+            Sum: {{ number_format($sumProducts,2,",",".") }}
         </td>
         <td>
-            Sum: {{ $sumProductsVariants }}
+            Sum: {{ number_format($sumProductsVariants,2,",",".") }}
         </td>
         <td>
             <?php
-                foreach ($sumRevenue as $key => $value){
-                    echo "Sum {$key}: {$value} <br>";
-                }
+            foreach ($sumRevenue as $key => $value) {
+                echo "{$key}: " . number_format($value, 2, ",", ".") . " <br>";
+            }
             ?>
         </td>
-        <td colspan="2">
+        <td>
         </td>
         <td>
-            Sum: {{ $sumCountriesInOrders }}
+            Sum: {{ number_format($sumCountriesInOrders,2,",",".") }}
         </td>
     </tr>
 </table>
