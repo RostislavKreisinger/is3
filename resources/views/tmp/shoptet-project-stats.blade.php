@@ -76,16 +76,16 @@
     @endforeach
     <tr>
         <td colspan="4">
-            Rows: {{ count($projects) }}
+            Rows: {{ number_format(count($projects),0,",",".") }}
         </td>
         <td>
-            Sum: {{ $sumOrders }}
+            Sum: {{ number_format($sumOrders,0,",",".") }}
         </td>
         <td>
-            Sum: {{ $sumProducts }}
+            Sum: {{ number_format($sumProducts,0,",",".") }}
         </td>
         <td>
-            Sum: {{ $sumProductsVariants }}
+            Sum: {{ number_format($sumProductsVariants,0,",",".") }}
         </td>
         <td>
             <?php
@@ -97,7 +97,7 @@
         <td>
         </td>
         <td>
-            Sum: {{ $sumCountriesInOrders }}
+            Sum: {{ number_format($sumCountriesInOrders,0,",",".") }}
         </td>
     </tr>
 </table>
