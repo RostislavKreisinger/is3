@@ -7,6 +7,16 @@
         border: 1px solid #000000;
         padding: 2px 4px ;
     }
+
+    .null {
+        background-color: red;
+        color: white;
+    }
+
+    .empty {
+        background-color: orange;
+        color: white;
+    }
 </style>
 <table>
     <tr>
@@ -28,6 +38,21 @@
     <?php $sumRevenue = []; ?>
     <?php $sumCountriesInOrders = 0; ?>
 
+    <?php
+
+        function checkColumnClass($value) {
+            $className = "";
+
+            if ((is_array($value) && count($value) == 0) || is_null($value)) {
+                $className = "null";
+            } else if ($value === 0) {
+                $className = "empty";
+            }
+
+            return $className;
+        }
+
+    ?>
     @foreach ($projects as $project)
     <tr>
         <td>
@@ -42,15 +67,15 @@
         <td>
             {{$project->user_email}}
         </td>
-        <td>
+        <td class="<?php checkColumnClass($project->orders); ?>">
             {{$project->orders}}
             <?php $sumOrders += (int) $project->orders; ?>
         </td>
-        <td>
+        <td class="<?php checkColumnClass($project->products); ?>">
             {{$project->products}}
             <?php $sumProducts += (int) $project->products; ?>
         </td>
-        <td>
+        <td class="<?php checkColumnClass($project->productsVariant); ?>">
             {{$project->productsVariant}}
             <?php $sumProductsVariants += (int) $project->productsVariant; ?>
         </td>
@@ -68,7 +93,7 @@
         <td>
             {{$project->created_at}}
         </td>
-        <td>
+        <td class="<?php checkColumnClass($project->countriesInOrders); ?>">
             {{$project->countriesInOrders }}
             <?php $sumCountriesInOrders += (int) $project->countriesInOrders; ?>
         </td>
