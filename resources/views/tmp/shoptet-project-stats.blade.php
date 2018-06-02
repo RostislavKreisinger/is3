@@ -67,15 +67,15 @@
         <td>
             {{$project->user_email}}
         </td>
-        <td class="<?php checkColumnClass($project->orders); ?>">
+        <td class="<?php echo checkColumnClass($project->orders); ?>">
             {{$project->orders}}
             <?php $sumOrders += (int) $project->orders; ?>
         </td>
-        <td class="<?php checkColumnClass($project->products); ?>">
+        <td class="<?php echo checkColumnClass($project->products); ?>">
             {{$project->products}}
             <?php $sumProducts += (int) $project->products; ?>
         </td>
-        <td class="<?php checkColumnClass($project->productsVariant); ?>">
+        <td class="<?php echo checkColumnClass($project->productsVariant); ?>">
             {{$project->productsVariant}}
             <?php $sumProductsVariants += (int) $project->productsVariant; ?>
         </td>
@@ -93,7 +93,7 @@
         <td>
             {{$project->created_at}}
         </td>
-        <td class="<?php checkColumnClass($project->countriesInOrders); ?>">
+        <td class="<?php echo checkColumnClass($project->countriesInOrders); ?>">
             {{$project->countriesInOrders }}
             <?php $sumCountriesInOrders += (int) $project->countriesInOrders; ?>
         </td>
