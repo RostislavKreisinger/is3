@@ -61,7 +61,7 @@
                     if(!isset($sumRevenue[$currency])) {
                         $sumRevenue[$currency] = 0;
                     }
-                    $sumRevenue[$currency] += (int) $value;
+                    $sumRevenue[$currency] += (float) $value;
                 ?>
             @endforeach
         </td>
