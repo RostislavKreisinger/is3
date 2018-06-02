@@ -24,7 +24,9 @@
     </tr>
     <?php $sumOrders = 0; ?>
     <?php $sumProducts = 0; ?>
+    <?php $sumProductsVariants = 0; ?>
     <?php $sumRevenue = []; ?>
+    <?php $sumCountriesInOrders = 0; ?>
 
     @foreach ($projects as $project)
     <tr>
@@ -50,6 +52,7 @@
         </td>
         <td>
             {{$project->productsVariant}}
+            <?php $sumProductsVariants += (int) $project->products; ?>
         </td>
         <td>
             @foreach ($project->revenue as $currency => $value)
@@ -67,6 +70,7 @@
         </td>
         <td>
             {{$project->countriesInOrders }}
+            <?php $sumCountriesInOrders += (int) $project->countriesInOrders; ?>
         </td>
     </tr>
     @endforeach
@@ -81,6 +85,9 @@
             Sum: {{ $sumProducts }}
         </td>
         <td>
+            Sum: {{ $sumProductsVariants }}
+        </td>
+        <td>
             <?php
                 foreach ($sumRevenue as $key => $value){
                     echo "Sum {$key}: {$value} <br>";
@@ -88,6 +95,9 @@
             ?>
         </td>
         <td colspan="2">
+        </td>
+        <td>
+            Sum: {{ $countriesInOrders }}
         </td>
     </tr>
 </table>
