@@ -52,7 +52,7 @@
         </td>
         <td>
             {{$project->productsVariant}}
-            <?php $sumProductsVariants += (int) $project->products; ?>
+            <?php $sumProductsVariants += (int) $project->productsVariant; ?>
         </td>
         <td>
             @foreach ($project->revenue as $currency => $value)
