@@ -94,6 +94,7 @@ class ProccessedOrderCountController extends BaseController {
             $project->productsVariant = null;
             $project->revenue = array();
             $project->user_email = null;
+            $project->countriesInOrders = null;
 
             $user = MDDatabaseConnections::getMasterAppConnection()
                 ->table("user")
@@ -151,6 +152,20 @@ class ProccessedOrderCountController extends BaseController {
             }
             $project->products = $products->productsSum;
             $project->productsVariant = $products->productsVariantSum;
+
+            $tableCustomersCountries = "d_eshop_customer_{$project->user_id}";
+            $query = MDDataStorageConnections::getImportDw2Connection()
+                ->table($tableCustomersCountries)
+                ->whereNotNull('country_id');
+
+            try {
+                $countriesCount = $query->get();
+            }catch (\Throwable $e){
+                $this->out($e->getMessage());
+                continue;
+            }
+
+            $project->countriesInOrders = count($countriesCount);
         }
 
 

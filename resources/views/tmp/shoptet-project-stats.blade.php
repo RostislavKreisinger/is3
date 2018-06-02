@@ -19,6 +19,7 @@
         <th>product variant count</th>
         <th>revenue</th>
         <th>created_at</th>
+        <th>countries in orders</th>
 
     </tr>
     @foreach ($projects as $project)
@@ -51,6 +52,9 @@
         </td>
         <td>
             {{$project->created_at}}
+        </td>
+        <td>
+            {{$project->countriesInOrders }}
         </td>
     </tr>
     @endforeach
