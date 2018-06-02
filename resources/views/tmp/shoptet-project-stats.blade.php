@@ -97,7 +97,7 @@
         <td colspan="2">
         </td>
         <td>
-            Sum: {{ $countriesInOrders }}
+            Sum: {{ $sumCountriesInOrders }}
         </td>
     </tr>
 </table>
