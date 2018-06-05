@@ -97,14 +97,15 @@ class ProccessedOrderCountController extends BaseController {
             $project->countriesInOrders = null;
 
             $user = MDDatabaseConnections::getMasterAppConnection()
-                ->table("user")
-                ->where("id", '=', $project->user_id)
-                ->first(["email"]);
+                ->table("user as u")
+                ->join("client as c", 'c.user_id', '=', 'u.id')
+                ->where("u.id", '=', $project->user_id)
+                ->first(["u.email", "u.id", 'c.id as client_id' ]);
             if($user !== null) {
                 $project->user_email = $user->email;
             }
 
-            $table = "f_eshop_order_{$project->user_id}";
+            $table = "f_eshop_order_{$user->client_id}";
             $query = MDDataStorageConnections::getImportDw2Connection()
                 ->table($table)
                 ->selectRaw("count(id) as orderSum, SUM(price_without_vat) as revenue, currency_id")
