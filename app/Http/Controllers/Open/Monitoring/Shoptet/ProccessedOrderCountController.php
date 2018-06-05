@@ -135,7 +135,7 @@ class ProccessedOrderCountController extends BaseController {
 
 
 
-            $tableProducts = "d_eshop_product_{$project->user_id}";
+            $tableProducts = "d_eshop_product_{$user->client_id}";
             $query = MDDataStorageConnections::getImportDw2Connection()
                 ->table($tableProducts)
                 ->selectRaw("count(id) as productsVariantSum, count(distinct product_parent_id) as productsSum")
@@ -154,7 +154,7 @@ class ProccessedOrderCountController extends BaseController {
             $project->products = $products->productsSum;
             $project->productsVariant = $products->productsVariantSum;
 
-            $tableCustomersCountries = "d_eshop_customer_{$project->user_id}";
+            $tableCustomersCountries = "d_eshop_customer_{$user->client_id}";
             $query = MDDataStorageConnections::getImportDw2Connection()
                 ->table($tableCustomersCountries)
                 ->whereNotNull('country_id');
