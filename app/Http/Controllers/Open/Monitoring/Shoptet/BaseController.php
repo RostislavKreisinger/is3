@@ -56,7 +56,8 @@ class BaseController extends \App\Http\Controllers\Open\Monitoring\BaseControlle
             ->table("project as p")
             ->join("resource_setting as rs", function(JoinClause $join){
                 $join->on("rs.project_id", '=', 'p.id')
-                    ->where("rs.resource_id", '=', 4);
+                    ->where("rs.resource_id", '=', 4)
+                    ->whereIn("rs.active", [0, 1, 2, 3]);
             })
             ->join("resource_eshop as re", function(JoinClause $join){
                 $join->on("re.resource_setting_id", '=', 'rs.id')
