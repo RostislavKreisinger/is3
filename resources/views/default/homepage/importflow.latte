@@ -1,192 +1,55 @@
 <div class="row">
     <div class="col-lg-12">
-        <h1 class="page-header">Import flow</h1>
+        <h1 class="page-header">Import Flow</h1>
     </div>
-    <!-- /.col-lg-12 -->
 </div>
+<div class="row">
+    <div class="panel panel-danger">
+        <div class="panel-heading">Import Shutdowns</div>
+        <div class="panel-body">
+            <div id="import-flow-shutdown-table"></div>
+        </div>
+    </div>
+    <script>
+        $(function () {
+            $.get({$baseUrl} + "/api/import-shutdown-log", function (data) {
+                $("#import-flow-shutdown-table").dxDataGrid({
+                    columnAutoWidth: true,
+                    columns: [
+                        {
+                            caption: 'ID',
+                            dataField: 'id'
+                        },
+                        {
+                            dataField: 'datetime'
+                        },
+                        {
+                            caption: 'PID',
+                            cellTemplate: function (cellElement, cellInfo) {
+                                cellElement.html('<a href="' + cellInfo.data.project_url + '">' + cellInfo.value + '</a>');
+                            },
+                            dataField: 'project_id',
+                            selectedFilterOperation: 'contains'
+                        },
+                        {
+                            caption: 'Resource',
+                            cellTemplate: function (cellElement, cellInfo) {
+                                cellElement.html('<a href="' + cellInfo.data.resource_url + '">' + cellInfo.value + '</a>');
+                            },
+                            dataField: 'resource_id',
+                            selectedFilterOperation: 'contains'
+                        },
+                        {
+                            dataField: 'message'
+                        }
 
-<div> Comming soon </div>
-
-
-{*<div class="row">*}
-    {*<div class="col-lg-4 col-md-6">*}
-        {*<div class="panel panel-warning panel-error-project-list">*}
-            {*<div class="panel-heading">*}
-                {*<i class="fa fa-bell fa-fw"></i>*}
-                {*Import warnings*}
-                {*({$importStatuses->count()})*}
-            {*</div>*}
-            {*<div class="panel-body">*}
-                {*<div class="dataTable_wrapper">*}
-                    {*<table width="100%"*}
-                           {*class="table table-striped table-bordered table-hover table-projects">*}
-                        {*<thead>*}
-                        {*<tr>*}
-                            {*<th>id</th>*}
-                            {*<th>name</th>*}
-                            {*<th>start_at</th>*}
-                            {*<th>status</th>*}
-                        {*</tr>*}
-                        {*</thead>*}
-                        {*<tbody>*}
-                        {*<tr n:foreach="$importStatuses as $status">*}
-                            {*<td><a href="{action 'Project\DetailController', ['project_id' => $status->project_id]}">{$status->project_id}</a></td>*}
-                            {*<td>{$status->name}*}
-                                {*[*}
-                                {*<a href="{action 'Project\Resource\DetailController', ['project_id' => $status->project_id, 'resource_id' => $status->resource->id] }">*}
-                                    {*{$status->resource->name}*}
-                                {*</a>*}
-                                {*]*}
-                            {*</td>*}
-                            {*<td style="width: 115px">{$status->start_date}*}
-                            {*</td>*}
-                            {*<td style="width: 50px">{$status->import}</td>*}
-                        {*</tr>*}
-                        {*</tbody>*}
-                    {*</table>*}
-                {*</div>*}
-            {*</div>*}
-        {*</div>*}
-    {*</div>*}
-
-    {*<div class="col-lg-4 col-md-6">*}
-        {*<div class="panel panel-warning panel-error-project-list">*}
-            {*<div class="panel-heading">*}
-                {*<i class="fa fa-bell fa-fw"></i>*}
-                {*Etl warnings*}
-                {*({$etlStatuses->count()})*}
-            {*</div>*}
-            {*<div class="panel-body">*}
-                {*<div class="dataTable_wrapper">*}
-                    {*<table width="100%"*}
-                           {*class="table table-striped table-bordered table-hover table-projects">*}
-                        {*<thead>*}
-                        {*<tr>*}
-                            {*<th>id</th>*}
-                            {*<th>name</th>*}
-                            {*<th>start_at</th>*}
-                            {*<th>status</th>*}
-                        {*</tr>*}
-                        {*</thead>*}
-                        {*<tbody>*}
-                        {*<tr n:foreach="$etlStatuses as $status">*}
-                            {*<td><a href="{action 'Project\DetailController', ['project_id' => $status->project_id]}">{$status->project_id}</a></td>*}
-                            {*<td>{$status->name}*}
-                                {*[*}
-                                {*<a href="{action 'Project\Resource\DetailController', ['project_id' => $status->project_id, 'resource_id' => $status->resource->id] }">*}
-                                    {*{$status->resource->name}*}
-                                {*</a>*}
-                                {*]*}
-                            {*</td>*}
-                            {*<td style="width: 115px">{$status->start_date}</td>*}
-                            {*<td style="width: 50px">{$status->etl}</td>*}
-                        {*</tr>*}
-                        {*</tbody>*}
-                    {*</table>*}
-                {*</div>*}
-            {*</div>*}
-        {*</div>*}
-    {*</div>*}
-
-    {*<div class="col-lg-4 col-md-6">*}
-        {*<div class="panel panel-warning panel-error-project-list">*}
-            {*<div class="panel-heading">*}
-                {*<i class="fa fa-bell fa-fw"></i>*}
-                {*Calc warnings*}
-                {*({$calcStatuses->count()})*}
-            {*</div>*}
-            {*<div class="panel-body">*}
-                {*<div class="dataTable_wrapper">*}
-                    {*<table width="100%"*}
-                           {*class="table table-striped table-bordered table-hover table-projects">*}
-                        {*<thead>*}
-                        {*<tr>*}
-                            {*<th>id</th>*}
-                            {*<th>name</th>*}
-                            {*<th>start_at</th>*}
-                            {*<th>status</th>*}
-                        {*</tr>*}
-                        {*</thead>*}
-                        {*<tbody>*}
-                        {*<tr n:foreach="$calcStatuses as $status">*}
-                            {*<td><a href="{action 'Project\DetailController', ['project_id' => $status->project_id]}">{$status->project_id}</a></td>*}
-                            {*<td>{$status->name}*}
-                                {*[*}
-                                {*<a href="{action 'Project\Resource\DetailController', ['project_id' => $status->project_id, 'resource_id' => $status->resource->id] }">*}
-                                    {*{$status->resource->name}*}
-                                {*</a>*}
-                                {*]*}
-                            {*</td>*}
-                            {*<td style="width: 115px">{$status->start_date}</td>*}
-                            {*<td style="width: 50px">{$status->calc}</td>*}
-                        {*</tr>*}
-                        {*</tbody>*}
-                    {*</table>*}
-                {*</div>*}
-            {*</div>*}
-        {*</div>*}
-    {*</div>*}
-{*</div>*}
-
-
-
-{*<div class="row">*}
-    {*<div class="col-lg-4 col-md-6">*}
-        {*<div class="panel panel-warning panel-error-project-list">*}
-            {*<div class="panel-heading">*}
-                {*<i class="fa fa-bell fa-fw"></i>*}
-                {*Output warnings*}
-                {*({$outputStatuses->count()})*}
-            {*</div>*}
-            {*<div class="panel-body">*}
-                {*<div class="dataTable_wrapper">*}
-                    {*<table width="100%"*}
-                           {*class="table table-striped table-bordered table-hover table-projects">*}
-                        {*<thead>*}
-                        {*<tr>*}
-                            {*<th>id</th>*}
-                            {*<th>name</th>*}
-                            {*<th>start_at</th>*}
-                            {*<th>status</th>*}
-                        {*</tr>*}
-                        {*</thead>*}
-                        {*<tbody>*}
-                        {*<tr n:foreach="$outputStatuses as $status">*}
-                            {*<td><a href="{action 'Project\DetailController', ['project_id' => $status->project_id]}">{$status->project_id}</a></td>*}
-                            {*<td>{$status->name}*}
-                                {*[*}
-                                {*<a href="{action 'Project\Resource\DetailController', ['project_id' => $status->project_id, 'resource_id' => $status->resource->id] }">*}
-                                    {*{$status->resource->name}*}
-                                {*</a>*}
-                                {*]*}
-                            {*</td>*}
-                            {*<td style="width: 115px">{$status->start_date}</td>*}
-                            {*<td style="width: 50px">{$status->output}</td>*}
-                        {*</tr>*}
-                        {*</tbody>*}
-                    {*</table>*}
-                {*</div>*}
-            {*</div>*}
-        {*</div>*}
-    {*</div>*}
-{*</div>*}
-
-<script>
-    var results = "";
-
-    function getTwoDigitNumber(num) {
-        if(num < 10) {
-            num = "0" + num;
-        }
-        return num;
-    }
-
-    var date = new Date();
-    results = getTwoDigitNumber(date.getMonth()+1) + "-"
-            + getTwoDigitNumber(date.getDate()) + " "
-            + getTwoDigitNumber(date.getHours()) + ":"
-            + getTwoDigitNumber(date.getMinutes()) + ":"
-            + getTwoDigitNumber(date.getSeconds());
-
-    $("#currentDateIFStatuses").text(results);
-</script>
+                    ],
+                    dataSource: data,
+                    filterRow: {
+                        visible: true
+                    }
+                });
+            });
+        });
+    </script>
+</div>
