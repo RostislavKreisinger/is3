@@ -37,7 +37,7 @@ Route::group(['middleware' => 'web'], function () {
     Route::group(['middleware' => 'auth'], function (){
 
         Route::group(['prefix' => 'api'], function(){
-
+            Route::get('import-shutdown-log', \App\Http\Controllers\Homepage\ImportShutdownLogController::getMethodAction());
         });
 
         Route::group(['prefix' => 'button'], function(){
