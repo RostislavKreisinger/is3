@@ -1,10 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2da1559536821321715f7c36ade20743",
+    "content-hash": "fd6bde4c45ee1b255eb580b11886eb97",
     "packages": [
         {
             "name": "barryvdh/laravel-ide-helper",
@@ -1588,25 +1588,25 @@
         },
         {
             "name": "monkey/abstract-domain-model",
-            "version": "1.4.1",
+            "version": "1.11.1",
             "source": {
                 "type": "git",
                 "url": "git@gitlab.monkeydata.com:composer/abstract-domain-model.git",
-                "reference": "efbc28d4a56fe22981bdec1a0430f927736e3b41"
+                "reference": "f67c59bcdde85175aa9ba0faf0129901243143c7"
             },
             "dist": {
                 "type": "tar",
-                "url": "https://composer.monkeydata.com/dist/monkey-abstract-domain-model-1.4.1-316360.tar",
-                "reference": "efbc28d4a56fe22981bdec1a0430f927736e3b41",
-                "shasum": "68a56d783dc349c500dfa8a851c8f489c4bfa184"
+                "url": "https://composer.monkeydata.com/dist/monkey-abstract-domain-model-1.11.1-307ac7.tar",
+                "reference": "f67c59bcdde85175aa9ba0faf0129901243143c7",
+                "shasum": "fcc77b664322b2f06b6a15ec3299c765783b460a"
             },
             "require": {
                 "monkey/helpers": "^1.1.0",
-                "php": ">=5.5.0"
+                "php": ">=7.0.0"
             },
             "require-dev": {
                 "mockery/mockery": "*",
-                "phpunit/phpunit": "3.7.*"
+                "phpunit/phpunit": "4.8.*"
             },
             "type": "package",
             "autoload": {
@@ -1622,7 +1622,7 @@
                 }
             ],
             "description": "package for composer",
-            "time": "2017-01-06T12:40:08+00:00"
+            "time": "2018-04-10T13:56:31+00:00"
         },
         {
             "name": "monkey/access-control-list",
@@ -1703,17 +1703,17 @@
         },
         {
             "name": "monkey/config",
-            "version": "1.22.1",
+            "version": "dev-feature/com-57-jira-credentials",
             "source": {
                 "type": "git",
                 "url": "git@gitlab.monkeydata.com:composer/config.git",
-                "reference": "44a6d19a829cd47f0fab6062ace5556da480cfb9"
+                "reference": "9559a68ea6e12c82e229377e9e7dcf037c31dcc7"
             },
             "dist": {
                 "type": "tar",
-                "url": "https://composer.monkeydata.com/dist/monkey-config-1.22.1-97fcbf.tar",
-                "reference": "44a6d19a829cd47f0fab6062ace5556da480cfb9",
-                "shasum": "47e1b36dc39ade0feec068f9a2f81d69c31bdfaa"
+                "url": "https://composer.monkeydata.com/dist/monkey-config-dev-feature-com-57-jira-credentials-c0bcab.tar",
+                "reference": "9559a68ea6e12c82e229377e9e7dcf037c31dcc7",
+                "shasum": "ad51538cd8c7bf5a55bd75c6b4ec11c81272db23"
             },
             "require": {
                 "monkey/dotenv": "^1.2.0",
@@ -1739,7 +1739,7 @@
                 }
             ],
             "description": "General configuration for common things and setting",
-            "time": "2018-05-11T16:06:46+00:00"
+            "time": "2018-06-28T13:59:59+00:00"
         },
         {
             "name": "monkey/connections",
@@ -1788,17 +1788,17 @@
         },
         {
             "name": "monkey/constants",
-            "version": "1.4.0",
+            "version": "1.5.0",
             "source": {
                 "type": "git",
                 "url": "git@gitlab.monkeydata.com:composer/constants.git",
-                "reference": "05f7d14cd21043ab5268ad54279b1875e246ea53"
+                "reference": "cc45de99d09f1e3c45c9eeb96335d45474b66798"
             },
             "dist": {
                 "type": "tar",
-                "url": "https://composer.monkeydata.com/dist/monkey-constants-1.4.0-5c93e6.tar",
-                "reference": "05f7d14cd21043ab5268ad54279b1875e246ea53",
-                "shasum": "5aa5022409a614766df73ba94b38ebf187a603eb"
+                "url": "https://composer.monkeydata.com/dist/monkey-constants-1.5.0-741464.tar",
+                "reference": "cc45de99d09f1e3c45c9eeb96335d45474b66798",
+                "shasum": "d1bb6dcd39fa64dbd074fa4c136b4dd7d84e9f40"
             },
             "require": {
                 "php": ">=5.3.0"
@@ -1821,7 +1821,7 @@
                 }
             ],
             "description": "Should contain all global constants used in MD apps",
-            "time": "2018-04-19T15:40:53+00:00"
+            "time": "2018-06-25T12:59:00+00:00"
         },
         {
             "name": "monkey/crypt",
@@ -1862,17 +1862,17 @@
         },
         {
             "name": "monkey/curl",
-            "version": "1.4.1",
+            "version": "1.4.2",
             "source": {
                 "type": "git",
                 "url": "git@gitlab.monkeydata.com:composer/curl.git",
-                "reference": "7afb44b4f202e7735881d14948b343b759151a06"
+                "reference": "1923c877213195aa2f2c2d8a4cf8ef719ba0aa59"
             },
             "dist": {
                 "type": "tar",
-                "url": "https://composer.monkeydata.com/dist/monkey-curl-1.4.1-305e10.tar",
-                "reference": "7afb44b4f202e7735881d14948b343b759151a06",
-                "shasum": "52d9ab668036fdea8de9c90960bd10cb5ce42456"
+                "url": "https://composer.monkeydata.com/dist/monkey-curl-1.4.2-d6a3ee.tar",
+                "reference": "1923c877213195aa2f2c2d8a4cf8ef719ba0aa59",
+                "shasum": "3621840255031a153b90e622a50b2450ec862e1f"
             },
             "require": {
                 "monkey/php7-compatibility": "^1.0.1",
@@ -1895,7 +1895,7 @@
                 }
             ],
             "description": "Curl client by MonkeyData",
-            "time": "2018-05-21T08:36:37+00:00"
+            "time": "2018-06-14T15:22:22+00:00"
         },
         {
             "name": "monkey/date-time",
@@ -1937,25 +1937,26 @@
         },
         {
             "name": "monkey/domain-model",
-            "version": "1.5.1",
+            "version": "2.5.2",
             "source": {
                 "type": "git",
                 "url": "git@gitlab.monkeydata.com:composer/domain-model.git",
-                "reference": "d27009a62b0d921a12f0bb2c9fb03f46b9e59f72"
+                "reference": "bdf01aac5308c1ffee4ee6f1a5e596a46d33fe74"
             },
             "dist": {
                 "type": "tar",
-                "url": "https://composer.monkeydata.com/dist/monkey-domain-model-1.5.1-0e48fe.tar",
-                "reference": "d27009a62b0d921a12f0bb2c9fb03f46b9e59f72",
-                "shasum": "06f5a5c64321fd06c9851077790547c087ade3fa"
+                "url": "https://composer.monkeydata.com/dist/monkey-domain-model-2.5.2-b8b988.tar",
+                "reference": "bdf01aac5308c1ffee4ee6f1a5e596a46d33fe74",
+                "shasum": "9b1e0c3c672b10393b7adb1c5ebcaeef8b28da4e"
             },
             "require": {
-                "monkey/abstract-domain-model": "1.4.1",
-                "php": ">=5.5.0"
+                "monkey/abstract-domain-model": "^1.9.1",
+                "monkey/translator": "^2.0.0",
+                "php": ">=7.0.0"
             },
             "require-dev": {
                 "mockery/mockery": "*",
-                "phpunit/phpunit": "3.7.*"
+                "phpunit/phpunit": "4.8.*"
             },
             "type": "package",
             "autoload": {
@@ -1971,7 +1972,7 @@
                 }
             ],
             "description": "package for composer",
-            "time": "2017-01-06T12:41:57+00:00"
+            "time": "2018-04-10T13:15:09+00:00"
         },
         {
             "name": "monkey/dotenv",
@@ -2250,6 +2251,44 @@
             ],
             "description": "SDK for import-eshop-api",
             "time": "2018-04-23T11:58:25+00:00"
+        },
+        {
+            "name": "monkey/jira-sdk",
+            "version": "dev-feature/com-48-jira-sdk",
+            "source": {
+                "type": "git",
+                "url": "git@gitlab.monkeydata.com:composer/jira-sdk.git",
+                "reference": "0782f55a78ee2b939726f95ba0ed2e457dbf8e31"
+            },
+            "dist": {
+                "type": "tar",
+                "url": "https://composer.monkeydata.com/dist/monkey-jira-sdk-dev-feature-com-48-jira-sdk-b5b6fd.tar",
+                "reference": "0782f55a78ee2b939726f95ba0ed2e457dbf8e31",
+                "shasum": "d44c3140c1dc3912a9ca51f286263a30130d297b"
+            },
+            "require": {
+                "monkey/curl": "^1.4",
+                "php": ">=7.0.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "*",
+                "phpunit/phpunit": "5.*"
+            },
+            "type": "package",
+            "autoload": {
+                "psr-4": {
+                    "Monkey\\JiraSdk\\": "src/"
+                }
+            },
+            "notification-url": "https://composer.monkeydata.com/notify-download/",
+            "authors": [
+                {
+                    "name": "toms049",
+                    "email": "tomas.stanek@monkeydata.com"
+                }
+            ],
+            "description": "Jira skd to access Jira Api",
+            "time": "2018-06-28T13:17:18+00:00"
         },
         {
             "name": "monkey/json",
@@ -2794,27 +2833,32 @@
         },
         {
             "name": "monkey/translator",
-            "version": "1.1.1",
+            "version": "dev-feature/com-48-translation-to-jira",
             "source": {
                 "type": "git",
                 "url": "git@gitlab.monkeydata.com:composer/translator.git",
-                "reference": "e0eab79393c6ca4cb9068d5826642b973656bbf9"
+                "reference": "7e75000122c11353a20638e4b42e72cc6d0498f8"
             },
             "dist": {
                 "type": "tar",
-                "url": "https://composer.monkeydata.com/dist/monkey-translator-1.1.1-f3439c.tar",
-                "reference": "e0eab79393c6ca4cb9068d5826642b973656bbf9",
-                "shasum": "99f4992b05e588f370e72e8981d681f84b6fa613"
+                "url": "https://composer.monkeydata.com/dist/monkey-translator-dev-feature-com-48-translation-to-jira-9111ac.tar",
+                "reference": "7e75000122c11353a20638e4b42e72cc6d0498f8",
+                "shasum": "fbf051c3ac8ee7ff17e9ccad0fdfcd27cfb8be4a"
             },
             "require": {
-                "monkey/connections": "^2.1.0",
-                "monkey/environment": "*",
-                "monkey/vardump": "*",
-                "php": ">=5.5.0"
+                "illuminate/database": "4.*|5.2.*|5.4.*",
+                "monkey/config": "dev-feature/com-57-jira-credentials as 1.24.0",
+                "monkey/connections": "^2.7.0",
+                "monkey/date-time": "^1.1.0",
+                "monkey/environment": "^1.5.0",
+                "monkey/jira-sdk": "dev-feature/com-48-jira-sdk as 1.0.0",
+                "monkey/raven": "^2.0.0",
+                "php": ">=7.0.0"
             },
             "require-dev": {
                 "mockery/mockery": "*",
-                "phpunit/phpunit": "3.7.*"
+                "monkey/vardump": "^1.2.0",
+                "phpunit/phpunit": "4.8.*"
             },
             "type": "package",
             "autoload": {
@@ -2830,7 +2874,7 @@
                 }
             ],
             "description": "package for composer",
-            "time": "2016-11-22T12:07:20+00:00"
+            "time": "2018-07-02T11:14:34+00:00"
         },
         {
             "name": "monkey/url-handler",
@@ -3038,16 +3082,16 @@
         },
         {
             "name": "nesbot/carbon",
-            "version": "1.29.2",
+            "version": "1.31.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/briannesbitt/Carbon.git",
-                "reference": "ed6aa898982f441ccc9b2acdec51490f2bc5d337"
+                "reference": "385780c8ca2dbfd25452666e3f55e8dc1df58c41"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/ed6aa898982f441ccc9b2acdec51490f2bc5d337",
-                "reference": "ed6aa898982f441ccc9b2acdec51490f2bc5d337",
+                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/385780c8ca2dbfd25452666e3f55e8dc1df58c41",
+                "reference": "385780c8ca2dbfd25452666e3f55e8dc1df58c41",
                 "shasum": ""
             },
             "require": {
@@ -3059,6 +3103,13 @@
                 "phpunit/phpunit": "^4.8.35 || ^5.7"
             },
             "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Carbon\\Laravel\\ServiceProvider"
+                    ]
+                }
+            },
             "autoload": {
                 "psr-4": {
                     "": "src/"
@@ -3082,7 +3133,7 @@
                 "datetime",
                 "time"
             ],
-            "time": "2018-05-29T15:23:46+00:00"
+            "time": "2018-06-25T13:15:16+00:00"
         },
         {
             "name": "nikic/php-parser",
@@ -3534,16 +3585,16 @@
         },
         {
             "name": "sentry/sentry",
-            "version": "1.9.0",
+            "version": "1.9.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/getsentry/sentry-php.git",
-                "reference": "c90567d78382b803e563939654d1563ddee61707"
+                "reference": "7ebc06dcab248bdf12e807bed3b308ef9c8a6ebf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/getsentry/sentry-php/zipball/c90567d78382b803e563939654d1563ddee61707",
-                "reference": "c90567d78382b803e563939654d1563ddee61707",
+                "url": "https://api.github.com/repos/getsentry/sentry-php/zipball/7ebc06dcab248bdf12e807bed3b308ef9c8a6ebf",
+                "reference": "7ebc06dcab248bdf12e807bed3b308ef9c8a6ebf",
                 "shasum": ""
             },
             "require": {
@@ -3570,7 +3621,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.9.x-dev"
+                    "dev-master": "1.10.x-dev"
                 }
             },
             "autoload": {
@@ -3594,7 +3645,7 @@
                 "log",
                 "logging"
             ],
-            "time": "2018-05-03T12:06:52+00:00"
+            "time": "2018-06-19T15:02:57+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -4645,28 +4696,28 @@
         },
         {
             "name": "vlucas/phpdotenv",
-            "version": "v2.4.0",
+            "version": "v2.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/vlucas/phpdotenv.git",
-                "reference": "3cc116adbe4b11be5ec557bf1d24dc5e3a21d18c"
+                "reference": "6ae3e2e6494bb5e58c2decadafc3de7f1453f70a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/vlucas/phpdotenv/zipball/3cc116adbe4b11be5ec557bf1d24dc5e3a21d18c",
-                "reference": "3cc116adbe4b11be5ec557bf1d24dc5e3a21d18c",
+                "url": "https://api.github.com/repos/vlucas/phpdotenv/zipball/6ae3e2e6494bb5e58c2decadafc3de7f1453f70a",
+                "reference": "6ae3e2e6494bb5e58c2decadafc3de7f1453f70a",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.9"
             },
             "require-dev": {
-                "phpunit/phpunit": "^4.8 || ^5.0"
+                "phpunit/phpunit": "^4.8.35 || ^5.0"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.4-dev"
+                    "dev-master": "2.5-dev"
                 }
             },
             "autoload": {
@@ -4676,7 +4727,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "BSD-3-Clause-Attribution"
+                "BSD-3-Clause"
             ],
             "authors": [
                 {
@@ -4691,7 +4742,7 @@
                 "env",
                 "environment"
             ],
-            "time": "2016-09-01T10:05:43+00:00"
+            "time": "2018-07-01T10:25:50+00:00"
         }
     ],
     "packages-dev": [
@@ -5979,9 +6030,32 @@
             "time": "2018-01-29T19:49:41+00:00"
         }
     ],
-    "aliases": [],
+    "aliases": [
+        {
+            "alias": "2.3.1",
+            "alias_normalized": "2.3.1.0",
+            "version": "dev-feature/com-48-translation-to-jira",
+            "package": "monkey/translator"
+        },
+        {
+            "alias": "1.24.0",
+            "alias_normalized": "1.24.0.0",
+            "version": "dev-feature/com-57-jira-credentials",
+            "package": "monkey/config"
+        },
+        {
+            "alias": "1.0.0",
+            "alias_normalized": "1.0.0.0",
+            "version": "dev-feature/com-48-jira-sdk",
+            "package": "monkey/jira-sdk"
+        }
+    ],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "monkey/translator": 20,
+        "monkey/config": 20,
+        "monkey/jira-sdk": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
