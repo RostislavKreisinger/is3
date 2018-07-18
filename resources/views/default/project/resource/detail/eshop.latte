@@ -9,37 +9,38 @@
     <div class="row">
     <div class="col-lg-6 col-md-6">
         {view 'default.project.resource.template.button-panel'}
-        <div class="table-responsive" n:if="$resourceDetail !== null">
-            <table class="table table-hover">
-                <tbody>
-                    <tr>
-                        <td>created_at ID</td>
-                        <td>
-                            <span>{n $resource->getResourceStats()->getResourceSetting()->created_at}</span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>last_import</td>
-                        <td>
-                            <span>{n $resourceDetail->last_import_at}</span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>last_successful_import</td>
-                        <td>
-                            <span>{n $resourceDetail->last_successful_import_at}</span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>next check date</td>
-                        <td>
-                            <span>{n $resource->getResourceStats()->getResourceSetting()->next_check_date}</span>
-                        </td>
-                    </tr>
-                    
-                </tbody>
-            </table>
-        </div>
+        {ifset $resourceDetail}
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <tbody>
+                        <tr>
+                            <td>created_at ID</td>
+                            <td>
+                                <span>{n $resource->getResourceStats()->getResourceSetting()->created_at}</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>last_import</td>
+                            <td>
+                                <span>{n $resourceDetail->last_import_at}</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>last_successful_import</td>
+                            <td>
+                                <span>{n $resourceDetail->last_successful_import_at}</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>next check date</td>
+                            <td>
+                                <span>{n $resource->getResourceStats()->getResourceSetting()->next_check_date}</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        {/ifset}
 
         {if $eshopType->import_version == 2}
             <div n:ifset="$stack" class="row" style="margin-top: 20px">
