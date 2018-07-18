@@ -59,12 +59,13 @@ class DetailController extends Controller {
         $resourceDetail = $resource->getResourceDetail();
 
         if ($resourceDetail === null) {
-            throw new Exception("Missing resource detail for project {$project->id} and resource {$resource->id}");
-        }
-        if ($resource->id == 4) {
-            $this->getView()->addParameter('eshopType', EshopType::find($resourceDetail->eshop_type_id));
+//            throw new Exception("Missing resource detail for project {$project->id} and resource {$resource->id}");
+        } else {
+            if ($resource->id == 4) {
+                $this->getView()->addParameter('eshopType', EshopType::find($resourceDetail->eshop_type_id));
+            }
 
-            //vde($resource->toArray());
+            $this->getView()->addParameter('resourceDetail', $resourceDetail);
         }
         // $this->getView()->addParameter('importFlowStatus', $this->getImportFlowStatusForProject($projectId, $resource));
 
@@ -85,7 +86,7 @@ class DetailController extends Controller {
         $this->getView()->addParameter('stackExtend', $stackExtend);
         $this->getView()->addParameter('project', $project);
         $this->getView()->addParameter('resource', $resource);
-        $this->getView()->addParameter('resourceDetail', $resourceDetail);
+
         $this->getView()->addParameter('resourceCurrency', $resourceCurrency);
         $this->getView()->addParameter('connectionDetail', $connectionDetail);
         $this->getView()->addParameter('resourceErrors', $resourceErrors);
@@ -94,9 +95,12 @@ class DetailController extends Controller {
         $sqls .= $this->getSqlFromModel($project->getUser());
         $sqls .= $this->getSqlFromModel($project->getUser()->getClient());
         $sqls .= $this->getSqlFromModel($project->getResourceSettings($resourceId)->first());
-        $sqls .= $this->getResourceDetailSql($resourceDetail, $resource->tbl_setting);
-        $this->getView()->addParameter('rsexport', $sqls);
 
+        if ($resourceDetail !== null) {
+            $sqls .= $this->getResourceDetailSql($resourceDetail, $resource->tbl_setting);
+        }
+
+        $this->getView()->addParameter('rsexport', $sqls);
         $this->prepareMenu($project);
     }
 
