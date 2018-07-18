@@ -104,18 +104,19 @@
         </div>
     </div>
     </div>
-    {ifset $eshopType}
-        <div class="row">
+    <div class="row">
+        {ifset $eshopType}
             {if $eshopType->import_version == 2}
                 {view 'default.project.resource.template.pools-panel'}
             {/if}
-        </div>
-    {/ifset}
+        {/ifset}
+    </div>
 </div>
 
-{ifset $eshopType}
-    <div class="row">
-        <div class="col-lg-12 col-md-12">
+
+<div class="row">
+    <div class="col-lg-12 col-md-12">
+        {ifset $eshopType}
             {if $eshopType->import_version == 3}
                 <div class="row" style="margin-top: 20px" n:if="$user->can('project.resource.import_flow.list')">
                     <div class="col-lg-12">
@@ -124,9 +125,10 @@
                     </div>
                 </div>
             {/if}
-        </div>
+        {/ifset}
     </div>
-{/ifset}
+</div>
+
 
 <script>
     window.onbeforeunload = function(){
