@@ -104,26 +104,29 @@
         </div>
     </div>
     </div>
-    <div class="row">
-        {if $eshopType->import_version == 2}
-            {view 'default.project.resource.template.pools-panel'}
-        {/if}
-    </div>
-</div>
-
-
-<div class="row">
-    <div class="col-lg-12 col-md-12">
-        {if $eshopType->import_version == 3}
-        <div class="row" style="margin-top: 20px" n:if="$user->can('project.resource.import_flow.list')">
-            <div class="col-lg-12">
-                <h4>Import Flow</h4>
-                {view 'default.project.resource.template.import-flow-statuses-panel'}
-            </div>
+    {ifset $eshopType}
+        <div class="row">
+            {if $eshopType->import_version == 2}
+                {view 'default.project.resource.template.pools-panel'}
+            {/if}
         </div>
-        {/if}
-    </div>
+    {/ifset}
 </div>
+
+{ifset $eshopType}
+    <div class="row">
+        <div class="col-lg-12 col-md-12">
+            {if $eshopType->import_version == 3}
+                <div class="row" style="margin-top: 20px" n:if="$user->can('project.resource.import_flow.list')">
+                    <div class="col-lg-12">
+                        <h4>Import Flow</h4>
+                        {view 'default.project.resource.template.import-flow-statuses-panel'}
+                    </div>
+                </div>
+            {/if}
+        </div>
+    </div>
+{/ifset}
 
 <script>
     window.onbeforeunload = function(){
