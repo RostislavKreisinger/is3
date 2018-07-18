@@ -39,12 +39,19 @@ class EshopResource extends ResourceV2 {
         }
     }
 
+    /**
+     * @return bool
+     */
     private function isImportFlowEshop() {
-        $eshopType = EshopType::find($this->getResourceDetail()->eshop_type_id);
-        return ($eshopType->import_version == 3);
+        $resourceDetail = $this->getResourceDetail();
+
+        if (is_null($resourceDetail)) {
+            return false;
+        }
+
+        $eshopType = EshopType::find($resourceDetail->eshop_type_id);
+        return $eshopType->import_version == 3;
     }
-
-
 
     public function getStateTester() {
         $result = parent::getStateTester();
