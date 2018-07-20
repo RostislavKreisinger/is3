@@ -4,7 +4,7 @@
         ['tab' => 'resource', 'code' => 'ifResource', 'name'=> $resource->name],
         ['tab' => 'controlPool', 'code' => 'ifControlPool', 'name' => 'IF Control Pool']
     );
-    $debugEshopTypes = [50, 51, 52];
+    $debugEshopTypes = [50, 51, 52, 58];
 
     if (isset($eshopType) && in_array($eshopType->id, $debugEshopTypes)) {
         $statuses[] = ['tab' => 'debug', 'code' => 'debug', 'name' => 'Debug'];
