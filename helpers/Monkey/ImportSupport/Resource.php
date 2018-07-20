@@ -103,17 +103,15 @@ class Resource extends ResourceModel implements IResource {
     public function getResource() {
         return $this;
     }
-    
+
     public function getResourceDetail() {
-        $builder =  MDDatabaseConnections::getMasterAppConnection()
+        $builder = MDDatabaseConnections::getMasterAppConnection()
                     ->table('resource_setting as rs')
                     ->join($this->tbl_setting.' as crs', 'rs.id', '=', 'crs.resource_setting_id')
                     ->where('rs.resource_id', '=', $this->id)
                     ->where('rs.project_id', '=', $this->getProject_id())
                     ->where('rs.active', '!=', 3)
-                    ->select('*')
-                    ;
-        //  vdQuery($builder);
+                    ->select('*');
         return $builder->first();
     }
 
