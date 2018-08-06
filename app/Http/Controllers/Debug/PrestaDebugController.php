@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Debug;
 
 
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Monkey\ImportEshopDataObjects\Base\Differences;
@@ -68,6 +69,7 @@ class PrestaDebugController extends Controller {
      * @param int $resource_id
      * @param Request $request
      * @return void
+     * @throws Exception
      */
     public function testCall(Project $project_id, int $resource_id, Request $request) {
         /**
