@@ -40,4 +40,7 @@ class Resource extends Model {
         return $this->hasMany(ResourceError::class, 'resource_id');
     }
 
+    public function resourceSettings() {
+        return $this->hasMany(ResourceSetting::class);
+    }
 }

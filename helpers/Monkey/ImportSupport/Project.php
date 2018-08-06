@@ -1,18 +1,10 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 namespace Monkey\ImportSupport;
 
+
 use App\Model\Project as ProjectModel;
-use DB;
-use Illuminate\Database\Query\Builder;
-use Illuminate\Database\Query\JoinClause;
-use Monkey\ImportSupport\Resource\Interfaces\IResource;
+use Exception;
 
 /**
  * Description of Project
@@ -21,77 +13,48 @@ use Monkey\ImportSupport\Resource\Interfaces\IResource;
  * @author Tomas
  */
 class Project extends ProjectModel {
-    
-    
     /**
-     *
-     * @var Resource 
+     * @var bool $resourcesLoaded
      */
-    private $resources;
-    
-    
-    
-    /*
-    public function __construct($project) {
-        $this->setProject($project);
-    }
-    */
+    private $resourcesLoaded = false;
+
     /**
-     * 
-     * @return Resource[]
+     * @var Resource[] $resources
      */
-    public function getProjectResources() {
-        return $this->getResources();
-    }
-    
-     /**
-     * 
+    private $resources = [];
+
+    /**
      * @return Resource[]
+     * @throws Exception
      */
     public function getResources() {
-        if($this->resources === null){
-            $data = parent::getResources()->where('allow_link', '!=', 0);
-            $this->resources = array();
-            foreach ($data->get() as $resource){
+        if (!$this->areResourcesLoaded()) {
+            $data = parent::getResources()->where('allow_link', '!=', 0)->get();
+
+            foreach ($data as $resource) {
                 $this->resources[$resource->id] = Resource::factory($resource, $this->id);
             }
+
+            $this->setResourcesLoaded(true);
         }
+
         return $this->resources;
     }
-    
-    
+
+
     /**
-     * 
      * @param int $resourceId
-     * @return IResource
+     * @return Resource
+     * @throws Exception
      */
     public function getResource($resourceId) {
         return $this->getResources()[$resourceId];
     }
-    
-    
-    
+
     /**
-     * 
-     * @return ProjectModel
+     * @return bool
+     * @throws Exception
      */
-    public function getProject() {
-        return $this;
-    }
-/*
-    public function setProject($project) {
-        if(!($project instanceof ProjectModel)){
-            $project = ProjectModel::find($project);
-        }
-        $this->project = $project;
-    }
-    */
-    
-    public function getModel() {
-        return $this;
-    }
-    
-   
     public function isValid() {
         foreach($this->getResources() as $resource){
             if(!$resource->isValid()){
@@ -100,20 +63,20 @@ class Project extends ProjectModel {
         }
         return true;
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
+    /**
+     * @return bool
+     */
+    public function areResourcesLoaded(): bool {
+        return $this->resourcesLoaded;
+    }
+
+    /**
+     * @param bool $resourcesLoaded
+     * @return Project
+     */
+    public function setResourcesLoaded(bool $resourcesLoaded): Project {
+        $this->resourcesLoaded = $resourcesLoaded;
+        return $this;
+    }
 }

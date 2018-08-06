@@ -204,7 +204,7 @@ class DifferencesController extends Controller {
      */
     private function getResourceSettingId(Project $project, int $resourceId): int {
         if (is_null($this->resourceSettingId)) {
-            $this->resourceSettingId = $project->getResourceSettings($resourceId)->first()->id;
+            $this->resourceSettingId = $project->resourceSettings($resourceId)->first()->id;
         }
 
         return $this->resourceSettingId;
