@@ -20,7 +20,9 @@
                 {
                     caption: 'Resource',
                     cellTemplate: function (cellElement, cellInfo) {
-                        cellElement.html('<a href="' + cellInfo.data.resource_url + '">' + (cellInfo.data.resource_id === 4 ? cellInfo.data.project.eshop_type_name.name : cellInfo.data.resource_name.name) + '</a>');
+                        var eshopTypeName = cellInfo.data.project && cellInfo.data.project.eshop_type_name ? cellInfo.data.project.eshop_type_name.name : 'Eshop';
+                        var resourceName = cellInfo.data.resource_id === 4 ? eshopTypeName : cellInfo.data.resource_name.name;
+                        cellElement.html('<a href="' + cellInfo.data.resource_url + '">' + resourceName + '</a>');
                     },
                     dataField: 'resource_id',
                     selectedFilterOperation: 'contains'
