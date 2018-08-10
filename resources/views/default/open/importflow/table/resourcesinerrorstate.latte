@@ -1,0 +1,43 @@
+<div class="panel panel-danger">
+    <div class="panel-heading">Resources in error state</div>
+    <div class="panel-body">
+        <div id="import-flow-error-resources"></div>
+    </div>
+</div>
+<script>
+    $(function () {
+        $("#import-flow-error-resources").dxDataGrid({
+            columnAutoWidth: true,
+            columns: [
+                {
+                    caption: 'PID',
+                    cellTemplate: function (cellElement, cellInfo) {
+                        cellElement.html('<a href="' + cellInfo.data.project_url + '">' + cellInfo.value + '</a>');
+                    },
+                    dataField: 'project_id',
+                    selectedFilterOperation: 'contains'
+                },
+                {
+                    caption: 'Resource',
+                    cellTemplate: function (cellElement, cellInfo) {
+                        cellElement.html('<a href="' + cellInfo.data.resource_url + '">' + (cellInfo.data.resource_id === 4 ? cellInfo.data.project.eshop_type_name.name : cellInfo.data.resource_name.name) + '</a>');
+                    },
+                    dataField: 'resource_id',
+                    selectedFilterOperation: 'contains'
+                },
+                {
+                    caption: 'TTL',
+                    dataField: 'ttl'
+                }
+
+            ],
+            dataSource: {$baseUrl} + "/open/import-flow/table/resources-in-error-state",
+            filterRow: {
+                visible: true
+            },
+            paging: {
+                pageSize: 10
+            }
+        });
+    });
+</script>

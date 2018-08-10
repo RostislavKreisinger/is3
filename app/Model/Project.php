@@ -2,7 +2,7 @@
 
 namespace App\Model;
 
-use Eloquent;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Project extends Model {
@@ -36,6 +36,11 @@ class Project extends Model {
     public function getAutoReports() {
         return $this->hasMany(AutoReportPool::class)->get();
     }
-    
-   
+
+    /**
+     * @return BelongsTo
+     */
+    public function eshopTypeName(): BelongsTo {
+        return $this->belongsTo(EshopType::class, 'eshop_type_id')->select(['id', 'name']);
+    }
 }
