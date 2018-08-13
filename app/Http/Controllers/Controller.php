@@ -89,6 +89,11 @@ class Controller extends BaseViewController {
 
         if ($flowStatus) {
             foreach ($flowStatus as $key => $status) {
+                if (property_exists($status, 'deleted_at') && !empty($status->deleted_at)) {
+                    unset($flowStatus[$key]);
+                    continue;
+                }
+
                 switch ($status->is_history) {
                     case 0:
                         $status->is_history_status = "daily";
