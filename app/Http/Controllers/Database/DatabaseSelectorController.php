@@ -63,7 +63,7 @@ class DatabaseSelectorController extends BaseViewController {
 
                     $dateFrom = Input::get('date_from', null);
                     $dateTo = Input::get('date_to', null);
-                    $table->query = $this->getSelect($table, $project_id, 100, $dateFrom, $dateTo);
+                    $table->query = $this->getSelect($table, $project_id, $resource_id, 100, $dateFrom, $dateTo);
                     $tableSelect[] = $table;
                     if ($defaultTable === null) {
                         $defaultTable = $table;
@@ -71,8 +71,8 @@ class DatabaseSelectorController extends BaseViewController {
                 }
 //                vd($tables);
 
-                $this->addCustomTableSelects($resource_id, $info, $tableSelect);
-                // vde($tableSelect);
+                $this->addCustomTableSelects($project_id, $resource_id, $info, $tableSelect);
+                //vde($tableSelect);
                 $view->addParameter('tables', $tables);
                 $view->addParameter('tableSelect', $tableSelect);
             }
@@ -95,7 +95,7 @@ class DatabaseSelectorController extends BaseViewController {
         $view->addParameter('query', $vd->formatSqlQuery($query));
     }
 
-    private function addCustomTableSelects($resource_id, $info, &$tableSelect){
+    private function addCustomTableSelects($project_id, $resource_id, $info, &$tableSelect){
         switch ($resource_id){
             case 4:
 
@@ -112,7 +112,7 @@ class DatabaseSelectorController extends BaseViewController {
                 $table->setDatabase("monkeydata_import_dw");
 
                 $dateFrom = DateTimeHelper::getInstance()->changeYears(-1)->getMySqlId();
-                $builder = DB::connection("mysql-select-import")
+                $builder = $this->getConnection($project_id, $resource_id)
                     ->table($table->getQueryName())
                     ->selectRaw("DATE_FORMAT(`date_id`,\'%Y %M\') as `MONTH`, count(id) as `Order_Count`")
                     ->whereRaw("row_status < 100")
@@ -127,11 +127,7 @@ class DatabaseSelectorController extends BaseViewController {
     }
 
 
-
-
-
-    public function postIndex($project_id = null, $resource_id = null) {
-        $connection = DB::connection('mysql-select-import');
+    private function getConnection($project_id = null, $resource_id = null) {
         if($project_id !== null && $resource_id !== null) {
             $eshopDetail = MDDatabaseConnections::getMasterAppConnection()->table("resource_setting as rs")
                 ->where("rs.project_id", '=', $project_id)
@@ -141,9 +137,16 @@ class DatabaseSelectorController extends BaseViewController {
                 ->first(['et.*']);
             if(!empty($eshopDetail)){
                 $dataStorageConnection = $eshopDetail->data_storage_connection;
-                $connection = MDDataStorageConnections::createDataStoreConnection($dataStorageConnection);
+                return MDDataStorageConnections::createDataStoreConnection($dataStorageConnection);
             }
         }
+        return DB::connection('mysql-select-import');
+    }
+
+
+
+    public function postIndex($project_id = null, $resource_id = null) {
+        $connection = $this->getConnection($project_id, $resource_id);
         $view = new View("default.database.output");
         try {
             $query = Input::get('query', false);
@@ -191,9 +194,9 @@ class DatabaseSelectorController extends BaseViewController {
         return $this->resourceList->getResource($resource_id)->getTables();
     }
 
-    private function getSelect($table, $projectId, $count = 100, $dateFrom = null, $dateTo = null) {
-        $builder = DB::connection("mysql-select-import")
-                ->table($table->getQueryName());
+    private function getSelect($table, $projectId, $resource_id = null, $count = 100, $dateFrom = null, $dateTo = null) {
+        $connection = $connection = $this->getConnection($projectId, $resource_id);
+        $builder = $connection->table($table->getQueryName());
 
         $table->getTableConfig()->addDefaultColumn((new Column())->setName('date_id')->setOrderBy('desc'));
         $table->getTableConfig()->addDefaultColumn((new Column())->setName('project_id')->setWhere(" = {$projectId} "));
@@ -250,9 +253,8 @@ class DatabaseSelectorController extends BaseViewController {
 
 
 
-
-        $builder = DB::connection("mysql-select-import")
-                ->table($table->getQueryName());
+        $connection = $this->getConnection($projectId, $resourceId);
+        $builder = $connection->table($table->getQueryName());
 
         $table->getTableConfig()->addDefaultColumn((new Column())->setName('date_id')->setOrderBy('desc'));
         $table->getTableConfig()->addDefaultColumn((new Column())->setName('project_id')->setWhere(" = {$projectId} "));
