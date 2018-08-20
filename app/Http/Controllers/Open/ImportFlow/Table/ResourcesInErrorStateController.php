@@ -16,8 +16,6 @@ use Monkey\Constants\ImportFlow\Resource\ResourceSetting as ResourceSettingsCons
  * @package App\Http\Controllers\Open\ImportFlow\Table
  */
 class ResourcesInErrorStateController extends Controller {
-    const PER_PAGE = 10;
-
     /**
      * @return Collection
      */

@@ -1,21 +1,45 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 namespace App\Model\ImportPools;
 
-use Eloquent;
 
-class IFControlPool extends Eloquent {
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
-    public $timestamps = true;
-
-    protected $connection = "md_import_flow";
-
+/**
+ * Class IFControlPool
+ * @package App\Model\ImportPools
+ */
+class IFControlPool extends IFPool {
+    /**
+     * @var string $table
+     */
     protected $table = 'if_control';
 
+    /**
+     * @return HasOne
+     */
+    public function importPool(): HasOne {
+        return $this->hasOne(IFImportPool::class, 'unique', 'unique');
+    }
+
+    /**
+     * @return HasOne
+     */
+    public function etlPool(): HasOne {
+        return $this->hasOne(IFEtlPool::class, 'unique', 'unique');
+    }
+
+    /**
+     * @return HasOne
+     */
+    public function calcPool(): HasOne {
+        return $this->hasOne(IFCalcPool::class, 'unique', 'unique');
+    }
+
+    /**
+     * @return HasOne
+     */
+    public function outputPool(): HasOne {
+        return $this->hasOne(IFOutputPool::class, 'unique', 'unique');
+    }
 }
