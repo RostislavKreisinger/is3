@@ -67,7 +67,7 @@ class Project extends ProjectModel {
     /**
      * @return bool
      */
-    public function areResourcesLoaded(): bool {
+    private function areResourcesLoaded(): bool {
         return $this->resourcesLoaded;
     }
 
@@ -75,7 +75,7 @@ class Project extends ProjectModel {
      * @param bool $resourcesLoaded
      * @return Project
      */
-    public function setResourcesLoaded(bool $resourcesLoaded): Project {
+    private function setResourcesLoaded(bool $resourcesLoaded): Project {
         $this->resourcesLoaded = $resourcesLoaded;
         return $this;
     }

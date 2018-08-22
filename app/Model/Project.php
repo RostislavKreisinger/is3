@@ -3,6 +3,9 @@
 namespace App\Model;
 
 
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -18,6 +21,9 @@ class Project extends Model {
     
     protected $guarded = [];
 
+    /**
+     * @return BelongsToMany
+     */
     public function getResources() {
         return $this->belongsToMany(Resource::class, "resource_setting", "project_id", "resource_id");
     }
@@ -36,14 +42,23 @@ class Project extends Model {
         return $builder;
     }
 
+    /**
+     * @return BelongsTo
+     */
     public function user() {
         return $this->belongsTo(User::class);
     }
-    
+
+    /**
+     * @return User
+     */
     public function getUser() {
         return $this->user()->first();
     }
-    
+
+    /**
+     * @return Collection
+     */
     public function getAutoReports() {
         return $this->hasMany(AutoReportPool::class)->get();
     }
