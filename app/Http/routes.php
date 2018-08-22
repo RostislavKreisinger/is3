@@ -23,6 +23,7 @@ Route::group(['middleware' => 'web'], function () {
             Route::group(['prefix' => 'table'], function () {
                 Route::get('resources-in-error-state', 'App\Http\Controllers\Open\ImportFlow\Table\ResourcesInErrorStateController@index');
                 Route::get('stuck-flows', 'App\Http\Controllers\Open\ImportFlow\Table\StuckFlowsController@index');
+                Route::get('delayed-flows', 'App\Http\Controllers\Open\ImportFlow\Table\DelayedFlowsController@index');
             });
         });
     });

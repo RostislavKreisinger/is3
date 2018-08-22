@@ -1,0 +1,59 @@
+<div class="panel panel-danger">
+    <div class="panel-heading">Delayed flows</div>
+    <div class="panel-body">
+        <div id="import-flow-delayed-flows"></div>
+    </div>
+</div>
+<script>
+    $(function () {
+        $("#import-flow-delayed-flows").dxDataGrid({
+            columnAutoWidth: true,
+            columns: [
+                {
+                    caption: 'PID',
+                    cellTemplate: function (cellElement, cellInfo) {
+                        cellElement.html('<a href="' + cellInfo.data.project_url + '">' + cellInfo.value + '</a>');
+                    },
+                    dataField: 'project_id',
+                    selectedFilterOperation: 'contains'
+                },
+                {
+                    caption: 'Resource',
+                    cellTemplate: function (cellElement, cellInfo) {
+                        var resourceName = 'Unknown';
+
+                        if (cellInfo.data.resource_id === 4) {
+                            resourceName = cellInfo.data.project && cellInfo.data.project.eshop_type_name ? cellInfo.data.project.eshop_type_name.name : 'Eshop';
+                        } else if (cellInfo.data.resource) {
+                            resourceName = cellInfo.data.resource.name;
+                        }
+
+                        cellElement.html('<a href="' + cellInfo.data.resource_url + '">' + resourceName + '</a>');
+                    },
+                    dataField: 'resource_id',
+                    selectedFilterOperation: 'contains'
+                },
+                {
+                    caption: 'TTL',
+                    dataField: 'ttl'
+                },
+                {
+                    caption: 'Delay count',
+                    dataField: 'delay_count'
+                },
+                {
+                    caption: 'Step',
+                    dataField: 'if_step'
+                }
+
+            ],
+            dataSource: {$baseUrl} + "/open/import-flow/table/delayed-flows",
+            filterRow: {
+                visible: true
+            },
+            paging: {
+                pageSize: 10
+            }
+        });
+    });
+</script>
