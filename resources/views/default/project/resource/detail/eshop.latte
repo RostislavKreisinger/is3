@@ -14,11 +14,12 @@
                 <table class="table table-hover">
                     <tbody>
                         <tr>
-                            <td>created_at ID</td>
+                            <td>created_at</td>
                             <td>
-                                <span>{n $resource->getResourceStats()->getResourceSetting()->created_at}</span>
+                                <span>{n $resourceDetail->created_at}</span>
                             </td>
                         </tr>
+                        {ifset $resourceDetail}
                         <tr>
                             <td>last_import</td>
                             <td>
@@ -31,10 +32,11 @@
                                 <span>{n $resourceDetail->last_successful_import_at}</span>
                             </td>
                         </tr>
+                        {/ifset $resourceDetail}
                         <tr>
                             <td>next check date</td>
                             <td>
-                                <span>{n $resource->getResourceStats()->getResourceSetting()->next_check_date}</span>
+                                <span>{n $resourceDetail->next_check_date}</span>
                             </td>
                         </tr>
                     </tbody>
@@ -70,10 +72,10 @@
             {/if}
         {/ifset}
     </div>
-        
-         
+
+
     <div class="col-lg-6 col-md-6">
-        
+
         <ul class="nav nav-tabs">
             <li class="active"  n:if="count($connectionDetail)">
                 <a href="#detail" data-toggle="tab" aria-expanded="true">Connection detail</a>
@@ -84,7 +86,7 @@
             <li>
                 <a href="#export" data-toggle="tab" aria-expanded="true">Export</a>
             </li>
-        </ul>        
+        </ul>
         <div class="tab-content">
             <div class="tab-pane active in" id="detail"  n:if="count($connectionDetail)">
                 {if Monkey\View\ViewFinder::existView("default.project.resource.detail.eshop.$eshopType->code")}

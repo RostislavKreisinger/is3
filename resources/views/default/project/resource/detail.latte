@@ -15,38 +15,39 @@
                 <div class="table-responsive">
                     <table class="table table-hover">
                         <tbody>
+                        {ifset $resourceDetail}
                             <tr>
                                 <td>currency</td>
                                 <td>
                                     <span>{n $resourceCurrency->code}</span>
                                 </td>
                             </tr>
-                            {ifset $resourceDetail}
-                                <tr>
-                                    <td>created_at ID</td>
-                                    <td>
-                                        <span>{n $resourceDetail->created_at}</span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>last_import</td>
-                                    <td>
-                                        <span>{n $resourceDetail->last_import_at}</span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>last_successful_import</td>
-                                    <td>
-                                        <span>{n $resourceDetail->last_successful_import_at}</span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>next check date</td>
-                                    <td>
-                                        <span>{n $resourceDetail->next_check_date}</span>
-                                    </td>
-                                </tr>
-                            {/ifset}
+
+                            <tr>
+                                <td>created_at</td>
+                                <td>
+                                    <span>{n $resourceDetail->created_at}</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>last_import</td>
+                                <td>
+                                    <span>{n $resourceDetail->last_import_at}</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>last_successful_import</td>
+                                <td>
+                                    <span>{n $resourceDetail->last_successful_import_at}</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>next check date</td>
+                                <td>
+                                    <span>{n $resourceDetail->next_check_date}</span>
+                                </td>
+                            </tr>
+                        {/ifset}
                         </tbody>
                     </table>
                 </div>
@@ -93,7 +94,7 @@
         {/if}
     </div>
     <div class="col-lg-6 col-md-6">
-        <ul class="nav nav-tabs"> 
+        <ul class="nav nav-tabs">
             <li class="active" n:if="count($connectionDetail)">
                 <a href="#connection-detail" data-toggle="tab" aria-expanded="true">Connection detail</a>
             </li>
@@ -103,7 +104,7 @@
             <li>
                 <a href="#export" data-toggle="tab" aria-expanded="true">Export</a>
             </li>
-        </ul>        
+        </ul>
         <div class="tab-content">
             <div class="tab-pane active in" id="connection-detail"  n:if="count($connectionDetail)">
                 <h4>Connection detail</h4>
@@ -116,7 +117,7 @@
                             </tr>
                         </tbody>
                     </table>
-                </div> 
+                </div>
             </div>
             <div class="tab-pane" id="errors">
                 {view 'default.project.resource.template.error-panel'}
