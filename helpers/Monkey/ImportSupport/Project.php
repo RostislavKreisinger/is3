@@ -14,28 +14,22 @@ use Exception;
  */
 class Project extends ProjectModel {
     /**
-     * @var bool $resourcesLoaded
-     */
-    private $resourcesLoaded = false;
-
-    /**
      * @var Resource[] $resources
      */
-    private $resources = [];
+    private $resources;
 
     /**
      * @return Resource[]
      * @throws Exception
      */
     public function getResources() {
-        if (!$this->areResourcesLoaded()) {
+        if ($this->resources === null) {
             $data = parent::getResources()->where('allow_link', '!=', 0)->get();
+            $this->resources = [];
 
             foreach ($data as $resource) {
                 $this->resources[$resource->id] = Resource::factory($resource, $this->id);
             }
-
-            $this->setResourcesLoaded(true);
         }
 
         return $this->resources;
@@ -62,21 +56,5 @@ class Project extends ProjectModel {
             }
         }
         return true;
-    }
-
-    /**
-     * @return bool
-     */
-    private function areResourcesLoaded(): bool {
-        return $this->resourcesLoaded;
-    }
-
-    /**
-     * @param bool $resourcesLoaded
-     * @return Project
-     */
-    private function setResourcesLoaded(bool $resourcesLoaded): Project {
-        $this->resourcesLoaded = $resourcesLoaded;
-        return $this;
     }
 }

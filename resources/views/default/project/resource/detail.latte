@@ -21,30 +21,32 @@
                                     <span>{n $resourceCurrency->code}</span>
                                 </td>
                             </tr>
-                            <tr>
-                                <td>created_at ID</td>
-                                <td>
-                                    <span>{n $resourceDetail->created_at}</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>last_import</td>
-                                <td>
-                                    <span>{n $resourceDetail->last_import_at}</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>last_successful_import</td>
-                                <td>
-                                    <span>{n $resourceDetail->last_successful_import_at}</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>next check date</td>
-                                <td>
-                                    <span>{n $resourceDetail->next_check_date}</span>
-                                </td>
-                            </tr>
+                            {ifset $resourceDetail}
+                                <tr>
+                                    <td>created_at ID</td>
+                                    <td>
+                                        <span>{n $resourceDetail->created_at}</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>last_import</td>
+                                    <td>
+                                        <span>{n $resourceDetail->last_import_at}</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>last_successful_import</td>
+                                    <td>
+                                        <span>{n $resourceDetail->last_successful_import_at}</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>next check date</td>
+                                    <td>
+                                        <span>{n $resourceDetail->next_check_date}</span>
+                                    </td>
+                                </tr>
+                            {/ifset}
                         </tbody>
                     </table>
                 </div>
