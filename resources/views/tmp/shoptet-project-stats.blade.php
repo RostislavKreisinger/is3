@@ -17,6 +17,21 @@
         background-color: rgba(158,158,158,0.18);
     }
 </style>
+
+<div>
+    <form>
+        <input type="date" value="{{$dateFrom}}" name="date_from" placeholder="YYYY-MM-DD">
+        <input type="date" value="{{$dateTo}}" name="date_to" placeholder="YYYY-MM-DD">
+        <input type="submit" name="form_submited" value="Submit">
+    </form>
+</div>
+
+
+
+
+
+@if(isset($projects))
+<div>
 <table>
     <tr>
         <th>UID</th>
@@ -125,3 +140,5 @@
         </td>
     </tr>
 </table>
+</div>
+@endif

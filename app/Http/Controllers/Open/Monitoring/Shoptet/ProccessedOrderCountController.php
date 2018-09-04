@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Input;
 use Monkey\Connections\MDDatabaseConnections;
 use Monkey\Connections\MDDataStorageConnections;
 use Monkey\Constants\MonkeyData\Currency\CurrencyNames;
+use Monkey\DateTime\DateTimeHelper;
 
 class ProccessedOrderCountController extends BaseController {
 
@@ -84,6 +85,23 @@ class ProccessedOrderCountController extends BaseController {
 
 
     public function getStats() {
+
+        $outputData = [];
+        $formSubmited = (bool)Input::get("form_submited", false);
+
+
+        $outputData["dateFrom"] = $this->getDateFrom();
+        $outputData["dateTo"] = $this->getDateTo();
+
+        if(!$formSubmited){
+            $dth = new DateTimeHelper($outputData["dateTo"]);
+            $outputData["dateFrom"] = $dth->changeDays(-7)->mysqlFormatDate();
+          //   vde($outputData);
+            $view = \View::make('tmp.shoptet-project-stats', $outputData);
+            return $view;
+        }
+
+
         $projects = $this->getShoptetProjects(['p.weburl']);
 
         $this->out("Start processing data for ". count($projects) . " projects");
@@ -168,10 +186,10 @@ class ProccessedOrderCountController extends BaseController {
 
             $project->countriesInOrders = count($countriesCount);
         }
-
+        $outputData["projects"] = $projects;
 
         // vde($projects);
-        $view = \View::make('tmp.shoptet-project-stats', ["projects" => $projects]);
+        $view = \View::make('tmp.shoptet-project-stats', $outputData);
         return $view;
 //        $response = new JsonResponse();
 //        $response->setData(array(

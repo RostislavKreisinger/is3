@@ -8,6 +8,7 @@ use App\Http\Controllers\Open\Monitoring\Shoptet\Objects\Project;
 use Illuminate\Database\Query\JoinClause;
 use Illuminate\Support\Facades\Input;
 use Monkey\Connections\MDDatabaseConnections;
+use Monkey\DateTime\DateTimeHelper;
 use Monkey\View\View;
 
 class BaseController extends \App\Http\Controllers\Open\Monitoring\BaseController {
@@ -45,7 +46,10 @@ class BaseController extends \App\Http\Controllers\Open\Monitoring\BaseControlle
      */
     protected function getShoptetProjects($columns = array()) {
 
-        $dateFrom = Input::get("date_from", '2018-05-10 00:00:00');
+        $dateFrom = $this->getDateFrom();
+        $dateTo = $this->getDateTo();
+
+
         /*
          SELECT * FROM project as p
             JOIN resource_setting as rs ON rs.project_id = p.id AND rs.resource_id = 4
@@ -63,11 +67,11 @@ class BaseController extends \App\Http\Controllers\Open\Monitoring\BaseControlle
                 $join->on("re.resource_setting_id", '=', 'rs.id')
                     ->where("re.eshop_type_id", '=', 56);
             })
-            ->where("rs.created_at", '>', $dateFrom)
+            ->where("rs.created_at", '>', "{$dateFrom} 00:00:00")
+            ->where("rs.created_at", '<', "{$dateTo} 23:59:59")
             ->orderBy("p.created_at", 'DESC')
             ->select(array_merge(['rs.created_at', 'p.id', 'p.user_id', 'rs.active as rs_active'], $columns))
         ;
-        // vdQuery($query);
 
         $data = $query->get();
         $projects = array();
@@ -83,6 +87,21 @@ class BaseController extends \App\Http\Controllers\Open\Monitoring\BaseControlle
      */
     protected function setPageRefresh($pageRefresh) {
         View::share("pageRefresh", $pageRefresh);
+    }
+
+    /**
+     * @return string
+     */
+    final protected function getDateFrom() {
+        return Input::get("date_from", '2018-05-10');
+    }
+
+    /**
+     * @return string
+     */
+    final protected function getDateTo() {
+        $dth = new DateTimeHelper();
+        return Input::get("date_to", $dth->mysqlFormatDate());
     }
 
 }
