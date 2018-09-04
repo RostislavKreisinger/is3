@@ -17,7 +17,7 @@ use Monkey\Resource\TableConfig\Column;
 use Monkey\Vardump\VardumpQuery;
 use Monkey\View\View;
 
-class DatabaseSelectorController extends BaseViewController {
+class DatabaseSelectorController extends AController {
 
     /**
      *
@@ -127,22 +127,6 @@ class DatabaseSelectorController extends BaseViewController {
     }
 
 
-    private function getConnection($project_id = null, $resource_id = null) {
-        if($project_id !== null && $resource_id !== null) {
-            $eshopDetail = MDDatabaseConnections::getMasterAppConnection()->table("resource_setting as rs")
-                ->where("rs.project_id", '=', $project_id)
-                ->where('rs.resource_id', '=', $resource_id)
-                ->join("resource_eshop as re", 're.resource_setting_id', '=', 'rs.id')
-                ->join("eshop_type as et", 'et.id', '=', 're.eshop_type_id')
-                ->first(['et.*']);
-            if(!empty($eshopDetail)){
-                $dataStorageConnection = $eshopDetail->data_storage_connection;
-                return MDDataStorageConnections::createDataStoreConnection($dataStorageConnection);
-            }
-        }
-        return DB::connection('mysql-select-import');
-    }
-
 
 
     public function postIndex($project_id = null, $resource_id = null) {
@@ -196,6 +180,7 @@ class DatabaseSelectorController extends BaseViewController {
 
     private function getSelect($table, $projectId, $resource_id = null, $count = 100, $dateFrom = null, $dateTo = null) {
         $connection = $connection = $this->getConnection($projectId, $resource_id);
+
         $builder = $connection->table($table->getQueryName());
 
         $table->getTableConfig()->addDefaultColumn((new Column())->setName('date_id')->setOrderBy('desc'));
@@ -211,7 +196,7 @@ class DatabaseSelectorController extends BaseViewController {
         }
 
         foreach ($table->getTableConfig()->getColumns() as $column) {
-            if ($table->hasDbColumn($column->getName())) {
+            if ($table->hasDbColumn($column->getName(), $connection)) {
                 $column->updateQueryBuilder($builder);
             }
         }
@@ -262,7 +247,7 @@ class DatabaseSelectorController extends BaseViewController {
 
 
         foreach ($table->getTableConfig()->getColumns() as $column) {
-            if ($table->hasDbColumn($column->getName())) {
+            if ($table->hasDbColumn($column->getName(), $connection)) {
                 $column->updateQueryBuilder($builder);
             }
         }

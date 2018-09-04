@@ -71,9 +71,9 @@ class Table {
         return $tablename;
     }
     
-    public function getDbTableColumns() {
+    public function getDbTableColumns(\Illuminate\Database\Connection $connection = null) {
         if($this->DBcolumns === null){
-            $columns = DB::connection("mysql-select-import")
+            $columns = $connection
                     ->table('information_schema.COLUMNS')
                     ->where('TABLE_SCHEMA', '=', $this->getDatabase())
                     ->where('TABLE_NAME', '=', $this->getDbTableName())
@@ -88,8 +88,8 @@ class Table {
         return $this->DBcolumns;
     }
     
-    public function hasDbColumn($columnName) {
-        return in_array($columnName, $this->getDbTableColumns());
+    public function hasDbColumn($columnName, \Illuminate\Database\Connection $connection = null) {
+        return in_array($columnName, $this->getDbTableColumns($connection));
     }
 
     public function getHasProjectId() {
