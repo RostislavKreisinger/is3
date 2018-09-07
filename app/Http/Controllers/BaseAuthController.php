@@ -7,10 +7,10 @@ use Auth;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
-use Illuminate\Routing\Controller as BaseController;
+use Monkey\Laravel\v5_4\Illuminate\Routing\AController;
 use Redirect;
 
-class BaseAuthController extends BaseController {
+class BaseAuthController extends AController {
 
     use AuthorizesRequests,
         DispatchesJobs,
@@ -54,7 +54,7 @@ class BaseAuthController extends BaseController {
     /**
      * 
      * @param User $user
-     * @return Controller
+     * @return static
      */
     public function setUser(User $user) {
         $dth = \Monkey\DateTime\DateTimeHelper::getCloneSelf();

@@ -21,11 +21,11 @@ class QueuesJobsInTimeController extends Controller {
             ->take(120)
             ->orderBy('created_at', 'desc')
             ->get();
-
+        /* Musí se to řadit znovu, když už je to seřazené v SQL?
         usort($result, function ($a, $b){
             return strcmp($a->created_at, $b->created_at);
         });
-
+        */
 
         $data = array();
 
