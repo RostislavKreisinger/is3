@@ -5,9 +5,9 @@ namespace App\Http\Controllers\Auth;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
-use Illuminate\Routing\Controller as BaseController;
+use Monkey\Laravel\v5_4\Illuminate\Routing\AController;
 
-class Controller extends BaseController {
+class Controller extends AController {
 
     use AuthorizesRequests,
         DispatchesJobs,

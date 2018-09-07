@@ -3,9 +3,8 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
-use \Validator;
-use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
-use Illuminate\Foundation\Auth\ThrottlesLogins;
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Validator;
 
 class AuthController extends Controller {
     /*
@@ -19,8 +18,7 @@ class AuthController extends Controller {
       |
      */
 
-use AuthenticatesAndRegistersUsers,
-    ThrottlesLogins;
+use AuthenticatesUsers;
 
     /**
      * Where to redirect users after login / registration.
