@@ -37,9 +37,27 @@ class ResourceV3 extends Resource {
             $this->getResourceStats()->setResourceSetting($resourceSetting);
         }
 
+        if (is_null($resourceSetting)) {
+            return Resource::STATUS_ERROR;
+        }
 
-        return Resource::STATUS_ACTIVE;
-        return Resource::STATUS_MISSING_RECORD;
+        if ($resourceSetting->active == 2 && $resourceSetting->ttl > 0) {
+            return Resource::STATUS_RUNNING;
+        }
+
+        if ($resourceSetting->active == 0 && $resourceSetting->ttl > 0) {
+            return Resource::STATUS_ACTIVE;
+        }
+
+        if ($resourceSetting->active == 1 && $resourceSetting->ttl > 0) {
+            return Resource::STATUS_DONE;
+        }
+
+        return Resource::STATUS_ERROR;
+
+
+//        return Resource::STATUS_ACTIVE;
+//        return Resource::STATUS_MISSING_RECORD;
     }
 
     public function getStateDaily() {
