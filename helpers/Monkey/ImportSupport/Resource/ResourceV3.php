@@ -30,7 +30,7 @@ class ResourceV3 extends Resource {
                 ->select('*')
                 ->where('project_id', '=', $this->getProject_id())
                 ->where('resource_id', '=', $this->getResource()->id)
-                ->where('active', '!=', 3)
+                // ->where('active', '!=', 3)
                 // ->whereRaw('COALESCE(`next_check_date`, 0) < NOW()')
                 ->first()
             ;
