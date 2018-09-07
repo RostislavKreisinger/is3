@@ -110,7 +110,7 @@ class Resource extends ResourceModel implements IResource {
                     ->join($this->tbl_setting.' as crs', 'rs.id', '=', 'crs.resource_setting_id')
                     ->where('rs.resource_id', '=', $this->id)
                     ->where('rs.project_id', '=', $this->getProject_id())
-                    ->where('rs.active', '!=', 13)
+                    // ->where('rs.active', '!=', 3)
                     ->select('*');
 
         return $builder->first();
