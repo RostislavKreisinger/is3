@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Database;
 
-use App\Http\Controllers\Controller;
 use DB;
 use Monkey\Connections\MDDatabaseConnections;
 use Monkey\Resource\ResourceList;
@@ -13,7 +12,7 @@ use Illuminate\Http\Request;
 use Monkey\Vardump\VardumpQuery;
 use View;
 
-class ShowImportDataController extends Controller {
+class ShowImportDataController extends AController {
 
     private $client_id = null;
 
@@ -47,8 +46,8 @@ class ShowImportDataController extends Controller {
 
 
         try {
-            $builder = MDDatabaseConnections::getImportDwConnection()
-                    ->table($table->getQueryName());
+            $connection = $this->getConnection($projectId, $resourceId);
+            $builder = $connection->table($table->getQueryName());
 
             $table->getTableConfig()->addDefaultColumn((new Column())->setName('date_id')->setOrderBy('desc'));
             $table->getTableConfig()->addDefaultColumn((new Column())->setName('project_id')->setWhere(" = {$projectId} "));
@@ -56,7 +55,7 @@ class ShowImportDataController extends Controller {
 
 
             foreach ($table->getTableConfig()->getColumns() as $column) {
-                if ($table->hasDbColumn($column->getName())) {
+                if ($table->hasDbColumn($column->getName(), $connection)) {
                     $column->updateQueryBuilder($builder);
                 }
             }

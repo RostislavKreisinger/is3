@@ -1,16 +1,9 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 namespace Monkey\Resource;
 
-use DB;
+use Illuminate\Database\Connection;
 use Monkey\Resource\TableConfig\TableConfig;
-use Illuminate\Database\Query\Builder;
 
 /**
  * Description of Resource
@@ -26,7 +19,7 @@ class Table {
     protected $hasDateId = false;
     protected $client_id = null;
     protected $resourceVersion = 2;
-    
+
     private $DBcolumns = null;
 
 
@@ -47,21 +40,21 @@ class Table {
     public function getName() {
         return $this->name;
     }
-    
+
     public function getDbTableName() {
         return $this->replaceClientId($this->getName());
     }
-    
-    
+
+
     protected function replaceClientId($text) {
         return str_replace("[[client_id]]", $this->getClient_id(), $text);
     }
-    
+
     public function getDBName() {
         $tableName = $this->name;
-        if($this->getDatabase() !== null){
+        if ($this->getDatabase() !== null) {
             $tableName = $this->getDatabase() . "." . $tableName;
-        }        
+        }
         return $tableName;
     }
 
@@ -70,26 +63,25 @@ class Table {
         $tablename = $this->replaceClientId($tablename);
         return $tablename;
     }
-    
-    public function getDbTableColumns() {
-        if($this->DBcolumns === null){
-            $columns = DB::connection("mysql-select-import")
-                    ->table('information_schema.COLUMNS')
-                    ->where('TABLE_SCHEMA', '=', $this->getDatabase())
-                    ->where('TABLE_NAME', '=', $this->getDbTableName())
-                    ->get(['COLUMN_NAME'])
-                    ;
+
+    public function getDbTableColumns(Connection $connection = null) {
+        if ($this->DBcolumns === null) {
+            $columns = $connection
+                ->table('information_schema.COLUMNS')
+                ->where('TABLE_SCHEMA', '=', $this->getDatabase())
+                ->where('TABLE_NAME', '=', $this->getDbTableName())
+                ->get(['COLUMN_NAME']);
             $result = array();
-            foreach($columns as $column){
-                $result[] = $column->COLUMN_NAME; 
+            foreach ($columns as $column) {
+                $result[] = $column->COLUMN_NAME;
             }
             $this->DBcolumns = $result;
         }
         return $this->DBcolumns;
     }
-    
-    public function hasDbColumn($columnName) {
-        return in_array($columnName, $this->getDbTableColumns());
+
+    public function hasDbColumn($columnName, Connection $connection = null) {
+        return in_array($columnName, $this->getDbTableColumns($connection));
     }
 
     public function getHasProjectId() {
@@ -111,7 +103,7 @@ class Table {
 
     public function setName($name) {
         $array = explode('.', $name);
-        if(count($array) > 1){
+        if (count($array) > 1) {
             $this->setDatabase($array[0]);
             $this->name = $array[1];
             return $this;
@@ -153,9 +145,9 @@ class Table {
         $this->resourceVersion = $resourceVersion;
         return $this;
     }
-    
+
     /**
-     * 
+     *
      * @return TableConfig
      */
     public function getTableConfig() {
@@ -189,8 +181,5 @@ class Table {
     public function setQuery($query) {
         $this->query = $query;
     }
-
-
-
 
 }
