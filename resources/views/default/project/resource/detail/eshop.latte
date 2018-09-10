@@ -39,6 +39,14 @@
                                 <span>{n $resourceDetail->next_check_date}</span>
                             </td>
                         </tr>
+                        {if $resourceDetail->active == 3}
+                            <tr class="alert-danger">
+                                <td>status</td>
+                                <td>
+                                    <span>ERROR</span>
+                                </td>
+                            </tr>
+                        {/if}
                     </tbody>
                 </table>
             </div>
