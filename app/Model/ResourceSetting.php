@@ -5,6 +5,7 @@ namespace App\Model;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * Class ResourceSetting
@@ -15,6 +16,8 @@ class ResourceSetting extends Model {
     protected $table = 'resource_setting';
     
     protected $guarded = [];
+
+    use SoftDeletes;
 
     /**
      * @return BelongsTo

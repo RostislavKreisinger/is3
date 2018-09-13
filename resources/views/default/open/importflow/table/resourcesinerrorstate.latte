@@ -20,7 +20,7 @@
                 {
                     caption: 'Resource',
                     cellTemplate: function (cellElement, cellInfo) {
-                        var eshopTypeName = cellInfo.data.project && cellInfo.data.project.eshop_type_name ? cellInfo.data.project.eshop_type_name.name : 'Eshop';
+                        var eshopTypeName = cellInfo.data.name ? cellInfo.data.name : 'Eshop';
                         var resourceName = cellInfo.data.resource_id === 4 ? eshopTypeName : cellInfo.data.resource_name.name;
                         cellElement.html('<a href="' + cellInfo.data.resource_url + '">' + resourceName + '</a>');
                     },
