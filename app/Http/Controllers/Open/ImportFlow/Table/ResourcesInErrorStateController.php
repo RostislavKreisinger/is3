@@ -29,7 +29,7 @@ class ResourcesInErrorStateController extends Controller {
             ->leftJoin('eshop_type', 'eshop_type_id', '=', 'eshop_type.id')
             ->with(['resourceName'])->where('resource_setting.active', '>', 2)
             ->orderBy('resource_setting.updated_at', 'desc')
-            ->get(['user.id', 'eshop_type_id', 'project_id', 'resource_id', 'ttl', 'eshop_type.name']);
+            ->get(['resource_setting.active', 'user.id', 'eshop_type_id', 'project_id', 'resource_id', 'ttl', 'eshop_type.name']);
 
         for ($i = 0; $i < count($resources); $i++) {
             $resources[$i]->project_url = action(DetailController::routeMethod('getIndex'), [
