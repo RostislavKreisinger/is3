@@ -3,6 +3,7 @@
 namespace Monkey\ImportSupport;
 
 
+use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -13,7 +14,7 @@ use NilPortugues\Serializer\JsonSerializer;
 
 /**
  * Class ResourceSettingDifference
- * @mixin \Eloquent
+ * @mixin Eloquent
  * @package Monkey\ImportSupport
  * @author Lukáš Kielar
  */
@@ -62,7 +63,7 @@ class ResourceSettingDifference extends Model {
     /**
      * @param Builder $query
      * @param int $resourceSettingId
-     * @return $this
+     * @return Builder
      */
     public function scopeByResourceSettingId(Builder $query, int $resourceSettingId) {
         return $query->where("resource_setting_id", "=", $resourceSettingId);
@@ -71,7 +72,7 @@ class ResourceSettingDifference extends Model {
     /**
      * @param Builder $query
      * @param string $endpoint
-     * @return $this
+     * @return Builder
      */
     public function scopeByEndpoint(Builder $query, string $endpoint) {
         return $query->where("endpoint", "=", $endpoint);
@@ -79,7 +80,7 @@ class ResourceSettingDifference extends Model {
 
     /**
      * @param Builder $query
-     * @return $this
+     * @return Builder
      */
     public function scopeActive(Builder $query) {
         return $query->where("active", "=", true);
@@ -87,7 +88,7 @@ class ResourceSettingDifference extends Model {
 
     /**
      * @param Builder $query
-     * @return $this
+     * @return Builder
      */
     public function scopeInactive(Builder $query) {
         return $query->where("active", "=", false);
