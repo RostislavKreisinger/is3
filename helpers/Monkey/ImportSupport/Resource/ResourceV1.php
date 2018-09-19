@@ -135,7 +135,7 @@ class ResourceV1 extends Resource {
             
             'custom_setting' => function($value){ return $value;},
         ];
-        foreach ($this->getResourceDetail() as $key => $value) {
+        foreach ((array)$this->getResourceDetail() as $key => $value) {
             if (in_array($key, array_keys($enableInfo)) && !is_null($value)) {
                 $fnc = $enableInfo[$key];
                 $connectionDetail[$key] = $fnc($value);

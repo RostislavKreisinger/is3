@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Debug;
 
 
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Monkey\ImportEshopDataObjects\Base\Differences;
@@ -181,12 +182,15 @@ class DifferencesController extends Controller {
      * @param Project $project_id
      * @param int $resource_id
      * @param Request $request
+     * @throws Exception
      */
     public function delete(Project $project_id, int $resource_id, Request $request) {
         ResourceSettingDifference::find($request->input('id'))->delete();
     }
 
     /**
+     * @param Project $project
+     * @param int $resourceId
      * @return DifferencesHelper
      */
     public function getDifferencesHelper(Project $project, int $resourceId): DifferencesHelper {
@@ -204,7 +208,7 @@ class DifferencesController extends Controller {
      */
     private function getResourceSettingId(Project $project, int $resourceId): int {
         if (is_null($this->resourceSettingId)) {
-            $this->resourceSettingId = $project->getResourceSettings($resourceId)->first()->id;
+            $this->resourceSettingId = $project->resourceSettings($resourceId)->first()->id;
         }
 
         return $this->resourceSettingId;
