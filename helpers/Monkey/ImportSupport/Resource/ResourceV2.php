@@ -204,7 +204,7 @@ class ResourceV2 extends Resource {
             'custom_setting' => function($value){ return $value;},
         ];
 
-        $resourceDetail = $this->getResourceDetail();
+        $resourceDetail = (array)$this->getResourceDetail();
 
         if (is_iterable($resourceDetail)) {
             foreach ($resourceDetail as $key => $value) {
@@ -217,5 +217,4 @@ class ResourceV2 extends Resource {
 
         return $connectionDetail;
     }
-
 }

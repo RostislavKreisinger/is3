@@ -49,7 +49,6 @@ class DetailController extends Controller {
         if (ViewFinder::existView($viewName)) {
             $this->getView()->setBody($viewName);
         }
-        $resource->getStateTester();
 
         $currencyId = 4;
         if(is_null($resource->getResourceStats()) && $resource->getResourceStats()->getResourceSetting() ){
@@ -72,12 +71,14 @@ class DetailController extends Controller {
 
         $stack = null;
         $stackExtend = null;
+
         if (!$resource->isValid()) {
             $stack = $resource->getStack();
             $stackExtend = $resource->getStackExtend();
         }
 
         $connectionDetail = array();
+
         if ($this->getUser()->can('project.resource.connection_detail')) {
             $connectionDetail = $resource->getConnectionDetail();
         }
@@ -94,7 +95,7 @@ class DetailController extends Controller {
         $sqls = $this->getSqlFromModel($project);
         $sqls .= $this->getSqlFromModel($project->getUser());
         $sqls .= $this->getSqlFromModel($project->getUser()->getClient());
-        $sqls .= $this->getSqlFromModel($project->getResourceSettings($resourceId)->first());
+        $sqls .= $this->getSqlFromModel($project->resourceSettings($resourceId)->first());
 
         if ($resourceDetail !== null) {
             $sqls .= $this->getResourceDetailSql($resourceDetail, $resource->tbl_setting);
