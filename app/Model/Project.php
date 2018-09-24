@@ -2,30 +2,20 @@
 
 namespace App\Model;
 
-
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
-/**
- * Class Project
- * @package App\Model
- */
 class Project extends Model {
-    use SoftDeletes;
+
+    use \Illuminate\Database\Eloquent\SoftDeletes;
 
     protected $connection = 'mysql-master-app';
     protected $table = 'project';
     
     protected $guarded = [];
-
-    /**
-     * @return BelongsToMany
-     */
+    
     public function getResources() {
-        return $this->belongsToMany(Resource::class, "resource_setting", "project_id", "resource_id");
+        return $this->belongsToMany(Resource::class, "resource_setting", "project_id", "resource_id"); //->where('resource_setting.active', '!=', 3);
     }
 
     /**
@@ -61,5 +51,12 @@ class Project extends Model {
      */
     public function getAutoReports() {
         return $this->hasMany(AutoReportPool::class)->get();
+    }
+
+    /**
+     * @return BelongsTo
+     */
+    public function eshopTypeName(): BelongsTo {
+        return $this->belongsTo(EshopType::class, 'eshop_type_id')->select(['id', 'name']);
     }
 }
