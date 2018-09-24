@@ -20,6 +20,11 @@ Route::group(['middleware' => 'web'], function () {
                 Route::controller('/queues-jobs-in-time', App\Http\Controllers\Open\ImportFlow\Graph\QueuesJobsInTimeController::class);
                 Route::controller('/queues-jobs-in-time-history', App\Http\Controllers\Open\ImportFlow\Graph\QueuesJobsInTimeHistoryController::class);
             });
+            Route::group(['prefix' => 'table'], function () {
+                Route::get('resources-in-error-state', 'App\Http\Controllers\Open\ImportFlow\Table\ResourcesInErrorStateController@index');
+                Route::get('stuck-flows', 'App\Http\Controllers\Open\ImportFlow\Table\StuckFlowsController@index');
+                Route::get('delayed-flows', 'App\Http\Controllers\Open\ImportFlow\Table\DelayedFlowsController@index');
+            });
         });
     });
 
