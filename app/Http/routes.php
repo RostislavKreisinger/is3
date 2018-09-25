@@ -25,6 +25,8 @@ Route::group(['middleware' => 'web'], function () {
                 Route::get('stuck-flows', 'App\Http\Controllers\Open\ImportFlow\Table\StuckFlowsController@index');
                 Route::get('delayed-flows', 'App\Http\Controllers\Open\ImportFlow\Table\DelayedFlowsController@index');
                 Route::get('active-flows', 'App\Http\Controllers\Open\ImportFlow\Table\ActiveFlowsController@index');
+                Route::get('resources', 'App\Http\Controllers\Open\ImportFlow\Table\ResourcesController@index');
+                Route::get('eshop-types', 'App\Http\Controllers\Open\ImportFlow\Table\EshopTypesController@index');
             });
         });
     });
@@ -174,6 +176,7 @@ Route::group(['middleware' => 'web'], function () {
             Route::controller('import-flow', \App\Http\Controllers\Homepage\ImportFlowController::class);
             Route::controller('import-flow-stats', \App\Http\Controllers\Homepage\ImportFlowStatsController::class);
             Route::get('if-control-pool', \App\Http\Controllers\Homepage\ImportFlowControlPoolController::getMethodAction());
+            Route::get('resources', \App\Http\Controllers\Homepage\ResourcesController::getMethodAction());
         });
         
         // Route::get('/', HomepageController::routeMethod('index'));

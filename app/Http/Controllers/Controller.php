@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+
 use App\Http\Controllers\Homepage\ImportFlowController;
 use App\Http\Controllers\Homepage\ImportFlowControlPoolController;
 use App\Http\Controllers\Homepage\ImportFlowStatsController;
 use App\Http\Controllers\Homepage\Importv2Controller;
-use App\Http\Controllers\Project\DetailController as ProjectDetailController;
+use App\Http\Controllers\Homepage\ResourcesController;
+use App\Http\Controllers\OrderAlert\IndexController;
 use Illuminate\Support\Collection;
 use Monkey\Connections\MDDatabaseConnections;
 use Monkey\Connections\MDImportFlowConnections;
@@ -17,19 +19,20 @@ use Monkey\ImportSupport\InvalidProject\ProjectRepository;
 use Monkey\ImportSupport\Pool\PoolList;
 use Monkey\ImportSupport\Project;
 use Monkey\Menu\Menu;
-use Monkey\Structures\MenuItem;
 use Monkey\View\View;
+use URL;
 
+/**
+ * Class Controller
+ * @package App\Http\Controllers
+ */
 class Controller extends BaseViewController {
-
     /**
-     *
      * @var Project
      */
     private $newProjects;
 
     /**
-     *
      * @var PoolList
      */
     private $poolList;
@@ -42,11 +45,12 @@ class Controller extends BaseViewController {
     protected function prepareMenu() {
         $menu = $this->getMenu();
 
-        $menu->addMenuItem(new Menu("Import v2", \URL::action(Importv2Controller::getMethodAction())));
-        $menu->addMenuItem(new Menu("Import-flow", \URL::action(ImportFlowController::getMethodAction())));
-        $menu->addMenuItem(new Menu("Import-flow stats", \URL::action(ImportFlowStatsController::getMethodAction())));
-        $menu->addMenuItem(new Menu("Order Alert", \URL::action(\App\Http\Controllers\OrderAlert\IndexController::getMethodAction())));
+        $menu->addMenuItem(new Menu("Import v2", URL::action(Importv2Controller::getMethodAction())));
+        $menu->addMenuItem(new Menu("Import-flow", URL::action(ImportFlowController::getMethodAction())));
+        $menu->addMenuItem(new Menu("Import-flow stats", URL::action(ImportFlowStatsController::getMethodAction())));
+        $menu->addMenuItem(new Menu("Order Alert", URL::action(IndexController::getMethodAction())));
         $menu->addMenuItem(new Menu("IF Control Pool", action(ImportFlowControlPoolController::getMethodAction())));
+        $menu->addMenuItem(new Menu("Resources", action(ResourcesController::getMethodAction())));
 
 //        $invalidProjects = new Menu('Invalid projects (' . count($this->getInvalidProjects()) . ')', '#');
 //        $invalidProjects->setOpened(true);

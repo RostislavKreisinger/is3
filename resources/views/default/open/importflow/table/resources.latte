@@ -1,0 +1,67 @@
+<div class="panel">
+    <div class="panel-body">
+        <div id="import-flow-resources"></div>
+    </div>
+</div>
+<script>
+    $(function () {
+        $("#import-flow-resources").dxDataGrid({
+            columnAutoWidth: true,
+            columns: [
+                {
+                    caption: 'ID',
+                    dataField: 'id',
+                    dataType: 'number'
+                },
+                {
+                    caption: 'Name',
+                    dataField: 'name'
+                },
+                {
+                    caption: 'Active',
+                    dataField: 'active',
+                    dataType: 'boolean'
+                },
+                {
+                    caption: 'DB',
+                    dataField: 'db_import'
+                },
+                {
+                    caption: 'Interval',
+                    dataField: 'import_interval',
+                    dataType: 'number'
+                },
+                {
+                    caption: 'History interval',
+                    dataField: 'import_history_interval',
+                    dataType: 'number'
+                },
+                {
+                    caption: 'Version',
+                    dataField: 'import_version',
+                    dataType: 'number'
+                },
+                {
+                    caption: 'Public',
+                    dataField: 'is_public',
+                    dataType: 'boolean'
+                },
+                {
+                    caption: 'Online store',
+                    dataField: 'is_onlinestore',
+                    dataType: 'boolean'
+                },
+                {
+                    caption: 'Resource',
+                    dataField: 'is_resource',
+                    dataType: 'boolean'
+                }
+
+            ],
+            dataSource: {$baseUrl} + "/open/import-flow/table/resources",
+            filterRow: {
+                visible: true
+            }
+        });
+    });
+</script>
