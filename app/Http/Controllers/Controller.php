@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Homepage\ImportFlowController;
+use App\Http\Controllers\Homepage\ImportFlowControlPoolController;
 use App\Http\Controllers\Homepage\ImportFlowStatsController;
 use App\Http\Controllers\Homepage\Importv2Controller;
 use App\Http\Controllers\Project\DetailController as ProjectDetailController;
@@ -45,6 +46,7 @@ class Controller extends BaseViewController {
         $menu->addMenuItem(new Menu("Import-flow", \URL::action(ImportFlowController::getMethodAction())));
         $menu->addMenuItem(new Menu("Import-flow stats", \URL::action(ImportFlowStatsController::getMethodAction())));
         $menu->addMenuItem(new Menu("Order Alert", \URL::action(\App\Http\Controllers\OrderAlert\IndexController::getMethodAction())));
+        $menu->addMenuItem(new Menu("IF Control Pool", action(ImportFlowControlPoolController::getMethodAction())));
 
 //        $invalidProjects = new Menu('Invalid projects (' . count($this->getInvalidProjects()) . ')', '#');
 //        $invalidProjects->setOpened(true);

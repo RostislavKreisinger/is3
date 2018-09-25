@@ -1,0 +1,95 @@
+<div class="panel">
+    <div class="panel-body">
+        <div id="import-flow-active-flows"></div>
+    </div>
+</div>
+<script>
+    $(function () {
+        $("#import-flow-active-flows").dxDataGrid({
+            columnAutoWidth: true,
+            columns: [
+                {
+                    caption: 'UID',
+                    cellTemplate: function (cellElement, cellInfo) {
+                        cellElement.html('<a href="' + cellInfo.data.user_url + '">' + cellInfo.value + '</a>');
+                    },
+                    dataField: 'project.user_id',
+                    dataType: 'number',
+                    selectedFilterOperation: 'contains'
+                },
+                {
+                    caption: 'PID',
+                    cellTemplate: function (cellElement, cellInfo) {
+                        cellElement.html('<a href="' + cellInfo.data.project_url + '">' + cellInfo.value + '</a>');
+                    },
+                    dataField: 'project_id',
+                    dataType: 'number',
+                    selectedFilterOperation: 'contains'
+                },
+                {
+                    calculateCellValue: function (data) {
+                        var resourceName = 'Unknown';
+
+                        if (data.resource_id === 4) {
+                            resourceName = data.project && data.project.eshop_type_name ? data.project.eshop_type_name.name : 'Eshop';
+                        } else if (data.resource) {
+                            resourceName = data.resource.name;
+                        }
+
+                        return data.resource_id + ' ' + resourceName;
+                    },
+                    caption: 'Resource',
+                    cellTemplate: function (cellElement, cellInfo) {
+                        var resourceName = 'Unknown';
+
+                        if (cellInfo.data.resource_id === 4) {
+                            resourceName = cellInfo.data.project && cellInfo.data.project.eshop_type_name ? cellInfo.data.project.eshop_type_name.name : 'Eshop';
+                        } else if (cellInfo.data.resource) {
+                            resourceName = cellInfo.data.resource.name;
+                        }
+
+                        cellElement.html('<a href="' + cellInfo.data.resource_url + '">' + resourceName + '</a>');
+                    },
+                    dataField: 'resource_id',
+                    dataType: 'string',
+                    selectedFilterOperation: 'contains'
+                },
+                {
+                    caption: 'Status',
+                    dataField: 'active',
+                    dataType: 'number'
+                },
+                {
+                    caption: 'TTL',
+                    dataField: 'ttl',
+                    dataType: 'number'
+                },
+                {
+                    caption: 'Delay count',
+                    dataField: 'delay_count',
+                    dataType: 'number'
+                },
+                {
+                    caption: 'Step',
+                    dataField: 'if_step'
+                },
+                {
+                    caption: 'Created',
+                    dataField: 'created_at'
+                },
+                {
+                    caption: 'Unique',
+                    dataField: 'unique'
+                }
+
+            ],
+            dataSource: {$baseUrl} + "/open/import-flow/table/active-flows",
+            filterRow: {
+                visible: true
+            },
+            paging: {
+                pageSize: 20
+            }
+        });
+    });
+</script>
