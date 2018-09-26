@@ -23,7 +23,11 @@
                     dataType: 'boolean'
                 },
                 {
-                    caption: 'DB',
+                    caption: 'Connection',
+                    calculateCellValue: function (data) {
+                        var parts = data.data_storage_connection.split('\\');
+                        return parts[parts.length - 1];
+                    },
                     dataField: 'data_storage_connection'
                 },
                 {

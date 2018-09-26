@@ -42,7 +42,19 @@ abstract class AFlowsController extends Controller {
             'resource' => function (BelongsTo $query) {
                 $query->select(['id', 'name']);
             }
-        ])->select(['active', 'created_at', 'delay_count', 'ttl', 'project_id', 'resource_id', 'unique']);
+        ])->select([
+            'active',
+            'created_at',
+            'delay_count',
+            'hostname',
+            'project_id',
+            'resource_id',
+            'start_at',
+            'finish_at',
+            'ttl',
+            'unique',
+            'updated_at'
+        ]);
     }
 
     /**

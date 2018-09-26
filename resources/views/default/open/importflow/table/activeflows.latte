@@ -70,6 +70,31 @@
                     dataType: 'number'
                 },
                 {
+                    caption: 'RunTime',
+                    dataField: 'runtime',
+                    cellTemplate: function (cellElement, cellInfo) {
+                        var timeString = '';
+
+                        if (cellInfo.value > 3600) {
+                            var hours = Math.floor(cellInfo.value / 3600).toString();
+                            cellInfo.value -= hours * 3600;
+                            timeString += hours.toString() + ' h ';
+                        }
+
+                        if (cellInfo.value > 60) {
+                            var minutes = Math.floor(cellInfo.value / 60).toString();
+                            cellInfo.value -= minutes * 60;
+                            timeString += minutes.toString() + ' min ';
+                        }
+
+                        if (cellInfo.value > 0) {
+                            timeString += cellInfo.value.toString() + ' s';
+                        }
+
+                        cellElement.html(timeString.trim());
+                    }
+                },
+                {
                     caption: 'Step',
                     dataField: 'if_step'
                 },
@@ -81,7 +106,6 @@
                     caption: 'Unique',
                     dataField: 'unique'
                 }
-
             ],
             dataSource: {$baseUrl} + "/open/import-flow/table/active-flows",
             filterRow: {

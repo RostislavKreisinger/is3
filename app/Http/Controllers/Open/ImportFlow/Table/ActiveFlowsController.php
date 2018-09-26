@@ -26,6 +26,26 @@ class ActiveFlowsController extends AFlowsController {
         }
 
         $this->addUrls($results);
+        $this->calculateRuntimes($results);
+        return $results;
+    }
+
+    /**
+     * @param array $results
+     * @return array
+     */
+    private function calculateRuntimes(array $results): array {
+        for ($i = 0; $i < count($results); $i++) {
+            switch ($results[$i]->active) {
+                case 5:
+                    $results[$i]->runtime = time() - strtotime($results[$i]->start_at);
+                    break;
+                default:
+                    $results[$i]->runtime = time() - strtotime($results[$i]->updated_at);
+                    break;
+            }
+        }
+
         return $results;
     }
 }
