@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Open\ImportFlow\Table;
 
 
 use App\Model\ImportPools\IFStepPool;
+use Monkey\DateTime\DateTimeHelper;
 
 /**
  * Class ActiveFlowsController
@@ -35,13 +36,15 @@ class ActiveFlowsController extends AFlowsController {
      * @return array
      */
     private function calculateRuntimes(array $results): array {
+        $currentTimestamp = DateTimeHelper::getCloneSelf()->getTimestamp();
+
         for ($i = 0; $i < count($results); $i++) {
             switch ($results[$i]->active) {
                 case 5:
-                    $results[$i]->runtime = time() - strtotime($results[$i]->start_at);
+                    $results[$i]->runtime = $currentTimestamp - DateTimeHelper::getCloneSelf($results[$i]->start_at)->getTimestamp();
                     break;
                 default:
-                    $results[$i]->runtime = time() - strtotime($results[$i]->updated_at);
+                    $results[$i]->runtime = $currentTimestamp - DateTimeHelper::getCloneSelf($results[$i]->updated_at)->getTimestamp();
                     break;
             }
         }
