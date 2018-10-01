@@ -1,0 +1,53 @@
+<div class="panel panel-warning">
+    <div class="panel-heading">Large flows</div>
+    <div class="panel-body">
+        <div id="import-flow-large-flows"></div>
+    </div>
+</div>
+<script>
+    $(function () {
+        $("#import-flow-large-flows").dxDataGrid({
+            columnAutoWidth: true,
+            columns: [
+                {
+                    caption: 'PID',
+                    dataField: 'project_id',
+                    dataType: 'number'
+                },
+                {
+                    caption: 'Resource',
+                    dataField: 'resource_id',
+                    dataType: 'number'
+                },
+                {
+                    caption: 'Count',
+                    dataField: 'count',
+                    dataType: 'number'
+                },
+                {
+                    caption: 'Minimum',
+                    dataField: 'min_size',
+                    dataType: 'number'
+                },
+                {
+                    caption: 'Average',
+                    dataField: 'avg_size',
+                    dataType: 'number'
+                },
+                {
+                    caption: 'Maximum',
+                    dataField: 'max_size',
+                    dataType: 'number'
+                }
+
+            ],
+            dataSource: {$baseUrl} + "/open/import-flow/table/large-flows",
+            filterRow: {
+                visible: true
+            },
+            paging: {
+                pageSize: 10
+            }
+        });
+    });
+</script>

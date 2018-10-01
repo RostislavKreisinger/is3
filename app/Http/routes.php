@@ -24,6 +24,7 @@ Route::group(['middleware' => 'web'], function () {
                 Route::get('resources-in-error-state', 'App\Http\Controllers\Open\ImportFlow\Table\ResourcesInErrorStateController@index');
                 Route::get('stuck-flows', 'App\Http\Controllers\Open\ImportFlow\Table\StuckFlowsController@index');
                 Route::get('delayed-flows', 'App\Http\Controllers\Open\ImportFlow\Table\DelayedFlowsController@index');
+                Route::get('large-flows', 'App\Http\Controllers\Open\ImportFlow\Table\LargeFlowsController@index');
             });
         });
     });
@@ -172,6 +173,7 @@ Route::group(['middleware' => 'web'], function () {
             Route::controller('importv2', \App\Http\Controllers\Homepage\Importv2Controller::class);
             Route::controller('import-flow', \App\Http\Controllers\Homepage\ImportFlowController::class);
             Route::controller('import-flow-stats', \App\Http\Controllers\Homepage\ImportFlowStatsController::class);
+            Route::controller('large-flow', \App\Http\Controllers\Homepage\LargeFlowController::class);
         });
         
         // Route::get('/', HomepageController::routeMethod('index'));

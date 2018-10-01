@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Homepage\ImportFlowController;
 use App\Http\Controllers\Homepage\ImportFlowStatsController;
 use App\Http\Controllers\Homepage\Importv2Controller;
+use App\Http\Controllers\Homepage\LargeFlowController;
 use App\Http\Controllers\Project\DetailController as ProjectDetailController;
 use Illuminate\Support\Collection;
 use Monkey\Connections\MDDatabaseConnections;
@@ -45,6 +46,7 @@ class Controller extends BaseViewController {
         $menu->addMenuItem(new Menu("Import-flow", \URL::action(ImportFlowController::getMethodAction())));
         $menu->addMenuItem(new Menu("Import-flow stats", \URL::action(ImportFlowStatsController::getMethodAction())));
         $menu->addMenuItem(new Menu("Order Alert", \URL::action(\App\Http\Controllers\OrderAlert\IndexController::getMethodAction())));
+        $menu->addMenuItem(new Menu("Large flows", \URL::action(LargeFlowController::getMethodAction())));
 
 //        $invalidProjects = new Menu('Invalid projects (' . count($this->getInvalidProjects()) . ')', '#');
 //        $invalidProjects->setOpened(true);
