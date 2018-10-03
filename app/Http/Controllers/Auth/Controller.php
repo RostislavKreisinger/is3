@@ -13,5 +13,4 @@ class Controller extends AController {
         DispatchesJobs,
         ValidatesRequests;
 
-
 }

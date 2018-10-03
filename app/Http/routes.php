@@ -9,7 +9,7 @@ Route::middleware('admin', App\Http\Middleware\Admin::class);
 Route::group(['middleware' => 'web'], function () {
     Route::group(['namespace' => 'App\Http\Controllers', 'prefix' => 'auth'], function(){
         Route::auth();
-        Route::get('logout', 'Auth\AuthController@logout');
+        Route::get('logout', 'Auth\LoginController@logout');
     });
     
     Route::controller('test', App\Http\Controllers\Test\TestController::class);

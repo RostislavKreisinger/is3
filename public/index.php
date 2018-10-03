@@ -21,7 +21,7 @@ define('LARAVEL_FRAMEWORK_5', true);
 |
 */
 
-require __DIR__.'/../bootstrap/autoload.php';
+require __DIR__ . '/../bootstrap/autoload.php';
 
 /*
 |--------------------------------------------------------------------------
@@ -35,7 +35,10 @@ require __DIR__.'/../bootstrap/autoload.php';
 |
 */
 
-$app = require_once __DIR__.'/../bootstrap/app.php';
+/**
+ * @var $app \Monkey\Laravel\v5_4\Illuminate\Foundation\Application
+ */
+$app = require_once __DIR__ . '/../bootstrap/app.php';
 
 /*
 |--------------------------------------------------------------------------
@@ -58,6 +61,7 @@ $response = $kernel->handle(
 $response->send();
 
 $kernel->terminate($request, $response);
-if(isset($_GET['dbdebug'])){
+
+if (isset($_GET['dbdebug'])) {
     queryLog();
 }
