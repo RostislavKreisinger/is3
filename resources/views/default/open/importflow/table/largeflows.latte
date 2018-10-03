@@ -1,23 +1,49 @@
 <div class="panel panel-warning">
     <div class="panel-heading">Large flows</div>
     <div class="panel-body">
+        <form class="form-group form-inline">
+            <input class="form-control" type="date" id="lf_date_from" title="From">
+            <input class="form-control" type="date" id="lf_date_to" title="To">
+        </form>
         <div id="import-flow-large-flows"></div>
     </div>
 </div>
 <script>
     $(function () {
-        $("#import-flow-large-flows").dxDataGrid({
+        var now = new Date();
+        var monthAgo = new Date();
+        var dateFromInput = $('#lf_date_from');
+        var dateToInput = $('#lf_date_to');
+        monthAgo.setDate(now.getDate() - 30);
+        $(dateFromInput).val(monthAgo.toISOString().split('T')[0]);
+        $(dateToInput).val(now.toISOString().split('T')[0]);
+        window.flowsGrid = $("#import-flow-large-flows").dxDataGrid({
             columnAutoWidth: true,
             columns: [
                 {
                     caption: 'PID',
+                    cellTemplate: function (cellElement, cellInfo) {
+                        cellElement.html('<a href="' + cellInfo.data.project_url + '">' + cellInfo.value + '</a>');
+                    },
                     dataField: 'project_id',
-                    dataType: 'number'
+                    dataType: 'number',
+                    selectedFilterOperation: 'contains'
                 },
                 {
                     caption: 'Resource',
+                    cellTemplate: function (cellElement, cellInfo) {
+                        var resourceName = 'Unknown';
+
+                        if (cellInfo.data.resource_id === 4) {
+                            resourceName = cellInfo.data.project && cellInfo.data.project.eshop_type_name ? cellInfo.data.project.eshop_type_name.name : 'Eshop';
+                        } else if (cellInfo.data.resource) {
+                            resourceName = cellInfo.data.resource.name;
+                        }
+
+                        cellElement.html('<a href="' + cellInfo.data.resource_url + '">' + resourceName + '</a>');
+                    },
                     dataField: 'resource_id',
-                    dataType: 'number'
+                    selectedFilterOperation: 'contains'
                 },
                 {
                     caption: 'Count',
@@ -41,13 +67,69 @@
                 }
 
             ],
-            dataSource: {$baseUrl} + "/open/import-flow/table/large-flows",
+            dataSource: {$baseUrl} + "/open/import-flow/table/large-flows?date_from=" + $(dateFromInput).val() + "&date_to=" + $(dateToInput).val(),
             filterRow: {
                 visible: true
+            },
+            masterDetail: {
+                enabled: true,
+                template: function (rowDetail, options) {
+                    $.getJSON({$baseUrl} + "/open/import-flow/table/large-flows/" + options.data.project_id + "/" + options.data.resource_id + "?date_from=" + $(dateFromInput).val() + "&date_to=" + $(dateToInput).val()).done(function (result) {
+                        $("<div>").dxDataGrid({
+                            columns: [
+                                {
+                                    caption: 'ID',
+                                    dataField: 'id',
+                                    dataType: 'number'
+                                },
+                                {
+                                    caption: 'History',
+                                    dataField: 'is_history',
+                                    dataType: 'number'
+                                },
+                                {
+                                    caption: 'First daily',
+                                    dataField: 'is_first_daily',
+                                    dataType: 'boolean'
+                                },
+                                {
+                                    caption: 'Size',
+                                    dataField: 'size',
+                                    dataType: 'number'
+                                },
+                                {
+                                    caption: 'Unique',
+                                    dataField: 'unique'
+                                },
+                                {
+                                    caption: 'Created',
+                                    dataField: 'created_at',
+                                    dataType: 'date'
+                                },
+                                {
+                                    caption: 'Updated',
+                                    dataField: 'updated_at',
+                                    dataType: 'date'
+                                }
+                            ],
+                            dataSource: result
+                        }).appendTo(rowDetail);
+                    });
+                }
             },
             paging: {
                 pageSize: 10
             }
+        });
+        var inputTimeout;
+        $('#lf_date_from, #lf_date_to').change(function () {
+            clearTimeout(inputTimeout);
+            inputTimeout = setTimeout(function () {
+                window.flowsGrid.dxDataGrid('instance').option(
+                    'dataSource',
+                        {$baseUrl} +"/open/import-flow/table/large-flows?date_from=" + $('#lf_date_from').val() + "&date_to=" + $('#lf_date_to').val()
+                );
+            }, 500);
         });
     });
 </script>
