@@ -1,0 +1,71 @@
+<div class="panel">
+    <div class="panel-body">
+        <div id="import-flow-eshop-types"></div>
+    </div>
+</div>
+<script>
+    $(function () {
+        $("#import-flow-eshop-types").dxDataGrid({
+            columnAutoWidth: true,
+            columns: [
+                {
+                    caption: 'ID',
+                    dataField: 'id',
+                    dataType: 'number'
+                },
+                {
+                    caption: 'Name',
+                    dataField: 'name'
+                },
+                {
+                    caption: 'Active',
+                    dataField: 'active',
+                    dataType: 'boolean'
+                },
+                {
+                    caption: 'Connection',
+                    calculateCellValue: function (data) {
+                        if (data.data_storage_connection) {
+                            var parts = data.data_storage_connection.split('\\');
+                            return parts[parts.length - 1];
+                        }
+
+                        return '';
+                    },
+                    dataField: 'data_storage_connection'
+                },
+                {
+                    caption: 'Interval',
+                    dataField: 'import_interval',
+                    dataType: 'number'
+                },
+                {
+                    caption: 'History interval',
+                    dataField: 'import_history_interval',
+                    dataType: 'number'
+                },
+                {
+                    caption: 'Version',
+                    dataField: 'import_version',
+                    dataType: 'number'
+                },
+                {
+                    caption: 'Public',
+                    dataField: 'public',
+                    dataType: 'boolean'
+                },
+                {
+                    caption: 'POS',
+                    dataField: 'pos_included',
+                    dataType: 'boolean'
+                }
+
+            ],
+            dataSource: {$baseUrl} + "/open/import-flow/table/eshop-types",
+            filterRow: {
+                visible: true
+            },
+            hoverStateEnabled: true
+        });
+    });
+</script>
