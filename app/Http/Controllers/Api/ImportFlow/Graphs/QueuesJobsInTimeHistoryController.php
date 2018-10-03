@@ -28,11 +28,11 @@ class QueuesJobsInTimeHistoryController extends Controller {
                 MDImportFlowConnections::getGearmanConnection()->raw('MAX(`jobs_count`) as max'),
             ]);
         $result = $builder->get();
-        
+        /* Musí se to řadit znovu, když už je to seřazené v SQL?
         usort($result, function ($a, $b){
             return strcmp($a->created_at, $b->created_at);
         });
-
+        */
 
         $data = array();
 

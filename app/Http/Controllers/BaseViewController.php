@@ -2,20 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Project\DetailController;
-use App\Model\ImportSupport\User;
-use Auth;
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use Illuminate\Foundation\Bus\DispatchesJobs;
-use Illuminate\Foundation\Validation\ValidatesRequests;
-use Illuminate\Routing\Controller as BaseController;
-use Monkey\Breadcrump\Breadcrumbs;
 use Monkey\Breadcrump\BreadcrumbItem;
-use Monkey\Menu\Menu;
+use Monkey\Breadcrump\Breadcrumbs;
 use Monkey\Menu\MenuList;
 use Monkey\View\View;
 use Monkey\View\ViewRender;
-use Redirect;
 use Route;
 
 class BaseViewController extends BaseAuthController {

@@ -106,7 +106,7 @@ class ApiResponse {
         $this->jsonResponse
             ->setData($this->createReponseData())
             ->setStatusCode($this->getStatus())
-            ->setJsonOptions($this->getOptions());
+            ->setEncodingOptions($this->getOptions());
 
         foreach ($this->getHeaders() as $key => $value) {
             $this->jsonResponse->header($key, $value);
@@ -211,6 +211,5 @@ class ApiResponse {
         $this->options = $options;
         return $this;
     }
-
 
 }

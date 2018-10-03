@@ -8,9 +8,10 @@
     "license": "MIT",
     "type": "project",
     "require": {
-        "php": ">=5.5.9",
+        "php": ">=7.0.0",
         "ext-json": "*",
-        "laravel/framework": "5.2.*",
+        "laravel/framework": "5.4.*",
+        "monkey/laravel": "^1.3.1",
         "barryvdh/laravel-ide-helper": "^2.1",
         "monkey/vardump": "^1.2.0",
         "monkey/environment": "^1.5.0",
