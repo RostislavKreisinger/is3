@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Open\Monitoring\Shoptet;
+namespace App\Http\Controllers\Open\Monitoring\Onboarding\Platform;
 
 use Illuminate\Http\JsonResponse;
 use Monkey\DateTime\DateTimeHelper;

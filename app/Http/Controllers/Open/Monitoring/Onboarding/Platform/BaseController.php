@@ -1,22 +1,39 @@
 <?php
 
-namespace App\Http\Controllers\Open\Monitoring\Shoptet;
+namespace App\Http\Controllers\Open\Monitoring\Onboarding\Platform;
 
 
 
-use App\Http\Controllers\Open\Monitoring\Shoptet\Objects\Project;
+use App\Http\Controllers\Open\Monitoring\Onboarding\Platform\Objects\Project;
+use Illuminate\Http\Request;
 use Illuminate\Database\Query\JoinClause;
 use Illuminate\Support\Facades\Input;
 use Monkey\Connections\MDDatabaseConnections;
+use Monkey\Constants\Inside\Platform;
 use Monkey\DateTime\DateTimeHelper;
 use Monkey\View\View;
 
-class BaseController extends \App\Http\Controllers\Open\Monitoring\BaseController {
+class BaseController extends \App\Http\Controllers\Open\Monitoring\Onboarding\BaseController {
 
-    public function __construct() {
+    const PLATFORM_CODE = [
+        "all" => [56, 57],
+        Platform::CODE_SHOPTET => 56,
+        Platform::CODE_VILKAS => 57
+    ];
+
+    /**
+     * @var Request
+     */
+    private $request;
+
+    /**
+     * BaseController constructor.
+     * @param Request $request
+     */
+    public function __construct(Request $request) {
         parent::__construct();
         $this->setPageRefresh(5000);
-
+        $this->setRequest($request);
     }
 
     protected function cleanRoute($route) {
@@ -28,6 +45,30 @@ class BaseController extends \App\Http\Controllers\Open\Monitoring\BaseControlle
         }
         return $pathArray;
     }
+
+    /**
+     * @return string
+     */
+    final protected function getPlatformCode() {
+        return $this->getRequest()->route("platform");
+    }
+
+    /**
+     * @return int[]
+     * @throws \Exception
+     */
+    private function getEshopTypes() {
+        $platformCode = $this->getPlatformCode();
+        if(!array_key_exists($platformCode, static::PLATFORM_CODE)){
+            throw new \Exception("Unsupported platform code");
+        }
+        $eshopTypes = static::PLATFORM_CODE[$platformCode];
+        if(!is_array($eshopTypes)){
+            $eshopTypes = array($eshopTypes);
+        }
+        return $eshopTypes;
+    }
+
 
     public function getIndex() {
         $fontSize = Input::get("fontSize", '1em');
@@ -65,14 +106,16 @@ class BaseController extends \App\Http\Controllers\Open\Monitoring\BaseControlle
             })
             ->join("resource_eshop as re", function(JoinClause $join){
                 $join->on("re.resource_setting_id", '=', 'rs.id')
-                    ->where("re.eshop_type_id", '=', 56);
+                    ->whereIn("re.eshop_type_id", $this->getEshopTypes());
             })
             ->where("rs.created_at", '>', "{$dateFrom} 00:00:00")
             ->where("rs.created_at", '<', "{$dateTo} 23:59:59")
             ->orderBy("p.created_at", 'DESC')
             ->select(array_merge(['rs.created_at', 'p.id', 'p.user_id', 'rs.active as rs_active'], $columns))
         ;
-
+        vdQuery($query);
+        vde("exit");
+        // vde([$query->toSql(), $query->getBindings()]);
         $data = $query->get();
         $projects = array();
         foreach ($data as $project){
@@ -103,5 +146,22 @@ class BaseController extends \App\Http\Controllers\Open\Monitoring\BaseControlle
         $dth = new DateTimeHelper();
         return Input::get("date_to", $dth->mysqlFormatDate());
     }
+
+    /**
+     * @return Request
+     */
+    protected function getRequest() {
+        return $this->request;
+    }
+
+    /**
+     * @param Request $request
+     * @return BaseController
+     */
+    private function setRequest(Request $request) {
+        $this->request = $request;
+        return $this;
+    }
+
 
 }

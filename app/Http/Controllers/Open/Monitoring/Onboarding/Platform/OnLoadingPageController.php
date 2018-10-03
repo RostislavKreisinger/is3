@@ -1,10 +1,9 @@
 <?php
 
-namespace App\Http\Controllers\Open\Monitoring\Shoptet;
+namespace App\Http\Controllers\Open\Monitoring\Onboarding\Platform;
 
-use App\Http\Controllers\Open\Monitoring\Shoptet\Objects\Project;
+use App\Http\Controllers\Open\Monitoring\Onboarding\Platform\Objects\Project;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Input;
 use Monkey\Connections\MDImportFlowConnections;
 use Monkey\DateTime\DateTimeHelper;
 use Monkey\Helpers\Arrays;

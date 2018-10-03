@@ -3,54 +3,53 @@
 Route::middleware('auth', App\Http\Middleware\Authenticate::class);
 Route::middleware('admin', App\Http\Middleware\Admin::class);
 
-Route::group(['middleware' => 'web'], function () {
-    Route::group(['namespace' => 'App\Http\Controllers', 'prefix' => 'auth'], function () {
-        Route::auth();
-        Route::get('logout', 'Auth\LoginController@logout');
-    });
+Route::group(['prefix' => 'open'], function () {
+    Route::group(['prefix' => 'import-flow'], function () {
+        Route::group(['prefix' => 'graph'], function () {
+            Route::controller('/queues-status', \App\Http\Controllers\Open\ImportFlow\Graph\QueuesStatusController::class);
+            Route::controller('/queues-jobs-in-time', App\Http\Controllers\Open\ImportFlow\Graph\QueuesJobsInTimeController::class);
+            Route::controller('/queues-jobs-in-time-history', App\Http\Controllers\Open\ImportFlow\Graph\QueuesJobsInTimeHistoryController::class);
+        });
+        Route::group(['prefix' => 'table'], function () {
+            Route::get('resources-in-error-state', 'App\Http\Controllers\Open\ImportFlow\Table\ResourcesInErrorStateController@index');
+            Route::get('stuck-flows', 'App\Http\Controllers\Open\ImportFlow\Table\StuckFlowsController@index');
+            Route::get('delayed-flows', 'App\Http\Controllers\Open\ImportFlow\Table\DelayedFlowsController@index');
+            Route::get('active-flows', 'App\Http\Controllers\Open\ImportFlow\Table\ActiveFlowsController@index');
+            Route::get('resources', 'App\Http\Controllers\Open\ImportFlow\Table\ResourcesController@index');
+            Route::get('eshop-types', 'App\Http\Controllers\Open\ImportFlow\Table\EshopTypesController@index');
+        });
 
-    Route::controller('test', App\Http\Controllers\Test\TestController::class);
-
-    Route::group(['prefix' => 'open'], function () {
-        Route::group(['prefix' => 'import-flow'], function () {
-            Route::group(['prefix' => 'graph'], function () {
-                Route::controller('/queues-status', \App\Http\Controllers\Open\ImportFlow\Graph\QueuesStatusController::class);
-                Route::controller('/queues-jobs-in-time', App\Http\Controllers\Open\ImportFlow\Graph\QueuesJobsInTimeController::class);
-                Route::controller('/queues-jobs-in-time-history', App\Http\Controllers\Open\ImportFlow\Graph\QueuesJobsInTimeHistoryController::class);
-            });
-            Route::group(['prefix' => 'table'], function () {
-                Route::get('resources-in-error-state', 'App\Http\Controllers\Open\ImportFlow\Table\ResourcesInErrorStateController@index');
-                Route::get('stuck-flows', 'App\Http\Controllers\Open\ImportFlow\Table\StuckFlowsController@index');
-                Route::get('delayed-flows', 'App\Http\Controllers\Open\ImportFlow\Table\DelayedFlowsController@index');
-                Route::get('active-flows', 'App\Http\Controllers\Open\ImportFlow\Table\ActiveFlowsController@index');
-                Route::get('resources', 'App\Http\Controllers\Open\ImportFlow\Table\ResourcesController@index');
-                Route::get('eshop-types', 'App\Http\Controllers\Open\ImportFlow\Table\EshopTypesController@index');
-            });
-
-            Route::group(['prefix' => 'monitoring'], function () {
-                Route::group(['prefix' => 'shoptet'], function () {
-                    Route::controller('registration', \App\Http\Controllers\Open\Monitoring\Shoptet\RegistrationController::class);
-                    Route::controller('on-loading-page', \App\Http\Controllers\Open\Monitoring\Shoptet\OnLoadingPageController::class);
-                    Route::controller('proccessed-order-count', \App\Http\Controllers\Open\Monitoring\Shoptet\ProccessedOrderCountController::class);
-
+        Route::group(['prefix' => 'monitoring'], function () {
+            Route::group(['prefix' => 'onboarding'], function (){
+                Route::group(['prefix' => '{platform}'], function (){
+                    Route::controller('registration', \App\Http\Controllers\Open\Monitoring\Onboarding\Platform\RegistrationController::class);
+                    Route::controller('on-loading-page', \App\Http\Controllers\Open\Monitoring\Onboarding\Platform\OnLoadingPageController::class);
+                    Route::controller('proccessed-order-count', \App\Http\Controllers\Open\Monitoring\Onboarding\Platform\ProccessedOrderCountController::class);
                 });
+            });
 
 
 //            Route::controller('/queues-jobs-in-time', App\Http\Controllers\Open\ImportFlow\Graph\QueuesJobsInTimeController::class);
 //            Route::controller('/queues-jobs-in-time-history', App\Http\Controllers\Open\ImportFlow\Graph\QueuesJobsInTimeHistoryController::class);
-            });
         });
     });
+});
 
-    Route::group(['prefix' => 'api'], function () {
-        Route::group(['prefix' => 'import-flow'], function () {
-            Route::group(['prefix' => 'graphs'], function () {
-                Route::controller('/queues-status', App\Http\Controllers\Api\ImportFlow\Graphs\QueuesStatusController::class);
-                Route::controller('/queues-times-status', App\Http\Controllers\Api\ImportFlow\Graphs\QueuesTimesStatusController::class);
-                Route::controller('/queues-jobs-in-time', App\Http\Controllers\Api\ImportFlow\Graphs\QueuesJobsInTimeController::class);
-                Route::controller('/queues-jobs-in-time-history', App\Http\Controllers\Api\ImportFlow\Graphs\QueuesJobsInTimeHistoryController::class);
-            });
+Route::group(['prefix' => 'api'], function () {
+    Route::group(['prefix' => 'import-flow'], function () {
+        Route::group(['prefix' => 'graphs'], function () {
+            Route::controller('/queues-status', App\Http\Controllers\Api\ImportFlow\Graphs\QueuesStatusController::class);
+            Route::controller('/queues-times-status', App\Http\Controllers\Api\ImportFlow\Graphs\QueuesTimesStatusController::class);
+            Route::controller('/queues-jobs-in-time', App\Http\Controllers\Api\ImportFlow\Graphs\QueuesJobsInTimeController::class);
+            Route::controller('/queues-jobs-in-time-history', App\Http\Controllers\Api\ImportFlow\Graphs\QueuesJobsInTimeHistoryController::class);
         });
+    });
+});
+
+Route::group(['middleware' => 'web'], function () {
+    Route::group(['namespace' => 'App\Http\Controllers', 'prefix' => 'auth'], function () {
+        Route::auth();
+        Route::get('logout', 'Auth\LoginController@logout');
     });
 
     Route::group(['middleware' => 'auth'], function () {
@@ -196,3 +195,5 @@ Route::group(['middleware' => 'web'], function () {
 
 
 });
+
+

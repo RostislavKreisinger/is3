@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Open\Monitoring\Shoptet\Objects;
+namespace App\Http\Controllers\Open\Monitoring\Onboarding\Platform\Objects;
 
 
 class Project extends \stdClass {
