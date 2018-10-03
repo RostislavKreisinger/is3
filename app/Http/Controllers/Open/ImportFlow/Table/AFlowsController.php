@@ -5,10 +5,12 @@ namespace App\Http\Controllers\Open\ImportFlow\Table;
 
 use App\Http\Controllers\Project\DetailController;
 use App\Http\Controllers\Project\Resource\DetailController as ResourceDetailController;
+use App\Http\Controllers\User\DetailController as UserController;
 use App\Model\ImportPools\IFCalcPool;
 use App\Model\ImportPools\IFEtlPool;
 use App\Model\ImportPools\IFImportPool;
 use App\Model\ImportPools\IFOutputPool;
+use App\Model\ImportPools\IFStepPool;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Routing\Controller;
@@ -18,6 +20,9 @@ use Illuminate\Routing\Controller;
  * @package App\Http\Controllers\Open\ImportFlow\Table
  */
 abstract class AFlowsController extends Controller {
+    /**
+     * @var IFStepPool[]
+     */
     const IF_STEP_POOLS = [
         IFImportPool::class,
         IFEtlPool::class,
@@ -37,7 +42,19 @@ abstract class AFlowsController extends Controller {
             'resource' => function (BelongsTo $query) {
                 $query->select(['id', 'name']);
             }
-        ])->select(['active', 'created_at', 'delay_count', 'ttl', 'project_id', 'resource_id', 'unique']);
+        ])->select([
+            'active',
+            'created_at',
+            'delay_count',
+            'hostname',
+            'project_id',
+            'resource_id',
+            'start_at',
+            'finish_at',
+            'ttl',
+            'unique',
+            'updated_at'
+        ]);
     }
 
     /**
@@ -52,6 +69,9 @@ abstract class AFlowsController extends Controller {
             $results[$i]->resource_url = action(ResourceDetailController::routeMethod('getIndex'), [
                 'project_id' => $results[$i]->project_id,
                 'resource_id' => $results[$i]->resource_id
+            ]);
+            $results[$i]->user_url = action(UserController::routeMethod('getIndex'), [
+                'project_id' => $results[$i]->project->user_id
             ]);
         }
 
