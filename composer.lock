@@ -1032,32 +1032,32 @@
         },
         {
             "name": "jakub-onderka/php-console-color",
-            "version": "0.1",
+            "version": "v0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/JakubOnderka/PHP-Console-Color.git",
-                "reference": "e0b393dacf7703fc36a4efc3df1435485197e6c1"
+                "reference": "d5deaecff52a0d61ccb613bb3804088da0307191"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/JakubOnderka/PHP-Console-Color/zipball/e0b393dacf7703fc36a4efc3df1435485197e6c1",
-                "reference": "e0b393dacf7703fc36a4efc3df1435485197e6c1",
+                "url": "https://api.github.com/repos/JakubOnderka/PHP-Console-Color/zipball/d5deaecff52a0d61ccb613bb3804088da0307191",
+                "reference": "d5deaecff52a0d61ccb613bb3804088da0307191",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.2"
+                "php": ">=5.4.0"
             },
             "require-dev": {
                 "jakub-onderka/php-code-style": "1.0",
-                "jakub-onderka/php-parallel-lint": "0.*",
+                "jakub-onderka/php-parallel-lint": "1.0",
                 "jakub-onderka/php-var-dump-check": "0.*",
-                "phpunit/phpunit": "3.7.*",
+                "phpunit/phpunit": "~4.3",
                 "squizlabs/php_codesniffer": "1.*"
             },
             "type": "library",
             "autoload": {
-                "psr-0": {
-                    "JakubOnderka\\PhpConsoleColor": "src/"
+                "psr-4": {
+                    "JakubOnderka\\PhpConsoleColor\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -1067,11 +1067,10 @@
             "authors": [
                 {
                     "name": "Jakub Onderka",
-                    "email": "jakub.onderka@gmail.com",
-                    "homepage": "http://www.acci.cz"
+                    "email": "jakub.onderka@gmail.com"
                 }
             ],
-            "time": "2014-04-08T15:00:19+00:00"
+            "time": "2018-09-29T17:23:10+00:00"
         },
         {
             "name": "jakub-onderka/php-console-highlighter",
@@ -1185,7 +1184,7 @@
             },
             "dist": {
                 "type": "tar",
-                "url": "https://composer:uxJ4EhTaf61fo3pnTvK5@composer.monkeydata.com/dist/laravel-framework-v5.2.45-d32539.tar",
+                "url": "https://composer.monkeydata.com/dist/laravel-framework-v5.2.45-d32539.tar",
                 "reference": "2a79f920d5584ec6df7cf996d922a742d11095d1",
                 "shasum": "7f46e069acd0cda5695ab5eb35e544a3a9d4e348"
             },
@@ -1287,7 +1286,7 @@
                     "Illuminate\\": "src/Illuminate/"
                 }
             },
-            "notification-url": "https://composer:uxJ4EhTaf61fo3pnTvK5@composer.monkeydata.com/notify-download/",
+            "notification-url": "https://composer.monkeydata.com/notify-download/",
             "license": [
                 "MIT"
             ],
@@ -1383,26 +1382,26 @@
         },
         {
             "name": "league/flysystem",
-            "version": "1.0.46",
+            "version": "1.0.47",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/flysystem.git",
-                "reference": "f3e0d925c18b92cf3ce84ea5cc58d62a1762a2b2"
+                "reference": "a11e4a75f256bdacf99d20780ce42d3b8272975c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/f3e0d925c18b92cf3ce84ea5cc58d62a1762a2b2",
-                "reference": "f3e0d925c18b92cf3ce84ea5cc58d62a1762a2b2",
+                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/a11e4a75f256bdacf99d20780ce42d3b8272975c",
+                "reference": "a11e4a75f256bdacf99d20780ce42d3b8272975c",
                 "shasum": ""
             },
             "require": {
+                "ext-fileinfo": "*",
                 "php": ">=5.5.9"
             },
             "conflict": {
                 "league/flysystem-sftp": "<1.0.6"
             },
             "require-dev": {
-                "ext-fileinfo": "*",
                 "phpspec/phpspec": "^3.4",
                 "phpunit/phpunit": "^5.7.10"
             },
@@ -1463,7 +1462,7 @@
                 "sftp",
                 "storage"
             ],
-            "time": "2018-08-22T07:45:22+00:00"
+            "time": "2018-09-14T15:30:29+00:00"
         },
         {
             "name": "mikehaertl/php-shellcommand",
@@ -1706,17 +1705,17 @@
         },
         {
             "name": "monkey/config",
-            "version": "1.25.0",
+            "version": "1.28.0",
             "source": {
                 "type": "git",
                 "url": "git@gitlab.monkeydata.com:composer/config.git",
-                "reference": "5824f7da648daba6e9f4e66804e944681ebca423"
+                "reference": "dfe509290983fcde54843bcd5f467fb29faaa384"
             },
             "dist": {
                 "type": "tar",
-                "url": "https://composer.monkeydata.com/dist/monkey-config-1.25.0-5c8551.tar",
-                "reference": "5824f7da648daba6e9f4e66804e944681ebca423",
-                "shasum": "aa702a6b877dd25d8fc0b179b0f47e9b4114be80"
+                "url": "https://composer.monkeydata.com/dist/monkey-config-1.28.0-9a3dea.tar",
+                "reference": "dfe509290983fcde54843bcd5f467fb29faaa384",
+                "shasum": "e05b872306e3fd3ccab978257c75baad97b96352"
             },
             "require": {
                 "monkey/dotenv": "^1.2.0",
@@ -1742,21 +1741,21 @@
                 }
             ],
             "description": "General configuration for common things and setting",
-            "time": "2018-09-05T09:41:16+00:00"
+            "time": "2018-09-24T12:06:45+00:00"
         },
         {
             "name": "monkey/connections",
-            "version": "2.16.1",
+            "version": "2.17.0",
             "source": {
                 "type": "git",
                 "url": "git@gitlab.monkeydata.com:composer/connections.git",
-                "reference": "08e3714741fe023792763cbbb7987a1d2a6738f6"
+                "reference": "03536070313d5f6b23cfa56375ae112c1bdefaac"
             },
             "dist": {
                 "type": "tar",
-                "url": "https://composer.monkeydata.com/dist/monkey-connections-2.16.1-cecb6d.tar",
-                "reference": "08e3714741fe023792763cbbb7987a1d2a6738f6",
-                "shasum": "a04017b7133236ffd11c33e43bc92d9bbbe37ca8"
+                "url": "https://composer.monkeydata.com/dist/monkey-connections-2.17.0-140439.tar",
+                "reference": "03536070313d5f6b23cfa56375ae112c1bdefaac",
+                "shasum": "cf9d6b14a9539f534dfdb8b179174d9f1013febf"
             },
             "require": {
                 "illuminate/database": "4.*|5.2.*|5.4.*",
@@ -1787,7 +1786,7 @@
                 }
             ],
             "description": "package for composer",
-            "time": "2018-05-16T20:00:34+00:00"
+            "time": "2018-09-14T11:54:29+00:00"
         },
         {
             "name": "monkey/constants",
@@ -1865,17 +1864,17 @@
         },
         {
             "name": "monkey/curl",
-            "version": "1.4.2",
+            "version": "1.6.0",
             "source": {
                 "type": "git",
                 "url": "git@gitlab.monkeydata.com:composer/curl.git",
-                "reference": "1923c877213195aa2f2c2d8a4cf8ef719ba0aa59"
+                "reference": "cabb7938e6cf8a061c1032879a78c778d2e71ee6"
             },
             "dist": {
                 "type": "tar",
-                "url": "https://composer.monkeydata.com/dist/monkey-curl-1.4.2-d6a3ee.tar",
-                "reference": "1923c877213195aa2f2c2d8a4cf8ef719ba0aa59",
-                "shasum": "3621840255031a153b90e622a50b2450ec862e1f"
+                "url": "https://composer.monkeydata.com/dist/monkey-curl-1.6.0-7821a9.tar",
+                "reference": "cabb7938e6cf8a061c1032879a78c778d2e71ee6",
+                "shasum": "26a056c453dc08b9f84c195bb67c70060e63ff34"
             },
             "require": {
                 "monkey/php7-compatibility": "^1.0.1",
@@ -1898,7 +1897,7 @@
                 }
             ],
             "description": "Curl client by MonkeyData",
-            "time": "2018-06-14T15:22:22+00:00"
+            "time": "2018-09-22T21:42:03+00:00"
         },
         {
             "name": "monkey/date-time",
@@ -3041,16 +3040,16 @@
         },
         {
             "name": "nesbot/carbon",
-            "version": "1.33.0",
+            "version": "1.34.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/briannesbitt/Carbon.git",
-                "reference": "55667c1007a99e82030874b1bb14d24d07108413"
+                "reference": "1dbd3cb01c5645f3e7deda7aa46ef780d95fcc33"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/55667c1007a99e82030874b1bb14d24d07108413",
-                "reference": "55667c1007a99e82030874b1bb14d24d07108413",
+                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/1dbd3cb01c5645f3e7deda7aa46ef780d95fcc33",
+                "reference": "1dbd3cb01c5645f3e7deda7aa46ef780d95fcc33",
                 "shasum": ""
             },
             "require": {
@@ -3092,7 +3091,7 @@
                 "datetime",
                 "time"
             ],
-            "time": "2018-08-07T08:39:47+00:00"
+            "time": "2018-09-20T19:36:25+00:00"
         },
         {
             "name": "nikic/php-parser",
