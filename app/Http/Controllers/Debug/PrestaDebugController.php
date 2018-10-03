@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Debug;
 
 
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Monkey\ImportEshopDataObjects\Base\Differences;
@@ -67,7 +68,8 @@ class PrestaDebugController extends Controller {
      * @param Project $project_id
      * @param int $resource_id
      * @param Request $request
-     * @return array
+     * @return void
+     * @throws Exception
      */
     public function testCall(Project $project_id, int $resource_id, Request $request) {
         /**
@@ -115,7 +117,7 @@ class PrestaDebugController extends Controller {
         }
 
         if ($active || $inactive) {
-            $differencesBuilder = ResourceSettingDifference::byResourceSettingId($project_id->getResourceSettings($resource_id)->first()->id)
+            $differencesBuilder = ResourceSettingDifference::byResourceSettingId($project_id->resourceSettings($resource_id)->first()->id)
                 ->byEndpoint($endpoint);
 
             if (!$active || !$inactive) {

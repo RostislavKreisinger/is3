@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+
 use App\Http\Controllers\Homepage\ImportFlowController;
+use App\Http\Controllers\Homepage\ImportFlowControlPoolController;
 use App\Http\Controllers\Homepage\ImportFlowStatsController;
 use App\Http\Controllers\Homepage\Importv2Controller;
-use App\Http\Controllers\Project\DetailController as ProjectDetailController;
+use App\Http\Controllers\Homepage\ResourcesController;
+use App\Http\Controllers\OrderAlert\IndexController;
 use Illuminate\Support\Collection;
 use Monkey\Connections\MDDatabaseConnections;
 use Monkey\Connections\MDImportFlowConnections;
@@ -16,19 +19,20 @@ use Monkey\ImportSupport\InvalidProject\ProjectRepository;
 use Monkey\ImportSupport\Pool\PoolList;
 use Monkey\ImportSupport\Project;
 use Monkey\Menu\Menu;
-use Monkey\Structures\MenuItem;
 use Monkey\View\View;
+use URL;
 
+/**
+ * Class Controller
+ * @package App\Http\Controllers
+ */
 class Controller extends BaseViewController {
-
     /**
-     *
      * @var Project
      */
     private $newProjects;
 
     /**
-     *
      * @var PoolList
      */
     private $poolList;
@@ -41,10 +45,12 @@ class Controller extends BaseViewController {
     protected function prepareMenu() {
         $menu = $this->getMenu();
 
-        $menu->addMenuItem(new Menu("Import v2", \URL::action(Importv2Controller::getMethodAction())));
-        $menu->addMenuItem(new Menu("Import-flow", \URL::action(ImportFlowController::getMethodAction())));
-        $menu->addMenuItem(new Menu("Import-flow stats", \URL::action(ImportFlowStatsController::getMethodAction())));
-        $menu->addMenuItem(new Menu("Order Alert", \URL::action(\App\Http\Controllers\OrderAlert\IndexController::getMethodAction())));
+        $menu->addMenuItem(new Menu("Import v2", URL::action(Importv2Controller::getMethodAction())));
+        $menu->addMenuItem(new Menu("Import-flow", URL::action(ImportFlowController::getMethodAction())));
+        $menu->addMenuItem(new Menu("Import-flow stats", URL::action(ImportFlowStatsController::getMethodAction())));
+        $menu->addMenuItem(new Menu("Order Alert", URL::action(IndexController::getMethodAction())));
+        $menu->addMenuItem(new Menu("IF Control Pool", action(ImportFlowControlPoolController::getMethodAction())));
+        $menu->addMenuItem(new Menu("Resources", action(ResourcesController::getMethodAction())));
 
 //        $invalidProjects = new Menu('Invalid projects (' . count($this->getInvalidProjects()) . ')', '#');
 //        $invalidProjects->setOpened(true);
@@ -89,6 +95,11 @@ class Controller extends BaseViewController {
 
         if ($flowStatus) {
             foreach ($flowStatus as $key => $status) {
+                if (property_exists($status, 'deleted_at') && !empty($status->deleted_at)) {
+                    unset($flowStatus[$key]);
+                    continue;
+                }
+
                 switch ($status->is_history) {
                     case 0:
                         $status->is_history_status = "daily";
@@ -176,7 +187,124 @@ class Controller extends BaseViewController {
     }
 
     private function getFlowStatus($projectId, $resourceId) {
-        return MDImportFlowConnections::getImportFlowConnection()->select('CALL flowStatus(?,?)', array($projectId, $resourceId));
+        $sql = <<<'SQL'
+        SELECT
+            `status`.`unique`,
+            `status`.`is_history` , 
+            istart AS import_start, 
+            estart AS etl_start, 
+            astart AS calc_start, 
+            ostart AS output_start,
+            ifinish AS import_finish, 
+            efinish AS etl_finish, 
+            afinish AS calc_finish, 
+            ofinish AS output_finish,
+            iupdated_at AS import_updated_at, 
+            eupdated_at AS etl_updated_at, 
+            aupdated_at AS calc_updated_at, 
+            oupdated_at AS output_updated_at,
+            ideleted_at AS import_deleted_at,
+            edeleted_at AS etl_deleted_at,
+            adeleted_at AS calc_deleted_at,
+            odeleted_at AS output_deleted_at,
+    
+            CASE
+                WHEN `status`.`final_state` LIKE '0000' THEN 'OK' 
+                WHEN `status`.`final_state` LIKE '000%' THEN 'Output error' 
+                WHEN `status`.`final_state` LIKE '00%' THEN 'Calc error'
+                WHEN `status`.`final_state` LIKE '0%' THEN 'Etl error'
+                WHEN `status`.`final_state` NOT LIKE '0%' THEN 'Import error'
+                ELSE 'something else: '
+            END AS `result`,
+    
+            CASE
+                WHEN `status`.`final_state` LIKE '0000' THEN 'done'
+                WHEN `status`.`final_state` LIKE '000%' THEN 'output'
+                WHEN `status`.`final_state` LIKE '00%' THEN 'calc'
+                WHEN `status`.`final_state` LIKE '0%' THEN 'etl'
+                ELSE 'import'
+            END AS `code`,
+    
+            `status`.`status_code` as `status_code`,
+    
+            CASE
+                WHEN `status`.`status_code` = "import" THEN istart
+                WHEN `status`.`status_code` = "etl" THEN estart
+                WHEN `status`.`status_code` = "calc" THEN astart
+                WHEN `status`.`status_code` = "output" THEN ostart
+            END AS `start_at`,
+            
+            CASE
+                WHEN `status`.`status_code` = "import" THEN ifinish
+                WHEN `status`.`status_code` = "etl" THEN efinish
+                WHEN `status`.`status_code` = "calc" THEN afinish
+                WHEN `status`.`status_code` = "output" THEN ofinish
+            END AS `finish_at`,
+            
+            CASE
+                WHEN `status`.`status_code` = "import" THEN iupdated_at
+                WHEN `status`.`status_code` = "etl" THEN eupdated_at
+                WHEN `status`.`status_code` = "calc" THEN aupdated_at
+                WHEN `status`.`status_code` = "output" THEN oupdated_at
+            END AS `updated_at`,
+    
+            `status`.`final_state` 
+        FROM (
+            SELECT 
+                c.date_from, 
+                c.date_to, 
+                c.`unique`,
+                c.`is_history`,
+                i.active AS iactive,
+                i.start_at AS istart,
+                i.finish_at AS ifinish, 
+                i.updated_at AS iupdated_at, 
+                i.deleted_at AS ideleted_at, 
+                e.active AS eactive,
+                e.start_at AS estart,
+                e.finish_at AS efinish, 
+                e.updated_at AS eupdated_at, 
+                e.deleted_at AS edeleted_at,
+                a.active AS aactive,
+                a.start_at AS astart,
+                a.finish_at AS afinish, 
+                a.updated_at AS aupdated_at, 
+                a.deleted_at AS adeleted_at,
+                o.active AS oactive,
+                o.start_at AS ostart,
+                o.finish_at AS ofinish, 
+                o.updated_at AS oupdated_at, 
+                o.deleted_at AS odeleted_at,
+	
+                CASE
+                    WHEN COALESCE(i.active, 4) THEN 'import'
+                    WHEN COALESCE(e.active, 4) then 'etl'
+                    WHEN COALESCE(a.active, 4) then 'calc'
+                    WHEN COALESCE(o.active, 4) then 'output'
+                    ELSE 'done'
+                END AS `status_code`,
+	
+                CONCAT(
+                    COALESCE(i.active, 4), 
+                    COALESCE(e.active, 4), 
+                    COALESCE(a.active, 4), 
+                    COALESCE(o.active, 4)
+                ) AS final_state
+            FROM if_control AS c
+            LEFT JOIN if_import AS i ON c.`unique` = i.`unique`
+            LEFT JOIN if_etl AS e ON c.`unique` = e.`unique`
+            LEFT JOIN if_calc AS a ON c.`unique` = a.`unique`
+            LEFT JOIN if_output AS o ON c.`unique` = o.`unique`
+            WHERE c.project_id = ?
+            AND c.resource_id = ?
+            AND c.deleted_at IS NULL
+        ) as `status`
+        WHERE `status`.iactive != 0
+        OR `status`.eactive != 0
+        OR `status`.aactive != 0
+        OR `status`.oactive != 0;
+SQL;
+        return MDImportFlowConnections::getImportFlowConnection()->select($sql, array($projectId, $resourceId));
     }
 
     private function getFlowStatusLink($uniqueId, $type) {

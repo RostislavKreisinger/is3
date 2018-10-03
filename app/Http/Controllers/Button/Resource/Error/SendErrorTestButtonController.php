@@ -30,7 +30,7 @@ class SendErrorTestButtonController extends Controller {
         $error = \App\Model\ImportSupport\ResourceError::find($errorId);
         $project = \App\Model\Project::find($projectId);
         $resource = $error->getResource();
-        $rs = $project->getResourceSettings($resource->id)->first();
+        $rs = $project->resourceSettings($resource->id)->first();
         
         $dth = new \Monkey\DateTime\DateTimeHelper();
         
