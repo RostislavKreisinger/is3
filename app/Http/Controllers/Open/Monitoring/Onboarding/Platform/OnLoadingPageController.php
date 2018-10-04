@@ -105,6 +105,8 @@ class OnLoadingPageController extends BaseController {
 
 
 
+        View::share("projectsCounts", $this->getProjectPlatformCounts($projects));
+
         View::share("projectsCount", count($projectsOnLoadingPage));
         View::share("projects", $projectsOnLoadingPage);
 

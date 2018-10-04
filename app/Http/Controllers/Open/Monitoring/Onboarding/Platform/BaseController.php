@@ -4,22 +4,17 @@ namespace App\Http\Controllers\Open\Monitoring\Onboarding\Platform;
 
 
 
+use App\Helpers\Monitoring\Onboarding\Platform;
 use App\Http\Controllers\Open\Monitoring\Onboarding\Platform\Objects\Project;
 use Illuminate\Http\Request;
 use Illuminate\Database\Query\JoinClause;
 use Illuminate\Support\Facades\Input;
 use Monkey\Connections\MDDatabaseConnections;
-use Monkey\Constants\Inside\Platform;
 use Monkey\DateTime\DateTimeHelper;
 use Monkey\View\View;
 
 class BaseController extends \App\Http\Controllers\Open\Monitoring\Onboarding\BaseController {
 
-    const PLATFORM_CODE = [
-        "all" => [56, 57],
-        Platform::CODE_SHOPTET => 56,
-        Platform::CODE_VILKAS => 57
-    ];
 
     /**
      * @var Request
@@ -59,20 +54,14 @@ class BaseController extends \App\Http\Controllers\Open\Monitoring\Onboarding\Ba
      */
     private function getEshopTypes() {
         $platformCode = $this->getPlatformCode();
-        if(!array_key_exists($platformCode, static::PLATFORM_CODE)){
-            throw new \Exception("Unsupported platform code");
-        }
-        $eshopTypes = static::PLATFORM_CODE[$platformCode];
-        if(!is_array($eshopTypes)){
-            $eshopTypes = array($eshopTypes);
-        }
-        return $eshopTypes;
+        return Platform::getEshopType($platformCode);
     }
 
 
     public function getIndex() {
         $fontSize = Input::get("fontSize", '1em');
         View::share("fontSize", $fontSize);
+        View::share("platformCode", $this->getPlatformCode());
     }
 
     /**
@@ -111,10 +100,11 @@ class BaseController extends \App\Http\Controllers\Open\Monitoring\Onboarding\Ba
             ->where("rs.created_at", '>', "{$dateFrom} 00:00:00")
             ->where("rs.created_at", '<', "{$dateTo} 23:59:59")
             ->orderBy("p.created_at", 'DESC')
-            ->select(array_merge(['rs.created_at', 'p.id', 'p.user_id', 'rs.active as rs_active'], $columns))
+            ->select(array_merge(['rs.created_at', 'p.id', 'p.user_id', 'rs.active as rs_active', 're.eshop_type_id as eshop_type_id'], $columns))
         ;
-        vdQuery($query);
-        vde("exit");
+//        vde([$query->toSql(), $query->getBindings()]);
+//        vdQuery($query);
+//        vde("exit");
         // vde([$query->toSql(), $query->getBindings()]);
         $data = $query->get();
         $projects = array();
@@ -163,5 +153,25 @@ class BaseController extends \App\Http\Controllers\Open\Monitoring\Onboarding\Ba
         return $this;
     }
 
+    /**
+     * @param Project[] $projects
+     * @return array
+     * @throws \Exception
+     */
+    protected function getProjectPlatformCounts($projects) {
+        $projectPlatformCounts = [];
+        if($this->getPlatformCode() == Platform::ALL){
+            return ["Projects" => count($projects)];
+        }
+
+        foreach ($projects as $project){
+            $platformCode = Platform::getPlatformCode($project->eshop_type_id);
+            if(!array_key_exists($platformCode, $projectPlatformCounts)){
+                $projectPlatformCounts[$platformCode] = 0;
+            }
+            $projectPlatformCounts[$platformCode]++;
+        }
+        return $projectPlatformCounts;
+    }
 
 }

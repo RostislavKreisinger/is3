@@ -3,6 +3,10 @@
 Route::middleware('auth', App\Http\Middleware\Authenticate::class);
 Route::middleware('admin', App\Http\Middleware\Admin::class);
 
+Route::get('route-list', function () {
+    return Route::displayRoutes();
+});
+
 Route::group(['prefix' => 'open'], function () {
     Route::group(['prefix' => 'import-flow'], function () {
         Route::group(['prefix' => 'graph'], function () {
@@ -18,19 +22,15 @@ Route::group(['prefix' => 'open'], function () {
             Route::get('resources', 'App\Http\Controllers\Open\ImportFlow\Table\ResourcesController@index');
             Route::get('eshop-types', 'App\Http\Controllers\Open\ImportFlow\Table\EshopTypesController@index');
         });
+    });
 
-        Route::group(['prefix' => 'monitoring'], function () {
-            Route::group(['prefix' => 'onboarding'], function (){
-                Route::group(['prefix' => '{platform}'], function (){
-                    Route::controller('registration', \App\Http\Controllers\Open\Monitoring\Onboarding\Platform\RegistrationController::class);
-                    Route::controller('on-loading-page', \App\Http\Controllers\Open\Monitoring\Onboarding\Platform\OnLoadingPageController::class);
-                    Route::controller('proccessed-order-count', \App\Http\Controllers\Open\Monitoring\Onboarding\Platform\ProccessedOrderCountController::class);
-                });
+    Route::group(['prefix' => 'monitoring'], function () {
+        Route::group(['prefix' => 'onboarding'], function (){
+            Route::group(['prefix' => '{platform}'], function (){
+                Route::controller('registration', \App\Http\Controllers\Open\Monitoring\Onboarding\Platform\RegistrationController::class);
+                Route::controller('on-loading-page', \App\Http\Controllers\Open\Monitoring\Onboarding\Platform\OnLoadingPageController::class);
+                Route::controller('proccessed-order-count', \App\Http\Controllers\Open\Monitoring\Onboarding\Platform\ProccessedOrderCountController::class);
             });
-
-
-//            Route::controller('/queues-jobs-in-time', App\Http\Controllers\Open\ImportFlow\Graph\QueuesJobsInTimeController::class);
-//            Route::controller('/queues-jobs-in-time-history', App\Http\Controllers\Open\ImportFlow\Graph\QueuesJobsInTimeHistoryController::class);
         });
     });
 });

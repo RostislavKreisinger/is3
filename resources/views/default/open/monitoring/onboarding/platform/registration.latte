@@ -1,3 +1,4 @@
+
 <h2>Registration - project</h2>
 <div class="content"></div>
 <script>
@@ -6,7 +7,7 @@
     function download(){
         loader(window.pageRefresh);
 
-        $.get('{action "Open\\Monitoring\\Shoptet\\RegistrationController@getData"}', function(data){
+        $.get('{action "Open\\Monitoring\\Onboarding\\Platform\\RegistrationController@getData", ["platform" => $platformCode]}', function(data){
             $(".content").html(data.html);
             if(window.projectCount !== null){
                 if(window.projectCount < data.projectCount){

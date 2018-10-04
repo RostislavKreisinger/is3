@@ -1,0 +1,29 @@
+{*<h3>Projects: {$projectsCount}</h3>*}
+<h3 n:foreach="$projectsCounts as $platformCode => $count"> {$platformCode|firstUpper}: {$count}</h3>
+<table class="table">
+    <thead>
+    <tr>
+        <th style="width: 20px; text-align: right;">#</th>
+        <th scope="col">UID</th>
+        <th scope="col">PID</th>
+        <th scope="col">On loading</th>
+        <th scope="col">Import</th>
+        {*<th scope="col"></th>*}
+    </tr>
+    </thead>
+    <tbody>
+    <tr n:foreach="$projects as $project" class="{$project->historyDownloadSkipped?'skipped'} {$project->getImportantClass()}">
+        <td style="text-align: right; opacity: 0.9">{$iterator->counter}.</td>
+        <td>{$project->user_id}</td>
+        <td>{$project->id}</td>
+        <td>{$project->timeOnLoadingPage?:'<red>NULL</red>'|noescape}</td>
+        {*<td class="state">*}
+            {*{$project->historyDownloadPercentOld !== null?$project->historyDownloadPercentOld.'%':'<red>NULL</red>'|noescape}*}
+        {*</td>*}
+        <td class="state">
+            {$project->historyDownloadPercent !== null?$project->historyDownloadPercent.'%':'<red>NULL</red>'|noescape}
+        </td>
+
+    </tr>
+    </tbody>
+</table>

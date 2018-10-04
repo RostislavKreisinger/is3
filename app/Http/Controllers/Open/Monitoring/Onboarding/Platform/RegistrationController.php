@@ -24,6 +24,9 @@ class RegistrationController extends BaseController {
         View::share("projectsCount", count($projects));
         View::share("projects", $projects);
 
+        View::share("projectsCounts", $this->getProjectPlatformCounts($projects));
+
+
         $response = new JsonResponse();
         $response->setData(array(
             "html" => $this->getView()->render(),
