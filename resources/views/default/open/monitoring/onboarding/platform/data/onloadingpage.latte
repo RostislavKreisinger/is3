@@ -12,7 +12,7 @@
     </tr>
     </thead>
     <tbody>
-    <tr n:foreach="$projects as $project" class="{$project->historyDownloadSkipped?'skipped'} {$project->getImportantClass()}">
+    <tr n:foreach="$projects as $project" class="{$project->historyDownloadSkipped?'skipped'} {$project->getImportantClass()} {$project->getPlatformClass()}">
         <td style="text-align: right; opacity: 0.9">{$iterator->counter}.</td>
         <td>{$project->user_id}</td>
         <td>{$project->id}</td>
