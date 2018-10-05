@@ -27,8 +27,10 @@ Route::group(['prefix' => 'open'], function () {
     Route::group(['prefix' => 'monitoring'], function () {
         Route::group(['prefix' => 'onboarding'], function (){
             Route::group(['prefix' => '{platform}'], function (){
-                Route::controller('registration', \App\Http\Controllers\Open\Monitoring\Onboarding\Platform\RegistrationController::class);
-                Route::controller('on-loading-page', \App\Http\Controllers\Open\Monitoring\Onboarding\Platform\OnLoadingPageController::class);
+                Route::get('registration', \App\Http\Controllers\Open\Monitoring\Onboarding\Platform\RegistrationController::getMethodIndex());
+                Route::get('registration/data', \App\Http\Controllers\Open\Monitoring\Onboarding\Platform\RegistrationController::getMethodData());
+                Route::get('on-loading-page', \App\Http\Controllers\Open\Monitoring\Onboarding\Platform\OnLoadingPageController::getMethodIndex());
+                Route::get('on-loading-page/data', \App\Http\Controllers\Open\Monitoring\Onboarding\Platform\OnLoadingPageController::getMethodData());
                 Route::controller('proccessed-order-count', \App\Http\Controllers\Open\Monitoring\Onboarding\Platform\ProccessedOrderCountController::class);
             });
         });

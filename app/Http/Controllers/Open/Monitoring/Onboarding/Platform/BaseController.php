@@ -31,6 +31,25 @@ class BaseController extends \App\Http\Controllers\Open\Monitoring\Onboarding\Ba
         $this->setRequest($request);
     }
 
+
+    /**
+     * @return string
+     */
+    public static function getMethodIndex() {
+        return static::getMethodAction();
+    }
+
+    /**
+     * @return string
+     */
+    public static function getMethodData() {
+        return static::getMethodAction("getData");
+    }
+
+    /**
+     * @param $route
+     * @return array|mixed
+     */
     protected function cleanRoute($route) {
         $pathArray = parent::cleanRoute($route);
         if(strpos($route, "@getData") !== false) {
@@ -62,6 +81,8 @@ class BaseController extends \App\Http\Controllers\Open\Monitoring\Onboarding\Ba
         $fontSize = Input::get("fontSize", '1em');
         View::share("fontSize", $fontSize);
         View::share("platformCode", $this->getPlatformCode());
+        View::share("date_from", $this->getDateFrom());
+        View::share("date_to", $this->getDateTo());
     }
 
     /**
@@ -102,10 +123,7 @@ class BaseController extends \App\Http\Controllers\Open\Monitoring\Onboarding\Ba
             ->orderBy("p.created_at", 'DESC')
             ->select(array_merge(['rs.created_at', 'p.id', 'p.user_id', 'rs.active as rs_active', 're.eshop_type_id as eshop_type_id'], $columns))
         ;
-//        vde([$query->toSql(), $query->getBindings()]);
-//        vdQuery($query);
-//        vde("exit");
-        // vde([$query->toSql(), $query->getBindings()]);
+
         $data = $query->get();
         $projects = array();
         foreach ($data as $project){
@@ -160,9 +178,9 @@ class BaseController extends \App\Http\Controllers\Open\Monitoring\Onboarding\Ba
      */
     protected function getProjectPlatformCounts($projects) {
         $projectPlatformCounts = [];
-        if($this->getPlatformCode() == Platform::ALL){
-            return ["Projects" => count($projects)];
-        }
+//        if($this->getPlatformCode() == Platform::ALL){
+//            return ["Projects" => count($projects)];
+//        }
 
         foreach ($projects as $project){
             $platformCode = Platform::getPlatformCode($project->eshop_type_id);

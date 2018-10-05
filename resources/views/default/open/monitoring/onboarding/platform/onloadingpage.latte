@@ -3,7 +3,7 @@
 <script>
     function download(){
         loader(window.pageRefresh);
-        $.get('{action "Open\\Monitoring\\Onboarding\\Platform\\OnLoadingPageController@getData", ["platform" => $platformCode]}', function(data){
+        $.get('{action "Open\\Monitoring\\Onboarding\\Platform\\OnLoadingPageController@getData", ["platform" => $platformCode, "date_from" => $date_from, "date_to" => $date_to]}', function(data){
             $(".content").html(data.html);
 
         }).always(function() {
