@@ -8,6 +8,9 @@
         var selector =$("#chart-import-flow-queues-jobs-in-time");
         selector.dxChart({
             dataSource: [],
+            animation: {
+                enabled: {$animation|noescape}
+            },
             title:{
                 text: "Jobs in queue in time (last 10 minutes)",
                 horizontalAlignment: "left"
