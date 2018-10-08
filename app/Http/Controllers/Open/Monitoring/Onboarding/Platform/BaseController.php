@@ -112,14 +112,24 @@ class BaseController extends \App\Http\Controllers\Open\Monitoring\Onboarding\Ba
             ->join("resource_setting as rs", function(JoinClause $join){
                 $join->on("rs.project_id", '=', 'p.id')
                     ->where("rs.resource_id", '=', 4)
-                    ->whereIn("rs.active", [0, 1, 2, 3]);
+                    ->whereIn("rs.active", [0, 1, 2, 3])
+                    ->whereNull("rs.deleted_at")
+                ;
             })
             ->join("resource_eshop as re", function(JoinClause $join){
                 $join->on("re.resource_setting_id", '=', 'rs.id')
-                    ->whereIn("re.eshop_type_id", $this->getEshopTypes());
+                    ->whereIn("re.eshop_type_id", $this->getEshopTypes())
+                    ->whereNull("re.deleted_at")
+                ;
+            })
+            ->join("user as u", function(JoinClause $join){
+                $join->on("p.user_id", '=', 'u.id')
+                    ->whereNull("u.deleted_at")
+                ;
             })
             ->where("rs.created_at", '>', "{$dateFrom} 00:00:00")
             ->where("rs.created_at", '<', "{$dateTo} 23:59:59")
+            ->whereNull("p.deleted_at")
             ->orderBy("p.created_at", 'DESC')
             ->select(array_merge(['rs.created_at', 'p.id', 'p.user_id', 'rs.active as rs_active', 're.eshop_type_id as eshop_type_id'], $columns))
         ;
