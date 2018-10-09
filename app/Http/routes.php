@@ -33,9 +33,9 @@ Route::group(['prefix' => 'open'], function () {
                 Route::get('on-loading-page/data', \App\Http\Controllers\Open\Monitoring\Onboarding\Platform\OnLoadingPageController::getMethodData());
                 Route::controller('proccessed-order-count', \App\Http\Controllers\Open\Monitoring\Onboarding\Platform\ProccessedOrderCountController::class);
             });
+            });
         });
     });
-});
 
 Route::group(['prefix' => 'api'], function () {
     Route::group(['prefix' => 'import-flow'], function () {
@@ -189,6 +189,7 @@ Route::group(['middleware' => 'web'], function () {
             Route::controller('import-flow-stats', \App\Http\Controllers\Homepage\ImportFlowStatsController::class);
             Route::get('if-control-pool', \App\Http\Controllers\Homepage\ImportFlowControlPoolController::getMethodAction());
             Route::get('resources', \App\Http\Controllers\Homepage\ResourcesController::getMethodAction());
+            Route::controller('large-flow', \App\Http\Controllers\Homepage\LargeFlowController::class);
         });
 
         // Route::get('/', HomepageController::routeMethod('index'));

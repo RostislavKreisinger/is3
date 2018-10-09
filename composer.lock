@@ -2994,7 +2994,7 @@
             },
             "dist": {
                 "type": "tar",
-                "url": "https://composer.monkeydata.com/dist/nilportugues-serializer-1.4.1-5ba97e.tar",
+                "url": "https://composer:uxJ4EhTaf61fo3pnTvK5@composer.monkeydata.com/dist/nilportugues-serializer-1.4.1-5ba97e.tar",
                 "reference": "e6a6022e48f988d93c66273944fe808200f1c208",
                 "shasum": "c3053ca4d070100c531681ad980f10b671a22d0b"
             },
@@ -3013,7 +3013,7 @@
                     "NilPortugues\\Test\\Serializer\\": "tests/"
                 }
             },
-            "notification-url": "https://composer.monkeydata.com/notify-download/",
+            "notification-url": "https://composer:uxJ4EhTaf61fo3pnTvK5@composer.monkeydata.com/notify-download/",
             "license": [
                 "MIT"
             ],
