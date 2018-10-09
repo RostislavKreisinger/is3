@@ -1,9 +1,9 @@
 {*<h3>Projects: {$projectsCount}</h3>*}
-<h3 n:foreach="$projectsCounts as $platformCode => $count"> {$platformCode|firstUpper}: {$count}</h3>
+<h3 n:foreach="$projectsCounts as $platformCode => $count" n:class="$platformCode"> {$platformCode|firstUpper}: {$count}</h3>
 <table class="table">
     <thead>
     <tr>
-        <th scope="col"></th>
+        <th scope="col" style="padding: 0;"></th>
         <th scope="col">UID</th>
         <th scope="col">PID</th>
         <th scope="col">Created at</th>
