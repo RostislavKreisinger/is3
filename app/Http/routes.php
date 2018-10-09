@@ -27,6 +27,7 @@ Route::group(['middleware' => 'web'], function () {
                 Route::get('active-flows', 'App\Http\Controllers\Open\ImportFlow\Table\ActiveFlowsController@index');
                 Route::get('resources', 'App\Http\Controllers\Open\ImportFlow\Table\ResourcesController@index');
                 Route::get('eshop-types', 'App\Http\Controllers\Open\ImportFlow\Table\EshopTypesController@index');
+                Route::get('large-flows/{projectId?}/{resourceId?}', 'App\Http\Controllers\Open\ImportFlow\Table\LargeFlowsController@index');
             });
         });
     });
@@ -177,6 +178,7 @@ Route::group(['middleware' => 'web'], function () {
             Route::controller('import-flow-stats', \App\Http\Controllers\Homepage\ImportFlowStatsController::class);
             Route::get('if-control-pool', \App\Http\Controllers\Homepage\ImportFlowControlPoolController::getMethodAction());
             Route::get('resources', \App\Http\Controllers\Homepage\ResourcesController::getMethodAction());
+            Route::controller('large-flow', \App\Http\Controllers\Homepage\LargeFlowController::class);
         });
         
         // Route::get('/', HomepageController::routeMethod('index'));

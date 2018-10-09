@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-
 use App\Http\Controllers\Homepage\ImportFlowController;
 use App\Http\Controllers\Homepage\ImportFlowControlPoolController;
 use App\Http\Controllers\Homepage\ImportFlowStatsController;
 use App\Http\Controllers\Homepage\Importv2Controller;
 use App\Http\Controllers\Homepage\ResourcesController;
 use App\Http\Controllers\OrderAlert\IndexController;
+use App\Http\Controllers\Homepage\LargeFlowController;
 use Illuminate\Support\Collection;
 use Monkey\Connections\MDDatabaseConnections;
 use Monkey\Connections\MDImportFlowConnections;
@@ -49,38 +49,10 @@ class Controller extends BaseViewController {
         $menu->addMenuItem(new Menu("Import-flow", URL::action(ImportFlowController::getMethodAction())));
         $menu->addMenuItem(new Menu("Import-flow stats", URL::action(ImportFlowStatsController::getMethodAction())));
         $menu->addMenuItem(new Menu("Order Alert", URL::action(IndexController::getMethodAction())));
-        $menu->addMenuItem(new Menu("IF Control Pool", action(ImportFlowControlPoolController::getMethodAction())));
-        $menu->addMenuItem(new Menu("Resources", action(ResourcesController::getMethodAction())));
+        $menu->addMenuItem(new Menu("IF Control Pool", URL::action(ImportFlowControlPoolController::getMethodAction())));
+        $menu->addMenuItem(new Menu("Resources", URL::action(ResourcesController::getMethodAction())));
+        $menu->addMenuItem(new Menu("Large flows", URL::action(LargeFlowController::getMethodAction())));
 
-//        $invalidProjects = new Menu('Invalid projects (' . count($this->getInvalidProjects()) . ')', '#');
-//        $invalidProjects->setOpened(true);
-//        $k = 0;
-//        $invalidProjectList = $this->getInvalidProjects();
-//        foreach ($invalidProjectList as $project) {
-//            $menuItem = new Menu("{$project->getName()} [{$project->getInvalidResourceCount()}]", action(ProjectDetailController::routeMethod('getIndex'), ['project_id' => $project->getId()]));
-//            $menuItem->setTitle($project->getId());
-//            $invalidProjects->addMenuItem($menuItem);
-//            if (++$k == 10) {
-//                break;
-//            }
-//        }
-//        $menu->addMenuItem($invalidProjects);
-//
-//        $newProjects = new Menu('New projects', '#');
-//        foreach ($this->getNewProjects() as $project) {
-//            $menuItem = new Menu($project->name, action(ProjectDetailController::routeMethod('getIndex'), ['project_id' => $project->id]));
-//            $menuItem->setTitle($project->id);
-//
-//            $invalidProject = $invalidProjectList->getProject($project->id);
-//            if ($invalidProject) {
-//                $menuItem->setName("{$invalidProject->getName()} [{$invalidProject->getInvalidResourceCount()}]");
-//                $menuItem->setTitle($project->id);
-//                $menuItem->addClass('invalid');
-//            }
-//
-//            $newProjects->addMenuItem($menuItem);
-//        }
-//        $menu->addMenuItem($newProjects);
         return $menu;
     }
 
@@ -115,7 +87,7 @@ class Controller extends BaseViewController {
                 }
 
                 $step = 1;
-                switch ($status->code){
+                switch ($status->code) {
                     case 'import':
                         $step = 1;
                         break;
@@ -161,15 +133,15 @@ class Controller extends BaseViewController {
         $builder->orderBy('id', 'DESC');
         $builder->take(300000);
         $dbUniques = $builder->get();
-        foreach ($dbUniques as $dbUnique){
-            if(array_key_exists(substr($dbUnique->unique_key, 0, 43), $flowStatus)){
+        foreach ($dbUniques as $dbUnique) {
+            if (array_key_exists(substr($dbUnique->unique_key, 0, 43), $flowStatus)) {
                 $flowStatus[$dbUnique->unique_key]->is_in_gearman_queue = 2;
             }
         }
 
         $dbUniques = MDImportFlowConnections::getGearmanConnection()->table('gearman_queue')->get(['unique_key']);
-        foreach ($dbUniques as $dbUnique){
-            if(array_key_exists(substr($dbUnique->unique_key, 0, 43), $flowStatus)){
+        foreach ($dbUniques as $dbUnique) {
+            if (array_key_exists(substr($dbUnique->unique_key, 0, 43), $flowStatus)) {
                 $flowStatus[$dbUnique->unique_key]->is_in_gearman_queue = 1;
             }
         }
