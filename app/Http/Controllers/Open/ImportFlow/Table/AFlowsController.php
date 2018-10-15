@@ -47,6 +47,7 @@ abstract class AFlowsController extends Controller {
             'created_at',
             'delay_count',
             'hostname',
+            'pid',
             'project_id',
             'resource_id',
             'start_at',
