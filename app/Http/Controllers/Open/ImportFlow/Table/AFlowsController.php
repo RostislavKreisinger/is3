@@ -63,6 +63,10 @@ abstract class AFlowsController extends Controller {
      */
     protected function addUrls(array $results): array {
         for ($i = 0; $i < count($results); $i++) {
+            $results[$i]->project_url = '';
+            $results[$i]->resource_url = '';
+            $results[$i]->user_url = '';
+
             $results[$i]->project_url = action(DetailController::routeMethod('getIndex'), [
                 'project_id' => $results[$i]->project_id
             ]);
