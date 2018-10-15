@@ -39,15 +39,38 @@ class LargeFlowsController extends AFlowsController {
                 $query->where('resource_id', $resourceId);
             }
 
-            return $query->get();
+            return $this->translateUnits($query->get());
         }
 
-        return $this->addUrls(LargeImportLog::query()->getQuery()
-            ->join('if_control AS C', 'if_control_id', '=', 'C.id')
-            ->where('C.created_at', '>=', $dateFrom)
-            ->where('C.created_at', '<=', $dateTo)
-            ->groupBy(['project_id', 'resource_id'])
-            ->selectRaw('COUNT(*) AS count, MIN(size) AS min_size, MAX(size) AS max_size, AVG(size) AS avg_size, C.project_id, C.resource_id')
-            ->get());
+        $selectParts = [
+            'COUNT(*) AS count',
+            'MIN(size) AS min_size',
+            'MAX(size) AS max_size',
+            'AVG(size) AS avg_size',
+            'C.project_id',
+            'C.resource_id',
+            'unit'
+        ];
+        return $this->translateUnits(
+            $this->addUrls(
+                LargeImportLog::query()->getQuery()
+                    ->join('if_control AS C', 'if_control_id', '=', 'C.id')
+                    ->where('C.created_at', '>=', $dateFrom)
+                    ->where('C.created_at', '<=', $dateTo)
+                    ->groupBy(['project_id', 'resource_id'])
+                    ->selectRaw(implode(', ', $selectParts))
+                    ->get()
+            )
+        );
+    }
+
+    private function translateUnits(array $flows): array {
+        for ($i = 0; $i < count($flows); $i++) {
+            if (isset($flows[$i]->unit) && isset(LargeImportLog::UNITS[$flows[$i]->unit])) {
+                $flows[$i]->unit = LargeImportLog::UNITS[$flows[$i]->unit];
+            }
+        }
+
+        return $flows;
     }
 }
