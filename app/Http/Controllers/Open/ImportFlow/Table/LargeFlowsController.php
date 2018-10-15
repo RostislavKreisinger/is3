@@ -64,6 +64,10 @@ class LargeFlowsController extends AFlowsController {
         );
     }
 
+    /**
+     * @param array $flows
+     * @return array
+     */
     private function translateUnits(array $flows): array {
         for ($i = 0; $i < count($flows); $i++) {
             if (isset($flows[$i]->unit) && isset(LargeImportLog::UNITS[$flows[$i]->unit])) {
