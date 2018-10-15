@@ -77,7 +77,7 @@ abstract class AFlowsController extends Controller {
 
             if (property_exists($results[$i], 'project')) {
                 $results[$i]->user_url = action(UserController::routeMethod('getIndex'), [
-                    'project_id' => $results[$i]->project->user_id
+                    'user_id' => $results[$i]->project->user_id
                 ]);
             }
         }
