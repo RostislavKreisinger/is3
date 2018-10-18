@@ -55,7 +55,7 @@
                     selectedFilterOperation: 'contains'
                 },
                 {
-                    caption: 'Status',
+                    caption: 'Active',
                     dataField: 'active',
                     dataType: 'number'
                 },
@@ -105,6 +105,14 @@
                 {
                     caption: 'Unique',
                     dataField: 'unique'
+                },
+                {
+                    caption: 'Hostname',
+                    dataField: 'hostname'
+                },
+                {
+                    caption: 'Process ID',
+                    dataField: 'pid'
                 }
             ],
             dataSource: {$baseUrl} + "/open/import-flow/table/active-flows",

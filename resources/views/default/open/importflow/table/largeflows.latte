@@ -7,6 +7,12 @@
         </form>
         <div id="import-flow-large-flows"></div>
     </div>
+    <div class="panel-footer">
+        Seznam flow za zvolené období (podle created_at), která se propsala do Large Import Logu.
+        <br>
+        Výsledky jsou zgroupovány podle project_id a resource_id, ale kliknutím na šipku na levé straně řádku
+        lze donačíst seznam konkrétních flow.
+    </div>
 </div>
 <script>
     $(function () {
@@ -64,6 +70,10 @@
                     caption: 'Maximum',
                     dataField: 'max_size',
                     dataType: 'number'
+                },
+                {
+                    caption: 'Unit',
+                    dataField: 'unit'
                 }
 
             ],
@@ -96,6 +106,10 @@
                                     caption: 'Size',
                                     dataField: 'size',
                                     dataType: 'number'
+                                },
+                                {
+                                    caption: 'Unit',
+                                    dataField: 'unit'
                                 },
                                 {
                                     caption: 'Unique',

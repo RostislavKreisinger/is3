@@ -47,6 +47,7 @@ abstract class AFlowsController extends Controller {
             'created_at',
             'delay_count',
             'hostname',
+            'pid',
             'project_id',
             'resource_id',
             'start_at',
@@ -63,6 +64,10 @@ abstract class AFlowsController extends Controller {
      */
     protected function addUrls(array $results): array {
         for ($i = 0; $i < count($results); $i++) {
+            $results[$i]->project_url = '';
+            $results[$i]->resource_url = '';
+            $results[$i]->user_url = '';
+
             $results[$i]->project_url = action(DetailController::routeMethod('getIndex'), [
                 'project_id' => $results[$i]->project_id
             ]);
@@ -70,9 +75,12 @@ abstract class AFlowsController extends Controller {
                 'project_id' => $results[$i]->project_id,
                 'resource_id' => $results[$i]->resource_id
             ]);
-            $results[$i]->user_url = action(UserController::routeMethod('getIndex'), [
-                'project_id' => $results[$i]->project->user_id
-            ]);
+
+            if (isset($results[$i]->project)) {
+                $results[$i]->user_url = action(UserController::routeMethod('getIndex'), [
+                    'user_id' => $results[$i]->project->user_id
+                ]);
+            }
         }
 
         return $results;
