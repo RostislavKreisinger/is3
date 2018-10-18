@@ -11,16 +11,15 @@ use Route;
 
 class BaseViewController extends BaseAuthController {
 
-  
 
     private $view;
-    
+
     /**
      *
-     * @var MenuList 
+     * @var MenuList
      */
     private $menu;
-    
+
     private $breadcrumbs;
 
 
@@ -29,12 +28,12 @@ class BaseViewController extends BaseAuthController {
         $currentRouteAction = Route::currentRouteAction();
         $route = $this->cleanRoute($currentRouteAction);
         $this->view = ViewRender::getInstance($route);
-        
+
         View::share('breadcrumbs', $this->getBreadcrumbs());
         View::share('user', $this->getUser());
         $this->initMenu();
     }
-    
+
     private function initMenu() {
         $menu = $this->prepareMenu();
         $this->getView()->addParameter('menu', $menu);
@@ -43,22 +42,23 @@ class BaseViewController extends BaseAuthController {
     }
 
     /**
-     * 
+     *
      * @return MenuList
      */
     protected function prepareMenu() {
-        return $this->getMenu(); 
+        return $this->getMenu();
     }
-    
+
     public function callAction($method, $parameters) {
+        $this->__construct();
         $this->breadcrumbBeforeAction($parameters);
         $result = parent::callAction($method, $parameters);
         $this->breadcrumbAfterAction($parameters);
-        
+
         // try{
-            if ($result === null) {
-                $result = $this->getView()->render();
-            }
+        if ($result === null) {
+            $result = $this->getView()->render();
+        }
 //        }  catch (Exception $e){
 //            vde($e);
 //        }
@@ -66,7 +66,6 @@ class BaseViewController extends BaseAuthController {
         return $result;
     }
 
-    
 
     protected function cleanRoute($route) {
         $route = str_replace('App\\Http\\Controllers\\', '', $route);
@@ -88,28 +87,28 @@ class BaseViewController extends BaseAuthController {
         $methodName = preg_replace('/^action/', '', $methodName);
         return strtolower($methodName);
     }
-    
+
     /**
-     * 
+     *
      * @return ViewRender
      */
     protected function getView() {
         return $this->view;
     }
-    
+
     /**
-     * 
+     *
      * @return MenuList
      */
     public function getMenu() {
-        if($this->menu === null){
+        if ($this->menu === null) {
             $this->menu = new MenuList();
         }
         return $this->menu;
     }
 
     /**
-     * 
+     *
      * @param MenuList $menu
      * @return Controller
      */
@@ -119,19 +118,19 @@ class BaseViewController extends BaseAuthController {
     }
 
     /**
-     * 
+     *
      * @return Breadcrumbs
      */
     protected function getBreadcrumbs() {
-        if($this->breadcrumbs == null){
+        if ($this->breadcrumbs == null) {
             $this->breadcrumbs = new Breadcrumbs();
         }
         return $this->breadcrumbs;
     }
 
-    
+
     /**
-     * 
+     *
      * @param array $parameters
      * @return Breadcrumbs
      */
@@ -140,8 +139,9 @@ class BaseViewController extends BaseAuthController {
         $breadcrumbs->addBreadcrumbItem(new BreadcrumbItem('home', 'Home', \Monkey\action(IndexController::class)));
         return $breadcrumbs;
     }
+
     /**
-     * 
+     *
      * @param array $parameters
      * @return Breadcrumbs
      */

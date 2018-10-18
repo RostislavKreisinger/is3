@@ -18,7 +18,7 @@ class BaseAuthController extends AController {
 
     /**
      *
-     * @var User 
+     * @var User
      */
     private $user;
 
@@ -28,39 +28,42 @@ class BaseAuthController extends AController {
     }
 
     public function __construct() {
-        if(Auth::check()){
-            $this->setUser(Auth::user());
-            $this->getUser()->getAclManager();
-        }
+        $this->getUser();
     }
-    
-    
+
+
     protected function can($acl) {
         return $this->getUser()->can($acl);
     }
-    
+
     protected function redirectToRoot() {
         return Redirect::to('/');
     }
-    
+
     /**
-     * 
+     *
      * @return User
      */
     public function getUser() {
+        if ($this->user === null) {
+            if (Auth::check()) {
+                $this->setUser(Auth::user());
+                $this->getUser()->getAclManager();
+            }
+        }
         return $this->user;
     }
 
     /**
-     * 
+     *
      * @param User $user
      * @return static
      */
     public function setUser(User $user) {
         $dth = \Monkey\DateTime\DateTimeHelper::getCloneSelf();
         $userLastVisit = new \Monkey\DateTime\DateTimeHelper($user->last_visit);
-        
-        if(empty($user->last_visit) || $userLastVisit->getTimestamp() < ($dth->getTimestamp()-60) ){
+
+        if (empty($user->last_visit) || $userLastVisit->getTimestamp() < ($dth->getTimestamp() - 60)) {
             $user->last_visit = $dth->mysqlFormat();
             $user->save();
             $visit = new \App\Model\ImportSupport\Visit();
@@ -68,14 +71,13 @@ class BaseAuthController extends AController {
             $visit->visited_at = $dth->mysqlFormat();
             $visit->save();
         }
-        
-       
-        
+
+
         $this->user = $user;
         return $this;
     }
 
-    
+
     public static function routeMethod($methodName) {
         return static::class . "@{$methodName}";
     }
