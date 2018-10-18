@@ -7,6 +7,7 @@
  */
 
 namespace Monkey\ImportSupport\InvalidProject;
+
 use Monkey\Connections\MDDatabaseConnections;
 
 /**
@@ -15,29 +16,28 @@ use Monkey\Connections\MDDatabaseConnections;
  * @author Tomas
  */
 class Project {
-   
+
     /**
      *
-     * @var int 
+     * @var int
      */
     private $id;
-    
+
     /**
      *
-     * @var string 
+     * @var string
      */
     private $name;
-    
-    
-    
+
+
     private $resources = array();
-    
+
     public function __construct($project_id, $project_name) {
         $this->setId($project_id);
-        $this->setName($project_name);        
+        $this->setName($project_name);
     }
-    
-    
+
+
     public function getId() {
         return $this->id;
     }
@@ -53,19 +53,21 @@ class Project {
     public function setName($name) {
         $this->name = $name;
     }
-    
+
     public function getInvalidResourceCount() {
         return count($this->getResources());
     }
-    
+
     public function getResourceModels() {
         $resourceList = ProjectRepository::getResourceList();
-        return array_map(function(Resource $resource) use ($resourceList) { return $resourceList[$resource->getId()]; }, $this->getResources());
+        return array_map(function (Resource $resource) use ($resourceList) {
+            return $resourceList[$resource->getId()];
+        }, $this->getResources());
     }
-    
+
 
     /**
-     * 
+     *
      * @return Resource
      */
     public function getResources() {
@@ -82,7 +84,7 @@ class Project {
      * @return Resource
      */
     public function addResource(Resource $resource) {
-        if($resource->getId() == 4 ){
+        if ($resource->getId() == 4) {
             $eshopType = MDDatabaseConnections::getMasterAppConnection()
                 ->table('resource_setting as rs')
                 ->join('resource_eshop as re', 're.resource_setting_id', '=', 'rs.id')
@@ -90,27 +92,22 @@ class Project {
                 ->where('rs.project_id', '=', $this->getId())
                 ->where('rs.resource_id', '=', $resource->getId())
                 ->select('et.*')->first();
-            if($eshopType->import_version == 2){
+            if ($eshopType && $eshopType->import_version == 2) {
                 $this->resources[$resource->getId()] = &$resource;
                 return $resource;
             }
-        }else{
+        } else {
             $dbResource = MDDatabaseConnections::getMasterAppConnection()
                 ->table('resource as r')
                 ->where('id', '=', $resource->getId())
                 ->select('r.*')->first();
-            if($dbResource->import_version == 2){
+            if ($dbResource && $dbResource->import_version == 2) {
                 $this->resources[$resource->getId()] = &$resource;
                 return $resource;
             }
         }
 
-
-
-
-
+        return null;
     }
 
-
-    
 }
