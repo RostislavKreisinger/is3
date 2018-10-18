@@ -7,6 +7,7 @@ use App\Model\Project;
 use App\Model\Resource;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Monkey\Connections\Extension\LaravelMySqlConnection;
 use Monkey\Connections\MDImportFlowConnections;
 
@@ -15,6 +16,8 @@ use Monkey\Connections\MDImportFlowConnections;
  * @package App\Model\ImportPools
  */
 abstract class IFPool extends Model {
+    use SoftDeletes;
+
     /**
      * @var bool $timestamps
      */
