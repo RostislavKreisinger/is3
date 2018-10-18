@@ -15,12 +15,19 @@ use Monkey\Connections\MDImportFlowConnections;
  * @package App\Model
  */
 class LargeImportLog extends Model {
+    use SoftDeletes;
+
+    const UNITS = [
+        1 => 'KB',
+        2 => 'MB',
+        3 => 'GB',
+        4 => 'PCS'
+    ];
+
     /**
      * @var string $table
      */
     protected $table = 'large_import_log';
-
-    use SoftDeletes;
 
     /**
      * @return BelongsTo
