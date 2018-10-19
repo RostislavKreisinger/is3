@@ -19,7 +19,6 @@
                                 <span>{n $resourceDetail->created_at}</span>
                             </td>
                         </tr>
-                        {ifset $resourceDetail}
                         <tr>
                             <td>last_import</td>
                             <td>
@@ -32,13 +31,20 @@
                                 <span>{n $resourceDetail->last_successful_import_at}</span>
                             </td>
                         </tr>
-                        {/ifset $resourceDetail}
                         <tr>
                             <td>next check date</td>
                             <td>
                                 <span>{n $resourceDetail->next_check_date}</span>
                             </td>
                         </tr>
+                        {if $resourceDetail->active == 3}
+                            <tr class="alert-danger">
+                                <td>status</td>
+                                <td>
+                                    <span>ERROR</span>
+                                </td>
+                            </tr>
+                        {/if}
                     </tbody>
                 </table>
             </div>
