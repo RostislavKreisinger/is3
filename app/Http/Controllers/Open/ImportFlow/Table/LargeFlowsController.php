@@ -39,7 +39,7 @@ class LargeFlowsController extends AFlowsController {
                 $query->where('resource_id', $resourceId);
             }
 
-            return $this->translateUnits($query->get());
+            return $this->translateUnits($query->get()->toArray());
         }
 
         $selectParts = [
@@ -60,6 +60,7 @@ class LargeFlowsController extends AFlowsController {
                     ->groupBy(['project_id', 'resource_id'])
                     ->selectRaw(implode(', ', $selectParts))
                     ->get()
+                    ->toArray()
             )
         );
     }
