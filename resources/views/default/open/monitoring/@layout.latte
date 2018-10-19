@@ -1,0 +1,156 @@
+{*
+
+<div id="wrapper">
+    {view 'default.views.menu'}
+
+    <div id="page-wrapper">
+        <div class="row breadcrumbs">
+            <div class="col-lg-12 col-md-12">
+                <span n:foreach="$breadcrumbs as $key => $breadcrumb">
+                    <a href="{$breadcrumb->getUrl()}">{$breadcrumb->getBtf()}</a> 
+                    <span n:if="$key+1 !== count($breadcrumbs)" class="fa fa-caret-right"></span>
+                </span>
+            </div>
+        </div>
+        {view $body}
+    </div>
+</div>
+{view 'default.scripts'}
+
+ *}
+<style>
+
+    h1, .h1, h2, .h2, h3, .h3 {
+        margin-top: 10px;
+    }
+
+    .skipped td{
+        opacity: 0.5;
+    }
+
+    red {
+        color: red;
+    }
+
+    .content {
+        font-size: {$fontSize|noescape};
+    }
+
+    .loader {
+        width: 100%;
+        height: 2px;
+    }
+
+    .loader .progress {
+        width: 0%;
+        height: 2px;
+        background: blue;
+    }
+
+    .important-1 {
+        color: red;
+        font-weight: bold;
+    }
+
+    .marker {
+        width: 8px;
+        padding: 0 !important;
+        opacity: 1 !important;
+    }
+
+    .shoptet {
+        color: rgb(148,203,68);
+    }
+
+    .platform-shoptet {
+        background: rgba(148,203,68, 0.1);
+    }
+
+    .platform-shoptet .marker {
+        background: rgb(148,203,68);
+    }
+
+    .vilkas {
+        color: rgb(32,149,206);
+    }
+
+    .platform-vilkas {
+        background: rgba(32,149,206, 0.1);
+    }
+
+    .platform-vilkas .marker {
+        background: rgb(32,149,206);
+    }
+</style>
+
+<div class="loader">
+    <div class="progress"></div>
+</div>
+
+<script>
+    window.pageRefresh = {$pageRefresh};
+    {*window.setInterval(function(){*}
+    {*location.reload();*}
+    {*}, {$pageRefresh})*}
+
+    function loader(timeout){
+        var element = $(".loader .progress");
+        element.css("width", "0%").animate({
+            width: '100%'
+        }, timeout, "linear");
+    }
+</script>
+
+
+{view 'default.open.monitoring.sounds'}
+
+<script>
+    var Sound = (function () {
+        var df = document.createDocumentFragment();
+        return function Sound(src) {
+            var snd = new Audio(src);
+            df.appendChild(snd);
+            snd.addEventListener('ended', function () { df.removeChild(snd); });
+            snd.play();
+            return snd;
+        }
+    }());
+
+
+
+
+    function playSound(name){
+        if(isEmpty(name)){
+            var soundKeys = Object.keys(sounds);
+            console.log("Available sound keys: "+ soundKeys.join(", "), soundKeys);
+            return;
+        }
+        var base64string = sounds[name];
+        var snd = Sound("data:audio/wav;base64," + base64string);
+        snd.play();
+    }
+</script>
+
+{view $body}
+{view 'default.scripts'}
+
+
+<script>
+    var results = "";
+
+    function getTwoDigitNumber(num) {
+        if(num < 10) {
+            num = "0" + num;
+        }
+        return num;
+    }
+
+    var date = new Date();
+    results = getTwoDigitNumber(date.getMonth()+1) + "-"
+        + getTwoDigitNumber(date.getDate()) + " "
+        + getTwoDigitNumber(date.getHours()) + ":"
+        + getTwoDigitNumber(date.getMinutes()) + ":"
+        + getTwoDigitNumber(date.getSeconds());
+
+    $("#currentDateIFStatuses").text(results);
+</script>

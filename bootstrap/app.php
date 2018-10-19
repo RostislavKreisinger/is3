@@ -11,8 +11,8 @@
 |
 */
 
-$app = new Illuminate\Foundation\Application(
-    realpath(__DIR__.'/../')
+$app = new \Monkey\Laravel\v5_4\Illuminate\Foundation\Application(
+    realpath(__DIR__ . '/../')
 );
 
 /*

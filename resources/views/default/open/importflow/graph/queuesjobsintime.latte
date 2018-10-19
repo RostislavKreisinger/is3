@@ -1,7 +1,4 @@
-
-
-
-<div id="chart-import-flow-queues-jobs-in-time" style="position: fixed; bottom: 1%; left: 1%; right: 1%; top: 1%; "></div>
+<div id="chart-import-flow-queues-jobs-in-time" class="chart" style="position: fixed; bottom: 1%; left: 1%; right: 1%; top: 1%;"></div>
 <script>
     window.chartImportFlowQueuesJobsInTimeUrl = "{action 'Api\ImportFlow\Graphs\QueuesJobsInTimeController'}";
     // window.chartImportFlowQueuesUrl = "http://localhost/import-support-v3.monkeydata.com/public/api/import-flow/graphs/queues-status";
@@ -11,12 +8,20 @@
         var selector =$("#chart-import-flow-queues-jobs-in-time");
         selector.dxChart({
             dataSource: [],
+            animation: {
+                enabled: {$animation|noescape}
+            },
             title:{
                 text: "Jobs in queue in time (last 10 minutes)",
                 horizontalAlignment: "left"
             },
             valueAxis: {
-                min: 0
+                min: 0,
+                label: {
+                    font: {
+                        size: '1em'
+                    }
+                }
 //                                label: {
 //                                    customizeText: function(arg){
 //                                        return mdFormat.formatSecondToTime(arg.value);
@@ -30,6 +35,9 @@
                         mode: 'stagger',
                         staggeringSpacing: 5,
                         rotationAngle: 90
+                    },
+                    font: {
+                        size: '0.7em'
                     }
                 }
             },
@@ -71,6 +79,9 @@
             tooltip: {
                 enabled: true,
                 shared: true,
+                font: {
+                    size: '1em'
+                },
                 customizeTooltip: function(point){
                     var date = mdDate.clone(point.argument);
                     var pointsTable = '<table>';
