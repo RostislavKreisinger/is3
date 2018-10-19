@@ -1,0 +1,22 @@
+{*<h3>Projects: {$projectsCount}</h3>*}
+<h3 n:foreach="$projectsCounts as $platformCode => $count" n:class="$platformCode"> {$platformCode|firstUpper}: {$count}</h3>
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col" style="padding: 0;"></th>
+        <th scope="col">UID</th>
+        <th scope="col">PID</th>
+        <th scope="col">Created at</th>
+        <th scope="col">RS</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr n:foreach="$projects as $project" class="{$project->rs_active == 1?'skipped'} {$project->getImportantClass()} {$project->getPlatformClass()}">
+        <td class="marker"></td>
+        <td>{$project->user_id}</td>
+        <td>{$project->id}</td>
+        <td>{$project->created_at}</td>
+        <td>{$project->rs_active}</td>
+    </tr>
+    </tbody>
+</table>

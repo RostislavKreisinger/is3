@@ -1,0 +1,30 @@
+<h2>Registration - project</h2>
+<div class="content"></div>
+<script>
+    // window.pageRefresh *= 100;
+    window.projectCount = null;
+
+    function download(){
+        loader(window.pageRefresh);
+
+        $.get('{action "Open\\Monitoring\\Onboarding\\Platform\\RegistrationController@getData", ["platform" => $platformCode, "date_from" => $date_from, "date_to" => $date_to]}', function(data){
+            $(".content").html(data.html);
+            if(window.projectCount !== null){
+                if(window.projectCount < data.projectCount){
+                    playSound("gong");
+                }
+            }
+            window.projectCount = data.projectCount;
+
+        }).always(function() {
+            window.setTimeout(function(){
+                download();
+            }, window.pageRefresh);
+        });
+    }
+
+
+
+
+    download();
+</script>

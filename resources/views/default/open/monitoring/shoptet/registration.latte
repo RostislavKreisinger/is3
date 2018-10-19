@@ -1,0 +1,29 @@
+<h2>Registration - project</h2>
+<div class="content"></div>
+<script>
+    window.projectCount = null;
+
+    function download(){
+        loader(window.pageRefresh);
+
+        $.get('{action "Open\\Monitoring\\Shoptet\\RegistrationController@getData"}', function(data){
+            $(".content").html(data.html);
+            if(window.projectCount !== null){
+                if(window.projectCount < data.projectCount){
+                    playSound("gong");
+                }
+            }
+            window.projectCount = data.projectCount;
+
+        }).always(function() {
+            window.setTimeout(function(){
+                download();
+            }, window.pageRefresh);
+        });
+    }
+
+
+
+
+    download();
+</script>

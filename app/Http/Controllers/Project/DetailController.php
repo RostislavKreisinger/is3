@@ -8,7 +8,6 @@
 
 namespace App\Http\Controllers\Project;
 
-use App\Http\Controllers\Project\Controller;
 use App\Http\Controllers\User\DetailController as UserDetailController;
 use App\Model\Currency;
 use Monkey\Breadcrump\BreadcrumbItem;
