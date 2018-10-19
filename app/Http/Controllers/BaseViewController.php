@@ -11,7 +11,6 @@ use Route;
 
 class BaseViewController extends BaseAuthController {
 
-
     private $view;
 
     /**
@@ -22,13 +21,14 @@ class BaseViewController extends BaseAuthController {
 
     private $breadcrumbs;
 
-
     public function __construct() {
         parent::__construct();
         $currentRouteAction = Route::currentRouteAction();
         $route = $this->cleanRoute($currentRouteAction);
         $this->view = ViewRender::getInstance($route);
+    }
 
+    private function constructInit() {
         View::share('breadcrumbs', $this->getBreadcrumbs());
         View::share('user', $this->getUser());
         $this->initMenu();
@@ -50,7 +50,7 @@ class BaseViewController extends BaseAuthController {
     }
 
     public function callAction($method, $parameters) {
-        $this->__construct();
+        $this->constructInit();
         $this->breadcrumbBeforeAction($parameters);
         $result = parent::callAction($method, $parameters);
         $this->breadcrumbAfterAction($parameters);
