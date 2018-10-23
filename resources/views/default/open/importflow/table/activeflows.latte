@@ -11,7 +11,7 @@
                 {
                     caption: 'UID',
                     cellTemplate: function (cellElement, cellInfo) {
-                        cellElement.html('<a href="' + cellInfo.data.user_url + '">' + cellInfo.value + '</a>');
+                        cellElement.html('<a href="' + cellInfo.data.user_url + '" style="color: white; text-decoration: underline;">' + cellInfo.value + '</a>');
                     },
                     dataField: 'project.user_id',
                     dataType: 'number',
@@ -20,7 +20,7 @@
                 {
                     caption: 'PID',
                     cellTemplate: function (cellElement, cellInfo) {
-                        cellElement.html('<a href="' + cellInfo.data.project_url + '">' + cellInfo.value + '</a>');
+                        cellElement.html('<a href="' + cellInfo.data.project_url + '" style="color: white; text-decoration: underline;">' + cellInfo.value + '</a>');
                     },
                     dataField: 'project_id',
                     dataType: 'number',
@@ -48,7 +48,7 @@
                             resourceName = cellInfo.data.resource.name;
                         }
 
-                        cellElement.html('<a href="' + cellInfo.data.resource_url + '">' + resourceName + '</a>');
+                        cellElement.html('<a href="' + cellInfo.data.resource_url + '" style="color: white; text-decoration: underline;">' + resourceName + '</a>');
                     },
                     dataField: 'resource_id',
                     dataType: 'string',
@@ -121,6 +121,19 @@
             },
             paging: {
                 pageSize: 20
+            },
+            onRowPrepared: function (info) {
+                if (info.rowType === 'data') {
+                    if (info.data.active === 1) {
+                        info.rowElement.css('background', 'green');
+                        info.rowElement.css('color', 'white');
+                    } else if (info.data.active === 2) {
+                        info.rowElement.css('background', 'blue');
+                        info.rowElement.css('color', 'white');
+                    } else if (info.data.active === 5) {
+                        info.rowElement.css('background', 'orange');
+                    }
+                }
             }
         });
     });
