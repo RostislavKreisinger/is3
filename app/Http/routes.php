@@ -19,7 +19,7 @@ Route::group(['prefix' => 'open'], function () {
             Route::get('stuck-flows', 'App\Http\Controllers\Open\ImportFlow\Table\StuckFlowsController@index');
             Route::get('delayed-flows', 'App\Http\Controllers\Open\ImportFlow\Table\DelayedFlowsController@index');
             Route::get('active-flows', 'App\Http\Controllers\Open\ImportFlow\Table\ActiveFlowsController@index');
-            Route::get('large-flows', 'App\Http\Controllers\Open\ImportFlow\Table\LargeFlowsController@index');
+            Route::get('large-flows/{projectId?}/{resourceId?}', 'App\Http\Controllers\Open\ImportFlow\Table\LargeFlowsController@index');
             Route::get('resources', 'App\Http\Controllers\Open\ImportFlow\Table\ResourcesController@index');
             Route::get('eshop-types', 'App\Http\Controllers\Open\ImportFlow\Table\EshopTypesController@index');
         });
