@@ -217,7 +217,16 @@
                     name: 'action',
                     allowFiltering: false,
                     cellTemplate: function (cellElement, cellInfo) {
-                        cellElement.html("<a href='https://import-flow.monkeydata.com/management/Import/?unique=" + cellInfo.value + "'>Import</a>");
+                        var content = '<a href="https://import-flow.monkeydata.com/management/';
+
+                        if (cellInfo.data.is_history === 2) {
+                            content += "Tester/?project=" + {n $resource->getProject_id()} + "&resource=" + {n $resource->id} + '">Tester';
+                        } else {
+                            content += "Import/?unique=" + cellInfo.value + '">Import';
+                        }
+
+                        content += "</a>";
+                        cellElement.html(content);
                     },
                     width: 80
                 },
