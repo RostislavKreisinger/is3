@@ -31,11 +31,12 @@ class DifferencesController extends Controller {
     private $resourceSettingId;
 
     /**
-     * @param Project $project_id
+     * @param int $project_id
      * @param int $resource_id
      * @param Request $request
      */
-    public function add(Project $project_id, int $resource_id, Request $request) {
+    public function add(int $project_id, int $resource_id, Request $request) {
+        $project = Project::find($project_id);
         $difference = null;
         $type = 0;
 
@@ -92,9 +93,9 @@ class DifferencesController extends Controller {
                 break;
         }
 
-        if (!empty($difference) && $this->getDifferencesHelper($project_id, $resource_id)->tableExists()) {
+        if (!empty($difference) && $this->getDifferencesHelper($project, $resource_id)->tableExists()) {
             ResourceSettingDifference::updateOrCreate([
-                'resource_setting_id' => $this->getResourceSettingId($project_id, $resource_id),
+                'resource_setting_id' => $this->getResourceSettingId($project, $resource_id),
                 'endpoint' => $request->input('endpoint'),
                 'type' => $type,
                 'active' => false,
@@ -104,18 +105,20 @@ class DifferencesController extends Controller {
     }
 
     /**
-     * @param Project $project_id
+     * @param int $project_id
      * @param int $resource_id
      * @param Request $request
      * @return array
      */
-    public function load(Project $project_id, int $resource_id, Request $request) {
-        if (!$this->getDifferencesHelper($project_id, $resource_id)->tableExists()) {
+    public function load(int $project_id, int $resource_id, Request $request) {
+        $project = Project::find($project_id);
+
+        if (!$this->getDifferencesHelper($project, $resource_id)->tableExists()) {
             return [];
         }
 
         $differencesQuery = ResourceSettingDifference::byResourceSettingId(
-            $this->getResourceSettingId($project_id, $resource_id)
+            $this->getResourceSettingId($project, $resource_id)
         )->byEndpoint($request->input('endpoint'));
 
         if ($request->input('deleted')) {
@@ -152,39 +155,39 @@ class DifferencesController extends Controller {
     }
 
     /**
-     * @param Project $project_id
+     * @param int $project_id
      * @param int $resource_id
      * @param Request $request
      */
-    public function activate(Project $project_id, int $resource_id, Request $request) {
+    public function activate(int $project_id, int $resource_id, Request $request) {
         ResourceSettingDifference::find($request->input('id'))->activate();
     }
 
     /**
-     * @param Project $project_id
+     * @param int $project_id
      * @param int $resource_id
      * @param Request $request
      */
-    public function deactivate(Project $project_id, int $resource_id, Request $request) {
+    public function deactivate(int $project_id, int $resource_id, Request $request) {
         ResourceSettingDifference::find($request->input('id'))->deactivate();
     }
 
     /**
-     * @param Project $project_id
+     * @param int $project_id
      * @param int $resource_id
      * @param Request $request
      */
-    public function restore(Project $project_id, int $resource_id, Request $request) {
+    public function restore(int $project_id, int $resource_id, Request $request) {
         ResourceSettingDifference::withTrashed()->find($request->input('id'))->restore();
     }
 
     /**
-     * @param Project $project_id
+     * @param int $project_id
      * @param int $resource_id
      * @param Request $request
      * @throws Exception
      */
-    public function delete(Project $project_id, int $resource_id, Request $request) {
+    public function delete(int $project_id, int $resource_id, Request $request) {
         ResourceSettingDifference::find($request->input('id'))->delete();
     }
 
