@@ -65,19 +65,20 @@ class PrestaDebugController extends Controller {
     ];
 
     /**
-     * @param Project $project_id
+     * @param int $project_id
      * @param int $resource_id
      * @param Request $request
      * @return void
      * @throws Exception
      */
-    public function testCall(Project $project_id, int $resource_id, Request $request) {
+    public function testCall(int $project_id, int $resource_id, Request $request) {
         /**
          * @var BaseRequestManager $requestManager
          * @var APIRequest $apiRequest
          * @var Response $item
          */
-        $resource = $project_id->getResource($resource_id)->getConnectionDetail();
+        $project = Project::find($project_id);
+        $resource = $project->getResource($resource_id)->getConnectionDetail();
         $endpoint = $request->input('endpoint');
         $active = $request->input('active');
         $inactive = $request->input('inactive');
@@ -117,7 +118,7 @@ class PrestaDebugController extends Controller {
         }
 
         if ($active || $inactive) {
-            $differencesBuilder = ResourceSettingDifference::byResourceSettingId($project_id->resourceSettings($resource_id)->first()->id)
+            $differencesBuilder = ResourceSettingDifference::byResourceSettingId($project->resourceSettings($resource_id)->first()->id)
                 ->byEndpoint($endpoint);
 
             if (!$active || !$inactive) {
