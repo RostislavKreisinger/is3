@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Open\ImportFlow\Table;
 
 
 use App\Model\ImportPools\IFStepPool;
+use Illuminate\Http\Request;
 use Monkey\DateTime\DateTimeHelper;
 
 /**
@@ -12,14 +13,27 @@ use Monkey\DateTime\DateTimeHelper;
  */
 class ActiveFlowsController extends AFlowsController {
     /**
+     * @param Request $request
      * @var IFStepPool $stepPool
      * @return array
      */
-    public function index(): array {
+    public function index(Request $request): array {
         $results = [];
+        $actives = explode(',', $request->input('active'));
+        $dateFrom = $request->input(
+            'date_from',
+            DateTimeHelper::getCloneSelf('NOW', 'UTC')->minusDays(30)->mysqlFormatDate()
+        );
+        $dateTo = $request->input(
+            'date_to',
+            DateTimeHelper::getCloneSelf('NOW', 'UTC')->mysqlFormatDate()
+        );
 
         foreach (static::IF_STEP_POOLS as $stepPool) {
-            $data = $this->prepareBuilder($stepPool::query())->get();
+            $data = $this->prepareBuilder($stepPool::query(), $actives)
+                ->where('created_at', '>=', $dateFrom)
+                ->where('created_at', '<=', $dateTo)
+                ->get();
 
             if ($data->count() > 0) {
                 array_push($results, ...$data);
@@ -40,6 +54,9 @@ class ActiveFlowsController extends AFlowsController {
 
         for ($i = 0; $i < count($results); $i++) {
             switch ($results[$i]->active) {
+                case 0:
+                    $results[$i]->runtime = DateTimeHelper::getCloneSelf($results[$i]->finish_at)->getTimestamp() - DateTimeHelper::getCloneSelf($results[$i]->start_at)->getTimestamp();
+                    break;
                 case 5:
                     $results[$i]->runtime = $currentTimestamp - DateTimeHelper::getCloneSelf($results[$i]->start_at)->getTimestamp();
                     break;

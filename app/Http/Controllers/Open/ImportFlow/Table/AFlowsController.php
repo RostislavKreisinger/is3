@@ -32,10 +32,11 @@ abstract class AFlowsController extends Controller {
 
     /**
      * @param Builder $builder
+     * @param array $activeFilter
      * @return Builder
      */
-    protected function prepareBuilder(Builder $builder): Builder {
-        return $builder->whereActiveIn([1, 2, 5])->with([
+    protected function prepareBuilder(Builder $builder, array $activeFilter = [1, 2, 5]): Builder {
+        return $builder->whereActiveIn($activeFilter)->with([
             'project' => function (BelongsTo $query) {
                 $query->with('eshopTypeName')->select(['id', 'user_id', 'eshop_type_id']);
             },
