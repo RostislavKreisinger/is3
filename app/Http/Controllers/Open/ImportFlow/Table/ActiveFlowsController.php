@@ -22,7 +22,7 @@ class ActiveFlowsController extends AFlowsController {
         $actives = explode(',', $request->input('active'));
         $dateFrom = $request->input(
             'date_from',
-            DateTimeHelper::getCloneSelf('NOW', 'UTC')->minusDays(30)->mysqlFormatDate()
+            DateTimeHelper::getCloneSelf('NOW', 'UTC')->minusDays(1)->mysqlFormatDate()
         );
         $dateTo = $request->input(
             'date_to',

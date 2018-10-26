@@ -20,6 +20,7 @@
         var monthAgo = new Date();
         var dateFromInput = $('#lf_date_from');
         var dateToInput = $('#lf_date_to');
+        now.setDate(now.getDate() + 1);
         monthAgo.setDate(now.getDate() - 30);
         $(dateFromInput).val(monthAgo.toISOString().split('T')[0]);
         $(dateToInput).val(now.toISOString().split('T')[0]);

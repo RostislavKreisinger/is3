@@ -113,10 +113,8 @@
                 switch(type) {
                     case 'datetime':
                         return value;
-                        break;
                     case 'number':
                         return value.toLocaleString();
-                        break;
                     default:
                         return value;
                 }
@@ -140,10 +138,10 @@
             scrolling: {
                 mode: 'virtual',
                 showScrollbar: 'always',
-                useNative: true,
+                useNative: true
             },
             sorting: {
-                mode: 'multiple',
+                mode: 'multiple'
             },
             filterRow: {
                 visible: true
@@ -272,6 +270,13 @@
                 }
 
             ],
+            onRowPrepared: function (info) {
+                if (info.rowType === 'data') {
+                    if (info.data.is_first_daily === 1) {
+                        info.rowElement.css('background', 'rgba(222, 222, 222, 1)');
+                    }
+                }
+            },
             summary: {
                 totalItems: [
                     {
