@@ -83,6 +83,7 @@ class BaseController extends \App\Http\Controllers\Open\Monitoring\Onboarding\Ba
 
 
     public function getIndex() {
+       //  vde([]);
         $fontSize = Input::get("fontSize", '1em');
         View::share("fontSize", $fontSize);
         View::share("platformCode", $this->getPlatformCode());
@@ -91,7 +92,7 @@ class BaseController extends \App\Http\Controllers\Open\Monitoring\Onboarding\Ba
         if($this->isDateToNow()){
             View::share("date_to", "NOW");
         }else{
-            View::share("date_to", $this->getDateTo());
+            View::share("date_to", $this->getDateTo()->mysqlFormatDate());
         }
 
     }
@@ -110,8 +111,6 @@ class BaseController extends \App\Http\Controllers\Open\Monitoring\Onboarding\Ba
 
         $dateFrom = $this->getDateFrom()->mysqlFormatDate();
         $dateTo = $this->getDateTo()->mysqlFormatDate();
-
-
         /*
          SELECT * FROM project as p
             JOIN resource_setting as rs ON rs.project_id = p.id AND rs.resource_id = 4
@@ -165,7 +164,7 @@ class BaseController extends \App\Http\Controllers\Open\Monitoring\Onboarding\Ba
      * @return DateTimeHelper
      */
     final protected function getDateFrom() {
-        $date = Input::get("date_to", '2018-05-10');
+        $date = Input::get("date_from", '2018-05-10');
         return new DateTimeHelper($date);
     }
 
@@ -183,6 +182,7 @@ class BaseController extends \App\Http\Controllers\Open\Monitoring\Onboarding\Ba
      * @return bool
      */
     final protected function isDateToNow() {
+        $this->getDateTo();
         return $this->isDateToNow;
     }
 
