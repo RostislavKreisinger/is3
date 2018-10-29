@@ -32,7 +32,7 @@ abstract class AFlowsController extends Controller {
 
     /**
      * @param Builder $builder
-     * @param array $activeFilter
+     * @param int[] $activeFilter
      * @return Builder
      */
     protected function prepareBuilder(Builder $builder, array $activeFilter = [1, 2, 5]): Builder {

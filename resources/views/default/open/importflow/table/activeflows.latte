@@ -13,6 +13,9 @@
             <label for="af_cb_2">
                 <input class="form-control" type="checkbox" id="af_cb_2" value="2" name="cb_active" checked> 2
             </label>
+            <label for="af_cb_3">
+                <input class="form-control" type="checkbox" id="af_cb_3" value="3" name="cb_active"> 3
+            </label>
             <label for="af_cb_5">
                 <input class="form-control" type="checkbox" id="af_cb_5" value="5" name="cb_active" checked> 5
             </label>
@@ -163,6 +166,8 @@
                         info.rowElement.css('background', 'rgba(0, 255, 0, 0.2)');
                     } else if (info.data.active === 2) {
                         info.rowElement.css('background', 'rgba(0, 0, 255, 0.2)');
+                    } else if (info.data.active === 3) {
+                        info.rowElement.css('background', 'rgba(255, 0, 0, 0.2)');
                     } else if (info.data.active === 5) {
                         info.rowElement.css('background', 'rgba(255, 165, 0, 0.2)');
                     }
