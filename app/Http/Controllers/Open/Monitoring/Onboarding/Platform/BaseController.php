@@ -22,6 +22,11 @@ class BaseController extends \App\Http\Controllers\Open\Monitoring\Onboarding\Ba
     private $request;
 
     /**
+     * @var bool
+     */
+    private $isDateToNow = false;
+
+    /**
      * BaseController constructor.
      * @param Request $request
      */
@@ -81,8 +86,14 @@ class BaseController extends \App\Http\Controllers\Open\Monitoring\Onboarding\Ba
         $fontSize = Input::get("fontSize", '1em');
         View::share("fontSize", $fontSize);
         View::share("platformCode", $this->getPlatformCode());
-        View::share("date_from", $this->getDateFrom());
-        View::share("date_to", $this->getDateTo());
+        View::share("date_from", $this->getDateFrom()->mysqlFormatDate());
+
+        if($this->isDateToNow()){
+            View::share("date_to", "NOW");
+        }else{
+            View::share("date_to", $this->getDateTo());
+        }
+
     }
 
     /**
@@ -97,8 +108,8 @@ class BaseController extends \App\Http\Controllers\Open\Monitoring\Onboarding\Ba
      */
     protected function getShoptetProjects($columns = array()) {
 
-        $dateFrom = $this->getDateFrom();
-        $dateTo = $this->getDateTo();
+        $dateFrom = $this->getDateFrom()->mysqlFormatDate();
+        $dateTo = $this->getDateTo()->mysqlFormatDate();
 
 
         /*
@@ -151,18 +162,35 @@ class BaseController extends \App\Http\Controllers\Open\Monitoring\Onboarding\Ba
     }
 
     /**
-     * @return string
+     * @return DateTimeHelper
      */
     final protected function getDateFrom() {
-        return Input::get("date_from", '2018-05-10');
+        $date = Input::get("date_to", '2018-05-10');
+        return new DateTimeHelper($date);
     }
 
     /**
-     * @return string
+     * @return DateTimeHelper
      */
     final protected function getDateTo() {
-        $dth = new DateTimeHelper();
-        return Input::get("date_to", $dth->mysqlFormatDate());
+        $date = Input::get("date_to", "NOW");
+        $this->resolveDateToNow($date);
+        return new DateTimeHelper($date);
+    }
+
+
+    /**
+     * @return bool
+     */
+    final protected function isDateToNow() {
+        return $this->isDateToNow;
+    }
+
+    /**
+     * @param string $date
+     */
+    final protected function resolveDateToNow($date) {
+        $this->isDateToNow = (strtolower($date) == "now");
     }
 
     /**

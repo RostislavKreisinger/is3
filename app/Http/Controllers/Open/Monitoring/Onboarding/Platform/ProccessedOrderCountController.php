@@ -89,9 +89,8 @@ class ProccessedOrderCountController extends BaseController {
         $outputData = [];
         $formSubmited = (bool)Input::get("form_submited", false);
 
-
-        $outputData["dateFrom"] = $this->getDateFrom();
-        $outputData["dateTo"] = $this->getDateTo();
+        $outputData["dateFrom"] = $this->getDateFrom()->mysqlFormatDate();
+        $outputData["dateTo"] = $this->getDateTo()->mysqlFormatDate();
 
         if(!$formSubmited){
             $dth = new DateTimeHelper($outputData["dateTo"]);
