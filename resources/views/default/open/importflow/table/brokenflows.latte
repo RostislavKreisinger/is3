@@ -1,0 +1,89 @@
+<div class="panel">
+    <div class="panel-body">
+        <div id="import-flow-broken-flows"></div>
+    </div>
+</div>
+<script>
+    $(function () {
+        $("#import-flow-broken-flows").dxDataGrid({
+            columnAutoWidth: true,
+            columns: [
+                {
+                    caption: 'PID',
+                    cellTemplate: function (cellElement, cellInfo) {
+                        cellElement.html('<a href="' + cellInfo.data.project_url + '">' + cellInfo.value + '</a>');
+                    },
+                    dataField: 'project_id',
+                    dataType: 'number',
+                    selectedFilterOperation: 'contains'
+                },
+                {
+                    calculateCellValue: function (data) {
+                        var resourceName = 'Unknown';
+
+                        if (data.resource_id === 4) {
+                            resourceName = data.project && data.project.eshop_type_name ? data.project.eshop_type_name.name : 'Eshop';
+                        } else if (data.resource) {
+                            resourceName = data.resource.name;
+                        }
+
+                        return data.resource_id + ' ' + resourceName;
+                    },
+                    caption: 'Resource',
+                    cellTemplate: function (cellElement, cellInfo) {
+                        var resourceName = 'Unknown';
+
+                        if (cellInfo.data.resource_id === 4) {
+                            resourceName = cellInfo.data.project && cellInfo.data.project.eshop_type_name ? cellInfo.data.project.eshop_type_name.name : 'Eshop';
+                        } else if (cellInfo.data.resource) {
+                            resourceName = cellInfo.data.resource.name;
+                        }
+
+                        cellElement.html('<a href="' + cellInfo.data.resource_url + '">' + resourceName + '</a>');
+                    },
+                    dataField: 'resource_id',
+                    dataType: 'string',
+                    selectedFilterOperation: 'contains'
+                },
+                {
+                    caption: 'Active',
+                    dataField: 'active',
+                    dataType: 'number'
+                },
+                {
+                    caption: 'TTL',
+                    dataField: 'ttl',
+                    dataType: 'number'
+                },
+                {
+                    caption: 'Delay count',
+                    dataField: 'delay_count',
+                    dataType: 'number'
+                },
+                {
+                    caption: 'Created',
+                    dataField: 'created_at'
+                },
+                {
+                    caption: 'Unique',
+                    dataField: 'unique'
+                },
+                {
+                    caption: 'Hostname',
+                    dataField: 'hostname'
+                },
+                {
+                    caption: 'Process ID',
+                    dataField: 'pid'
+                }
+            ],
+            dataSource: {$baseUrl} + "/open/import-flow/table/broken-flows",
+            filterRow: {
+                visible: true
+            },
+            paging: {
+                pageSize: 20
+            }
+        });
+    });
+</script>

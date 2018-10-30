@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Homepage\BrokenFlowController;
 use App\Http\Controllers\Homepage\ImportFlowController;
 use App\Http\Controllers\Homepage\ImportFlowControlPoolController;
 use App\Http\Controllers\Homepage\ImportFlowStatsController;
@@ -52,6 +53,7 @@ class Controller extends BaseViewController {
         $menu->addMenuItem(new Menu("IF Control Pool", URL::action(ImportFlowControlPoolController::getMethodAction())));
         $menu->addMenuItem(new Menu("Resources", URL::action(ResourcesController::getMethodAction())));
         $menu->addMenuItem(new Menu("Large flows", URL::action(LargeFlowController::getMethodAction())));
+        $menu->addMenuItem(new Menu("Broken flows", URL::action(BrokenFlowController::getMethodAction())));
 
         return $menu;
     }
