@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Open\ImportFlow\Table;
 
 use App\Http\Controllers\Project\DetailController;
 use App\Http\Controllers\Project\Resource\DetailController as ResourceDetailController;
-use App\Http\Controllers\User\DetailController as UserController;
 use App\Model\ImportPools\IFDailyPool;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Query\JoinClause;

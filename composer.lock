@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "7be4552455769917a44ee5d3518195e1",
+    "content-hash": "acda769bae543d892d90ba1740a6677a",
     "packages": [
         {
             "name": "barryvdh/laravel-ide-helper",
@@ -1986,17 +1986,17 @@
         },
         {
             "name": "monkey/import-eshop-data-objects",
-            "version": "1.1.1",
+            "version": "1.1.2",
             "source": {
                 "type": "git",
                 "url": "git@gitlab.monkeydata.com:composer/import-eshop-data-objects.git",
-                "reference": "1ed4eb080251ea3f963234ed2a4e508f3d809b7f"
+                "reference": "55529fab590f91fd041763627451e453861422ba"
             },
             "dist": {
                 "type": "tar",
-                "url": "https://composer.monkeydata.com/dist/monkey-import-eshop-data-objects-1.1.1-bacfd2.tar",
-                "reference": "1ed4eb080251ea3f963234ed2a4e508f3d809b7f",
-                "shasum": "98e3f1a08e1f8d2fd350e3ad15e766600496ed10"
+                "url": "https://composer.monkeydata.com/dist/monkey-import-eshop-data-objects-1.1.2-740fb1.tar",
+                "reference": "55529fab590f91fd041763627451e453861422ba",
+                "shasum": "e6b9df9e159de0492ddbae79ddb55380a4ef5418"
             },
             "require": {
                 "php": ">=5.3"
@@ -2018,7 +2018,7 @@
                 }
             ],
             "description": "Data objects for import eshop api feed",
-            "time": "2018-04-10T14:28:18+00:00"
+            "time": "2018-10-24T12:48:55+00:00"
         },
         {
             "name": "monkey/import-eshop-sdk",
@@ -2684,6 +2684,45 @@
             ],
             "description": "package for composer",
             "time": "2018-04-10T12:51:54+00:00"
+        },
+        {
+            "name": "monkey/slack",
+            "version": "dev-feature/is-20-daily-pool-monitoring",
+            "source": {
+                "type": "git",
+                "url": "git@gitlab.monkeydata.com:composer/slack.git",
+                "reference": "99429e37642f609a86af51bb5477892bf92f3745"
+            },
+            "dist": {
+                "type": "tar",
+                "url": "https://composer.monkeydata.com/dist/monkey-slack-dev-feature-is-20-daily-pool-monitoring-00f79e.tar",
+                "reference": "99429e37642f609a86af51bb5477892bf92f3745",
+                "shasum": "61d253beea64b04004016f9b650cdefcd16d8281"
+            },
+            "require": {
+                "guzzlehttp/guzzle": "~6.3",
+                "monkey/environment": "^1.8.0",
+                "php": ">=7.0.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "*",
+                "phpunit/phpunit": "5.*"
+            },
+            "type": "package",
+            "autoload": {
+                "psr-4": {
+                    "Monkey\\Slack\\": "src/"
+                }
+            },
+            "notification-url": "https://composer.monkeydata.com/notify-download/",
+            "authors": [
+                {
+                    "name": "toms049",
+                    "email": "tomas.stanek@monkeydata.com"
+                }
+            ],
+            "description": "package for composer",
+            "time": "2018-04-19T15:46:10+00:00"
         },
         {
             "name": "monkey/translator",
@@ -5810,9 +5849,18 @@
             "time": "2018-01-29T19:49:41+00:00"
         }
     ],
-    "aliases": [],
+    "aliases": [
+        {
+            "alias": "1.4.0",
+            "alias_normalized": "1.4.0.0",
+            "version": "dev-feature/is-20-daily-pool-monitoring",
+            "package": "monkey/slack"
+        }
+    ],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "monkey/slack": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

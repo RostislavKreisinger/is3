@@ -29,7 +29,8 @@
         "monkey/import-eshop-data-objects": "^1.1.0",
         "nilportugues/serializer": "^1.4.0",
         "monkey/oauth2-client": "^1.0.1",
-        "monkey/oauth2-api": "^1.2.2"
+        "monkey/oauth2-api": "^1.2.2",
+        "monkey/slack": "dev-feature/is-20-daily-pool-monitoring as 1.4.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
