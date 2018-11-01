@@ -4,15 +4,12 @@ namespace App\Model\ImportPools;
 
 
 use Illuminate\Database\Eloquent\Relations\HasOne;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * Class IFDailyPool
  * @package App\Model\ImportPools
  */
 class IFDailyPool extends IFPool {
-    use SoftDeletes;
-
     /**
      * @var string $table
      */
