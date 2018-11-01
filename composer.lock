@@ -1910,17 +1910,17 @@
         },
         {
             "name": "monkey/graph-structure",
-            "version": "1.3.1",
+            "version": "1.3.2",
             "source": {
                 "type": "git",
                 "url": "git@gitlab.monkeydata.com:composer/graph-structure.git",
-                "reference": "f91df66542c580879648db97273ad1c01d785f87"
+                "reference": "b90b69f743e585d3779f0ae26b8e9afece81402e"
             },
             "dist": {
                 "type": "tar",
-                "url": "https://composer.monkeydata.com/dist/monkey-graph-structure-1.3.1-e405ce.tar",
-                "reference": "f91df66542c580879648db97273ad1c01d785f87",
-                "shasum": "30611277f39951aabd3f7d0d5ad9aaeaa0d2719d"
+                "url": "https://composer.monkeydata.com/dist/monkey-graph-structure-1.3.2-ca906c.tar",
+                "reference": "b90b69f743e585d3779f0ae26b8e9afece81402e",
+                "shasum": "44cd3c8f5da6050196416ce84ae80250e35586cd"
             },
             "require": {
                 "monkey/date-time": "^1.1.0",
@@ -1944,7 +1944,7 @@
                 }
             ],
             "description": "package for composer",
-            "time": "2018-04-10T14:01:04+00:00"
+            "time": "2018-10-30T19:44:47+00:00"
         },
         {
             "name": "monkey/helpers",
@@ -2691,13 +2691,13 @@
             "source": {
                 "type": "git",
                 "url": "git@gitlab.monkeydata.com:composer/slack.git",
-                "reference": "99429e37642f609a86af51bb5477892bf92f3745"
+                "reference": "917b6ec2862751a1ac966fdc0798fae1007e7168"
             },
             "dist": {
                 "type": "tar",
-                "url": "https://composer.monkeydata.com/dist/monkey-slack-dev-feature-is-20-daily-pool-monitoring-00f79e.tar",
-                "reference": "99429e37642f609a86af51bb5477892bf92f3745",
-                "shasum": "61d253beea64b04004016f9b650cdefcd16d8281"
+                "url": "https://composer.monkeydata.com/dist/monkey-slack-dev-feature-is-20-daily-pool-monitoring-b0b73d.tar",
+                "reference": "917b6ec2862751a1ac966fdc0798fae1007e7168",
+                "shasum": "f6cc8b4b3a39178f8c6c3436a58b0aa8c8a9abad"
             },
             "require": {
                 "guzzlehttp/guzzle": "~6.3",
@@ -2722,7 +2722,7 @@
                 }
             ],
             "description": "package for composer",
-            "time": "2018-04-19T15:46:10+00:00"
+            "time": "2018-10-30T15:10:42+00:00"
         },
         {
             "name": "monkey/translator",
@@ -4036,7 +4036,7 @@
         },
         {
             "name": "symfony/polyfill-ctype",
-            "version": "v1.9.0",
+            "version": "v1.10.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-ctype.git",
@@ -4094,16 +4094,16 @@
         },
         {
             "name": "symfony/polyfill-mbstring",
-            "version": "v1.9.0",
+            "version": "v1.10.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-mbstring.git",
-                "reference": "d0cd638f4634c16d8df4508e847f14e9e43168b8"
+                "reference": "c79c051f5b3a46be09205c73b80b346e4153e494"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/d0cd638f4634c16d8df4508e847f14e9e43168b8",
-                "reference": "d0cd638f4634c16d8df4508e847f14e9e43168b8",
+                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/c79c051f5b3a46be09205c73b80b346e4153e494",
+                "reference": "c79c051f5b3a46be09205c73b80b346e4153e494",
                 "shasum": ""
             },
             "require": {
@@ -4149,7 +4149,7 @@
                 "portable",
                 "shim"
             ],
-            "time": "2018-08-06T14:22:27+00:00"
+            "time": "2018-09-21T13:07:52+00:00"
         },
         {
             "name": "symfony/process",

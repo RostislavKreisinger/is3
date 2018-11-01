@@ -3,8 +3,11 @@
 namespace App\Console\Commands;
 
 
+use App\Http\Controllers\Homepage\BrokenFlowController;
 use App\Model\ImportPools\IFDailyPool;
 use Illuminate\Database\Query\JoinClause;
+use Monkey\Connections\MDEmailConnection;
+use Monkey\Environment\Environment;
 use Monkey\Laravel\Console\Command\Command;
 use Monkey\Laravel\Console\Command\CommandBuilder\Interfaces\IArgumentBuilderFactory;
 use Monkey\Laravel\Console\Command\CommandBuilder\Interfaces\IOptionBuilderFactory;
@@ -32,10 +35,17 @@ class BrokenFlowsCommand extends Command {
             $message = "<@U0SFWA9U7>, {$results->count()} broken flows have been found!\n";
 
             foreach ($results as $result) {
-                $message .= "\nPID: {$result->project_id}, Resource: {$result->resource_id}, Unique: {$result->unique}";
+                $overviewUrl = action(BrokenFlowController::getMethodAction());
+                $message .= "\nIF Import ID: <{$overviewUrl}|{$result->if_import_id}>, ";
+                $message .= "Unique: {$result->unique}";
+            }
+
+            if (!Environment::isProduction()) {
+                $message = "*TEST ONLY*\n{$message}";
             }
 
             Slack::getInstance()->sendIFNotification($message);
+            MDEmailConnection::getInfoEmailConnection()->sendSimpleMail('Broken Daily Flows', $message, 'lukas.kielar@monkeydata.com');
         }
     }
 
