@@ -3,8 +3,8 @@
 namespace App\Console\Commands;
 
 
-use App\Http\Controllers\Homepage\BrokenFlowController;
 use App\Model\ImportPools\IFDailyPool;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Query\JoinClause;
 use Monkey\Connections\MDEmailConnection;
 use Monkey\Environment\Environment;
@@ -14,6 +14,7 @@ use Monkey\Laravel\Console\Command\CommandBuilder\Interfaces\IOptionBuilderFacto
 use Monkey\Laravel\Console\Command\CommandParameters\Interfaces\ICommandParameters;
 use Monkey\Slack\Exception\SlackResponseException;
 use Monkey\Slack\Slack;
+use URL;
 
 /**
  * Class BrokenFlowsCommand
@@ -36,28 +37,57 @@ class BrokenFlowsCommand extends Command {
         })->get();
 
         if ($results->count() > 0) {
-            $message = "%s, {$results->count()} broken flows have been found!\n";
-
-            foreach ($results as $result) {
-                $overviewUrl = action(BrokenFlowController::getMethodAction());
-                $message .= "\nIF Import ID: <{$overviewUrl}|{$result->if_import_id}>, ";
-                $message .= "Unique: {$result->unique}";
-            }
-
-            if (!Environment::isProduction()) {
-                $message = "*TEST ONLY*\n{$message}";
-            }
-
-            Slack::getInstance()->sendIFNotification(sprintf($message, implode(', ', array_keys(self::CONTACTS))));
+            Slack::getInstance()->sendIFNotification($this->formatSlackMessage($results));
 
             foreach (self::CONTACTS as $contact) {
                 MDEmailConnection::getInfoEmailConnection()->sendSimpleMail(
                     'Broken Daily Flows',
-                    str_replace("\n", "<br />", sprintf($message, $contact['name'])),
+                    $this->formatMailMessage($results, $contact),
                     $contact['email']
                 );
             }
         }
+    }
+
+    /**
+     * @param Collection $collection
+     * @return string
+     */
+    private function formatSlackMessage(Collection $collection): string {
+        $message = "%s, {$collection->count()} broken flows have been found!\n";
+        $overviewUrl = URL::to('/homepage/broken-flow');
+
+        foreach ($collection as $result) {
+            $message .= "\nIF Import ID: <{$overviewUrl}|{$result->if_import_id}>, ";
+            $message .= "Unique: {$result->unique}";
+        }
+
+        if (!Environment::isProduction()) {
+            $message = "*TEST ONLY*\n{$message}";
+        }
+
+        return sprintf($message, implode(', ', array_keys(self::CONTACTS)));
+    }
+
+    /**
+     * @param Collection $collection
+     * @param array $contact
+     * @return string
+     */
+    private function formatMailMessage(Collection $collection, array $contact): string {
+        $message = "%s, {$collection->count()} broken flows have been found!<br />";
+        $overviewUrl = URL::to('/homepage/broken-flow');
+
+        foreach ($collection as $result) {
+            $message .= "<br />IF Import ID: <a href=\"{$overviewUrl}\">{$result->if_import_id}</a>, ";
+            $message .= "Unique: {$result->unique}";
+        }
+
+        if (!Environment::isProduction()) {
+            $message = "*TEST ONLY*<br />{$message}";
+        }
+
+        return sprintf($message, $contact['name']);
     }
 
     /**
