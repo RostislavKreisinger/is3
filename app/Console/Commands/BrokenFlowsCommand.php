@@ -20,6 +20,10 @@ use Monkey\Slack\Slack;
  * @package App\Console\Commands
  */
 class BrokenFlowsCommand extends Command {
+    const CONTACTS = [
+        "<@U0SFWA9U7>" => ['name' => "Fingarfae", 'email' => 'lukas.kielar@monkeydata.com']//'rostislav.kreisinger@monkeydata.com']
+    ];
+
     /**
      * @param ICommandParameters $parameters
      * @return int|null|void
@@ -32,7 +36,7 @@ class BrokenFlowsCommand extends Command {
         })->get();
 
         if ($results->count() > 0) {
-            $message = "<@U0SFWA9U7>, {$results->count()} broken flows have been found!\n";
+            $message = "%s, {$results->count()} broken flows have been found!\n";
 
             foreach ($results as $result) {
                 $overviewUrl = action(BrokenFlowController::getMethodAction());
@@ -44,8 +48,15 @@ class BrokenFlowsCommand extends Command {
                 $message = "*TEST ONLY*\n{$message}";
             }
 
-            Slack::getInstance()->sendIFNotification($message);
-            MDEmailConnection::getInfoEmailConnection()->sendSimpleMail('Broken Daily Flows', $message, 'lukas.kielar@monkeydata.com');
+            Slack::getInstance()->sendIFNotification(sprintf($message, implode(', ', array_keys(self::CONTACTS))));
+
+            foreach (self::CONTACTS as $contact) {
+                MDEmailConnection::getInfoEmailConnection()->sendSimpleMail(
+                    'Broken Daily Flows',
+                    str_replace("\n", "<br />", sprintf($message, $contact['name'])),
+                    $contact['email']
+                );
+            }
         }
     }
 
