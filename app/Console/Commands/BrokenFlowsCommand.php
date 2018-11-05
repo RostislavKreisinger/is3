@@ -3,9 +3,8 @@
 namespace App\Console\Commands;
 
 
-use App\Model\ImportPools\IFDailyPool;
+use App\Http\Controllers\Open\ImportFlow\Table\BrokenFlowsController;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Query\JoinClause;
 use Monkey\Config\Application\ProjectEndpointBaseUrl;
 use Monkey\Connections\MDEmailConnection;
 use Monkey\Environment\Environment;
@@ -15,7 +14,6 @@ use Monkey\Laravel\Console\Command\CommandBuilder\Interfaces\IOptionBuilderFacto
 use Monkey\Laravel\Console\Command\CommandParameters\Interfaces\ICommandParameters;
 use Monkey\Slack\Exception\SlackResponseException;
 use Monkey\Slack\Slack;
-use URL;
 
 /**
  * Class BrokenFlowsCommand
@@ -33,11 +31,8 @@ class BrokenFlowsCommand extends Command {
      * @throws SlackResponseException
      */
     protected function action(ICommandParameters $parameters) {
-        $results = IFDailyPool::query()->join('if_import', function (JoinClause $join) {
-            $join->on('if_import.id', '=', 'if_daily.if_import_id')
-                ->where('if_import.project_id', '!=', 'if_daily.project_id');
-        })->get();
-
+        $results = (new BrokenFlowsController())->index();
+        
         if ($results->count() > 0) {
             Slack::getInstance()->sendIFNotification($this->formatSlackMessage($results));
 
