@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "acda769bae543d892d90ba1740a6677a",
+    "content-hash": "6e37990556b9990b9b3f97567d8822ac",
     "packages": [
         {
             "name": "barryvdh/laravel-ide-helper",
@@ -1515,17 +1515,17 @@
         },
         {
             "name": "monkey/config",
-            "version": "1.28.0",
+            "version": "dev-feature/is-20-daily-pool-monitoring",
             "source": {
                 "type": "git",
                 "url": "git@gitlab.monkeydata.com:composer/config.git",
-                "reference": "dfe509290983fcde54843bcd5f467fb29faaa384"
+                "reference": "72be69c7511b60175fa2163d79297fb84f65c0ea"
             },
             "dist": {
                 "type": "tar",
-                "url": "https://composer.monkeydata.com/dist/monkey-config-1.28.0-9a3dea.tar",
-                "reference": "dfe509290983fcde54843bcd5f467fb29faaa384",
-                "shasum": "e05b872306e3fd3ccab978257c75baad97b96352"
+                "url": "https://composer.monkeydata.com/dist/monkey-config-dev-feature-is-20-daily-pool-monitoring-25231d.tar",
+                "reference": "72be69c7511b60175fa2163d79297fb84f65c0ea",
+                "shasum": "ed412d722682533023197dc005500ff9f7f9e821"
             },
             "require": {
                 "monkey/dotenv": "^1.2.0",
@@ -1551,7 +1551,7 @@
                 }
             ],
             "description": "General configuration for common things and setting",
-            "time": "2018-09-24T12:06:45+00:00"
+            "time": "2018-11-05T09:06:57+00:00"
         },
         {
             "name": "monkey/connections",
@@ -2848,16 +2848,16 @@
         },
         {
             "name": "monolog/monolog",
-            "version": "1.23.0",
+            "version": "1.24.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "fd8c787753b3a2ad11bc60c063cff1358a32a3b4"
+                "reference": "bfc9ebb28f97e7a24c45bdc3f0ff482e47bb0266"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/fd8c787753b3a2ad11bc60c063cff1358a32a3b4",
-                "reference": "fd8c787753b3a2ad11bc60c063cff1358a32a3b4",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/bfc9ebb28f97e7a24c45bdc3f0ff482e47bb0266",
+                "reference": "bfc9ebb28f97e7a24c45bdc3f0ff482e47bb0266",
                 "shasum": ""
             },
             "require": {
@@ -2922,7 +2922,7 @@
                 "logging",
                 "psr-3"
             ],
-            "time": "2017-06-19T01:22:40+00:00"
+            "time": "2018-11-05T09:00:11+00:00"
         },
         {
             "name": "mtdowling/cron-expression",
@@ -5851,6 +5851,12 @@
     ],
     "aliases": [
         {
+            "alias": "1.29.0",
+            "alias_normalized": "1.29.0.0",
+            "version": "dev-feature/is-20-daily-pool-monitoring",
+            "package": "monkey/config"
+        },
+        {
             "alias": "1.4.0",
             "alias_normalized": "1.4.0.0",
             "version": "dev-feature/is-20-daily-pool-monitoring",
@@ -5859,6 +5865,7 @@
     ],
     "minimum-stability": "stable",
     "stability-flags": {
+        "monkey/config": 20,
         "monkey/slack": 20
     },
     "prefer-stable": false,

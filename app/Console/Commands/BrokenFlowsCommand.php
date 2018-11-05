@@ -6,6 +6,7 @@ namespace App\Console\Commands;
 use App\Model\ImportPools\IFDailyPool;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Query\JoinClause;
+use Monkey\Config\Application\ProjectEndpointBaseUrl;
 use Monkey\Connections\MDEmailConnection;
 use Monkey\Environment\Environment;
 use Monkey\Laravel\Console\Command\Command;
@@ -22,7 +23,8 @@ use URL;
  */
 class BrokenFlowsCommand extends Command {
     const CONTACTS = [
-        "<@U0SFWA9U7>" => ['name' => "Fingarfae", 'email' => 'lukas.kielar@monkeydata.com']//'rostislav.kreisinger@monkeydata.com']
+        "<@U0SFWA9U7>" => ['email' => 'rostislav.kreisinger@monkeydata.com'],
+        "<@U633GMBCJ>" => ['email' => 'lukas.kielar@monkeydata.com']
     ];
 
     /**
@@ -55,7 +57,7 @@ class BrokenFlowsCommand extends Command {
      */
     private function formatSlackMessage(Collection $collection): string {
         $message = "%s, {$collection->count()} broken flows have been found!\n";
-        $overviewUrl = URL::to('/homepage/broken-flow');
+        $overviewUrl = ProjectEndpointBaseUrl::getInstance()->getImportSupportUrl() . '/homepage/broken-flow';
 
         foreach ($collection as $result) {
             $message .= "\nIF Import ID: <{$overviewUrl}|{$result->if_import_id}>, ";
@@ -75,8 +77,8 @@ class BrokenFlowsCommand extends Command {
      * @return string
      */
     private function formatMailMessage(Collection $collection, array $contact): string {
-        $message = "%s, {$collection->count()} broken flows have been found!<br />";
-        $overviewUrl = URL::to('/homepage/broken-flow');
+        $message = "{$collection->count()} broken flows have been found!<br />";
+        $overviewUrl = ProjectEndpointBaseUrl::getInstance()->getImportSupportUrl() . '/homepage/broken-flow';
 
         foreach ($collection as $result) {
             $message .= "<br />IF Import ID: <a href=\"{$overviewUrl}\">{$result->if_import_id}</a>, ";
@@ -87,14 +89,15 @@ class BrokenFlowsCommand extends Command {
             $message = "*TEST ONLY*<br />{$message}";
         }
 
-        return sprintf($message, $contact['name']);
+        return $message;
     }
 
     /**
      * @return string
      */
     protected function getCommandDescription(): string {
-        return 'Attempts to find records in daily and import pools that are linked by if_import_id but their project_id is different';
+        return 'Attempts to find records in daily and import pools that are linked by if_import_id ' .
+        'but their project_ids are different and sends their list to Slack and email';
     }
 
     /**
