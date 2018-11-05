@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Open\ImportFlow\Table;
 
 
 use App\Model\ImportPools\IFStepPool;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Http\Request;
 use Monkey\DateTime\DateTimeHelper;
 
@@ -31,6 +32,9 @@ class ActiveFlowsController extends AFlowsController {
 
         foreach (static::IF_STEP_POOLS as $stepPool) {
             $data = $this->prepareBuilder($stepPool::query(), $actives)
+                ->with(['controlPool' => function (BelongsTo $query) {
+                    $query->select(['id', 'unique', 'workload_difficulty']);
+                }])
                 ->where('created_at', '>=', $dateFrom)
                 ->where('created_at', '<=', $dateTo)
                 ->get();
