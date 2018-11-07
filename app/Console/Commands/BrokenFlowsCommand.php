@@ -3,7 +3,7 @@
 namespace App\Console\Commands;
 
 
-use App\Http\Controllers\Open\ImportFlow\Table\BrokenFlowsController;
+use App\Services\BrokenFlowService;
 use Illuminate\Database\Eloquent\Collection;
 use Monkey\Config\Application\ProjectEndpointBaseUrl;
 use Monkey\Connections\MDEmailConnection;
@@ -20,10 +20,7 @@ use Monkey\Slack\Slack;
  * @package App\Console\Commands
  */
 class BrokenFlowsCommand extends Command {
-    const CONTACTS = [
-        "<@U0SFWA9U7>" => ['email' => 'rostislav.kreisinger@monkeydata.com'],
-        "<@U633GMBCJ>" => ['email' => 'lukas.kielar@monkeydata.com']
-    ];
+    const NOTIFICATION_EMAIL = 'import-flow-notifications@monkeydata.com';
 
     /**
      * @param ICommandParameters $parameters
@@ -31,18 +28,16 @@ class BrokenFlowsCommand extends Command {
      * @throws SlackResponseException
      */
     protected function action(ICommandParameters $parameters) {
-        $results = (new BrokenFlowsController())->index();
-        
+        $results = BrokenFlowService::get();
+
         if ($results->count() > 0) {
             Slack::getInstance()->sendIFNotification($this->formatSlackMessage($results));
 
-            foreach (self::CONTACTS as $contact) {
-                MDEmailConnection::getInfoEmailConnection()->sendSimpleMail(
-                    'Broken Daily Flows',
-                    $this->formatMailMessage($results, $contact),
-                    $contact['email']
-                );
-            }
+            MDEmailConnection::getInfoEmailConnection()->sendSimpleMail(
+                'Broken Daily Flows',
+                $this->formatMailMessage($results),
+                self::NOTIFICATION_EMAIL
+            );
         }
     }
 
@@ -51,7 +46,7 @@ class BrokenFlowsCommand extends Command {
      * @return string
      */
     private function formatSlackMessage(Collection $collection): string {
-        $message = "%s, {$collection->count()} broken flows have been found!\n";
+        $message = "{$collection->count()} broken flows have been found!\n";
         $overviewUrl = ProjectEndpointBaseUrl::getInstance()->getImportSupportUrl() . '/homepage/broken-flow';
 
         foreach ($collection as $result) {
@@ -63,15 +58,14 @@ class BrokenFlowsCommand extends Command {
             $message = "*TEST ONLY*\n{$message}";
         }
 
-        return sprintf($message, implode(', ', array_keys(self::CONTACTS)));
+        return $message;
     }
 
     /**
      * @param Collection $collection
-     * @param array $contact
      * @return string
      */
-    private function formatMailMessage(Collection $collection, array $contact): string {
+    private function formatMailMessage(Collection $collection): string {
         $message = "{$collection->count()} broken flows have been found!<br />";
         $overviewUrl = ProjectEndpointBaseUrl::getInstance()->getImportSupportUrl() . '/homepage/broken-flow';
 
