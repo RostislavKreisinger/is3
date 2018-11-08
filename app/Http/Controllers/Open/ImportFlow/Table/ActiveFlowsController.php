@@ -14,6 +14,16 @@ use Monkey\DateTime\DateTimeHelper;
  */
 class ActiveFlowsController extends AFlowsController {
     /**
+     * @var string $defaultDateFrom
+     */
+    private $defaultDateFrom;
+
+    /**
+     * @var string $defaultDateTo
+     */
+    private $defaultDateTo;
+
+    /**
      * @param Request $request
      * @var IFStepPool $stepPool
      * @return array
@@ -23,12 +33,20 @@ class ActiveFlowsController extends AFlowsController {
         $actives = explode(',', $request->input('active'));
         $dateFrom = $request->input(
             'date_from',
-            DateTimeHelper::getCloneSelf('NOW', 'UTC')->minusDays(1)->mysqlFormatDate()
+            $this->getDefaultDateFrom()
         );
         $dateTo = $request->input(
             'date_to',
-            DateTimeHelper::getCloneSelf('NOW', 'UTC')->mysqlFormatDate()
+            $this->getDefaultDateTo()
         );
+
+        if (empty($dateFrom)) {
+            $dateFrom = $this->getDefaultDateFrom();
+        }
+
+        if (empty($dateTo)) {
+            $dateTo = $this->getDefaultDateTo();
+        }
 
         foreach (static::IF_STEP_POOLS as $stepPool) {
             $data = $this->prepareBuilder($stepPool::query(), $actives)
@@ -71,5 +89,30 @@ class ActiveFlowsController extends AFlowsController {
         }
 
         return $results;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDefaultDateFrom(): string {
+        if ($this->defaultDateFrom === null) {
+            $this->defaultDateFrom = DateTimeHelper::getCloneSelf('NOW', 'UTC')
+                ->minusDays(1)
+                ->mysqlFormatDate();
+        }
+
+        return $this->defaultDateFrom;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDefaultDateTo(): string {
+        if ($this->defaultDateTo === null) {
+            $this->defaultDateTo = DateTimeHelper::getCloneSelf('NOW', 'UTC')
+                ->mysqlFormatDate();
+        }
+
+        return $this->defaultDateTo;
     }
 }

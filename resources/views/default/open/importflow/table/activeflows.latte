@@ -36,12 +36,12 @@
 <script>
     $(function () {
         var now = new Date();
-        var monthAgo = new Date();
+        var dayAgo = new Date();
         var dateFromInput = $('#af_date_from');
         var dateToInput = $('#af_date_to');
         now.setDate(now.getDate() + 1);
-        monthAgo.setDate(now.getDate() - 1);
-        $(dateFromInput).val(monthAgo.toISOString().split('T')[0]);
+        dayAgo.setDate(now.getDate() - 1);
+        $(dateFromInput).val(dayAgo.toISOString().split('T')[0]);
         $(dateToInput).val(now.toISOString().split('T')[0]);
 
         window.flowsGrid = $("#import-flow-active-flows").dxDataGrid({
@@ -184,6 +184,14 @@
         $("#af_date_from, #af_date_to, input[name=cb_active]").change(function () {
             clearTimeout(inputTimeout);
             inputTimeout = setTimeout(function () {
+                if (!$(dateFromInput).val()) {
+                    $(dateFromInput).val(dayAgo.toISOString().split('T')[0]);
+                }
+
+                if (!$(dateToInput).val()) {
+                    $(dateToInput).val(now.toISOString().split('T')[0]);
+                }
+
                 var actives = [];
 
                 $("input[name=cb_active]:checked").each(function() {
