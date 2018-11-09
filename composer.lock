@@ -81,16 +81,16 @@
         },
         {
             "name": "barryvdh/reflection-docblock",
-            "version": "v2.0.4",
+            "version": "v2.0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/barryvdh/ReflectionDocBlock.git",
-                "reference": "3dcbd98b5d9384a5357266efba8fd29884458e5c"
+                "reference": "64165bd4ba9a550d11ea57569463b7c722dc6b0a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/barryvdh/ReflectionDocBlock/zipball/3dcbd98b5d9384a5357266efba8fd29884458e5c",
-                "reference": "3dcbd98b5d9384a5357266efba8fd29884458e5c",
+                "url": "https://api.github.com/repos/barryvdh/ReflectionDocBlock/zipball/64165bd4ba9a550d11ea57569463b7c722dc6b0a",
+                "reference": "64165bd4ba9a550d11ea57569463b7c722dc6b0a",
                 "shasum": ""
             },
             "require": {
@@ -126,7 +126,7 @@
                     "email": "mike.vanriel@naenius.com"
                 }
             ],
-            "time": "2016-06-13T19:28:20+00:00"
+            "time": "2018-10-25T19:09:52+00:00"
         },
         {
             "name": "braintree/braintree_php",
@@ -1600,17 +1600,17 @@
         },
         {
             "name": "monkey/constants",
-            "version": "1.5.0",
+            "version": "1.6.0",
             "source": {
                 "type": "git",
                 "url": "git@gitlab.monkeydata.com:composer/constants.git",
-                "reference": "cc45de99d09f1e3c45c9eeb96335d45474b66798"
+                "reference": "c75d33fc2569bf0876b1127706da26cb7f82106e"
             },
             "dist": {
                 "type": "tar",
-                "url": "https://composer.monkeydata.com/dist/monkey-constants-1.5.0-741464.tar",
-                "reference": "cc45de99d09f1e3c45c9eeb96335d45474b66798",
-                "shasum": "d1bb6dcd39fa64dbd074fa4c136b4dd7d84e9f40"
+                "url": "https://composer.monkeydata.com/dist/monkey-constants-1.6.0-496fa6.tar",
+                "reference": "c75d33fc2569bf0876b1127706da26cb7f82106e",
+                "shasum": "b89181d315683c97b15cca8304a49833f55ea771"
             },
             "require": {
                 "php": ">=5.3.0"
@@ -1633,7 +1633,7 @@
                 }
             ],
             "description": "Should contain all global constants used in MD apps",
-            "time": "2018-06-25T12:59:00+00:00"
+            "time": "2018-11-09T13:09:24+00:00"
         },
         {
             "name": "monkey/crypt",
@@ -1910,17 +1910,17 @@
         },
         {
             "name": "monkey/graph-structure",
-            "version": "1.3.1",
+            "version": "1.3.2",
             "source": {
                 "type": "git",
                 "url": "git@gitlab.monkeydata.com:composer/graph-structure.git",
-                "reference": "f91df66542c580879648db97273ad1c01d785f87"
+                "reference": "b90b69f743e585d3779f0ae26b8e9afece81402e"
             },
             "dist": {
                 "type": "tar",
-                "url": "https://composer.monkeydata.com/dist/monkey-graph-structure-1.3.1-e405ce.tar",
-                "reference": "f91df66542c580879648db97273ad1c01d785f87",
-                "shasum": "30611277f39951aabd3f7d0d5ad9aaeaa0d2719d"
+                "url": "https://composer.monkeydata.com/dist/monkey-graph-structure-1.3.2-ca906c.tar",
+                "reference": "b90b69f743e585d3779f0ae26b8e9afece81402e",
+                "shasum": "44cd3c8f5da6050196416ce84ae80250e35586cd"
             },
             "require": {
                 "monkey/date-time": "^1.1.0",
@@ -1944,7 +1944,7 @@
                 }
             ],
             "description": "package for composer",
-            "time": "2018-04-10T14:01:04+00:00"
+            "time": "2018-10-30T19:44:47+00:00"
         },
         {
             "name": "monkey/helpers",
@@ -1986,17 +1986,17 @@
         },
         {
             "name": "monkey/import-eshop-data-objects",
-            "version": "1.1.1",
+            "version": "1.1.2",
             "source": {
                 "type": "git",
                 "url": "git@gitlab.monkeydata.com:composer/import-eshop-data-objects.git",
-                "reference": "1ed4eb080251ea3f963234ed2a4e508f3d809b7f"
+                "reference": "55529fab590f91fd041763627451e453861422ba"
             },
             "dist": {
                 "type": "tar",
-                "url": "https://composer.monkeydata.com/dist/monkey-import-eshop-data-objects-1.1.1-bacfd2.tar",
-                "reference": "1ed4eb080251ea3f963234ed2a4e508f3d809b7f",
-                "shasum": "98e3f1a08e1f8d2fd350e3ad15e766600496ed10"
+                "url": "https://composer.monkeydata.com/dist/monkey-import-eshop-data-objects-1.1.2-740fb1.tar",
+                "reference": "55529fab590f91fd041763627451e453861422ba",
+                "shasum": "e6b9df9e159de0492ddbae79ddb55380a4ef5418"
             },
             "require": {
                 "php": ">=5.3"
@@ -2018,7 +2018,7 @@
                 }
             ],
             "description": "Data objects for import eshop api feed",
-            "time": "2018-04-10T14:28:18+00:00"
+            "time": "2018-10-24T12:48:55+00:00"
         },
         {
             "name": "monkey/import-eshop-sdk",
@@ -2809,16 +2809,16 @@
         },
         {
             "name": "monolog/monolog",
-            "version": "1.23.0",
+            "version": "1.24.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "fd8c787753b3a2ad11bc60c063cff1358a32a3b4"
+                "reference": "bfc9ebb28f97e7a24c45bdc3f0ff482e47bb0266"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/fd8c787753b3a2ad11bc60c063cff1358a32a3b4",
-                "reference": "fd8c787753b3a2ad11bc60c063cff1358a32a3b4",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/bfc9ebb28f97e7a24c45bdc3f0ff482e47bb0266",
+                "reference": "bfc9ebb28f97e7a24c45bdc3f0ff482e47bb0266",
                 "shasum": ""
             },
             "require": {
@@ -2883,7 +2883,7 @@
                 "logging",
                 "psr-3"
             ],
-            "time": "2017-06-19T01:22:40+00:00"
+            "time": "2018-11-05T09:00:11+00:00"
         },
         {
             "name": "mtdowling/cron-expression",
@@ -2931,16 +2931,16 @@
         },
         {
             "name": "nesbot/carbon",
-            "version": "1.34.0",
+            "version": "1.34.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/briannesbitt/Carbon.git",
-                "reference": "1dbd3cb01c5645f3e7deda7aa46ef780d95fcc33"
+                "reference": "19201b87f7dba2a7cbf1cccdf0e1da13c04ee9c9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/1dbd3cb01c5645f3e7deda7aa46ef780d95fcc33",
-                "reference": "1dbd3cb01c5645f3e7deda7aa46ef780d95fcc33",
+                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/19201b87f7dba2a7cbf1cccdf0e1da13c04ee9c9",
+                "reference": "19201b87f7dba2a7cbf1cccdf0e1da13c04ee9c9",
                 "shasum": ""
             },
             "require": {
@@ -2982,7 +2982,7 @@
                 "datetime",
                 "time"
             ],
-            "time": "2018-09-20T19:36:25+00:00"
+            "time": "2018-11-08T13:33:47+00:00"
         },
         {
             "name": "nilportugues/serializer",
@@ -3394,16 +3394,16 @@
         },
         {
             "name": "sentry/sentry",
-            "version": "1.9.2",
+            "version": "1.10.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/getsentry/sentry-php.git",
-                "reference": "6b4c80ee1f5d9d5ab5bae949f4eb5d758a0bf64b"
+                "reference": "b2b8ffe1560b9fb0110b02993594a4b04a511959"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/getsentry/sentry-php/zipball/6b4c80ee1f5d9d5ab5bae949f4eb5d758a0bf64b",
-                "reference": "6b4c80ee1f5d9d5ab5bae949f4eb5d758a0bf64b",
+                "url": "https://api.github.com/repos/getsentry/sentry-php/zipball/b2b8ffe1560b9fb0110b02993594a4b04a511959",
+                "reference": "b2b8ffe1560b9fb0110b02993594a4b04a511959",
                 "shasum": ""
             },
             "require": {
@@ -3454,7 +3454,7 @@
                 "log",
                 "logging"
             ],
-            "time": "2018-08-18T19:41:03+00:00"
+            "time": "2018-11-09T12:27:19+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -3997,7 +3997,7 @@
         },
         {
             "name": "symfony/polyfill-ctype",
-            "version": "v1.9.0",
+            "version": "v1.10.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-ctype.git",
@@ -4055,16 +4055,16 @@
         },
         {
             "name": "symfony/polyfill-mbstring",
-            "version": "v1.9.0",
+            "version": "v1.10.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-mbstring.git",
-                "reference": "d0cd638f4634c16d8df4508e847f14e9e43168b8"
+                "reference": "c79c051f5b3a46be09205c73b80b346e4153e494"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/d0cd638f4634c16d8df4508e847f14e9e43168b8",
-                "reference": "d0cd638f4634c16d8df4508e847f14e9e43168b8",
+                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/c79c051f5b3a46be09205c73b80b346e4153e494",
+                "reference": "c79c051f5b3a46be09205c73b80b346e4153e494",
                 "shasum": ""
             },
             "require": {
@@ -4110,7 +4110,7 @@
                 "portable",
                 "shim"
             ],
-            "time": "2018-08-06T14:22:27+00:00"
+            "time": "2018-09-21T13:07:52+00:00"
         },
         {
             "name": "symfony/process",
