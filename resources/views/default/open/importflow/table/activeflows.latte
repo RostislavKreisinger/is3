@@ -1,11 +1,50 @@
 <div class="panel">
     <div class="panel-body">
+        <form class="form-group form-inline">
+            <input class="form-control" type="date" id="af_date_from" title="From">
+            <input class="form-control" type="date" id="af_date_to" title="To">
+            <span>Active: </span>
+            <label for="af_cb_0">
+                <input class="form-control" type="checkbox" id="af_cb_0" value="0" name="cb_active"> 0
+            </label>
+            <label for="af_cb_1">
+                <input class="form-control" type="checkbox" id="af_cb_1" value="1" name="cb_active" checked> 1
+            </label>
+            <label for="af_cb_2">
+                <input class="form-control" type="checkbox" id="af_cb_2" value="2" name="cb_active" checked> 2
+            </label>
+            <label for="af_cb_3">
+                <input class="form-control" type="checkbox" id="af_cb_3" value="3" name="cb_active"> 3
+            </label>
+            <label for="af_cb_5">
+                <input class="form-control" type="checkbox" id="af_cb_5" value="5" name="cb_active" checked> 5
+            </label>
+        </form>
         <div id="import-flow-active-flows"></div>
+    </div>
+    <div class="panel-footer">
+        Význam sloupce runtime se mění podle hodnoty active:
+        <ul>
+            <li>0 - finish_at - start_at</li>
+            <li>1 - Aktuální čas - updated_at</li>
+            <li>2 - Aktuální čas - updated_at</li>
+            <li>3 - Aktuální čas - updated_at</li>
+            <li>5 - Aktuální čas - start_at</li>
+        </ul>
     </div>
 </div>
 <script>
     $(function () {
-        $("#import-flow-active-flows").dxDataGrid({
+        var now = new Date();
+        var dayAgo = new Date();
+        var dateFromInput = $('#af_date_from');
+        var dateToInput = $('#af_date_to');
+        now.setDate(now.getDate() + 1);
+        dayAgo.setDate(now.getDate() - 1);
+        $(dateFromInput).val(dayAgo.toISOString().split('T')[0]);
+        $(dateToInput).val(now.toISOString().split('T')[0]);
+
+        window.flowsGrid = $("#import-flow-active-flows").dxDataGrid({
             columnAutoWidth: true,
             columns: [
                 {
@@ -107,6 +146,10 @@
                     dataField: 'unique'
                 },
                 {
+                    caption: 'Difficulty',
+                    dataField: 'control_pool.workload_difficulty'
+                },
+                {
                     caption: 'Hostname',
                     dataField: 'hostname'
                 },
@@ -115,13 +158,51 @@
                     dataField: 'pid'
                 }
             ],
-            dataSource: {$baseUrl} + "/open/import-flow/table/active-flows",
+            dataSource: {$baseUrl} + "/open/import-flow/table/active-flows?date_from=" + $(dateFromInput).val() + "&date_to=" + $(dateToInput).val() + "&active=1,2,5",
             filterRow: {
                 visible: true
             },
             paging: {
                 pageSize: 20
+            },
+            onRowPrepared: function (info) {
+                if (info.rowType === 'data') {
+                    if (info.data.active === 1) {
+                        info.rowElement.css('background', 'rgba(0, 255, 0, 0.2)');
+                    } else if (info.data.active === 2) {
+                        info.rowElement.css('background', 'rgba(0, 0, 255, 0.2)');
+                    } else if (info.data.active === 3) {
+                        info.rowElement.css('background', 'rgba(255, 0, 0, 0.2)');
+                    } else if (info.data.active === 5) {
+                        info.rowElement.css('background', 'rgba(255, 165, 0, 0.2)');
+                    }
+                }
             }
+        });
+
+        var inputTimeout;
+        $("#af_date_from, #af_date_to, input[name=cb_active]").change(function () {
+            clearTimeout(inputTimeout);
+            inputTimeout = setTimeout(function () {
+                if (!$(dateFromInput).val()) {
+                    $(dateFromInput).val(dayAgo.toISOString().split('T')[0]);
+                }
+
+                if (!$(dateToInput).val()) {
+                    $(dateToInput).val(now.toISOString().split('T')[0]);
+                }
+
+                var actives = [];
+
+                $("input[name=cb_active]:checked").each(function() {
+                    actives.push($(this).val());
+                });
+
+                window.flowsGrid.dxDataGrid('instance').option(
+                    'dataSource',
+                        {$baseUrl} + "/open/import-flow/table/active-flows?date_from=" + $('#af_date_from').val() + "&date_to=" + $('#af_date_to').val() + "&active=" + actives.join(',')
+                );
+            }, 500);
         });
     });
 </script>

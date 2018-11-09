@@ -271,7 +271,6 @@
                     name: 'start_at',
                     dataType: 'date',
                     cellTemplate: function(cellElement, cellInfo){
-                        vd(cellInfo);
                         cellElement.html(resolveValue(cellInfo.data.start_at));
                     },
                     width: 150
@@ -282,7 +281,6 @@
                     name: 'finist_at',
                     dataType: 'date',
                     cellTemplate: function(cellElement, cellInfo){
-                        vd(cellInfo);
                         cellElement.html(resolveValue(cellInfo.data.finist_at));
                     },
                     width: 150
@@ -293,7 +291,6 @@
                     name: 'updated_at',
                     dataType: 'date',
                     cellTemplate: function(cellElement, cellInfo){
-                        vd(cellInfo);
                         cellElement.html(resolveValue(cellInfo.data.updated_at));
                     },
                     width: 150,
@@ -321,7 +318,6 @@
         });
 
         $("#importFlowStatusDataGrid").on("click", ".dx-datagrid-nodata", function(){
-            console.log("dx-datagrid-nodata click");
             downloadImportFlowStatusAndShow();
         });
 
