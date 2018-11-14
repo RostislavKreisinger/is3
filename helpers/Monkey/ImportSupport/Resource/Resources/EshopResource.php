@@ -5,7 +5,6 @@ namespace Monkey\ImportSupport\Resource\Resources;
 
 use App\Model\EshopType;
 use Illuminate\Support\Facades\Auth;
-use Monkey\Connections\MDDatabaseConnections;
 use Monkey\ImportSupport\Resource;
 use Monkey\ImportSupport\Resource\Button\Other\EshopDeleteDataButton;
 use Monkey\ImportSupport\Resource\Button\Other\UpdateOrdersButton;
@@ -51,21 +50,21 @@ class EshopResource extends ResourceV3 {
     public function getStateTester() {
         $result = parent::getStateTester();
         if($this->isImportFlowEshop()){
-            return Resource::STATUS_DEACTIVE;
+            return Resource::STATUS_INACTIVE;
         }
         return $result;
     }
 
     public function getStateDaily() {
         if($this->isImportFlowEshop()){
-            return Resource::STATUS_DEACTIVE;
+            return Resource::STATUS_INACTIVE;
         }
         return parent::getStateDaily();
     }
 
     public function getStateHistory() {
         if($this->isImportFlowEshop()){
-            return Resource::STATUS_DEACTIVE;
+            return Resource::STATUS_INACTIVE;
         }
         return parent::getStateHistory();
     }

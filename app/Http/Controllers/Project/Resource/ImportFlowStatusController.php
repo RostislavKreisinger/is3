@@ -4,8 +4,11 @@ namespace App\Http\Controllers\Project\Resource;
 
 
 use App\Http\Controllers\Controller;
+use App\Model\ImportPools\IFDailyPool;
+use App\Model\ImportPools\IFHistoryPool;
 use Exception;
 use Monkey\ImportSupport\Project;
+use stdClass;
 
 /**
  * Class ImportFlowStatusController
@@ -36,15 +39,24 @@ class ImportFlowStatusController extends Controller {
         $resource = $project->getResource($resourceId);
 
         $results = [];
-
         $dailyStatus = $resource->getStateDailyImportFlow();
-        $results["daily"] = $resource->getResourceStats()->getImportFlowDaily();
+
+        if (($daily = $resource->getResourceStats()->getImportFlowDaily()) instanceof IFDailyPool) {
+            $results["daily"] = $daily;
+        } else {
+            $results["daily"] = new stdClass();
+        }
+
         $results["daily"]->status = $dailyStatus;
-
         $historyStatus = $resource->getStateHistoryImportFlow();
-        $results["history"] = $resource->getResourceStats()->getImportFlowHistory();
-        $results["history"]->status = $historyStatus;
 
+        if (($history = $resource->getResourceStats()->getImportFlowHistory()) instanceof IFHistoryPool) {
+            $results["history"] = $history;
+        } else {
+            $results["history"] = new stdClass();
+        }
+
+        $results["history"]->status = $historyStatus;
         return $results;
     }
 

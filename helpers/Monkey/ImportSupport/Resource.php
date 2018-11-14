@@ -12,7 +12,6 @@ use App\Model\Resource as ResourceModel;
 use App\Model\Stack;
 use App\Model\StackExtend;
 use Auth;
-use DB;
 use Exception;
 use Monkey\Connections\MDDatabaseConnections;
 use Monkey\ImportSupport\Resource\Button\B00_ShowButton;
@@ -31,6 +30,7 @@ use Monkey\ImportSupport\Resource\Button\Other\ShiftNextCheckDateButton;
 use Monkey\ImportSupport\Resource\Button\Other\UnconnectButton;
 use Monkey\ImportSupport\Resource\Interfaces\IResource;
 use Monkey\ImportSupport\Resource\ResourceStats;
+
 /**
  * Description of Resource
  *
@@ -40,7 +40,7 @@ use Monkey\ImportSupport\Resource\ResourceStats;
 class Resource extends ResourceModel implements IResource {
     
     const STATUS_ERROR = 'error';
-    const STATUS_DEACTIVE = 'deactive';
+    const STATUS_INACTIVE = 'inactive';
     const STATUS_ACTIVE = 'active';
     const STATUS_DONE = 'done';
     const STATUS_RUNNING = 'running';
@@ -144,19 +144,19 @@ class Resource extends ResourceModel implements IResource {
     }
     
     public function getStateTester() {
-        return Resource::STATUS_DEACTIVE;
+        return Resource::STATUS_INACTIVE;
     }
 
     public function getStateDaily() {
-        return Resource::STATUS_DEACTIVE;
+        return Resource::STATUS_INACTIVE;
     }
     
     public function getStateHistory() {
-        return Resource::STATUS_DEACTIVE;
+        return Resource::STATUS_INACTIVE;
     }
     
     public function getStateContinuity() {
-        return Resource::STATUS_DEACTIVE;
+        return Resource::STATUS_INACTIVE;
     }
     
 

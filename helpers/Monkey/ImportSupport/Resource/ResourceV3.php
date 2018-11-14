@@ -82,15 +82,20 @@ class ResourceV3 extends Resource {
         if (is_null($importFlowDaily)) {
             return Resource::STATUS_MISSING_RECORD;
         }
+
         if ($importFlowDaily->ttl <= 0) {
             return Resource::STATUS_ERROR;
         }
+
         if ($importFlowDaily->ttl > 0) {
-            if ($importFlowDaily->active == 1) {
-                return Resource::STATUS_ACTIVE;
-            }
-            if (in_array($importFlowDaily->active, [2, 5])) {
-                return Resource::STATUS_RUNNING;
+            switch ($importFlowDaily->active) {
+                case 0:
+                    return Resource::STATUS_INACTIVE;
+                case 1:
+                    return Resource::STATUS_ACTIVE;
+                case 2:
+                case 5:
+                    return Resource::STATUS_RUNNING;
             }
         }
 
@@ -121,20 +126,25 @@ class ResourceV3 extends Resource {
         if (is_null($importFlowHistory)) {
             return Resource::STATUS_MISSING_RECORD;
         }
+
         if ($importFlowHistory->ttl <= 0) {
             return Resource::STATUS_ERROR;
         }
-        if ($importFlowHistory->ttl > 0) {
-            if ($importFlowHistory->active == 1) {
-                return Resource::STATUS_ACTIVE;
-            }
-            if (in_array($importFlowHistory->active, [2, 5])) {
-                return Resource::STATUS_RUNNING;
-            }
-        }
 
-        if ($importFlowHistory->active == 0 && $importFlowHistory->ttl > 0 && $importFlowHistory->date_check == 1) {
-            return Resource::STATUS_DONE;
+        if ($importFlowHistory->ttl > 0) {
+            switch ($importFlowHistory->active) {
+                case 0:
+                    if ($importFlowHistory->date_check == 1) {
+                        return Resource::STATUS_DONE;
+                    }
+
+                    return Resource::STATUS_INACTIVE;
+                case 1:
+                    return Resource::STATUS_ACTIVE;
+                case 2:
+                case 5:
+                    return Resource::STATUS_RUNNING;
+            }
         }
 
         return Resource::STATUS_ERROR;
