@@ -20,6 +20,10 @@ use Monkey\Slack\Slack;
  * @package App\Console\Commands
  */
 class BrokenFlowsCommand extends Command {
+    const NOTIFICATIONS_SLACK = [
+        "<@U0SFWA9U7>", // RK
+        "<@U633GMBCJ>"  // LK
+    ];
     const NOTIFICATION_EMAIL = 'import-flow-notifications@monkeydata.com';
 
     /**
@@ -46,7 +50,7 @@ class BrokenFlowsCommand extends Command {
      * @return string
      */
     private function formatSlackMessage(Collection $collection): string {
-        $message = "{$collection->count()} broken flows have been found!\n";
+        $message = "%s, {$collection->count()} broken flows have been found!\n";
         $overviewUrl = ProjectEndpointBaseUrl::getInstance()->getImportSupportUrl() . '/homepage/broken-flow';
 
         foreach ($collection as $result) {
@@ -58,7 +62,7 @@ class BrokenFlowsCommand extends Command {
             $message = "*TEST ONLY*\n{$message}";
         }
 
-        return $message;
+        return sprintf($message, implode(", ", self::NOTIFICATIONS_SLACK));
     }
 
     /**
