@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "7be4552455769917a44ee5d3518195e1",
+    "content-hash": "6e37990556b9990b9b3f97567d8822ac",
     "packages": [
         {
             "name": "barryvdh/laravel-ide-helper",
@@ -1515,17 +1515,17 @@
         },
         {
             "name": "monkey/config",
-            "version": "1.28.0",
+            "version": "dev-feature/is-20-daily-pool-monitoring",
             "source": {
                 "type": "git",
                 "url": "git@gitlab.monkeydata.com:composer/config.git",
-                "reference": "dfe509290983fcde54843bcd5f467fb29faaa384"
+                "reference": "72be69c7511b60175fa2163d79297fb84f65c0ea"
             },
             "dist": {
                 "type": "tar",
-                "url": "https://composer.monkeydata.com/dist/monkey-config-1.28.0-9a3dea.tar",
-                "reference": "dfe509290983fcde54843bcd5f467fb29faaa384",
-                "shasum": "e05b872306e3fd3ccab978257c75baad97b96352"
+                "url": "https://composer.monkeydata.com/dist/monkey-config-dev-feature-is-20-daily-pool-monitoring-25231d.tar",
+                "reference": "72be69c7511b60175fa2163d79297fb84f65c0ea",
+                "shasum": "ed412d722682533023197dc005500ff9f7f9e821"
             },
             "require": {
                 "monkey/dotenv": "^1.2.0",
@@ -1551,7 +1551,7 @@
                 }
             ],
             "description": "General configuration for common things and setting",
-            "time": "2018-09-24T12:06:45+00:00"
+            "time": "2018-11-05T09:06:57+00:00"
         },
         {
             "name": "monkey/connections",
@@ -2684,6 +2684,45 @@
             ],
             "description": "package for composer",
             "time": "2018-04-10T12:51:54+00:00"
+        },
+        {
+            "name": "monkey/slack",
+            "version": "dev-feature/is-20-daily-pool-monitoring",
+            "source": {
+                "type": "git",
+                "url": "git@gitlab.monkeydata.com:composer/slack.git",
+                "reference": "917b6ec2862751a1ac966fdc0798fae1007e7168"
+            },
+            "dist": {
+                "type": "tar",
+                "url": "https://composer.monkeydata.com/dist/monkey-slack-dev-feature-is-20-daily-pool-monitoring-b0b73d.tar",
+                "reference": "917b6ec2862751a1ac966fdc0798fae1007e7168",
+                "shasum": "f6cc8b4b3a39178f8c6c3436a58b0aa8c8a9abad"
+            },
+            "require": {
+                "guzzlehttp/guzzle": "~6.3",
+                "monkey/environment": "^1.8.0",
+                "php": ">=7.0.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "*",
+                "phpunit/phpunit": "5.*"
+            },
+            "type": "package",
+            "autoload": {
+                "psr-4": {
+                    "Monkey\\Slack\\": "src/"
+                }
+            },
+            "notification-url": "https://composer.monkeydata.com/notify-download/",
+            "authors": [
+                {
+                    "name": "toms049",
+                    "email": "tomas.stanek@monkeydata.com"
+                }
+            ],
+            "description": "package for composer",
+            "time": "2018-10-30T15:10:42+00:00"
         },
         {
             "name": "monkey/translator",
@@ -5810,9 +5849,25 @@
             "time": "2018-01-29T19:49:41+00:00"
         }
     ],
-    "aliases": [],
+    "aliases": [
+        {
+            "alias": "1.29.0",
+            "alias_normalized": "1.29.0.0",
+            "version": "dev-feature/is-20-daily-pool-monitoring",
+            "package": "monkey/config"
+        },
+        {
+            "alias": "1.4.0",
+            "alias_normalized": "1.4.0.0",
+            "version": "dev-feature/is-20-daily-pool-monitoring",
+            "package": "monkey/slack"
+        }
+    ],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "monkey/config": 20,
+        "monkey/slack": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
