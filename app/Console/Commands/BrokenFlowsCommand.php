@@ -2,7 +2,6 @@
 
 namespace App\Console\Commands;
 
-
 use App\Services\BrokenFlowService;
 use Illuminate\Database\Eloquent\Collection;
 use Monkey\Config\Application\ProjectEndpointBaseUrl;
@@ -20,9 +19,10 @@ use Monkey\Slack\Slack;
  * @package App\Console\Commands
  */
 class BrokenFlowsCommand extends Command {
-    const NOTIFICATIONS_SLACK = [
-        "<@U0SFWA9U7>", // RK
-        "<@U633GMBCJ>"  // LK
+    const NOTIFICATIONS_SLACK_MENTION_ALIASES = [
+//        "<@U0SFWA9U7>", // RK
+//        "<@U633GMBCJ>",  // LK
+        "<!channel>"
     ];
     const NOTIFICATION_EMAIL = 'import-flow-notifications@monkeydata.com';
 
@@ -58,11 +58,11 @@ class BrokenFlowsCommand extends Command {
             $message .= "Unique: {$result->unique}";
         }
 
-        if (!Environment::isProduction()) {
+        if ($this->shouldMarkAsTest()) {
             $message = "*TEST ONLY*\n{$message}";
         }
 
-        return sprintf($message, implode(", ", self::NOTIFICATIONS_SLACK));
+        return sprintf($message, implode(", ", self::NOTIFICATIONS_SLACK_MENTION_ALIASES));
     }
 
     /**
@@ -78,7 +78,7 @@ class BrokenFlowsCommand extends Command {
             $message .= "Unique: {$result->unique}";
         }
 
-        if (!Environment::isProduction()) {
+        if ($this->shouldMarkAsTest()) {
             $message = "*TEST ONLY*<br />{$message}";
         }
 
@@ -90,7 +90,7 @@ class BrokenFlowsCommand extends Command {
      */
     protected function getCommandDescription(): string {
         return 'Attempts to find records in daily and import pools that are linked by if_import_id ' .
-        'but their project_ids are different and sends their list to Slack and email';
+            'but their project_ids are different and sends their list to Slack and email';
     }
 
     /**
@@ -108,4 +108,19 @@ class BrokenFlowsCommand extends Command {
     protected function getOptionsTemplates(IOptionBuilderFactory $factory): array {
         return [];
     }
+
+    /**
+     * @return bool
+     */
+    private function shouldMarkAsTest(): bool {
+        if (Environment::isProduction()) {
+            return false;
+        }
+        if (Environment::isStaging()) {
+            return false;
+        }
+
+        return true;
+    }
+
 }
