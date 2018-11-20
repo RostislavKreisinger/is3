@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * Class IFDailyPool
  * @package App\Model\ImportPools
  */
-class IFDailyPool extends IFPool {
+class IFDailyPool extends IFPeriodPool {
     /**
      * @var string $table
      */

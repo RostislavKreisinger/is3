@@ -4,8 +4,16 @@ namespace App\Http\Controllers\Project\Resource;
 
 
 use App\Http\Controllers\Controller;
+use App\Model\ImportPools\IFDailyPool;
+use App\Model\ImportPools\IFHistoryPool;
+use Exception;
 use Monkey\ImportSupport\Project;
+use stdClass;
 
+/**
+ * Class ImportFlowStatusController
+ * @package App\Http\Controllers\Project\Resource
+ */
 class ImportFlowStatusController extends Controller {
 
     /**
@@ -20,27 +28,36 @@ class ImportFlowStatusController extends Controller {
      */
     private $resource;
 
-    public function getIndex($projectId, $resourceId) {
-        $this->project = $project = Project::find($projectId);
-        $this->resource = $resource = $project->getResource($resourceId);
+    /**
+     * @param int $projectId
+     * @param int $resourceId
+     * @return array
+     * @throws Exception
+     */
+    public function getIndex($projectId, $resourceId): array {
+        $project = Project::find($projectId);
+        $resource = $project->getResource($resourceId);
 
         $results = [];
+        $dailyStatus = $resource->getStateDailyImportFlow();
 
-        if($this->resource->getResourceStats()->getImportFlowDaily()) {
-            $results["daily"] = $this->resource->getResourceStats()->getImportFlowDaily();
-            $results["daily"]->status = $resource->getStateDailyImportFlow();
+        if (($daily = $resource->getResourceStats()->getImportFlowDaily()) instanceof IFDailyPool) {
+            $results["daily"] = $daily;
         } else {
-            $results["daily"] = [];
+            $results["daily"] = new stdClass();
         }
 
-        if($this->resource->getResourceStats()->getImportFlowHistory()) {
-            $results["history"] = $this->resource->getResourceStats()->getImportFlowHistory();
-            $results["history"]->status = $resource->getStateHistoryImportFlow();
+        $results["daily"]->status = $dailyStatus;
+        $historyStatus = $resource->getStateHistoryImportFlow();
+
+        if (($history = $resource->getResourceStats()->getImportFlowHistory()) instanceof IFHistoryPool) {
+            $results["history"] = $history;
         } else {
-            $results["history"] = [];
+            $results["history"] = new stdClass();
         }
+
+        $results["history"]->status = $historyStatus;
         return $results;
-
     }
 
     public function getResourceInfo($projectId, $resourceId) {

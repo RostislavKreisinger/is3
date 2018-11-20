@@ -30,42 +30,32 @@
 </div>
 
 <script>
-
-
-
-
     function refreshImportFlowData() {
-
         getDailyHistory();
 
-        downloadImportFlowStatusAndShow(function(){
-            window.setTimeout(function(){
+        downloadImportFlowStatusAndShow(function() {
+            window.setTimeout(function() {
                 refreshImportFlowData();
             }, 15000);
         });
-
-        {*$.get({$resource->id}+"/importflowstatus", function (data) {*}
-            {*renderResource(data.resource);*}
-        {*});*}
-
     }
 
-    function downloadImportFlowStatusAndShow(callback){
-        $(".refresh-btn .loader").show();
-        $.get({$resource->id}+"/importflowstatus", function (data) {
-            $("#importFlowStatusDataGrid").dxDataGrid("instance").option('noDataText', "No data");
-            renderResource(data.resource);
-            $(".refresh-btn .loader").hide();
-            if(callback){
-                callback();
-            }
-        }).fail(function() {
-            $("#importFlowStatusDataGrid").dxDataGrid("instance").option('noDataText', "Fail to get data. Click to refresh.");
-            $(".refresh-btn .loader").hide();
-            if(callback){
-                callback();
-            }
-        });
+    function downloadImportFlowStatusAndShow(callback) {
+            $(".refresh-btn .loader").show();
+            $.get({$resource->id}+"/importflowstatus", function (data) {
+                $("#importFlowStatusDataGrid").dxDataGrid("instance").option('noDataText', "No data");
+                renderResource(data.resource);
+                $(".refresh-btn .loader").hide();
+                if (callback && window.refreshActivated) {
+                    callback();
+                }
+            }).fail(function () {
+                $("#importFlowStatusDataGrid").dxDataGrid("instance").option('noDataText', "Fail to get data. Click to refresh.");
+                $(".refresh-btn .loader").hide();
+                if (callback && window.refreshActivated) {
+                    callback();
+                }
+            });
     }
 
     function getDailyHistory() {
@@ -238,6 +228,16 @@
 
     $(function() {
         refreshImportFlowData();
+        window.refreshActivated = false;
+
+        $('#cb_auto_refresh').change(function () {
+            if (this.checked) {
+                window.refreshActivated = true;
+                refreshImportFlowData();
+            } else {
+                window.refreshActivated = false;
+            }
+        });
     });
 
 </script>

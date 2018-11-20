@@ -301,18 +301,28 @@
         }
 
         function refreshImportFlowControlPoolData() {
-
             $.get({$resource->id}+"/pool/control", function (data) {
                 setControlPoolData(data);
 
                 $("#importFlowControlPoolDataGrid").dxDataGrid("instance").option('dataSource', getControlPoolData());
-                window.setTimeout(function () {
-                    refreshImportFlowControlPoolData();
-                }, 15000);
+                if (window.refreshActivated) {
+                    window.setTimeout(function () {
+                        refreshImportFlowControlPoolData();
+                    }, 15000);
+                }
             });
-
         }
 
         refreshImportFlowControlPoolData();
+        window.refreshActivated = false;
+
+        $('#cb_auto_refresh').change(function () {
+            if (this.checked) {
+                window.refreshActivated = true;
+                refreshImportFlowControlPoolData();
+            } else {
+                window.refreshActivated = false;
+            }
+        });
     });
 </script>
