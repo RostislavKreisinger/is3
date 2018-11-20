@@ -1,0 +1,48 @@
+<div class="panel">
+    <div class="panel-body">
+        <div id="import-flow-broken-flows"></div>
+    </div>
+</div>
+<script>
+    $(function () {
+        $("#import-flow-broken-flows").dxDataGrid({
+            columnAutoWidth: true,
+            columns: [
+                {
+                    caption: 'Daily PID',
+                    dataField: 'daily_project_id',
+                    dataType: 'number',
+                    selectedFilterOperation: 'contains'
+                },
+                {
+                    caption: 'Active',
+                    dataField: 'daily_active',
+                    dataType: 'number'
+                },
+                {
+                    caption: 'IF Import ID',
+                    dataField: 'if_import_id',
+                    dataType: 'number'
+                },
+                {
+                    caption: 'Import PID',
+                    dataField: 'import_project_id',
+                    dataType: 'number',
+                    selectedFilterOperation: 'contains'
+                },
+                {
+                    caption: 'Active',
+                    dataField: 'import_active',
+                    dataType: 'number'
+                }
+            ],
+            dataSource: {$baseUrl} + "/open/import-flow/table/broken-flows",
+            filterRow: {
+                visible: true
+            },
+            paging: {
+                pageSize: 20
+            }
+        });
+    });
+</script>

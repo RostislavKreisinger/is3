@@ -2,10 +2,15 @@
 
 namespace App\Console;
 
+use App\Console\Commands\BrokenFlowsCommand;
 use App\Console\Commands\InsideTokenRefresherCommand;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
+/**
+ * Class Kernel
+ * @package App\Console
+ */
 class Kernel extends ConsoleKernel {
 
     /**
@@ -16,7 +21,8 @@ class Kernel extends ConsoleKernel {
     protected $commands = [
         Commands\FillStornoOrderStatuses::class,
         Commands\GaDeleteAndStartHistory::class,
-        InsideTokenRefresherCommand::class
+        InsideTokenRefresherCommand::class,
+        BrokenFlowsCommand::class
             // Commands\Inspire::class,
     ];
 
