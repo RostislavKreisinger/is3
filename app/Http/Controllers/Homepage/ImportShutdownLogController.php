@@ -18,10 +18,14 @@ class ImportShutdownLogController extends Controller {
      * @return Collection|ShutdownLog[]
      */
     public function getIndex() {
-        $logs = ShutdownLog::query()
-            ->orderBy('datetime', 'desc')
-            ->get();
+        $showDeleted = request()->input('show_deleted') === 'true';
+        $logsQuery = ShutdownLog::query();
 
+        if ($showDeleted) {
+            $logsQuery->withTrashed();
+        }
+
+        $logs = $logsQuery->orderBy('datetime', 'desc')->get();
         $logs->map(function (ShutdownLog $log) {
             $log->project_url = action(DetailController::routeMethod('getIndex'), [
                 'project_id' => $log->project_id

@@ -19,13 +19,16 @@
         <div class="panel panel-danger">
             <div class="panel-heading">Import Shutdowns</div>
             <div class="panel-body">
+                <label for="cb_shutdown_show_deleted">
+                    <input id="cb_shutdown_show_deleted" type="checkbox" value="1"> Show deleted
+                </label>
                 <div id="import-flow-shutdown-table"></div>
             </div>
         </div>
         <script>
             $(function () {
                 $.get({$baseUrl} + "/api/import-shutdown-log", function (data) {
-                    $("#import-flow-shutdown-table").dxDataGrid({
+                    window.flowsGrid = $("#import-flow-shutdown-table").dxDataGrid({
                         columnAutoWidth: true,
                         columns: [
                             {
@@ -53,14 +56,21 @@
                             },
                             {
                                 dataField: 'message'
+                            },
+                            {
+                                dataField: 'deleted_at',
+                                dataType: 'boolean'
                             }
-
                         ],
                         dataSource: data,
                         filterRow: {
                             visible: true
                         }
                     });
+                });
+
+                $("#cb_shutdown_show_deleted").change(function () {
+                    window.flowsGrid.dxDataGrid('instance').option('dataSource', {$baseUrl} + "/api/import-shutdown-log?show_deleted=" + this.checked);
                 });
             });
         </script>
