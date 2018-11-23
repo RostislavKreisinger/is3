@@ -33,7 +33,8 @@
                         columns: [
                             {
                                 caption: 'ID',
-                                dataField: 'id'
+                                dataField: 'id',
+                                dataType: 'number'
                             },
                             {
                                 dataField: 'datetime'
@@ -55,16 +56,27 @@
                                 selectedFilterOperation: 'contains'
                             },
                             {
-                                dataField: 'message'
-                            },
-                            {
-                                dataField: 'deleted_at',
-                                dataType: 'boolean'
+                                dataField: 'message',
+                                width: '50%'
                             }
                         ],
                         dataSource: data,
+                        editing: {
+                            allowDeleting: true
+                        },
                         filterRow: {
                             visible: true
+                        },
+                        onRowRemoving: function (data) {
+                            $.ajax({
+                                url: {$baseUrl} + "/api/import-shutdown-log/" + data.key.id,
+                                type: 'GET',
+                                success: function (result) {
+                                    if (result['deleted_at'] === null) {
+                                        data.cancel = true;
+                                    }
+                                }
+                            });
                         }
                     });
                 });

@@ -22,6 +22,11 @@ class ShutdownLog extends Model {
     protected $table = 'if_shutdown_log';
 
     /**
+     * @var bool $timestamps
+     */
+    public $timestamps = false;
+
+    /**
      * @return Connection|LaravelMySqlConnection
      */
     public function getConnection() {

@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\Project\DetailController;
 use App\Http\Controllers\Project\Resource\DetailController as ResourceDetailController;
 use App\Model\ShutdownLog;
+use Exception;
 use Illuminate\Database\Eloquent\Collection;
 
 /**
@@ -37,5 +38,16 @@ class ImportShutdownLogController extends Controller {
         });
 
         return $logs;
+    }
+
+    /**
+     * @param int $shutdownLogId
+     * @return ShutdownLog
+     * @throws Exception
+     */
+    public function destroy(int $shutdownLogId): ShutdownLog {
+        $shutdownLog = ShutdownLog::find($shutdownLogId);
+        $shutdownLog->delete();
+        return $shutdownLog;
     }
 }
