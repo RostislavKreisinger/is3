@@ -16,44 +16,58 @@
                     <table class="table table-hover">
                         <tbody>
                         {ifset $resourceDetail}
-                        <tr>
-                            <td>currency</td>
-                            <td>
-                                <span>{n $resourceCurrency->code}</span>
-                            </td>
-                        </tr>
-                        <tr>
-                                <td>created_at</td>
-                            <td>
-                                    <span>{n $resourceDetail->created_at}</span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>last_import</td>
-                            <td>
-                                <span>{n $resourceDetail->last_import_at}</span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>last_successful_import</td>
-                            <td>
-                                <span>{n $resourceDetail->last_successful_import_at}</span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>next check date</td>
-                            <td>
+                            <tr>
+                                <td>currency</td>
+                                <td>
+                                    <span>{n $resourceCurrency->code}</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                    <td>created_at</td>
+                                <td>
+                                        <span>{n $resourceDetail->created_at}</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>last_import</td>
+                                <td>
+                                    <span>{n $resourceDetail->last_import_at}</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>last_successful_import</td>
+                                <td>
+                                    <span>{n $resourceDetail->last_successful_import_at}</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>next check date</td>
+                                <td>
                                     <span>{n $resourceDetail->next_check_date}</span>
                                 </td>
                             </tr>
-                        {if $resourceDetail->active == 3}
-                            <tr class="alert-danger">
-                                <td>status</td>
-                                <td>
-                                    <span>ERROR</span>
-                                </td>
-                            </tr>
-                        {/if}
+                            {if $resourceDetail->active == 3}
+                                <tr class="alert-danger">
+                                    <td>active</td>
+                                    <td>
+                                        <span>ERROR</span>
+                                    </td>
+                                </tr>
+                            {elseif $resourceDetail->active == 13}
+                                <tr class="alert-warning">
+                                    <td>active</td>
+                                    <td>
+                                        <span>DISCONNECTED</span>
+                                    </td>
+                                </tr>
+                            {else}
+                                <tr class="alert-info">
+                                    <td>active</td>
+                                    <td>
+                                        <span>{n $resourceDetail->active}</span>
+                                    </td>
+                                </tr>
+                            {/if}
                         {/ifset}
                         </tbody>
                     </table>

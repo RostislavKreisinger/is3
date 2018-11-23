@@ -39,9 +39,23 @@
                         </tr>
                         {if $resourceDetail->active == 3}
                             <tr class="alert-danger">
-                                <td>status</td>
+                                <td>active</td>
                                 <td>
                                     <span>ERROR</span>
+                                </td>
+                            </tr>
+                        {elseif $resourceDetail->active == 13}
+                            <tr class="alert-warning">
+                                <td>active</td>
+                                <td>
+                                    <span>DISCONNECTED</span>
+                                </td>
+                            </tr>
+                        {else}
+                            <tr class="alert-info">
+                                <td>active</td>
+                                <td>
+                                    <span>{n $resourceDetail->active}</span>
                                 </td>
                             </tr>
                         {/if}
