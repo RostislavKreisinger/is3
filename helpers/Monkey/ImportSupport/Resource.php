@@ -1,12 +1,7 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 namespace Monkey\ImportSupport;
+
 
 use App\Model\Resource as ResourceModel;
 use App\Model\Stack;
@@ -64,14 +59,6 @@ class Resource extends ResourceModel implements IResource {
      * @var ButtonList
      */
     private $buttons = array();
-    
-    /*
-    public function __construct(ResourceModel $resource, $project_id) {
-        $this->fill($resource->getAttributes());
-        $this->setProject_id($project_id);
-        $this->resourceStats = new ResourceStats();
-        $this->addDefaultButtons();
-    }*/
     
     public function __construct(array $attributes = array(), $project_id = null) {
         parent::__construct($attributes);
@@ -284,7 +271,7 @@ class Resource extends ResourceModel implements IResource {
     public function addButton(BaseButton $button) {
         $this->getButtons()->addButton($button); 
     }
-    
+
     public function getModel() {
         return $this->resource;
     }
@@ -314,8 +301,4 @@ class Resource extends ResourceModel implements IResource {
     public function getConnectionDetail() {
         return [];
     }
-
-    
-  
-
 }
