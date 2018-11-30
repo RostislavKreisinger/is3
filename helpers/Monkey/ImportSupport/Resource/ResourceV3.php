@@ -159,8 +159,4 @@ class ResourceV3 extends Resource {
         }
         return $connectionDetail;
     }
-
-    protected function addDefaultButtons() {
-        $this->addShowDataButton();
-    }
 }
