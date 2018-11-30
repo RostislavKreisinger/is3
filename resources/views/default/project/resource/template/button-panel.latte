@@ -15,5 +15,25 @@
                 {view $button->getView()}
             {/foreach}
         </div>
+        <div class="button-list">
+            <div class="col-lg-2">
+                {if $resourceDetail->active > 1}
+                    <form action="" method="post">
+                        {csrf_field()|noescape}
+                        <input type="hidden" name="action" value="test">
+                        <input type="submit" class="btn btn-outline btn-default btn-block" title="Sets resource setting's active to 0 and TTL to 5" value="Test">
+                    </form>
+                {/if}
+            </div>
+            <div class="col-lg-2">
+                {if $resourceDetail->active > 1}
+                    <form action="" method="post">
+                        {csrf_field()|noescape}
+                        <input type="hidden" name="action" value="activate">
+                        <input type="submit" class="btn btn-outline btn-default btn-block" title="Sets resource setting's active to 1 and TTL to 6" value="Activate">
+                    </form>
+                {/if}
+            </div>
+        </div>
     </div>
 </div>

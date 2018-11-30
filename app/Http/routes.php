@@ -147,7 +147,7 @@ Route::group(['middleware' => 'web'], function () {
                                 Route::get('/', 'DifferencesController@load');
                             });
                         });
-                        Route::controller('/', App\Http\Controllers\Project\Resource\DetailController::class);
+                        Route::any('/', App\Http\Controllers\Project\Resource\DetailController::getMethodAction());
                     });
 
                     Route::controller('/', \App\Http\Controllers\Project\IndexController::class);

@@ -38,11 +38,19 @@ class DetailController extends Controller {
     /**
      * @param $projectId
      * @param $resourceId
+     * @return \Illuminate\Http\RedirectResponse
      * @throws Exception
      */
     public function getIndex($projectId, $resourceId) {
         $this->project = $project = Project::find($projectId);
         $this->resource = $resource = $project->getResource($resourceId);
+
+        if (request()->getMethod() === 'POST') {
+            if ($this->findAction()) {
+                return back()->with(['message' => 'Success!']);
+            }
+        }
+
         $resourceErrors = $resource->getResourceErrors($project->id);
 
         $viewName = 'default.project.resource.detail.' . $resource->codename;
@@ -167,5 +175,36 @@ class DetailController extends Controller {
 
         $sql .= implode(', ', $values) . ';' . PHP_EOL;
         return $sql;
+    }
+
+    private function activate() {
+        $resourceSetting = $this->project->resourceSettings($this->resource->id)->first();
+        $resourceSetting->active = 1;
+        $resourceSetting->ttl = 6;
+        $resourceSetting->save();
+    }
+
+    private function test() {
+        $resourceSetting = $this->project->resourceSettings($this->resource->id)->first();
+        $resourceSetting->active = 0;
+        $resourceSetting->ttl = 5;
+        $resourceSetting->save();
+    }
+
+    private function findAction(): bool {
+        $found = false;
+
+        switch (request()->input('action')) {
+            case 'activate':
+                $this->activate();
+                $found = true;
+                break;
+            case 'test':
+                $this->test();
+                $found = true;
+                break;
+        }
+
+        return $found;
     }
 }
