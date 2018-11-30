@@ -10,6 +10,7 @@ use App\Http\Controllers\User\DetailController as UserDetailController;
 use App\Model\Currency;
 use App\Model\EshopType;
 use App\Model\ImportSupport\ResourceError;
+use App\Model\ResourceSetting;
 use Eloquent;
 use Exception;
 use Illuminate\Database\Eloquent\Collection;
@@ -156,7 +157,7 @@ class DetailController extends Controller {
      * @param string $table
      * @return string
      */
-    private function getResourceDetailSql(stdClass $object, string $table) {
+    private function getResourceDetailSql(stdClass $object, string $table): string {
         $resource_detail_columns = MDDatabaseConnections::getMasterAppConnection()->getSchemaBuilder()->getColumnListing($table);
         $sql = "INSERT INTO `" . $table . "` SET ";
         $values = [];
@@ -178,19 +179,24 @@ class DetailController extends Controller {
     }
 
     private function activate() {
+        /**
+         * @var ResourceSetting $resourceSetting
+         */
         $resourceSetting = $this->project->resourceSettings($this->resource->id)->first();
-        $resourceSetting->active = 1;
-        $resourceSetting->ttl = 6;
-        $resourceSetting->save();
+        $resourceSetting->activate()->save();
     }
 
     private function test() {
+        /**
+         * @var ResourceSetting $resourceSetting
+         */
         $resourceSetting = $this->project->resourceSettings($this->resource->id)->first();
-        $resourceSetting->active = 0;
-        $resourceSetting->ttl = 5;
-        $resourceSetting->save();
+        $resourceSetting->test()->save();
     }
 
+    /**
+     * @return bool
+     */
     private function findAction(): bool {
         $found = false;
 
