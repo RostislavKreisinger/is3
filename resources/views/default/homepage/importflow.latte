@@ -19,18 +19,22 @@
         <div class="panel panel-danger">
             <div class="panel-heading">Import Shutdowns</div>
             <div class="panel-body">
+                <label for="cb_shutdown_show_deleted">
+                    <input id="cb_shutdown_show_deleted" type="checkbox" value="1"> Show deleted
+                </label>
                 <div id="import-flow-shutdown-table"></div>
             </div>
         </div>
         <script>
             $(function () {
                 $.get({$baseUrl} + "/api/import-shutdown-log", function (data) {
-                    $("#import-flow-shutdown-table").dxDataGrid({
+                    window.flowsGrid = $("#import-flow-shutdown-table").dxDataGrid({
                         columnAutoWidth: true,
                         columns: [
                             {
                                 caption: 'ID',
-                                dataField: 'id'
+                                dataField: 'id',
+                                dataType: 'number'
                             },
                             {
                                 dataField: 'datetime'
@@ -52,15 +56,40 @@
                                 selectedFilterOperation: 'contains'
                             },
                             {
-                                dataField: 'message'
+                                dataField: 'message',
+                                width: '50%'
                             }
-
                         ],
                         dataSource: data,
+                        editing: {
+                            allowDeleting: true
+                        },
                         filterRow: {
                             visible: true
+                        },
+                        onRowPrepared: function (info) {
+                            if (info.rowType === 'data') {
+                                if (info.data.deleted_at !== null) {
+                                    info.rowElement.css('background', 'rgba(33, 33, 33, 0.2)');
+                                }
+                            }
+                        },
+                        onRowRemoving: function (data) {
+                            $.ajax({
+                                url: {$baseUrl} + "/api/import-shutdown-log/" + data.key.id,
+                                type: 'GET',
+                                success: function (result) {
+                                    if (result['deleted_at'] === null) {
+                                        data.cancel = true;
+                                    }
+                                }
+                            });
                         }
                     });
+                });
+
+                $("#cb_shutdown_show_deleted").change(function () {
+                    window.flowsGrid.dxDataGrid('instance').option('dataSource', {$baseUrl} + "/api/import-shutdown-log?show_deleted=" + this.checked);
                 });
             });
         </script>
