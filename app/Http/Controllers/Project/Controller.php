@@ -43,25 +43,29 @@ class Controller extends BaseController {
                 $resources->addMenuItem(new Menu("-- EMPTY --", ""));
             }
             $menu->addMenuItem($resources);
+            $projectUser = $project->getUser();
 
-            $userProjects = new Menu('Projects', '#');
-            foreach ($project->getUser()->getProjects() as $userProject) {
-                if ($project->id == $userProject->id) continue;
-                $menuItem = new Menu(
-                    $userProject->name,
-                    action(ProjectDetailController::routeMethod('getIndex'), ['project_id' => $userProject->id])
-                );
-                $menuItem->setTitle($userProject->id);
-                if (!$userProject->isValid()) {
-                    $menuItem->addClass('invalid');
+            if (!empty($projectUser)) {
+                $userProjects = new Menu('Projects', '#');
+                foreach ($projectUser->getProjects() as $userProject) {
+                    if ($project->id == $userProject->id) continue;
+                    $menuItem = new Menu(
+                        $userProject->name,
+                        action(ProjectDetailController::routeMethod('getIndex'), ['project_id' => $userProject->id])
+                    );
+                    $menuItem->setTitle($userProject->id);
+                    if (!$userProject->isValid()) {
+                        $menuItem->addClass('invalid');
+                    }
+                    $userProjects->addMenuItem($menuItem);
                 }
-                $userProjects->addMenuItem($menuItem);
+                if (count($userProjects->getList()) == 0) {
+                    $userProjects->addMenuItem(new Menu("-- EMPTY --", null));
+                }
+                $menu->addMenuItem($userProjects);
             }
-            if (count($userProjects->getList()) == 0) {
-                $userProjects->addMenuItem(new Menu("-- EMPTY --", null));
-            }
-            $menu->addMenuItem($userProjects);
         }
+
         return $menu;
     }
 
