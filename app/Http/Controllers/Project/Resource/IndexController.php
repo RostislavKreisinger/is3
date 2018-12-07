@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Project\Resource;
 
 
+use App\Exceptions\ProjectUserMissingException;
 use App\Http\Controllers\Project\Controller;
 use App\Model\Project;
 use Illuminate\Http\RedirectResponse;
@@ -25,7 +26,11 @@ class IndexController extends Controller {
         $project = Project::find($project_id);
         $resources = $project->getResources();
         $this->getView()->addParameter('resources', $resources);
-        
-        $this->prepareMenu($project);
+
+        try {
+            $this->prepareMenu($project);
+        } catch (ProjectUserMissingException $exception) {
+            return redirect('error')->with('errorMessage', $exception->getMessage());
+        }
     }
 }

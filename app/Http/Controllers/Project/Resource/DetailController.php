@@ -4,6 +4,7 @@
 namespace App\Http\Controllers\Project\Resource;
 
 
+use App\Exceptions\ProjectUserMissingException;
 use App\Http\Controllers\Project\Controller;
 use App\Http\Controllers\Project\DetailController as ProjectDetailController;
 use App\Http\Controllers\User\DetailController as UserDetailController;
@@ -111,7 +112,12 @@ class DetailController extends Controller {
         }
 
         $this->getView()->addParameter('rsexport', $sqls);
-        $this->prepareMenu($project);
+
+        try {
+            $this->prepareMenu($project);
+        } catch (ProjectUserMissingException $exception) {
+            return redirect('error')->with('errorMessage', $exception->getMessage());
+        }
     }
 
     /**

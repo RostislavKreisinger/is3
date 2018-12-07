@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Project;
 
+
+use App\Exceptions\ProjectUserMissingException;
 use App\Http\Controllers\Controller as BaseController;
 use App\Http\Controllers\Project\Resource\DetailController;
 use App\Http\Controllers\Project\DetailController as ProjectDetailController;
@@ -12,12 +14,16 @@ use Monkey\Menu\MenuList;
 use Monkey\View\View;
 use Tr;
 
+/**
+ * Class Controller
+ * @package App\Http\Controllers\Project
+ */
 class Controller extends BaseController {
-
     /**
      * @param Project $project
      * @return MenuList
      * @throws Exception
+     * @throws ProjectUserMissingException
      */
     protected function prepareMenu($project = null) {
         View::share('project', $project);
@@ -45,28 +51,29 @@ class Controller extends BaseController {
             $menu->addMenuItem($resources);
             $projectUser = $project->getUser();
 
-            if (!empty($projectUser)) {
-                $userProjects = new Menu('Projects', '#');
-                foreach ($projectUser->getProjects() as $userProject) {
-                    if ($project->id == $userProject->id) continue;
-                    $menuItem = new Menu(
-                        $userProject->name,
-                        action(ProjectDetailController::routeMethod('getIndex'), ['project_id' => $userProject->id])
-                    );
-                    $menuItem->setTitle($userProject->id);
-                    if (!$userProject->isValid()) {
-                        $menuItem->addClass('invalid');
-                    }
-                    $userProjects->addMenuItem($menuItem);
-                }
-                if (count($userProjects->getList()) == 0) {
-                    $userProjects->addMenuItem(new Menu("-- EMPTY --", null));
-                }
-                $menu->addMenuItem($userProjects);
+            if (empty($projectUser)) {
+                throw new ProjectUserMissingException($project->id, $project->user_id);
             }
+
+            $userProjects = new Menu('Projects', '#');
+            foreach ($projectUser->getProjects() as $userProject) {
+                if ($project->id == $userProject->id) continue;
+                $menuItem = new Menu(
+                    $userProject->name,
+                    action(ProjectDetailController::routeMethod('getIndex'), ['project_id' => $userProject->id])
+                );
+                $menuItem->setTitle($userProject->id);
+                if (!$userProject->isValid()) {
+                    $menuItem->addClass('invalid');
+                }
+                $userProjects->addMenuItem($menuItem);
+            }
+            if (count($userProjects->getList()) == 0) {
+                $userProjects->addMenuItem(new Menu("-- EMPTY --", null));
+            }
+            $menu->addMenuItem($userProjects);
         }
 
         return $menu;
     }
-
 }

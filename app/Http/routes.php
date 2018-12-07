@@ -92,6 +92,8 @@ Route::group(['middleware' => 'web'], function () {
             Route::controller('/', App\Http\Controllers\Currency\IndexController::class);
         });
 
+        Route::get('error', \App\Http\Controllers\Error\ErrorController::getMethodAction());
+
         Route::group(['prefix' => 'storno-order-status'], function () {
             Route::controller('/{status_id}', App\Http\Controllers\StornoOrderStatus\DetailController::class);
             Route::controller('/', App\Http\Controllers\StornoOrderStatus\IndexController::class);
