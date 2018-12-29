@@ -166,12 +166,12 @@ Route::group(['middleware' => 'web'], function () {
         });
 
         Route::group(['prefix' => 'admin'], function () {
-            Route::group(['middleware' => 'admin'], function () {
+            // Route::group(['middleware' => 'admin'], function () {
                 Route::group(['prefix' => 'user'], function () {
                     Route::controller('/{user_id}', App\Http\Controllers\Admin\User\DetailController::class);
                     Route::controller('/', App\Http\Controllers\Admin\User\IndexController::class);
                 });
-            });
+            // });
             Route::group(['prefix' => 'profile'], function () {
                 Route::controller('/', App\Http\Controllers\Admin\Profile\IndexController::class);
             });
