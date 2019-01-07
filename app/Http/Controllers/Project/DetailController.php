@@ -8,6 +8,7 @@
 
 namespace App\Http\Controllers\Project;
 
+use App\Exceptions\ProjectUserMissingException;
 use App\Http\Controllers\User\DetailController as UserDetailController;
 use App\Model\Currency;
 use Monkey\Breadcrump\BreadcrumbItem;
@@ -31,7 +32,12 @@ class DetailController extends Controller {
         }
         $this->getView()->addParameter('currencyCode', $currency);
         $this->getView()->addParameter('autoreports', $project->getAutoReports());
-        $this->prepareMenu($project);
+
+        try {
+            $this->prepareMenu($project);
+        } catch (ProjectUserMissingException $exception) {
+            return redirect('error')->with('errorMessage', $exception->getMessage());
+        }
     }
 
     protected function breadcrumbAfterAction($parameters = array()) {

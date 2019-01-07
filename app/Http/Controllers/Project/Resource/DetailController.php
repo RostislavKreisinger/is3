@@ -4,12 +4,14 @@
 namespace App\Http\Controllers\Project\Resource;
 
 
+use App\Exceptions\ProjectUserMissingException;
 use App\Http\Controllers\Project\Controller;
 use App\Http\Controllers\Project\DetailController as ProjectDetailController;
 use App\Http\Controllers\User\DetailController as UserDetailController;
 use App\Model\Currency;
 use App\Model\EshopType;
 use App\Model\ImportSupport\ResourceError;
+use App\Model\ResourceSetting;
 use Eloquent;
 use Exception;
 use Illuminate\Database\Eloquent\Collection;
@@ -38,11 +40,19 @@ class DetailController extends Controller {
     /**
      * @param $projectId
      * @param $resourceId
+     * @return \Illuminate\Http\RedirectResponse
      * @throws Exception
      */
     public function getIndex($projectId, $resourceId) {
         $this->project = $project = Project::find($projectId);
         $this->resource = $resource = $project->getResource($resourceId);
+
+        if (request()->getMethod() === 'POST') {
+            if ($this->findAction()) {
+                return back()->with(['message' => 'Success!']);
+            }
+        }
+
         $resourceErrors = $resource->getResourceErrors($project->id);
 
         $viewName = 'default.project.resource.detail.' . $resource->codename;
@@ -102,7 +112,12 @@ class DetailController extends Controller {
         }
 
         $this->getView()->addParameter('rsexport', $sqls);
-        $this->prepareMenu($project);
+
+        try {
+            $this->prepareMenu($project);
+        } catch (ProjectUserMissingException $exception) {
+            return redirect('error')->with('errorMessage', $exception->getMessage());
+        }
     }
 
     /**
@@ -148,7 +163,7 @@ class DetailController extends Controller {
      * @param string $table
      * @return string
      */
-    private function getResourceDetailSql(stdClass $object, string $table) {
+    private function getResourceDetailSql(stdClass $object, string $table): string {
         $resource_detail_columns = MDDatabaseConnections::getMasterAppConnection()->getSchemaBuilder()->getColumnListing($table);
         $sql = "INSERT INTO `" . $table . "` SET ";
         $values = [];
@@ -167,5 +182,41 @@ class DetailController extends Controller {
 
         $sql .= implode(', ', $values) . ';' . PHP_EOL;
         return $sql;
+    }
+
+    private function activate() {
+        /**
+         * @var ResourceSetting $resourceSetting
+         */
+        $resourceSetting = $this->project->resourceSettings($this->resource->id)->first();
+        $resourceSetting->activate()->save();
+    }
+
+    private function test() {
+        /**
+         * @var ResourceSetting $resourceSetting
+         */
+        $resourceSetting = $this->project->resourceSettings($this->resource->id)->first();
+        $resourceSetting->test()->save();
+    }
+
+    /**
+     * @return bool
+     */
+    private function findAction(): bool {
+        $found = false;
+
+        switch (request()->input('action')) {
+            case 'activate':
+                $this->activate();
+                $found = true;
+                break;
+            case 'test':
+                $this->test();
+                $found = true;
+                break;
+        }
+
+        return $found;
     }
 }

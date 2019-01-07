@@ -1,17 +1,12 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 namespace Monkey\ImportSupport\Resource;
+
 
 use App\Model\ImportPools\IFDailyPool;
 use App\Model\ImportPools\IFHistoryPool;
+use App\Model\ResourceSetting;
 use DB;
-use Monkey\Connections\MDDatabaseConnections;
 use Monkey\ImportSupport\Resource;
 
 /**
@@ -20,23 +15,15 @@ use Monkey\ImportSupport\Resource;
  * @author Tomas
  */
 class ResourceV3 extends Resource {
-
-    public function __construct(array $attributes = array(), $project_id = null) {
-        parent::__construct($attributes, $project_id);
-    }
-
+    /**
+     * @return bool|string
+     */
     public function getStateTester() {
         $resourceSetting = $this->getResourceStats()->getResourceSetting();
+
         if ($resourceSetting === null) {
-            $resourceSetting = MDDatabaseConnections::getMasterAppConnection()
-                ->table('monkeydata.'.Resource::RESOURCE_SETTING)
-                ->select('*')
-                ->where('project_id', '=', $this->getProject_id())
-                ->where('resource_id', '=', $this->getResource()->id)
-                // ->where('active', '!=', 3)
-                // ->whereRaw('COALESCE(`next_check_date`, 0) < NOW()')
-                ->first()
-            ;
+            $resourceSetting = ResourceSetting::where('project_id', $this->getProject_id())
+                ->where('resource_id', $this->getResource()->id)->first();
             $this->getResourceStats()->setResourceSetting($resourceSetting);
         }
 
@@ -57,15 +44,10 @@ class ResourceV3 extends Resource {
         }
 
         return Resource::STATUS_ERROR;
-
-
-//        return Resource::STATUS_ACTIVE;
-//        return Resource::STATUS_MISSING_RECORD;
     }
 
     public function getStateDaily() {
         return Resource::STATUS_ACTIVE;
-        return Resource::STATUS_MISSING_RECORD;
     }
 
     public function getStateDailyImportFlow() {
@@ -152,7 +134,6 @@ class ResourceV3 extends Resource {
 
     public function getStateHistory() {
         return Resource::STATUS_ACTIVE;
-        return Resource::STATUS_MISSING_RECORD;
     }
 
     public function getConnectionDetail() {
@@ -178,9 +159,4 @@ class ResourceV3 extends Resource {
         }
         return $connectionDetail;
     }
-
-    protected function addDefaultButtons() {
-        $this->addShowDataButton();
-    }
-
 }
