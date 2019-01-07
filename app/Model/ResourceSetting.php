@@ -42,4 +42,22 @@ class ResourceSetting extends Model {
     public function scopeWhereActive(Builder $query, int $active): Builder {
         return $query->where('active', '=', $active);
     }
+
+    /**
+     * @return ResourceSetting
+     */
+    public function activate(): ResourceSetting {
+        $this->setAttribute('active', 1);
+        $this->setAttribute('ttl', 6);
+        return $this;
+    }
+
+    /**
+     * @return ResourceSetting
+     */
+    public function test(): ResourceSetting {
+        $this->setAttribute('active', 0);
+        $this->setAttribute('ttl', 5);
+        return $this;
+    }
 }
