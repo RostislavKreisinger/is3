@@ -307,7 +307,12 @@
                     },
                     width: 150,
                     sortIndex: 1,
-                    sortOrder: 'asc',
+                    sortOrder: 'asc'
+                },
+                {
+                    dataField: 'hostname',
+                    caption: 'Host',
+                    width: 100
                 },
                 {
                     dataField: 'refresh_link',
@@ -316,8 +321,7 @@
                     cellTemplate: function(cellElement, cellInfo){
                         cellElement.html("<a href='" + cellInfo.value + "'>Refresh</a>");
                     }
-                },
-
+                }
             ],
             summary: {
                 totalItems: [

@@ -215,6 +215,13 @@ class Controller extends BaseViewController {
                 WHEN `status`.`status_code` = "calc" THEN afinish
                 WHEN `status`.`status_code` = "output" THEN ofinish
             END AS `finish_at`,
+               
+            CASE
+                WHEN `status`.`status_code` = "import" THEN ihostname
+                WHEN `status`.`status_code` = "etl" THEN ehostname
+                WHEN `status`.`status_code` = "calc" THEN ahostname
+                WHEN `status`.`status_code` = "output" THEN ohostname
+            END AS `hostname`,
             
             CASE
                 WHEN `status`.`status_code` = "import" THEN iupdated_at
@@ -234,11 +241,13 @@ class Controller extends BaseViewController {
                 i.active AS iactive,
                 i.start_at AS istart,
                 i.finish_at AS ifinish, 
+                i.hostname AS ihostname,
                 i.updated_at AS iupdated_at, 
                 i.deleted_at AS ideleted_at, 
                 e.active AS eactive,
                 e.start_at AS estart,
                 e.finish_at AS efinish, 
+                e.hostname AS ehostname,
                 e.updated_at AS eupdated_at, 
                 e.deleted_at AS edeleted_at,
                 a.active AS aactive,
@@ -246,9 +255,11 @@ class Controller extends BaseViewController {
                 a.finish_at AS afinish, 
                 a.updated_at AS aupdated_at, 
                 a.deleted_at AS adeleted_at,
+                a.hostname AS ahostname,
                 o.active AS oactive,
                 o.start_at AS ostart,
                 o.finish_at AS ofinish, 
+                o.hostname AS ohostname,
                 o.updated_at AS oupdated_at, 
                 o.deleted_at AS odeleted_at,
 	
