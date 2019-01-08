@@ -229,6 +229,7 @@ class Controller extends BaseViewController {
                 c.date_to, 
                 c.`unique`,
                 c.`is_history`,
+                c.`workload_difficulty`,   
                 i.active AS iactive,
                 i.start_at AS istart,
                 i.finish_at AS ifinish, 
