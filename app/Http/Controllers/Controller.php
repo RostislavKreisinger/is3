@@ -164,7 +164,8 @@ class Controller extends BaseViewController {
         $sql = <<<'SQL'
         SELECT
             `status`.`unique`,
-            `status`.`is_history` , 
+            `status`.`is_history`,
+            `status`.`workload_difficulty`,
             istart AS import_start, 
             estart AS etl_start, 
             astart AS calc_start, 
