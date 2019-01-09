@@ -375,18 +375,6 @@ class ProjectRepository {
             ->whereIn("ips.project_id", $projectIds)
             ->get()
         ;
-
-//        $data = DB::connection('mysql-import-pools')->table('monkeydata_pools.import_prepare_new as ips')
-//                ->join("monkeydata.project as p", "p.id", "=", "ips.project_id")
-//                ->join("monkeydata.user as u", "u.id", "=", "p.user_id")
-//                ->whereNull("u.deleted_at")
-//                ->whereNull("p.deleted_at")
-//                ->whereRaw('NOW() > ips.created_at')
-//                ->select(['*', DB::raw('DATEDIFF(NOW(), ips.created_at) AS `out`'),DB::raw('DATEDIFF(NOW(), ips.created_at) AS `all`')])
-//                ->whereIn('ips.active', [1, 2])
-//                ->where('ips.ttl', '>', 0)
-//                ->get()
-//        ;
         return new Pool($data);
     }
     
