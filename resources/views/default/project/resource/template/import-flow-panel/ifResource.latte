@@ -197,7 +197,9 @@
     function resolveBoolValueImportFlow(value){
         if(value == 1 || value === true || value.toString().toUpperCase() == 'TRUE'){
             return "<span class='bool-to-text value-1'>YES</span>";
-        }else{
+        }else if (value == 2) {
+            return "<span class='bool-to-text value-1'>FINISHED</span>";
+        }else {
             return "<span class='bool-to-text value-0'>NO</span>";
         }
     }
@@ -315,7 +317,12 @@
                     },
                     width: 150,
                     sortIndex: 1,
-                    sortOrder: 'asc',
+                    sortOrder: 'asc'
+                },
+                {
+                    dataField: 'hostname',
+                    caption: 'Host',
+                    width: 100
                 },
                 {
                     dataField: 'refresh_link',
@@ -324,8 +331,7 @@
                     cellTemplate: function(cellElement, cellInfo){
                         cellElement.html("<a href='" + cellInfo.value + "'>Refresh</a>");
                     }
-                },
-
+                }
             ],
             summary: {
                 totalItems: [
