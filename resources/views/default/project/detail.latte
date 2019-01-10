@@ -29,14 +29,14 @@
                     <tr>
                         <td>Currency</td>
                         <td>
-                            <span>{n $currencyCode}</span>
+                            <span>{$currencyCode}</span>
                         </td>
                     </tr>
 
                     <tr>
                         <td>Timezone</td>
                         <td>
-                            <span>{n App\Model\Timezone::find($project->timezone_id)->name }</span>
+                            <span>{App\Model\Timezone::find($project->timezone_id)->name}</span>
                         </td>
                     </tr>
 

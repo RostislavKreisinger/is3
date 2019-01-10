@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Project\Resource;
 
 
 use App\Http\Controllers\Controller;
+use App\Model\ImportPools\IFControlPool;
 use App\Model\ImportPools\IFDailyPool;
 use App\Model\ImportPools\IFHistoryPool;
 use Exception;
@@ -66,5 +67,18 @@ class ImportFlowStatusController extends Controller {
 
         $results["resource"] = $this->getImportFlowStatusForProject($projectId, $this->resource);
         return $results;
+    }
+
+    /**
+     * @param int $projectId
+     * @param int $resourceId
+     * @param string $unique
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function raiseDifficulty(int $projectId, int $resourceId, string $unique) {
+        $controlPool = IFControlPool::whereUnique($unique)->first();
+        $controlPool->raiseDifficulty();
+        $message = 'Successfully raised difficulty of flow!';
+        return back()->with('message', $message);
     }
 }

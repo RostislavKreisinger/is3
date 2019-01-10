@@ -16,6 +16,17 @@ class IFControlPool extends IFPool {
     protected $table = 'if_control';
 
     /**
+     * Raises workload_difficulty by 1 and updates model in DB
+     *
+     * @return IFControlPool
+     */
+    public function raiseDifficulty(): self {
+        $this->workload_difficulty++;
+        $this->save();
+        return $this;
+    }
+
+    /**
      * @return HasOne
      */
     public function importPool(): HasOne {
