@@ -106,6 +106,9 @@
             <li>
                 <a href="#export" data-toggle="tab" aria-expanded="true">Export</a>
             </li>
+            <li>
+                <a href="#flow-generator" data-toggle="tab" aria-expanded="true">Flow Generator</a>
+            </li>
         </ul>
         <div class="tab-content">
             <div class="tab-pane active in" id="detail"  n:if="count($connectionDetail)">
@@ -122,6 +125,27 @@
                 <textarea id="rsexport" title="SQL of this resource setting" readonly class="form-control"
                           style="resize: none; user-select: all;" rows="5"
                           onclick="$(this).select()">{n $rsexport }</textarea>
+            </div>
+            <div class="tab-pane" id="flow-generator">
+                <form method="post" class="well form-inline" id="flow-generator-form">
+                    {csrf_field()|noescape}
+                    <label for="flow-generator-date-from">
+                        <input type="date" name="date-from" id="flow-generator-date-from" class="form-control">
+                    </label>
+                    <label for="flow-generator-date-to">
+                        <input type="date" name="date-to" id="flow-generator-date-to" class="form-control">
+                    </label>
+                    <label for="flow-generator-split">
+                        <select name="split" id="flow-generator-split" class="form-control">
+                            <option>1</option>
+                            <option>2</option>
+                            <option>7</option>
+                            <option>14</option>
+                            <option>30</option>
+                        </select>
+                    </label>
+                    <input type="submit" value="Generate" class="btn btn-default">
+                </form>
             </div>
         </div>
     </div>
@@ -158,5 +182,21 @@
             url: '{action Button\Resource\Other\ShiftNextCheckDateButtonController::class, ['project_id' => $resource->getProject_id(), 'resource_id' => $resource->id, 'next_check_date' => 'now' ]}'
         });
     };
+    $(function () {
+        var currentLocation = location.href;
+
+        if (!currentLocation.endsWith('/')) {
+            currentLocation += '/';
+        }
+
+        var dateTo = new Date();
+        var dateFrom = new Date();
+        dateFrom.setFullYear(dateFrom.getFullYear() - 2);
+        $('#flow-generator-date-from').val(dateFrom.toISOString().split('T')[0]);
+        $('#flow-generator-date-to').val(dateTo.toISOString().split('T')[0]);
+        $('#flow-generator-split').val({$historyInterval});
+
+        $('#flow-generator-form').attr('action', currentLocation + 'pool/generate-flows');
+    });
 </script>
 
