@@ -14,6 +14,12 @@ use Monkey\Connections\MDImportFlowConnections;
  * @package App\Model\ImportPools
  * @property-read Project $project
  * @mixin \Eloquent
+ * @property int $id
+ * @property int|null $project_id
+ * @property string|null $unique
+ * @method static \Illuminate\Database\Eloquent\Builder|IFHistoryReload whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|IFHistoryReload whereProjectId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|IFHistoryReload whereUnique($value)
  */
 class IFHistoryReload extends Model {
     /**

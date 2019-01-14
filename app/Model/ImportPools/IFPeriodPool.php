@@ -7,7 +7,13 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 
 /**
  * Class IFPeriodPool
+ *
  * @package App\Model\ImportPools
+ * @property-read string $unique
+ * @property-read IFImportPool $importPool
+ * @property-read \App\Model\Project $project
+ * @property-read \App\Model\Resource $resource
+ * @mixin \Eloquent
  */
 class IFPeriodPool extends IFPool {
     /**
