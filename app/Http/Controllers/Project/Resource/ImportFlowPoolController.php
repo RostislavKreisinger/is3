@@ -137,9 +137,17 @@ class ImportFlowPoolController extends Controller {
         $flowGenerator = new FlowGeneratorService($projectId, $resourceId);
 
         if ($flowGenerator->generate(request('date-from'), request('date-to'), request('split'))) {
-            return back()->with('success', 'History reload flows generated successfully!');
+            $response = [
+                'type' => 'success',
+                'message' => 'History reload flows generated successfully!'
+            ];
         } else {
-            return back()->with('warning', 'Cannot generate new History flows before all previously generated are finished!');
+            $response = [
+                'type' => 'warning',
+                'message' => 'Cannot generate new History flows before all previously generated are finished!'
+            ];
         }
+
+        return json_encode($response);
     }
 }

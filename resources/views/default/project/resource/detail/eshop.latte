@@ -2,9 +2,8 @@
     <div class="col-lg-6">
         <h2 class="page-header">[{$resource->id}] {$resource->name}</h2>
     </div>
-    <div class="col-lg-6">
-        <div class="col-lg-12 alert-warning">{n session('warning')}</div>
-        <div class="col-lg-12 alert-success">{n session('success')}</div>
+    <div class="col-lg-6" id="message-box">
+
     </div>
 </div>
 
@@ -200,7 +199,23 @@
         $('#flow-generator-date-to').val(dateTo.toISOString().split('T')[0]);
         $('#flow-generator-split').val({$historyInterval});
 
-        $('#flow-generator-form').attr('action', currentLocation + 'pool/generate-flows');
+        $('#flow-generator-form').attr('action', currentLocation + 'pool/generate-flows')
+            .submit(function (event) {
+                event.preventDefault();
+
+                $.post({
+                    data: $(this).serialize(),
+                    dataType: 'json',
+                    success: function (response) {
+                        if (response['message']) {
+                            $('#message-box').html($('<div>')
+                                .addClass('col-lg-12')
+                                .addClass('alert-' + response['type'])
+                                .text(response['message']));
+                        }
+                    },
+                    url: currentLocation + 'pool/generate-flows'
+                });
+            });
     });
 </script>
-
