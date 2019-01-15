@@ -1,0 +1,101 @@
+<style>
+
+    .head strong {
+        font-size: 2em;
+    }
+
+    .pricing-price {
+
+    }
+
+    .pricing-stream-table {
+
+    }
+
+    .left {
+        text-align: right;
+    }
+</style>
+
+<div class="pricing-container">
+    <div class="head">
+        <strong>MMR: <span id="pricing-mmr"></span>Kč</strong>
+        <strong>|</strong>
+        <strong>Value: <span id="pricing-value"></span>Kč</strong>
+    </div>
+    <div>
+        <table class="table pricing-stream-table">
+            <thead>
+                <tr>
+                    <th>UID</th>
+                    <th class="left">Plan</th>
+                    <th class="left">Amount</th>
+                </tr>
+            </thead>
+            <tbody id="pricing-stream">
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    window.pageRefresh = {$pageRefresh};
+    var baseAdrress = {$baseAdrress};
+</script>
+
+<script>
+    var state = null;
+    $(document).ready(function () {
+        reloadData();
+    });
+
+    function autoreload(){
+        setTimeout(function(){
+            reloadData();
+        }, window.pageRefresh);
+    }
+
+    function reloadData() {
+        $.get(baseAdrress + "/payments/subscription-stream", function (data) {
+            processSubscriptionData(data.data);
+        });
+
+        $.get(baseAdrress + "/payments/transaction-value", function (data) {
+            processTransactionData(data.data);
+        });
+        autoreload();
+    }
+
+
+    function processSubscriptionData(data) {
+        var dataState = data.payments_scopes_count + data.subscription_count;
+        if(state == null){
+            state = dataState;
+        }
+
+        if(dataState > state){
+            playSound("machine");
+            state = dataState;
+        }
+
+        $("#pricing-mmr").text(data.subscription_price_sum);
+        var element = $("#pricing-stream");
+        $.each(data.stream, function(index, value){
+            element.html("");
+            element.append("" +
+                "<tr>" +
+                "<td>" + value.user_id + "</td>" +
+                "<td class='left'>" + value.tariff_id + "</td>" +
+                "<td class='pricing-price left'>" + value.price + "Kč</td>" +
+                "</tr>" +
+                "");
+
+        });
+    }
+
+    function processTransactionData(data) {
+        $("#pricing-value").text(data.price);
+    }
+
+</script>

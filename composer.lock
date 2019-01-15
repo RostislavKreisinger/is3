@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "d6ff1a03526983afaca9de8a4a950079",
+    "content-hash": "ae150e19807b8031e7483ee669a2f880",
     "packages": [
         {
             "name": "barryvdh/laravel-ide-helper",
@@ -1561,17 +1561,17 @@
         },
         {
             "name": "monkey/connections",
-            "version": "2.17.0",
+            "version": "2.18.0",
             "source": {
                 "type": "git",
                 "url": "git@gitlab.monkeydata.com:composer/connections.git",
-                "reference": "03536070313d5f6b23cfa56375ae112c1bdefaac"
+                "reference": "50e9a3be8087aa84dc112bc391ab0e3f1942b533"
             },
             "dist": {
                 "type": "tar",
-                "url": "https://composer.monkeydata.com/dist/monkey-connections-2.17.0-140439.tar",
-                "reference": "03536070313d5f6b23cfa56375ae112c1bdefaac",
-                "shasum": "cf9d6b14a9539f534dfdb8b179174d9f1013febf"
+                "url": "https://composer.monkeydata.com/dist/monkey-connections-2.18.0-5d48ff.tar",
+                "reference": "50e9a3be8087aa84dc112bc391ab0e3f1942b533",
+                "shasum": "b310ba1be0a885af2ffdd7ddcb8ba9ca3ba50aae"
             },
             "require": {
                 "illuminate/database": "4.*|5.2.*|5.4.*",
@@ -1602,7 +1602,7 @@
                 }
             ],
             "description": "package for composer",
-            "time": "2018-09-14T11:54:29+00:00"
+            "time": "2019-01-11T22:35:32+00:00"
         },
         {
             "name": "monkey/constants",
@@ -1793,17 +1793,17 @@
         },
         {
             "name": "monkey/dotenv",
-            "version": "1.5.1",
+            "version": "1.6.0",
             "source": {
                 "type": "git",
                 "url": "git@gitlab.monkeydata.com:composer/dotenv.git",
-                "reference": "1731192ea8ace2cd362c65b2acfd6a396b29b25e"
+                "reference": "cdc4d01d0304ace978b86b9133f17350b15d647c"
             },
             "dist": {
                 "type": "tar",
-                "url": "https://composer.monkeydata.com/dist/monkey-dotenv-1.5.1-805542.tar",
-                "reference": "1731192ea8ace2cd362c65b2acfd6a396b29b25e",
-                "shasum": "8fc104bed8f88b4f600d68568b97756b04181567"
+                "url": "https://composer.monkeydata.com/dist/monkey-dotenv-1.6.0-4c6c76.tar",
+                "reference": "cdc4d01d0304ace978b86b9133f17350b15d647c",
+                "shasum": "a35918ac39a50851b76341ddfec2daeaf7d3ef38"
             },
             "require": {
                 "monkey/environment": "^1.3.0",
@@ -1832,7 +1832,7 @@
                 }
             ],
             "description": "MonkeyData environment handler and parser",
-            "time": "2018-04-10T13:21:17+00:00"
+            "time": "2019-01-12T21:47:03+00:00"
         },
         {
             "name": "monkey/email",
@@ -1876,17 +1876,17 @@
         },
         {
             "name": "monkey/environment",
-            "version": "1.8.2",
+            "version": "1.10.0",
             "source": {
                 "type": "git",
                 "url": "git@gitlab.monkeydata.com:composer/environment.git",
-                "reference": "6516e1775be14e29e524dfc88d99257eb60436bb"
+                "reference": "83e2d36cfd5bd9553c8acc13f35b1261f036cfd5"
             },
             "dist": {
                 "type": "tar",
-                "url": "https://composer.monkeydata.com/dist/monkey-environment-1.8.2-eee6fc.tar",
-                "reference": "6516e1775be14e29e524dfc88d99257eb60436bb",
-                "shasum": "1c7bfb2aa43764aacfa9bac6469471ccb5bc383d"
+                "url": "https://composer.monkeydata.com/dist/monkey-environment-1.10.0-47a4d7.tar",
+                "reference": "83e2d36cfd5bd9553c8acc13f35b1261f036cfd5",
+                "shasum": "feab38f73338dd49a13fb748d1520ebb40cb97bc"
             },
             "require": {
                 "php": ">=5.5.0"
@@ -1912,7 +1912,7 @@
                 }
             ],
             "description": "package for composer",
-            "time": "2018-07-03T13:37:50+00:00"
+            "time": "2019-01-13T21:01:56+00:00"
         },
         {
             "name": "monkey/graph-structure",
@@ -2389,17 +2389,17 @@
         },
         {
             "name": "monkey/oauth2-verify",
-            "version": "1.0.1",
+            "version": "1.1.0",
             "source": {
                 "type": "git",
                 "url": "git@gitlab.monkeydata.com:composer/oauth2-verify.git",
-                "reference": "b9144527a6a9a7d1e030f815e539f580189a1902"
+                "reference": "b73fe7e29076189162e1784b913395c408f025b9"
             },
             "dist": {
                 "type": "tar",
-                "url": "https://composer.monkeydata.com/dist/monkey-oauth2-verify-1.0.1-631138.tar",
-                "reference": "b9144527a6a9a7d1e030f815e539f580189a1902",
-                "shasum": "c4312b54704e5fb3f32af34cf99e85f0fe73f009"
+                "url": "https://composer.monkeydata.com/dist/monkey-oauth2-verify-1.1.0-79bf2b.tar",
+                "reference": "b73fe7e29076189162e1784b913395c408f025b9",
+                "shasum": "e53505caa090c8b6730183480b459489fe1ab6d7"
             },
             "require": {
                 "monkey/curl": "^1.0.0",
@@ -2427,7 +2427,7 @@
                 }
             ],
             "description": "package for composer without description",
-            "time": "2018-04-10T13:18:51+00:00"
+            "time": "2019-01-11T22:39:56+00:00"
         },
         {
             "name": "monkey/old-monkey",
@@ -3042,7 +3042,7 @@
             },
             "dist": {
                 "type": "tar",
-                "url": "https://composer:uxJ4EhTaf61fo3pnTvK5@composer.monkeydata.com/dist/nilportugues-serializer-1.4.1-5ba97e.tar",
+                "url": "https://composer.monkeydata.com/dist/nilportugues-serializer-1.4.1-5ba97e.tar",
                 "reference": "e6a6022e48f988d93c66273944fe808200f1c208",
                 "shasum": "c3053ca4d070100c531681ad980f10b671a22d0b"
             },
@@ -3061,7 +3061,7 @@
                     "NilPortugues\\Test\\Serializer\\": "tests/"
                 }
             },
-            "notification-url": "https://composer:uxJ4EhTaf61fo3pnTvK5@composer.monkeydata.com/notify-download/",
+            "notification-url": "https://composer.monkeydata.com/notify-download/",
             "license": [
                 "MIT"
             ],
