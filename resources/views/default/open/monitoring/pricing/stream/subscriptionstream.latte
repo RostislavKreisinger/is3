@@ -42,7 +42,7 @@
 
 <script>
     window.pageRefresh = {$pageRefresh};
-    var baseAdrress = {$baseAdrress};
+    var baseAddress = {$baseAddress};
 </script>
 
 <script>
@@ -59,11 +59,11 @@
     }
 
     function reloadData() {
-        $.get(baseAdrress + "/payments/subscription-stream", function (data) {
+        $.get(baseAddress + "/payments/subscription-stream", function (data) {
             processSubscriptionData(data.data);
         });
 
-        $.get(baseAdrress + "/payments/transaction-value", function (data) {
+        $.get(baseAddress + "/payments/transaction-value", function (data) {
             processTransactionData(data.data);
         });
         autoreload();

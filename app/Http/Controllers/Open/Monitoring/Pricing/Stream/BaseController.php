@@ -24,7 +24,7 @@ abstract class BaseController extends \App\Http\Controllers\Open\Monitoring\Base
         View::share("fontSize", $fontSize);
 
         $generatedHash = DotEnvHelper::get("ExternalAnalytics:internalGeneratedHash", null);
-        View::share("baseAdrress", $this->getAdrress().$generatedHash);
+        View::share("baseAddress", $this->getAddress().$generatedHash);
 
         $this->setPageRefresh(10000);
         return $this->action($this->getRequest());
@@ -33,7 +33,7 @@ abstract class BaseController extends \App\Http\Controllers\Open\Monitoring\Base
     /**
      * @return string
      */
-    private function getAdrress() {
+    private function getAddress() {
         if(Environment::isLocalhost()){
             return self::EXTERNAL_ANALYTICS_LOCAL;
         }
