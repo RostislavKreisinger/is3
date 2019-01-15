@@ -1,7 +1,7 @@
 <style>
 
     .head strong {
-        font-size: 2em;
+        font-size: 1.2em;
     }
 
     .pricing-price {
@@ -17,18 +17,19 @@
     }
 </style>
 
-<div class="pricing-container">
+<div class="pricing-container content">
     <div class="head">
-        <strong>MMR: <span id="pricing-mmr"></span>Kč</strong>
+        MMR: <strong><span id="pricing-mmr"></span> Kč</strong>
         <strong>|</strong>
-        <strong>Value: <span id="pricing-value"></span>Kč</strong>
+        Value: <strong><span id="pricing-value"></span> Kč</strong>
     </div>
     <div>
         <table class="table pricing-stream-table">
             <thead>
                 <tr>
                     <th>UID</th>
-                    <th class="left">Plan</th>
+                    <th>Date</th>
+                    <th class="left">Tariff</th>
                     <th class="left">Amount</th>
                 </tr>
             </thead>
@@ -48,6 +49,7 @@
     var state = null;
     $(document).ready(function () {
         reloadData();
+        moment.locale('cs');
     });
 
     function autoreload(){
@@ -81,12 +83,15 @@
 
         $("#pricing-mmr").text(data.subscription_price_sum);
         var element = $("#pricing-stream");
+        element.html("");
         $.each(data.stream, function(index, value){
-            element.html("");
+            var date = moment(value.created_at*1000);
+            date.locale('cs');
             element.append("" +
                 "<tr>" +
                 "<td>" + value.user_id + "</td>" +
-                "<td class='left'>" + value.tariff_id + "</td>" +
+                "<td>" + date.format("YYYY-MM-DD HH:mm:ss")  + "</td>" +
+                "<td class='left'>" + (value.tariff_id == 5 ? 'START':'UNLIMITED') + "</td>" +
                 "<td class='pricing-price left'>" + value.price + "Kč</td>" +
                 "</tr>" +
                 "");
@@ -99,3 +104,6 @@
     }
 
 </script>
+
+
+<script src="https://momentjs.com/downloads/moment.min.js"></script>
