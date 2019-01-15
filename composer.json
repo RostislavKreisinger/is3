@@ -30,7 +30,8 @@
         "nilportugues/serializer": "^1.4.0",
         "monkey/oauth2-client": "^1.0.1",
         "monkey/oauth2-api": "^1.2.2",
-        "monkey/slack": "^1.4.0"
+        "monkey/slack": "^1.4.0",
+        "monkey/curl": "^1.6.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
