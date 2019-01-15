@@ -6,7 +6,6 @@ namespace App\Services;
 use App\Model\ImportPools\IFControlPool;
 use App\Model\ImportPools\IFHistoryReload;
 use App\Model\ImportPools\IFImportPool;
-use App\Model\ImportPools\IFOutputPool;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Monkey\DateTime\DateTimeHelper;
 
@@ -35,7 +34,18 @@ class FlowGeneratorService {
         $this->setResourceId($resourceId);
     }
 
-    public function generate(string $dateFrom, string $dateTo, int $split) {
+    /**
+     * @param string $dateFrom
+     * @param string $dateTo
+     * @param int $split
+     * @return bool
+     * @throws \Exception
+     */
+    public function generate(string $dateFrom, string $dateTo, int $split): bool {
+        if (!$this->canGenerate()) {
+            return false;
+        }
+
         $dateFromHelper = DateTimeHelper::getCloneSelf($dateFrom, 'UTC');
         $dateToHelper = DateTimeHelper::getCloneSelf($dateTo, 'UTC');
         $runTime = DateTimeHelper::getCloneSelf('NOW', 'UTC');
@@ -47,6 +57,8 @@ class FlowGeneratorService {
             $this->createNewHistoryReloadRecord($controlPool->unique)->save();
             $runTime->plusMinutes(30);
         }
+
+        return true;
     }
 
     /**
@@ -122,12 +134,22 @@ class FlowGeneratorService {
     }
 
     private function canGenerate(): bool {
-        $historyReload = IFHistoryReload::where('project_id', $this->getProjectId())->get(['unique']);
+        $historyReload = IFHistoryReload::where('project_id', $this->getProjectId())->get();
         $pools = IFControlPool::with(['outputPool' => function (HasOne $query) {
             $query->withTrashed();
         }])->withTrashed()->whereIn('unique', array_column($historyReload->toArray(), 'unique'))->get();
-        vdEcho($pools->toJson());
-        exit;
+
+        foreach ($pools as $pool) {
+            if (!empty($pool->deleted_at) || (!empty($pool->outputPool) && (!empty($pool->outputPool->deleted_at) || !empty($pool->outputPool->finish_at)))) {
+                foreach ($historyReload as $record) {
+                    if ($record->unique === $pool->unique) {
+                        $record->delete();
+                    }
+                }
+            }
+        }
+
+        return $historyReload->count() === 0;
     }
 
     /**

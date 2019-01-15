@@ -131,15 +131,15 @@ class ImportFlowPoolController extends Controller {
      * @param int $projectId
      * @param int $resourceId
      * @return \Illuminate\Http\RedirectResponse
+     * @throws \Exception
      */
     public function generateFlows(int $projectId, int $resourceId) {
-        if (IFHistoryReload::where('project_id', $projectId)->exists()) {
-            return back()->with(['message' => 'Cannot reload history!']);
-        }
-
         $flowGenerator = new FlowGeneratorService($projectId, $resourceId);
-        $flowGenerator->generate(request('date-from'), request('date-to'), request('split'));
 
-        return back()->with(['message' => 'History reload flows generated successfully!']);
+        if ($flowGenerator->generate(request('date-from'), request('date-to'), request('split'))) {
+            return back()->with('success', 'History reload flows generated successfully!');
+        } else {
+            return back()->with('warning', 'Cannot generate new History flows before all previously generated are finished!');
+        }
     }
 }
