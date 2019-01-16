@@ -102,6 +102,7 @@ class FlowGeneratorService {
         $controlPool->date_from = $dateFrom;
         $controlPool->date_to = $dateTo;
         $controlPool->run_time = $runTime;
+        $controlPool->updated_at = $runTime;
         $controlPool->setInRepair();
         return $controlPool;
     }
@@ -140,7 +141,16 @@ class FlowGeneratorService {
         }])->withTrashed()->whereIn('unique', array_column($historyReload->toArray(), 'unique'))->get();
 
         foreach ($pools as $pool) {
-            if (!empty($pool->deleted_at) || (!empty($pool->outputPool) && (!empty($pool->outputPool->deleted_at) || !empty($pool->outputPool->finish_at)))) {
+            if (
+                !empty($pool->deleted_at) ||
+                (
+                    !empty($pool->outputPool) &&
+                    (
+                        !empty($pool->outputPool->deleted_at) ||
+                        !empty($pool->outputPool->finish_at)
+                    )
+                )
+            ) {
                 foreach ($historyReload as $record) {
                     if ($record->unique === $pool->unique) {
                         $record->delete();
