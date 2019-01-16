@@ -53,7 +53,7 @@ class FlowGeneratorService {
         foreach ($this->getDateRanges($dateFromHelper, $dateToHelper, $split) as $range) {
             $controlPool = $this->createNewControlPool($range['from'], $range['to'], $runTime->mysqlFormat());
             $controlPool->save();
-            $this->createNewImportPool($range['from'], $range['to'], $controlPool->unique)->save();
+            $this->createNewImportPool($range['from'], $range['to'], $controlPool->unique, $runTime->mysqlFormat())->save();
             $this->createNewHistoryReloadRecord($controlPool->unique)->save();
             $runTime->plusMinutes(2 * $split); // 7-day flows are distributed 1 per 14 minutes, 30-day 1 per hour
         }
@@ -111,15 +111,17 @@ class FlowGeneratorService {
      * @param string $dateFrom
      * @param string $dateTo
      * @param string $unique
+     * @param string $runTime
      * @return IFImportPool
      */
-    private function createNewImportPool(string $dateFrom, string $dateTo, string $unique): IFImportPool {
+    private function createNewImportPool(string $dateFrom, string $dateTo, string $unique, string $runTime): IFImportPool {
         $importPool = new IFImportPool;
         $importPool->project_id = $this->getProjectId();
         $importPool->resource_id = $this->getResourceId();
         $importPool->unique = $unique;
         $importPool->date_from = $dateFrom;
         $importPool->date_to = $dateTo;
+        $importPool->updated_at = $runTime;
         return $importPool;
     }
 
