@@ -55,7 +55,7 @@ class FlowGeneratorService {
             $controlPool->save();
             $this->createNewImportPool($range['from'], $range['to'], $controlPool->unique)->save();
             $this->createNewHistoryReloadRecord($controlPool->unique)->save();
-            $runTime->plusMinutes(30);
+            $runTime->plusMinutes(2 * $split); // 7-day flows are distributed 1 per 14 minutes, 30-day 1 per hour
         }
 
         return true;
@@ -142,12 +142,12 @@ class FlowGeneratorService {
 
         foreach ($pools as $pool) {
             if (
-                !empty($pool->deleted_at) ||
+                !empty($pool->deleted_at) ||                        // If Control Pool is soft deleted
                 (
-                    !empty($pool->outputPool) &&
+                    !empty($pool->outputPool) &&                    // OR Output Pool exists
                     (
-                        !empty($pool->outputPool->deleted_at) ||
-                        !empty($pool->outputPool->finish_at)
+                        !empty($pool->outputPool->deleted_at) ||    // AND Output Pool is either soft deleted
+                        !empty($pool->outputPool->finish_at)        // OR Output Pool is finished
                     )
                 )
             ) {
