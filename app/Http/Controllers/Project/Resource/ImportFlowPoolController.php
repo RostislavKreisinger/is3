@@ -134,6 +134,13 @@ class ImportFlowPoolController extends Controller {
      * @throws \Exception
      */
     public function generateFlows(int $projectId, int $resourceId) {
+        if (!$this->getUser()->can('project.resource.button.repair.history')) {
+            return json_encode([
+                'type' => 'danger',
+                'message' => "You don't have permissions to generate new flows!"
+            ]);
+        }
+
         $flowGenerator = new FlowGeneratorService($projectId, $resourceId);
 
         if ($flowGenerator->generate(request('date-from'), request('date-to'), request('split'))) {

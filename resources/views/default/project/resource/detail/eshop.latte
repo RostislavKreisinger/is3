@@ -130,25 +130,31 @@
                           onclick="$(this).select()">{n $rsexport }</textarea>
             </div>
             <div class="tab-pane" id="flow-generator">
-                <form method="post" class="well form-inline" id="flow-generator-form">
-                    {csrf_field()|noescape}
-                    <label for="flow-generator-date-from">
-                        <input type="date" name="date-from" id="flow-generator-date-from" class="form-control">
-                    </label>
-                    <label for="flow-generator-date-to">
-                        <input type="date" name="date-to" id="flow-generator-date-to" class="form-control">
-                    </label>
-                    <label for="flow-generator-split">
-                        <select name="split" id="flow-generator-split" class="form-control">
-                            <option>1</option>
-                            <option>2</option>
-                            <option>7</option>
-                            <option>14</option>
-                            <option>30</option>
-                        </select>
-                    </label>
-                    <input type="submit" value="Generate" class="btn btn-default">
-                </form>
+                {if $user->can('project.resource.button.repair.history')}
+                    <form method="post" class="well form-inline" id="flow-generator-form">
+                        {csrf_field()|noescape}
+                        <label for="flow-generator-date-from" title="Date from">
+                            <input type="date" name="date-from" id="flow-generator-date-from" class="form-control">
+                        </label>
+                        <label for="flow-generator-date-to" title="Date to">
+                            <input type="date" name="date-to" id="flow-generator-date-to" class="form-control">
+                        </label>
+                        <label for="flow-generator-split" title="Split range by selected amount of days">
+                            <select name="split" id="flow-generator-split" class="form-control">
+                                <option>1</option>
+                                <option>2</option>
+                                <option>7</option>
+                                <option>14</option>
+                                <option>30</option>
+                            </select>
+                        </label>
+                        <input type="submit" value="Generate" class="btn btn-default">
+                    </form>
+                {else}
+                    <div class="col-lg-12 alert-warning">
+                        You have insufficient permissions to generate flows!
+                    </div>
+                {/if}
             </div>
         </div>
     </div>
