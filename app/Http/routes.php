@@ -35,9 +35,15 @@ Route::group(['prefix' => 'open'], function () {
                 Route::get('on-loading-page/data', \App\Http\Controllers\Open\Monitoring\Onboarding\Platform\OnLoadingPageController::getMethodData());
                 Route::controller('proccessed-order-count', \App\Http\Controllers\Open\Monitoring\Onboarding\Platform\ProccessedOrderCountController::class);
             });
+        });
+
+        Route::group(['prefix' => 'pricing'], function (){
+            Route::group(['prefix' => 'stream'], function (){
+                Route::get('subscription-stream', \App\Http\Controllers\Open\Monitoring\Pricing\Stream\SubscriptionStreamController::getMethodAction());
             });
         });
     });
+});
 
 Route::group(['prefix' => 'api'], function () {
     Route::group(['prefix' => 'import-flow'], function () {

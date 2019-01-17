@@ -3,6 +3,6 @@
 namespace App\Http\Controllers\Open\Monitoring\Onboarding;
 
 
-class BaseController extends \App\Http\Controllers\Open\Monitoring\BaseController {
+abstract class BaseController extends \App\Http\Controllers\Open\Monitoring\BaseController {
 
 }
