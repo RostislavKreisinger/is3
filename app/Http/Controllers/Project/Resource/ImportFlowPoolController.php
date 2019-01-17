@@ -134,7 +134,7 @@ class ImportFlowPoolController extends Controller {
      * @throws \Exception
      */
     public function generateFlows(int $projectId, int $resourceId) {
-        if (!$this->getUser()->can('project.resource.button.repair.history')) {
+        if (!$this->getUser()->can('project.resource.button.repair.generate')) {
             return json_encode([
                 'type' => 'danger',
                 'message' => "You don't have permissions to generate new flows!"

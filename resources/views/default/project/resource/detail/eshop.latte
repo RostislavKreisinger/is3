@@ -130,7 +130,7 @@
                           onclick="$(this).select()">{n $rsexport }</textarea>
             </div>
             <div class="tab-pane" id="flow-generator">
-                {if $user->can('project.resource.button.repair.history')}
+                {if $user->can('project.resource.button.repair.generate')}
                     <form method="post" class="well form-inline" id="flow-generator-form">
                         {csrf_field()|noescape}
                         <label for="flow-generator-date-from" title="Date from">
