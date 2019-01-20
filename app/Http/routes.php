@@ -142,6 +142,7 @@ Route::group(['middleware' => 'web'], function () {
 
                         Route::group(['prefix' => 'pool'], function () {
                             Route::get("control", \App\Http\Controllers\Project\Resource\ImportFlowPoolController::getMethodAction('getControlPool'));
+                            Route::post('generate-flows', '\App\Http\Controllers\Project\Resource\ImportFlowPoolController@generateFlows');
                         });
                         Route::group(['prefix' => 'debug', 'namespace' => 'App\Http\Controllers\Debug'], function () {
                             Route::group(['prefix' => 'presta'], function () {

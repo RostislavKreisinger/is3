@@ -93,6 +93,8 @@ class DetailController extends Controller {
             $connectionDetail = $resource->getConnectionDetail();
         }
 
+        $resourceSettings = $project->resourceSettings($resourceId)->first();
+
         $this->getView()->addParameter('stack', $stack);
         $this->getView()->addParameter('stackExtend', $stackExtend);
         $this->getView()->addParameter('project', $project);
@@ -101,11 +103,12 @@ class DetailController extends Controller {
         $this->getView()->addParameter('resourceCurrency', $resourceCurrency);
         $this->getView()->addParameter('connectionDetail', $connectionDetail);
         $this->getView()->addParameter('resourceErrors', $resourceErrors);
+        $this->getView()->addParameter('historyInterval', $resourceSettings->custom_import_history_interval / (24 * 60 * 60));
 
         $sqls = $this->getSqlFromModel($project);
         $sqls .= $this->getSqlFromModel($project->getUser());
         $sqls .= $this->getSqlFromModel($project->getUser()->getClient());
-        $sqls .= $this->getSqlFromModel($project->resourceSettings($resourceId)->first());
+        $sqls .= $this->getSqlFromModel($resourceSettings);
 
         if ($resourceDetail !== null) {
             $sqls .= $this->getResourceDetailSql($resourceDetail, $resource->tbl_setting);
