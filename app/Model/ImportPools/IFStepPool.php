@@ -17,6 +17,17 @@ abstract class IFStepPool extends IFPool {
     protected $appends = ['if_step'];
 
     /**
+     * The model's attributes.
+     *
+     * @var array
+     */
+    protected $attributes = [
+        'active' => 1,
+        'ttl' => 5,
+        'delay_count' => 0
+    ];
+
+    /**
      * @var string $ifStep
      */
     protected $ifStep;
