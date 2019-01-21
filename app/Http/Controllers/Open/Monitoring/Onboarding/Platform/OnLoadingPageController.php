@@ -92,8 +92,16 @@ class OnLoadingPageController extends BaseController {
             return $result;
         });
 
+        $projectsOnLoadingPage = Arrays::sortArrayOfObjects($projects, function($obj){
+            $result = $obj->created_at;
 
-        // vd($projectsOnLoadingPage);
+            $result +=pow(10, 8)*(100 - $obj->historyDownloadPercent);
+
+            return $result;
+        }, true);
+
+
+// vd($projectsOnLoadingPage);
 
         // IMPORTANT
         foreach ($projectsOnLoadingPage as $project){
