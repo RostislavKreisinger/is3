@@ -70,6 +70,7 @@ class BaseController extends \App\Http\Controllers\Open\Monitoring\Onboarding\Ba
 
     public function getIndex() {
        //  vde([]);
+        $this->setPageRefresh(5000);
         $fontSize = Input::get("fontSize", '1em');
         View::share("fontSize", $fontSize);
         View::share("platformCode", $this->getPlatformCode());
