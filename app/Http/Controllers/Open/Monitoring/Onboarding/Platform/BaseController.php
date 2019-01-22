@@ -17,24 +17,10 @@ class BaseController extends \App\Http\Controllers\Open\Monitoring\Onboarding\Ba
 
 
     /**
-     * @var Request
-     */
-    private $request;
-
-    /**
      * @var bool
      */
     private $isDateToNow = false;
 
-    /**
-     * BaseController constructor.
-     * @param Request $request
-     */
-    public function __construct(Request $request) {
-        parent::__construct();
-        $this->setPageRefresh(5000);
-        $this->setRequest($request);
-    }
 
 
     /**
@@ -84,6 +70,7 @@ class BaseController extends \App\Http\Controllers\Open\Monitoring\Onboarding\Ba
 
     public function getIndex() {
        //  vde([]);
+        $this->setPageRefresh(5000);
         $fontSize = Input::get("fontSize", '1em');
         View::share("fontSize", $fontSize);
         View::share("platformCode", $this->getPlatformCode());
@@ -97,12 +84,6 @@ class BaseController extends \App\Http\Controllers\Open\Monitoring\Onboarding\Ba
 
     }
 
-    /**
-     * @return mixed
-     */
-    protected function isDebug() {
-        return Input::exists("debug");
-    }
 
     /**
      * @return Project[] projects array
@@ -153,12 +134,6 @@ class BaseController extends \App\Http\Controllers\Open\Monitoring\Onboarding\Ba
         return $projects;
     }
 
-    /**
-     * @param int $pageRefresh
-     */
-    protected function setPageRefresh($pageRefresh) {
-        View::share("pageRefresh", $pageRefresh);
-    }
 
     /**
      * @return DateTimeHelper
@@ -193,21 +168,6 @@ class BaseController extends \App\Http\Controllers\Open\Monitoring\Onboarding\Ba
         $this->isDateToNow = (strtolower($date) == "now");
     }
 
-    /**
-     * @return Request
-     */
-    protected function getRequest() {
-        return $this->request;
-    }
-
-    /**
-     * @param Request $request
-     * @return BaseController
-     */
-    private function setRequest(Request $request) {
-        $this->request = $request;
-        return $this;
-    }
 
     /**
      * @param Project[] $projects

@@ -4,23 +4,32 @@ namespace App\Http\Controllers\Project\Resource;
 
 
 use App\Http\Controllers\Controller;
+use App\Model\ImportPools\IFHistoryReload;
+use App\Services\FlowGeneratorService;
 use Monkey\Connections\MDImportFlowConnections;
 use Monkey\ImportSupport\Project;
 
+/**
+ * Class ImportFlowPoolController
+ * @package App\Http\Controllers\Project\Resource
+ */
 class ImportFlowPoolController extends Controller {
-
     /**
-     *
-     * @var Project
+     * @var Project $project
      */
     private $project;
 
     /**
-     *
-     * @var Resource
+     * @var Resource $resource
      */
     private $resource;
 
+    /**
+     * @param $projectId
+     * @param $resourceId
+     * @return array
+     * @throws \Exception
+     */
     public function getControlPool($projectId, $resourceId) {
         $this->project = $project = Project::find($projectId);
         $this->resource = $resource = $project->getResource($resourceId);
@@ -102,6 +111,10 @@ class ImportFlowPoolController extends Controller {
 
     }
 
+    /**
+     * @param $status
+     * @param $type
+     */
     function organizeIFTypes(&$status, $type) {
         $columns = new \stdClass();
         foreach ($status as $objectKey => $objectValue) {
@@ -112,5 +125,36 @@ class ImportFlowPoolController extends Controller {
             }
         }
         $status->{$type} = $columns;
+    }
+
+    /**
+     * @param int $projectId
+     * @param int $resourceId
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Exception
+     */
+    public function generateFlows(int $projectId, int $resourceId) {
+        if (!$this->getUser()->can('project.resource.button.repair.generate')) {
+            return json_encode([
+                'type' => 'danger',
+                'message' => "You don't have permissions to generate new flows!"
+            ]);
+        }
+
+        $flowGenerator = new FlowGeneratorService($projectId, $resourceId);
+
+        if ($flowGenerator->generate(request('date-from'), request('date-to'), request('split'))) {
+            $response = [
+                'type' => 'success',
+                'message' => 'History reload flows generated successfully!'
+            ];
+        } else {
+            $response = [
+                'type' => 'warning',
+                'message' => 'Cannot generate new History flows before all previously generated are finished!'
+            ];
+        }
+
+        return json_encode($response);
     }
 }
