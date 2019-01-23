@@ -266,10 +266,26 @@
                     width: 90
                 },
                 {
-                    dataField: 'workload_difficulty',
                     caption: 'Diff',
-                    name: 'workload_difficulty',
-                    width: 75
+                    cellTemplate: function(cellElement, cellInfo) {
+                        var currentLocation = window.location.href;
+
+                        if (!currentLocation.endsWith('/')) {
+                            currentLocation += '/';
+                        }
+
+                        cellElement.html(
+                            cellInfo.value
+                            + ' <form action="' + currentLocation + 'importflowstatus/' + cellInfo.data.unique + '/raise_difficulty" method="POST" style="display: inline;">'
+                            + '{csrf_field()|noescape}'
+                            + '<input type="submit" value="+" title="Raise difficulty" />'
+                            + '</form>'
+                        );
+                    },
+                    dataField: 'workload_difficulty',
+                    headerCellTemplate: function (header, info) {
+                        $(header).html(info.column.caption).attr('title', 'Difficulty');
+                    }
                 },
                 {
                     dataField: 'unique',

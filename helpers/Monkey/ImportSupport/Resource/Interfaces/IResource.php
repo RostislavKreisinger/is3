@@ -9,8 +9,6 @@
 namespace Monkey\ImportSupport\Resource\Interfaces;
 
 
-use App\Model\Stack;
-use App\Model\StackExtend;
 use Monkey\ImportSupport\Resource\Button\BaseButton;
 use Monkey\ImportSupport\Resource\Button\ButtonList;
 use Monkey\ImportSupport\Resource\ResourceStats;
@@ -119,22 +117,5 @@ interface IResource {
      */
     public function addButton(BaseButton $button);
 
-    /**
-     * @return mixed
-     */
-    public function getModel();
-
-    /**
-     * @return Stack[]
-     */
-    public function getStack();
-
-    /**
-     * @return StackExtend[]
-     */
-    public function getStackExtend();
-
     public function getConnectionDetail();
-
-
 }
