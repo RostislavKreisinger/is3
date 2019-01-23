@@ -31,7 +31,6 @@ class DetailController extends Controller {
             $currency = $currency->code;
         }
         $this->getView()->addParameter('currencyCode', $currency);
-        $this->getView()->addParameter('autoreports', $project->getAutoReports());
 
         try {
             $this->prepareMenu($project);

@@ -4,25 +4,12 @@ namespace Monkey\ImportSupport;
 
 
 use App\Model\Resource as ResourceModel;
-use App\Model\Stack;
-use App\Model\StackExtend;
 use Auth;
 use Exception;
 use Monkey\Connections\MDDatabaseConnections;
 use Monkey\ImportSupport\Resource\Button\B00_ShowButton;
-use Monkey\ImportSupport\Resource\Button\B0_TestButton;
-use Monkey\ImportSupport\Resource\Button\B1_ResetAutomatTestButton;
-use Monkey\ImportSupport\Resource\Button\B2_RepairAutomatTestButton;
-use Monkey\ImportSupport\Resource\Button\B3_RepairDailyButton;
-use Monkey\ImportSupport\Resource\Button\B4_RepairHistoryButton;
-use Monkey\ImportSupport\Resource\Button\B5_ReactivateHistoryButton;
-use Monkey\ImportSupport\Resource\Button\B5_ResetHistoryButton;
-use Monkey\ImportSupport\Resource\Button\B6_ResetDailyButton;
 use Monkey\ImportSupport\Resource\Button\BaseButton;
 use Monkey\ImportSupport\Resource\Button\ButtonList;
-use Monkey\ImportSupport\Resource\Button\Other\ClearStackButton;
-use Monkey\ImportSupport\Resource\Button\Other\ShiftNextCheckDateButton;
-use Monkey\ImportSupport\Resource\Button\Other\UnconnectButton;
 use Monkey\ImportSupport\Resource\Interfaces\IResource;
 use Monkey\ImportSupport\Resource\ResourceStats;
 
@@ -202,27 +189,9 @@ class Resource extends ResourceModel implements IResource {
     public function addButton(BaseButton $button) {
         $this->getButtons()->addButton($button); 
     }
-
-    public function getModel() {
-        return $this->resource;
-    }
     
     protected function isStateValid($state) {
         return !in_array($state, array(self::STATUS_ERROR, self::STATUS_MISSING_RECORD));
-    }
-    
-    public function getStack() {
-        $builder = $this->hasMany(Stack::class, 'resource_id')
-                        ->where('project_id', '=', $this->getProject_id())
-                ;
-        return $builder->get();
-    }
-    
-    public function getStackExtend() {
-        $builder = $this->hasMany(StackExtend::class, 'resource_id')
-                        ->where('project_id', '=', $this->getProject_id())
-                ;
-        return $builder->get();
     }
     
     /**

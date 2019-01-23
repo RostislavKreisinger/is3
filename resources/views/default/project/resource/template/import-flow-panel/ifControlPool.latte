@@ -301,7 +301,13 @@
         }
 
         function refreshImportFlowControlPoolData() {
-            $.get({$resource->id}+"/pool/control", function (data) {
+            var currentLocation = window.location.href;
+
+            if (!currentLocation.endsWith('/')) {
+                currentLocation += '/';
+            }
+
+            $.get(currentLocation + "pool/control", function (data) {
                 setControlPoolData(data);
 
                 $("#importFlowControlPoolDataGrid").dxDataGrid("instance").option('dataSource', getControlPoolData());

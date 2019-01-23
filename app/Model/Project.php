@@ -2,7 +2,6 @@
 
 namespace App\Model;
 
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
@@ -102,13 +101,6 @@ class Project extends Model {
      */
     public function getUser() {
         return $this->user()->first();
-    }
-
-    /**
-     * @return Collection
-     */
-    public function getAutoReports() {
-        return $this->hasMany(AutoReportPool::class)->get();
     }
 
     /**

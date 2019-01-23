@@ -42,7 +42,7 @@
 
     function downloadImportFlowStatusAndShow(callback) {
             $(".refresh-btn .loader").show();
-            $.get({$resource->id}+"/importflowstatus", function (data) {
+            $.get("importflowstatus", function (data) {
                 $("#importFlowStatusDataGrid").dxDataGrid("instance").option('noDataText', "No data");
                 renderResource(data.resource);
                 $(".refresh-btn .loader").hide();
@@ -59,7 +59,13 @@
     }
 
     function getDailyHistory() {
-        $.get({$resource->id}+"/daily-history", function (data) {
+        var currentLocation = window.location.href;
+
+        if (!currentLocation.endsWith('/')) {
+            currentLocation += '/';
+        }
+
+        $.get(currentLocation + "daily-history", function (data) {
             renderDaily(data.daily);
             renderHistory(data.history);
         });
