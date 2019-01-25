@@ -79,14 +79,6 @@ class DetailController extends Controller {
         // $this->getView()->addParameter('importFlowStatus', $this->getImportFlowStatusForProject($projectId, $resource));
 
 
-        $stack = null;
-        $stackExtend = null;
-
-        if (!$resource->isValid()) {
-            $stack = $resource->getStack();
-            $stackExtend = $resource->getStackExtend();
-        }
-
         $connectionDetail = array();
 
         if ($this->getUser()->can('project.resource.connection_detail')) {
@@ -95,8 +87,6 @@ class DetailController extends Controller {
 
         $resourceSettings = $project->resourceSettings($resourceId)->first();
 
-        $this->getView()->addParameter('stack', $stack);
-        $this->getView()->addParameter('stackExtend', $stackExtend);
         $this->getView()->addParameter('project', $project);
         $this->getView()->addParameter('resource', $resource);
 
