@@ -42,7 +42,13 @@
 
     function downloadImportFlowStatusAndShow(callback) {
             $(".refresh-btn .loader").show();
-            $.get("importflowstatus", function (data) {
+            var currentLocation = location.href;
+
+            if (!currentLocation.endsWith('/')) {
+                currentLocation += '/';
+            }
+
+            $.get(currentLocation + "importflowstatus", function (data) {
                 $("#importFlowStatusDataGrid").dxDataGrid("instance").option('noDataText', "No data");
                 renderResource(data.resource);
                 $(".refresh-btn .loader").hide();
