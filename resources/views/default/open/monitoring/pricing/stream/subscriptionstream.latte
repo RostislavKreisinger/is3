@@ -12,14 +12,14 @@
 
     }
 
-    .left {
+    .right {
         text-align: right;
     }
 </style>
 
 <div class="pricing-container content">
     <div class="head">
-        MMR: <strong><span id="pricing-mmr"></span> Kč</strong>
+        MRR: <strong><span id="pricing-mmr"></span> Kč</strong>
         <strong>|</strong>
         Value: <strong><span id="pricing-value"></span> Kč</strong>
     </div>
@@ -27,10 +27,11 @@
         <table class="table pricing-stream-table">
             <thead>
                 <tr>
+                    <th>#</th>
                     <th>UID</th>
                     <th>Date</th>
-                    <th class="left">Tariff</th>
-                    <th class="left">Amount</th>
+                    <th class="right">Tariff</th>
+                    <th class="right">Amount</th>
                 </tr>
             </thead>
             <tbody id="pricing-stream">
@@ -84,15 +85,17 @@
         $("#pricing-mmr").text(data.subscription_price_sum);
         var element = $("#pricing-stream");
         element.html("");
+        var count = data.stream.length;
         $.each(data.stream, function(index, value){
             var date = moment(value.created_at*1000);
             date.locale('cs');
             element.append("" +
                 "<tr>" +
+                "<td>" + (count - index) + ".</td>" +
                 "<td>" + value.user_id + "</td>" +
-                "<td>" + date.format("YYYY-MM-DD HH:mm:ss")  + "</td>" +
-                "<td class='left'>" + (value.tariff_id == 5 ? 'START':'UNLIMITED') + "</td>" +
-                "<td class='pricing-price left'>" + value.price + "Kč</td>" +
+                "<td>" + date.format("YYYY-MM-DD HH:mm")  + "</td>" +
+                "<td class='right'>" + (value.tariff_id == 5 ? 'START':'UNLIMITED') + "</td>" +
+                "<td class='pricing-price right'>" + value.price + "Kč</td>" +
                 "</tr>" +
                 "");
 
