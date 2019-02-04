@@ -26,7 +26,7 @@ abstract class ABasePlatform {
      */
     public static function getPlatformObject(int $eshopTypeID): ABasePlatform {
         if(!array_key_exists($eshopTypeID, static::$platforms)){
-            throw new \Exception("Platform do not exists:", $eshopTypeID);
+            throw new \Exception("Platform does not exists: ", $eshopTypeID);
         }
         return new static::$platforms[$eshopTypeID];
     }

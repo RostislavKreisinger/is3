@@ -26,7 +26,6 @@ class DetailController extends BaseController {
             ->first(['eshop.*','currency.code']);
 
         if (is_null($eshop)) {
-            // TODO lepsi response
             abort(404);
         }
 
