@@ -2,19 +2,28 @@
 
 namespace App\Helpers\OrderAlert\Detail;
 
-
-use App\Helpers\OrderAlert\Detail\Platform\Lightspeed;
+use App\Helpers\OrderAlert\Detail\Platform\LightspeedPlatform;
+use App\Helpers\OrderAlert\Detail\Platform\ShoptetPlatform;
+use App\Helpers\OrderAlert\Detail\Platform\EPagesPlatform;
+use App\Helpers\OrderAlert\Detail\Platform\WoocommercePlatform;
+use Illuminate\Support\Collection;
 use Monkey\Constants\MonkeyData\Resource\EshopType;
 
 abstract class ABasePlatform {
 
     private static $platforms = [
-        EshopType::CODE_LIGHTSPEED => Lightspeed::class
+        EshopType::CODE_LIGHTSPEED => LightspeedPlatform::class,
+        EshopType::CODE_WOOCOMMERCE => WoocommercePlatform::class,
+        EshopType::CODE_EPAGES=> EPagesPlatform::class,
+        EshopType::CODE_SHOPTET => ShoptetPlatform::class
     ];
 
 
-
-
+    /**
+     * @param int $eshopTypeID
+     * @return ABasePlatform
+     * @throws \Exception
+     */
     public static function getPlatformObject(int $eshopTypeID): ABasePlatform {
         if(!array_key_exists($eshopTypeID, static::$platforms)){
             throw new \Exception("Platform do not exists:", $eshopTypeID);
@@ -23,8 +32,7 @@ abstract class ABasePlatform {
     }
 
 
-
-    public abstract function getRawOrders(int $storeId): array;
+    public abstract function getRawOrders(int $storeId): Collection;
 
     public abstract function getVisibleColumns(): array;
 
@@ -38,7 +46,7 @@ abstract class ABasePlatform {
 
     /**
      * @param string $orderStatus
-     * @return string|null
+     * @return null|string
      */
-    public abstract function translateOrderStatus(string $orderStatus);
+    public abstract function translateOrderStatus(string $orderStatus): string;
 }
