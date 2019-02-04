@@ -15,6 +15,11 @@
     .right {
         text-align: right;
     }
+
+    .red {
+        color: red;
+        font-weight: bold;
+    }
 </style>
 
 <div class="pricing-container content">
@@ -87,10 +92,18 @@
         element.html("");
         var count = data.stream.length;
         $.each(data.stream, function(index, value){
+
             var date = moment(value.created_at*1000);
             date.locale('cs');
+
+            var closeToExpiresAt = (value.expires_at + 1800) < moment.unix();
+            var rowTag = "<tr>";
+            if(closeToExpiresAt){
+                rowTag = "<tr class='red'>"
+            }
+
             element.append("" +
-                "<tr>" +
+                rowTag +
                 "<td>" + (count - index) + ".</td>" +
                 "<td>" + value.user_id + "</td>" +
                 "<td>" + date.format("YYYY-MM-DD HH:mm")  + "</td>" +
