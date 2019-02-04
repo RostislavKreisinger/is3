@@ -96,12 +96,11 @@
             var date = moment(value.created_at*1000);
             date.locale('cs');
 
-            var closeToExpiresAt = (value.expires_at + 1800) < moment.unix();
+            var closeToExpiresAt = (value.expires_at - 1800) < moment().unix();
             var rowTag = "<tr>";
             if(closeToExpiresAt){
                 rowTag = "<tr class='red'>"
             }
-
             element.append("" +
                 rowTag +
                 "<td>" + (count - index) + ".</td>" +
