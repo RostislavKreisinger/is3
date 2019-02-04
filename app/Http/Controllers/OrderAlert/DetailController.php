@@ -10,11 +10,9 @@ namespace App\Http\Controllers\OrderAlert;
 
 
 use App\Helpers\OrderAlert\Detail\ABasePlatform;
-use Illuminate\Database\Query\Builder;
 use Monkey\Connections\MDOrderAlertConnections;
 use Monkey\Constants\MonkeyData\Resource\EshopType;
 use Monkey\View\View;
-use Monkey\Translator;
 
 class DetailController extends BaseController {
 
