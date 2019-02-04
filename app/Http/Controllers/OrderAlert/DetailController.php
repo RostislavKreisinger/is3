@@ -9,6 +9,7 @@
 namespace App\Http\Controllers\OrderAlert;
 
 
+use App\Helpers\OrderAlert\Detail\ABasePlatform;
 use Illuminate\Database\Query\Builder;
 use Monkey\Connections\MDOrderAlertConnections;
 use Monkey\Constants\MonkeyData\Resource\EshopType;
@@ -16,12 +17,21 @@ use Monkey\View\View;
 use Monkey\Translator;
 
 class DetailController extends BaseController {
+
+    /**
+     * @param $storeId
+     * @throws \Exception
+     */
     public function getIndex($storeId) {
+
         $eshop = MDOrderAlertConnections::getOrderAlertConnection()->table('eshop')->where('eshop.id', '=', "$storeId")
             ->leftJoin('currency', 'eshop.currency_id', '=', 'currency.id')
             ->first(['eshop.*','currency.code']);
 
-        if (!is_null($eshop)) {
+        if (is_null($eshop)) {
+            // TODO lepsi response
+            abort(404);
+        }
             $eshop->type = EshopType::getById($eshop->eshop_type_id);
 
             if ($eshop->eshop_id == '') {
@@ -29,42 +39,51 @@ class DetailController extends BaseController {
             }
 
             foreach($eshop as $key=>$value) {
-                if ($value == '') {
+                if (empty($value)) {
                     $eshop->$key = '--';
                 }
             }
 
+            $platform = ABasePlatform::getPlatformObject($eshop->eshop_type_id);
+
             View::share('eshop', $eshop);
 
-            $eshopType = '';
-            $shouldJoinOrderStatusTable = false;
+//            $eshopType = '';
+//            $shouldJoinOrderStatusTable = false;
+//
+//            if ($eshop->eshop_type_id == EshopType::CODE_LIGHTSPEED) {
+//                $eshopType = 'ls';
+//                $shouldJoinOrderStatusTable = true;
+//            }
+//            else if ($eshop->eshop_type_id == EshopType::CODE_WOOCOMMERCE) {
+//                $eshopType = 'wc';
+//                $shouldJoinOrderStatusTable = true;
+//            }
+//
+//            if ($shouldJoinOrderStatusTable) {
+//                $ordersRaw = MDOrderAlertConnections::getOrderAlertDwConnection()->table("f_order_eshop_" . $storeId)
+//                    ->leftJoin('d_' . $eshopType . '_order_status', 'f_order_eshop_' . $storeId . '.status_id', '=', 'd_' . $eshopType . '_order_status.id')
+//                    ->get(['f_order_eshop_' . $storeId . '.*', 'd_' . $eshopType . '_order_status.status', 'd_' . $eshopType . '_order_status.title']);
+//            }
+//            else {
+//                $ordersRaw = MDOrderAlertConnections::getOrderAlertDwConnection()->table("f_order_eshop_" . $storeId)
+//                    ->get(['f_order_eshop_' . $storeId . '.*']);
+//            }
 
-            if ($eshop->eshop_type_id == EshopType::CODE_LIGHTSPEED) {
-                $eshopType = 'ls';
-                $shouldJoinOrderStatusTable = true;
-            }
-            else if ($eshop->eshop_type_id == EshopType::CODE_WOOCOMMERCE) {
-                $eshopType = 'wc';
-                $shouldJoinOrderStatusTable = true;
-            }
-
-            if ($shouldJoinOrderStatusTable) {
-                $ordersRaw = MDOrderAlertConnections::getOrderAlertDwConnection()->table("f_order_eshop_" . $storeId)
-                    ->leftJoin('d_' . $eshopType . '_order_status', 'f_order_eshop_' . $storeId . '.status_id', '=', 'd_' . $eshopType . '_order_status.id')
-                    ->get(['f_order_eshop_' . $storeId . '.*', 'd_' . $eshopType . '_order_status.status', 'd_' . $eshopType . '_order_status.title']);
-            }
-            else {
-                $ordersRaw = MDOrderAlertConnections::getOrderAlertDwConnection()->table("f_order_eshop_" . $storeId)
-                    ->get(['f_order_eshop_' . $storeId . '.*']);
-            }
+        $ordersRaw = $platform->getRawOrders($storeId);
 
             $orders = array();
             foreach ($ordersRaw as $orderRaw) {
                 $orderJSON = json_decode($orderRaw->json, true);
                 $order = array();
 
-                if ($shouldJoinOrderStatusTable) {
-                    $order['statusTitle'] = \Tr::translate($orderRaw->title);
+                //2.
+                $order['statusTitle'] = $platform->translateOrderStatus($orderRaw->title);// \Tr::translate($orderRaw->title);
+
+                // 1.
+                $translatedOrderStatus = $platform->translateOrderStatus($orderRaw->title);
+                if ($translatedOrderStatus !== null) {
+                    $order['statusTitle'] = $translatedOrderStatus;// \Tr::translate($orderRaw->title);
                 }
 
                 foreach ($orderJSON as $key => $val) {
@@ -85,25 +104,25 @@ class DetailController extends BaseController {
                 array_push($orders, $order);
             }
 
-            $visibleColumns = [];
-            $omittedColumns = [];
+            $visibleColumns = $platform->getVisibleColumns();
+            $omittedColumns = $platform->getOmittedColumns();
 
-            if ($eshop->eshop_type_id == EshopType::CODE_LIGHTSPEED) {
-                $visibleColumns = ["number", "priceIncl", "email", "channel", "statusTitle"];
-                $omittedColumns = ["status", "customStatusId", "firstname", "middlename", "lastname"];
-            }
-            else if ($eshop->eshop_type_id == EshopType::CODE_WOOCOMMERCE) {
-                $visibleColumns = ["number", "email", "channel", "statusTitle", "total","payment_method_title"];
-                $omittedColumns = ["status", "customStatusId", "first_name", "last_name"];
-            }
-            else if ($eshop->eshop_type_id == EshopType::CODE_SHOPTET) {
-                $visibleColumns = ["code", "orderCode", "toPay", "currencyCode", "email", "creationTime"];
-                $omittedColumns = ["status", "customStatusId", "first_name", "last_name", "statusTitle"];
-            }
-            else if ($eshop->eshop_type_id == EshopType::CODE_EPAGES) {
-                $visibleColumns = ["orderId", "orderNumber", "creationDate", "customerNumber", "currencyId", "grandTotal"];
-                $omittedColumns = ["status", "customStatusId", "first_name", "last_name", "statusTitle"];
-            }
+//            if ($eshop->eshop_type_id == EshopType::CODE_LIGHTSPEED) {
+//                $visibleColumns = ["number", "priceIncl", "email", "channel", "statusTitle"];
+//                $omittedColumns = ["status", "customStatusId", "firstname", "middlename", "lastname"];
+//            }
+//            else if ($eshop->eshop_type_id == EshopType::CODE_WOOCOMMERCE) {
+//                $visibleColumns = ["number", "email", "channel", "statusTitle", "total","payment_method_title"];
+//                $omittedColumns = ["status", "customStatusId", "first_name", "last_name"];
+//            }
+//            else if ($eshop->eshop_type_id == EshopType::CODE_SHOPTET) {
+//                $visibleColumns = ["code", "orderCode", "toPay", "currencyCode", "email", "creationTime"];
+//                $omittedColumns = ["status", "customStatusId", "first_name", "last_name", "statusTitle"];
+//            }
+//            else if ($eshop->eshop_type_id == EshopType::CODE_EPAGES) {
+//                $visibleColumns = ["orderId", "orderNumber", "creationDate", "customerNumber", "currencyId", "grandTotal"];
+//                $omittedColumns = ["status", "customStatusId", "first_name", "last_name", "statusTitle"];
+//            }
 
             $columnsConfig = '';
 
@@ -127,21 +146,23 @@ class DetailController extends BaseController {
                 }
             }
 
-            if ($eshop->eshop_type_id == EshopType::CODE_LIGHTSPEED) {
-                $columnsConfig .= ', { caption: "Customer Name", calculateCellValue: function(data) { return [data.firstname, data.middlename, data.lastname].join(" "); }}';
-            }
-            else if ($eshop->eshop_type_id == EshopType::CODE_WOOCOMMERCE) {
-                $columnsConfig .= ', { caption: "Customer Name", calculateCellValue: function(data) { return [data.first_name, data.last_name].join(" "); }}';
-            }
-            else if ($eshop->eshop_type_id == EshopType::CODE_SHOPTET) {
-                $columnsConfig .= ', { caption: "Status", calculateCellValue: function(data) { return data.name; }}';
-            }
-            else if ($eshop->eshop_type_id == EshopType::CODE_EPAGES) {
-                $columnsConfig .= ', { caption: "Customer Name", calculateCellValue: function(data) { return [data.firstName, data.middleName, data.lastName].join(" "); }}';
-            }
+        $columnsConfig .= $platform->getColumnsConfig();
+//
+//            if ($eshop->eshop_type_id == EshopType::CODE_LIGHTSPEED) {
+//                $columnsConfig .= ', { caption: "Customer Name", calculateCellValue: function(data) { return [data.firstname, data.middlename, data.lastname].join(" "); }}';
+//            }
+//            else if ($eshop->eshop_type_id == EshopType::CODE_WOOCOMMERCE) {
+//                $columnsConfig .= ', { caption: "Customer Name", calculateCellValue: function(data) { return [data.first_name, data.last_name].join(" "); }}';
+//            }
+//            else if ($eshop->eshop_type_id == EshopType::CODE_SHOPTET) {
+//                $columnsConfig .= ', { caption: "Status", calculateCellValue: function(data) { return data.name; }}';
+//            }
+//            else if ($eshop->eshop_type_id == EshopType::CODE_EPAGES) {
+//                $columnsConfig .= ', { caption: "Customer Name", calculateCellValue: function(data) { return [data.firstName, data.middleName, data.lastName].join(" "); }}';
+//            }
 
             View::share('orders', $orders);
             View::share('columns', $columnsConfig);
-        }
+
     }
 }
