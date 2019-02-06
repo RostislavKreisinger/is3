@@ -15,57 +15,128 @@
                 },
                 {
                     caption: 'Name',
-                    dataField: 'name'
+                    dataField: 'attributes.name'
                 },
                 {
+                    allowHeaderFiltering: false,
                     caption: 'Active',
-                    dataField: 'active',
+                    dataField: 'attributes.active',
                     dataType: 'boolean'
                 },
                 {
+                    allowSorting: false,
                     caption: 'Connection',
                     calculateCellValue: function (data) {
-                        if (data.data_storage_connection) {
-                            var parts = data.data_storage_connection.split('\\');
+                        var connection = data.attributes.data_storage_connection;
+
+                        if (connection) {
+                            var parts = connection.split('\\');
                             return parts[parts.length - 1];
                         }
 
                         return '';
                     },
-                    dataField: 'data_storage_connection'
+                    dataField: 'attributes.data_storage_connection'
                 },
                 {
+                    allowFiltering: false,
+                    allowSorting: false,
                     caption: 'Interval',
-                    dataField: 'import_interval',
+                    dataField: 'attributes.import_interval',
                     dataType: 'number'
                 },
                 {
+                    allowFiltering: false,
+                    allowSorting: false,
                     caption: 'History interval',
-                    dataField: 'import_history_interval',
+                    dataField: 'attributes.import_history_interval',
                     dataType: 'number'
                 },
                 {
                     caption: 'Version',
-                    dataField: 'import_version',
+                    dataField: 'attributes.import_version',
                     dataType: 'number'
                 },
                 {
+                    allowHeaderFiltering: false,
                     caption: 'Public',
-                    dataField: 'public',
+                    dataField: 'attributes.public',
                     dataType: 'boolean'
                 },
                 {
+                    allowHeaderFiltering: false,
                     caption: 'POS',
-                    dataField: 'pos_included',
+                    dataField: 'attributes.pos_included',
                     dataType: 'boolean'
                 }
 
             ],
-            dataSource: {$baseUrl} + "/open/import-flow/table/eshop-types",
+            dataSource: {
+                load: function (loadOptions) {
+                    var d = new $.Deferred();
+                    var params = {};
+
+                    if (loadOptions.filter)  {
+                        params.filter = filtersToObject(loadOptions.filter);
+                    }
+
+                    if (loadOptions.sort)  {
+                        var sortAttrs = loadOptions.sort.map(function (sortAttr) {
+                            return (sortAttr.desc ? "-" : "") + sortAttr.selector.replace('attributes.', '');
+                        });
+
+                        params.sort = sortAttrs.join(',');
+                    }
+
+                    params.skip = loadOptions.skip;
+                    params.take = loadOptions.take;
+                    $.getJSON({$baseUrl} + "/open/import-flow/table/eshop-types", params).done(function (data) {
+                        if (data.data) {
+                            d.resolve(data.data, {"totalCount": data.meta.page.total});
+                        }
+                    });
+                    return d.promise();
+                },
+                pageSize: 10,
+                paginate: true
+            },
             filterRow: {
+                showOperationChooser: false,
                 visible: true
             },
-            hoverStateEnabled: true
+            hoverStateEnabled: true,
+            pager: {
+                visible: true
+            },
+            paging: {
+                enabled: true,
+                pageSize: 10
+            },
+            remoteOperations: true
         });
+
+        function filtersToObject(filters) {
+            if (typeof filters[0] === 'string') {
+                var filter = Object.create({});
+                filter[filters[0].replace('attributes.', '')] = filters[2];
+                return filter;
+            }
+
+            var filtersObject = {};
+
+            for (var filter in filters) {
+                if (!filters.hasOwnProperty(filter)) {
+                    continue;
+                }
+
+                var currentFilter = filters[filter];
+
+                if (currentFilter instanceof Array) {
+                    filtersObject = Object.assign(filtersObject, filtersToObject(currentFilter));
+                }
+            }
+
+            return filtersObject;
+        }
     });
 </script>
