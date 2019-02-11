@@ -14,11 +14,6 @@
             <div class="panel-body">
                 <div id="chart-import-flow-queues-times"></div>
                 <script>
-
-                    window.chartImportFlowQueuesTimesUrl = "{action 'Api\ImportFlow\Graphs\QueuesTimesStatusController'}";
-                    // window.chartImportFlowQueuesUrl = "http://localhost/import-support-v3.monkeydata.com/public/api/import-flow/graphs/queues-status";
-                </script>
-                <script>
                     $(function() {
                         $("#chart-import-flow-queues-times").dxChart({
                             dataSource: [],
@@ -59,7 +54,7 @@
                                     color: '#12a010',
                                     label: {
                                         font: {
-                                            color: '#12a010',
+                                            color: '#12a010'
                                         }
                                     }
                                 },
@@ -69,7 +64,7 @@
                                     color: '#FF8C00',
                                     label: {
                                         font: {
-                                            color: '#FF8C00',
+                                            color: '#FF8C00'
                                         }
                                     }
                                 },
@@ -79,19 +74,11 @@
                                     color: '#FF0000',
                                     label: {
                                         font: {
-                                            color: '#FF0000',
+                                            color: '#FF0000'
                                         }
                                     }
-                                },
+                                }
                             ],
-//                            tooltip: {
-//                                enabled: true,
-//                                customizeTooltip: function(point){
-//
-//                                    return { html: mdFormat.formatSecondToTime(point.value) };
-//                                }
-//                            },
-
                             tooltip: {
                                 enabled: true,
                                 shared: true,
@@ -105,30 +92,40 @@
                                     pointsTable += '</table>';
                                     return { html: '<div>' + date.getFormatDate('y-m-d h:i:s') + '</div><div>' + pointsTable + '</div>' };
                                 }
-                            },
+                            }
                         });
 
                         function reloadChartImportFlowQueuesTimes(){
                             var ajax = new MDAjax({
-                                url: window.chartImportFlowQueuesTimesUrl,
+                                url: 'https://develop.monkeydata.cloud/import/import-support-v4-api.monkeydata.cloud/feature/is4api-2/api/v1/queue_times_status',
                                 data: {},
                                 timeout: 30000,
                                 beforeSend: function (xhr) {},
                                 success: function (data) {
-                                    var dxInstace = $("#chart-import-flow-queues-times").dxChart("instance");
-                                    dxInstace.option('dataSource', data);
-
+                                    var dxInstance = $("#chart-import-flow-queues-times").dxChart("instance");
+                                    dxInstance.option('dataSource', getDataFromResponse(data));
                                     setTimeout(reloadChartImportFlowQueuesTimes, 10000);
                                 },
                                 error: function (xhr, status, error) {
                                     setTimeout(reloadChartImportFlowQueuesTimes, 10000);
                                 },
-                                statusCode: {},
+                                statusCode: {}
                             });
                         }
                         reloadChartImportFlowQueuesTimes();
 
+                        function getDataFromResponse(response) {
+                            var data = JSON.parse(response).data;
+                            var results = [];
 
+                            for (var attrs in data) {
+                                if (data.hasOwnProperty(attrs)) {
+                                    results.push(data[attrs].attributes);
+                                }
+                            }
+
+                            return results;
+                        }
                     });
                 </script>
             </div>
