@@ -40,7 +40,7 @@ abstract class ABasePlatform {
     /**
      * @return array
      */
-    public abstract function getOmittedColumns(): array ;
+    public abstract function getOmittedColumns(): array;
 
     public abstract function getColumnsConfig(): string;
 
@@ -48,5 +48,5 @@ abstract class ABasePlatform {
      * @param string $orderStatus
      * @return null|string
      */
-    public abstract function translateOrderStatus(string $orderStatus): string;
+    public abstract function translateOrderStatus(string $orderStatus);
 }

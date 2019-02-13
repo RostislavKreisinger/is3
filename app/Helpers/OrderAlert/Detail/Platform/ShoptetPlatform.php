@@ -42,7 +42,7 @@ class ShoptetPlatform extends ABasePlatform {
      * @param string $orderStatus
      * @return null|string
      */
-    public function translateOrderStatus(string $orderStatus): string {
+    public function translateOrderStatus(string $orderStatus) {
         return null;
     }
 }
