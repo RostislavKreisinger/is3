@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Open\ImportFlow\Table;
+namespace App\Http\Controllers;
 
 
 use Illuminate\Routing\Controller;
@@ -10,8 +10,21 @@ use Illuminate\Routing\Controller;
  * @package App\Http\Controllers\Open\ImportFlow\Table
  */
 abstract class ApiController extends Controller {
-    private $apiUrl = "https://develop.monkeydata.cloud/import/import-support-v4-api.monkeydata.cloud/feature/is4api-2/api/v1";
+    private $apiUrl = "https://develop.monkeydata.cloud/import/import-support-v4-api.monkeydata.cloud/feature/is4api-2/v1";
     protected $endpoint = "";
+
+    /**
+     * @return bool|string
+     */
+    public function index() {
+        $url = $this->getUrl();
+        $curl = curl_init($url);
+        curl_setopt($curl, CURLOPT_HTTPHEADER, ['Accept: application/vnd.api+json']);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        $results = curl_exec($curl);
+        curl_close($curl);
+        return $results;
+    }
 
     /**
      * @return string
