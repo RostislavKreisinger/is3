@@ -7,6 +7,7 @@ use App\Http\Controllers\Project\DetailController;
 use App\Model\User;
 use Monkey\ImportSupport\InvalidProject\ProjectRepository;
 use Monkey\Menu\Menu;
+use Monkey\Menu\MenuList;
 
 class Controller extends BaseController {
 
@@ -15,7 +16,7 @@ class Controller extends BaseController {
     /**
      * 
      * @param User $user
-     * @return type
+     * @return MenuList
      */
     protected function prepareMenu($user = null) {
         $menu = $this->getMenu();

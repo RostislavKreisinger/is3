@@ -3,23 +3,30 @@
 namespace App\Http\Controllers\User;
 
 
-use App\Http\Controllers\ApiController;
+use App\Http\Controllers\ApiClient;
 use App\Model\User;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * Description of HomepageController
  *
  * @author Tomas
  */
-class IndexController extends ApiController {
-    protected $endpoint = 'base/users';
-
+class IndexController extends Controller {
     public function getIndex() {
-        if(!$this->can('user.list')){
-            return $this->redirectToRoot();
+        if (!Auth::user()->can('user.list')) {
+            return redirect('/');
         }
-        
-        $users = User::whereNull('deleted_at')->limit(40)->orderBy('created_at', 'desc')->get();
+
+        $api = new ApiClient;
+        $results = $api->index('base/users');
+
+        $users = collect(array_map(function (array $userArray) {
+            $user = new User;
+            $user->id = $userArray["id"];
+            return $user->fill($userArray["attributes"]);
+        }, $results['data']));
+
         $this->getView()->addParameter('users', $users);
     }
 }

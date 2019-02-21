@@ -10,5 +10,10 @@ use App\Http\Controllers\ApiController;
  * @package App\Http\Controllers\Open\ImportFlow\Table
  */
 class EshopTypesController extends ApiController {
-    protected $endpoint = "catalogs/eshop-types";
+    /**
+     * @return string
+     */
+    public function getEndpoint(): string {
+        return 'catalogs/eshop-types';
+    }
 }
