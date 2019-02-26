@@ -276,9 +276,13 @@
 
                         cellElement.html(
                             cellInfo.value
-                            + ' <form action="' + currentLocation + 'importflowstatus/' + cellInfo.data.unique + '/raise_difficulty" method="POST" style="display: inline;">'
+                            + ' <form action="' + currentLocation + 'importflowstatus/' + cellInfo.data.unique + '/raise_difficulty" method="PUT" style="display: inline;">'
                             + '{csrf_field()|noescape}'
                             + '<input type="submit" value="+" title="Raise difficulty" />'
+                            + '</form>'
+                            + ' <form action="' + currentLocation + 'importflowstatus/' + cellInfo.data.unique + '/reduce_difficulty" method="PUT" style="display: inline;">'
+                            + '{csrf_field()|noescape}'
+                            + '<input type="submit" value="+" title="Reduce difficulty" />'
                             + '</form>'
                         );
                     },

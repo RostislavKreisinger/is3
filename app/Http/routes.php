@@ -134,7 +134,8 @@ Route::group(['middleware' => 'web'], function () {
                         Route::get('/daily-history', App\Http\Controllers\Project\Resource\ImportFlowStatusController::getMethodAction('getIndex'));
                         Route::group(['prefix' => 'importflowstatus'], function () {
                             Route::get('/', App\Http\Controllers\Project\Resource\ImportFlowStatusController::getMethodAction('getResourceInfo'));
-                            Route::post('{unique}/raise_difficulty', 'App\Http\Controllers\Project\Resource\ImportFlowStatusController@raiseDifficulty');
+                            Route::put('{unique}/raise_difficulty', 'App\Http\Controllers\Project\Resource\ImportFlowStatusController@raiseDifficulty');
+                            Route::put('{unique}/reduce_difficulty', 'App\Http\Controllers\Project\Resource\ImportFlowStatusController@reduceDifficulty');
                         });
                         Route::group(['prefix' => 'pool'], function () {
                             Route::get("control", \App\Http\Controllers\Project\Resource\ImportFlowPoolController::getMethodAction('getControlPool'));
