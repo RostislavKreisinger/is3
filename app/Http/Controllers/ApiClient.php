@@ -9,6 +9,7 @@ namespace App\Http\Controllers;
  */
 class ApiClient {
     /**
+     * TODO: Move address to .env
      * @var string $apiUrl
      */
     private $apiUrl = "https://develop.monkeydata.cloud/import/import-support-v4-api.monkeydata.cloud/feature/is4api-2/v1";
@@ -31,7 +32,7 @@ class ApiClient {
      * @param string $endpoint
      * @return string
      */
-    protected function getUrl(string $endpoint): string {
+    private function getUrl(string $endpoint): string {
         return "{$this->apiUrl}/{$endpoint}?{$this->getParamsString()}";
     }
 
