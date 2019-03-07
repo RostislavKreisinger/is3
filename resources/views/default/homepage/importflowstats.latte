@@ -1,9 +1,8 @@
 <div class="row">
     <div class="col-lg-12">
-        <h1 class="page-header">Import flow stats</h1>
+        <h1 class="page-header">Import Flow stats</h1>
     </div>
 </div>
-
 
 <div class="row">
     <div class="col-md-6">
@@ -14,12 +13,9 @@
             <div class="panel-body">
                 <div id="chart-import-flow-queues-times"></div>
                 <script>
-
-                    window.chartImportFlowQueuesTimesUrl = "{action 'Api\ImportFlow\Graphs\QueuesTimesStatusController'}";
-                    // window.chartImportFlowQueuesUrl = "http://localhost/import-support-v3.monkeydata.com/public/api/import-flow/graphs/queues-status";
-                </script>
-                <script>
                     $(function() {
+                        window.apiBaseGraphUrl = 'https://develop.monkeydata.cloud/import/import-support-v4-api.monkeydata.cloud/feature/is4api-2/v1/stats/graphs/';
+
                         $("#chart-import-flow-queues-times").dxChart({
                             dataSource: [],
                             valueAxis: {
@@ -59,7 +55,7 @@
                                     color: '#12a010',
                                     label: {
                                         font: {
-                                            color: '#12a010',
+                                            color: '#12a010'
                                         }
                                     }
                                 },
@@ -69,7 +65,7 @@
                                     color: '#FF8C00',
                                     label: {
                                         font: {
-                                            color: '#FF8C00',
+                                            color: '#FF8C00'
                                         }
                                     }
                                 },
@@ -79,19 +75,11 @@
                                     color: '#FF0000',
                                     label: {
                                         font: {
-                                            color: '#FF0000',
+                                            color: '#FF0000'
                                         }
                                     }
-                                },
+                                }
                             ],
-//                            tooltip: {
-//                                enabled: true,
-//                                customizeTooltip: function(point){
-//
-//                                    return { html: mdFormat.formatSecondToTime(point.value) };
-//                                }
-//                            },
-
                             tooltip: {
                                 enabled: true,
                                 shared: true,
@@ -105,30 +93,39 @@
                                     pointsTable += '</table>';
                                     return { html: '<div>' + date.getFormatDate('y-m-d h:i:s') + '</div><div>' + pointsTable + '</div>' };
                                 }
-                            },
+                            }
                         });
 
-                        function reloadChartImportFlowQueuesTimes(){
-                            var ajax = new MDAjax({
-                                url: window.chartImportFlowQueuesTimesUrl,
-                                data: {},
+                        function reloadChartImportFlowQueuesTimes() {
+                            new MDAjax({
+                                url: window.apiBaseGraphUrl + 'queue-times-status',
                                 timeout: 30000,
-                                beforeSend: function (xhr) {},
                                 success: function (data) {
-                                    var dxInstace = $("#chart-import-flow-queues-times").dxChart("instance");
-                                    dxInstace.option('dataSource', data);
+                                    var dxInstance = $("#chart-import-flow-queues-times").dxChart("instance");
+                                    dxInstance.option('dataSource', window.getDataFromResponse(data));
 
                                     setTimeout(reloadChartImportFlowQueuesTimes, 10000);
                                 },
-                                error: function (xhr, status, error) {
+                                error: function () {
                                     setTimeout(reloadChartImportFlowQueuesTimes, 10000);
                                 },
-                                statusCode: {},
+                                statusCode: {}
                             });
                         }
                         reloadChartImportFlowQueuesTimes();
 
+                        window.getDataFromResponse = function (response) {
+                            var data = JSON.parse(response).data;
+                            var results = [];
 
+                            for (var attrs in data) {
+                                if (data.hasOwnProperty(attrs)) {
+                                    results.push(data[attrs].attributes);
+                                }
+                            }
+
+                            return results;
+                        }
                     });
                 </script>
             </div>
@@ -141,11 +138,6 @@
             </div>
             <div class="panel-body">
                 <div id="chart-import-flow-queues"></div>
-                <script>
-
-                    window.chartImportFlowQueuesUrl = "{action 'Api\ImportFlow\Graphs\QueuesStatusController'}";
-                    // window.chartImportFlowQueuesUrl = "http://localhost/import-support-v3.monkeydata.com/public/api/import-flow/graphs/queues-status";
-                </script>
                 <script>
                     $(function() {
                         $("#chart-import-flow-queues").dxChart({
@@ -166,58 +158,54 @@
                             series: [
                                 {
                                     name: 'ACTIVE',
-                                    valueField: "active_1",
+                                    valueField: "active",
                                     color: '#12a010',
                                     label: {
                                         font: {
-                                            color: '#12a010',
+                                            color: '#12a010'
                                         }
                                     }
                                 },
                                 {
                                     name: 'PLANNED',
-                                    valueField: "active_2",
+                                    valueField: "planned",
                                     color: '#0083ff',
                                     label: {
                                         font: {
-                                            color: '#0083ff',
+                                            color: '#0083ff'
                                         }
                                     }
                                 },
                                 {
                                     name: 'RUNNING',
-                                    valueField: "active_5",
+                                    valueField: "running",
                                     color: '#FF8C00',
                                     label: {
                                         font: {
-                                            color: '#FF8C00',
+                                            color: '#FF8C00'
                                         }
                                     }
-                                },
+                                }
                             ]
                         });
 
                         function reloadChartImportFlowQueues(){
-                            var ajax = new MDAjax({
-                                url: window.chartImportFlowQueuesUrl,
-                                data: {},
+                            new MDAjax({
+                                url: window.apiBaseGraphUrl + 'queue-jobs-status',
                                 timeout: 30000,
-                                beforeSend: function (xhr) {},
                                 success: function (data) {
-                                    var dxInstace = $("#chart-import-flow-queues").dxChart("instance");
-                                    dxInstace.option('dataSource', data);
+                                    var dxInstance = $("#chart-import-flow-queues").dxChart("instance");
+                                    dxInstance.option('dataSource', window.getDataFromResponse(data));
 
                                     setTimeout(reloadChartImportFlowQueues, 10000);
                                 },
-                                error: function (xhr, status, error) {
+                                error: function () {
                                     setTimeout(reloadChartImportFlowQueues, 10000);
                                 },
-                                statusCode: {},
+                                statusCode: {}
                             });
                         }
                         reloadChartImportFlowQueues();
-
-
                     });
                 </script>
             </div>
@@ -235,21 +223,12 @@
             <div class="panel-body">
                 <div id="chart-import-flow-queues-jobs-in-time"></div>
                 <script>
-                    window.chartImportFlowQueuesJobsInTimeUrl = "{action 'Api\ImportFlow\Graphs\QueuesJobsInTimeController'}";
-                    // window.chartImportFlowQueuesUrl = "http://localhost/import-support-v3.monkeydata.com/public/api/import-flow/graphs/queues-status";
-                </script>
-                <script>
                     $(function() {
-                        var selector =$("#chart-import-flow-queues-jobs-in-time");
+                        var selector = $("#chart-import-flow-queues-jobs-in-time");
                         selector.dxChart({
                             dataSource: [],
                             valueAxis: {
                                 min: 0
-//                                label: {
-//                                    customizeText: function(arg){
-//                                        return mdFormat.formatSecondToTime(arg.value);
-//                                    }
-//                                }
                             },
                             argumentAxis: {
                                 argumentType: 'datetime',
@@ -262,40 +241,24 @@
                                 }
                             },
                             commonSeriesSettings: {
-                                argumentField: "category",
+                                argumentField: "created_at",
                                 type: "spline",
                                 point: {
                                     size: 2
                                 }
-//                                label: {
-//                                    visible: false,
-//                                    backgroundColor: 'transparent',
-//                                    font: {
-//                                        weight: 700,
-//                                        size: 14
-//                                    }
-//                                }
                             },
-
                             series: [
                                 {
                                     name: 'jobs count',
-                                    valueField: "value",
+                                    valueField: "jobs_count",
                                     color: '#0083ff',
                                     label: {
                                         font: {
-                                            color: '#0083ff',
+                                            color: '#0083ff'
                                         }
                                     }
                                 }
                             ],
-//                            tooltip: {
-//                                enabled: true,
-//                                customizeTooltip: function(point){
-//                                    var date = mdDate.clone(point.argument);
-//                                    return { html: '<div>' + date.getFormatDate('y-m-d h:i:s') + '</div><div>' + point.value + '</div>' };
-//                                }
-//                            },
                             tooltip: {
                                 enabled: true,
                                 shared: true,
@@ -309,30 +272,26 @@
                                     pointsTable += '</table>';
                                     return { html: '<div>' + date.getFormatDate('y-m-d h:i:s') + '</div><div>' + pointsTable + '</div>' };
                                 }
-                            },
+                            }
                         });
 
-                        function reloadChartImportFlowQueuesJobsInTime(){
-                            var ajax = new MDAjax({
-                                url: window.chartImportFlowQueuesJobsInTimeUrl,
-                                data: {},
+                        function reloadChartImportFlowQueuesJobsInTime() {
+                            new MDAjax({
+                                url: window.apiBaseGraphUrl + 'queue-gearman-status',
                                 timeout: 30000,
-                                beforeSend: function (xhr) {},
                                 success: function (data) {
-                                    var dxInstace = selector.dxChart("instance");
-                                    dxInstace.option('dataSource', data);
+                                    var dxInstance = selector.dxChart("instance");
+                                    dxInstance.option('dataSource', window.getDataFromResponse(data));
 
                                     setTimeout(reloadChartImportFlowQueuesJobsInTime, 5000);
                                 },
-                                error: function (xhr, status, error) {
+                                error: function () {
                                     setTimeout(reloadChartImportFlowQueuesJobsInTime, 5000);
                                 },
-                                statusCode: {},
+                                statusCode: {}
                             });
                         }
                         reloadChartImportFlowQueuesJobsInTime();
-
-
                     });
                 </script>
             </div>
@@ -347,21 +306,12 @@
             <div class="panel-body">
                 <div id="chart-import-flow-queues-jobs-in-time-history"></div>
                 <script>
-                    window.chartImportFlowQueuesJobsInTimeHistoryUrl = "{action 'Api\ImportFlow\Graphs\QueuesJobsInTimeHistoryController'}";
-                    // window.chartImportFlowQueuesUrl = "http://localhost/import-support-v3.monkeydata.com/public/api/import-flow/graphs/queues-status";
-                </script>
-                <script>
                     $(function() {
                         var selector =$("#chart-import-flow-queues-jobs-in-time-history");
                         selector.dxChart({
                             dataSource: [],
                             valueAxis: {
                                 min: 0
-//                                label: {
-//                                    customizeText: function(arg){
-//                                        return mdFormat.formatSecondToTime(arg.value);
-//                                    }
-//                                }
                             },
                             argumentAxis: {
                                 argumentType: 'datetime',
@@ -374,22 +324,13 @@
                                 }
                             },
                             commonSeriesSettings: {
-                                argumentField: "category",
+                                argumentField: "created_at",
                                 type: "spline",
                                 point: {
                                     size: 1
                                 },
                                 hoverMode: 'allArgumentPoints'
-//                                label: {
-//                                    visible: false,
-//                                    backgroundColor: 'transparent',
-//                                    font: {
-//                                        weight: 700,
-//                                        size: 14
-//                                    }
-//                                }
                             },
-
                             series: [
                                 {
                                     name: 'MIN',
@@ -397,18 +338,18 @@
                                     color: '#12a010',
                                     label: {
                                         font: {
-                                            color: '#12a010',
+                                            color: '#12a010'
                                         }
                                     },
                                     width: 1
                                 },
                                 {
                                     name: 'AVG',
-                                    valueField: "value",
+                                    valueField: "avg",
                                     color: '#0083ff',
                                     label: {
                                         font: {
-                                            color: '#0083ff',
+                                            color: '#0083ff'
                                         }
                                     },
                                     width: 3
@@ -419,7 +360,7 @@
                                     color: '#FF8C00',
                                     label: {
                                         font: {
-                                            color: '#FF8C00',
+                                            color: '#FF8C00'
                                         }
                                     },
                                     width: 1
@@ -439,54 +380,30 @@
                                     pointsTable += '</table>';
                                     return { html: '<div>' + date.getFormatDate('y-m-d h:i:s') + '</div><div>' + pointsTable + '</div>' };
                                 }
-                            },
+                            }
                         });
 
                         function reloadChartImportFlowQueuesJobsInTimeHistory(){
-                            var ajax = new MDAjax({
-                                url: window.chartImportFlowQueuesJobsInTimeHistoryUrl,
-                                data: {},
+                            new MDAjax({
+                                url: window.apiBaseGraphUrl + 'queue-gearman-status?byHour=1',
                                 timeout: 30000,
                                 beforeSend: function (xhr) {},
                                 success: function (data) {
-                                    var dxInstace = selector.dxChart("instance");
-                                    dxInstace.option('dataSource', data);
+                                    var dxInstance = selector.dxChart("instance");
+                                    dxInstance.option('dataSource', window.getDataFromResponse(data));
 
                                     setTimeout(reloadChartImportFlowQueuesJobsInTimeHistory, 100000);
                                 },
-                                error: function (xhr, status, error) {
+                                error: function () {
                                     setTimeout(reloadChartImportFlowQueuesJobsInTimeHistory, 100000);
                                 },
-                                statusCode: {},
+                                statusCode: {}
                             });
                         }
                         reloadChartImportFlowQueuesJobsInTimeHistory();
-
-
                     });
                 </script>
             </div>
         </div>
     </div>
 </div>
-
-
-<script>
-    var results = "";
-
-    function getTwoDigitNumber(num) {
-        if(num < 10) {
-            num = "0" + num;
-        }
-        return num;
-    }
-
-    var date = new Date();
-    results = getTwoDigitNumber(date.getMonth()+1) + "-"
-            + getTwoDigitNumber(date.getDate()) + " "
-            + getTwoDigitNumber(date.getHours()) + ":"
-            + getTwoDigitNumber(date.getMinutes()) + ":"
-            + getTwoDigitNumber(date.getSeconds());
-
-    $("#currentDateIFStatuses").text(results);
-</script>
