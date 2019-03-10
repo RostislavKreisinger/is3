@@ -1,7 +1,7 @@
 <?php
 
 Route::middleware('auth', App\Http\Middleware\Authenticate::class);
-Route::middleware('admin', App\Http\Middleware\Admin::class);
+// Route::middleware('admin', App\Http\Middleware\Admin::class);
 
 Route::get('route-list', function () {
     return Route::displayRoutes();
