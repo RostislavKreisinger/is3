@@ -100,8 +100,11 @@ class IFControlPool extends IFPool {
      * @return IFControlPool
      */
     public function reduceDifficulty(): self {
-        $this->workload_difficulty--;
-        $this->save();
+        if ($this->workload_difficulty > 0) {
+            $this->workload_difficulty--;
+            $this->save();
+        }
+
         return $this;
     }
 
