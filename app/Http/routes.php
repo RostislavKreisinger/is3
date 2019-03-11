@@ -7,6 +7,11 @@ Route::get('route-list', function () {
     return Route::displayRoutes();
 });
 
+
+//Route::controller('/ifm', \App\Http\Controllers\IFMonitoring\IfMonitoring::class);
+Route::get('ifm', 'App\Http\Controllers\IFMonitoring\IfMonitoring@index');
+
+
 Route::group(['prefix' => 'open'], function () {
     Route::group(['prefix' => 'import-flow'], function () {
         Route::group(['prefix' => 'graph'], function () {

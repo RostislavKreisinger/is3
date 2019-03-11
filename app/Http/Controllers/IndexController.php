@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Input;
 use Monkey\Helpers\Strings;
 use Monkey\ImportSupport\InvalidProject\ProjectRepository;
 use Monkey\View\View;
+use Symfony\Component\Routing\Route;
 
 /**
  * Description of HomepageController
@@ -23,6 +24,12 @@ use Monkey\View\View;
  */
 class IndexController extends Controller {
 
+
+    public function __construct(){
+        parent::__construct();
+
+
+    }
 
     public function getIndex() {
 

@@ -1561,17 +1561,17 @@
         },
         {
             "name": "monkey/connections",
-            "version": "2.18.0",
+            "version": "2.19.0",
             "source": {
                 "type": "git",
                 "url": "git@gitlab.monkeydata.com:composer/connections.git",
-                "reference": "50e9a3be8087aa84dc112bc391ab0e3f1942b533"
+                "reference": "f53a688eac550b9d9ea5327bb697d4a90bf06632"
             },
             "dist": {
                 "type": "tar",
-                "url": "https://composer.monkeydata.com/dist/monkey-connections-2.18.0-5d48ff.tar",
-                "reference": "50e9a3be8087aa84dc112bc391ab0e3f1942b533",
-                "shasum": "b310ba1be0a885af2ffdd7ddcb8ba9ca3ba50aae"
+                "url": "https://composer.monkeydata.com/dist/monkey-connections-2.19.0-3735b3.tar",
+                "reference": "f53a688eac550b9d9ea5327bb697d4a90bf06632",
+                "shasum": "42251d82826c1e69ba31a88ea42ccf6151b5202d"
             },
             "require": {
                 "illuminate/database": "4.*|5.2.*|5.4.*",
@@ -1602,7 +1602,7 @@
                 }
             ],
             "description": "package for composer",
-            "time": "2019-01-11T22:35:32+00:00"
+            "time": "2019-02-19T22:00:34+00:00"
         },
         {
             "name": "monkey/constants",

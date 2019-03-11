@@ -40,6 +40,10 @@ class Controller extends BaseViewController {
 
     public function __construct() {
         parent::__construct();
+
+        //vd(\PDO::getAvailableDrivers());
+        //vde(phpinfo());
+
         View::share('poolList', $this->getPoolList());
     }
 
