@@ -2,8 +2,10 @@
 
 namespace App\Console\Commands;
 
+use App\Helpers\Monitoring\ImportFlow\StepPoolMonitoring;
 use Illuminate\Console\Command;
 use Illuminate\Foundation\Inspiring;
+use Monkey\View\View;
 
 class Inspire extends Command
 {
@@ -29,5 +31,9 @@ class Inspire extends Command
     public function handle()
     {
         $this->comment(PHP_EOL.Inspiring::quote().PHP_EOL);
+
+        $monitoring = new StepPoolMonitoring();
+        $monitoring->render(new View());
+
     }
 }
