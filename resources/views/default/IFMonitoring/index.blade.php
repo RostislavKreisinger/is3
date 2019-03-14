@@ -66,14 +66,14 @@
         <div class="flow-unique">{{ $row->getUnique() }} - {{ $row->getFlowRuntime() }}</div>
         <div class="flow-row {{ $row->getUnique() }}" style="width: {{$row->getFlowRuntimePercent()}}%;">
 
-            <div class="flow-segment flow-time-to-start import-step" style="width: {{$row->getImportTimeToRunPercent()}}%;">itts</div>
-            <div class="flow-segment flow-runtime import-step" style="width: {{$row->getImportStepRuntimePercent()}}%;">irt</div>
-            <div class="flow-segment flow-time-to-start etl-step" style="width: {{$row->getEtlTimeToRunPercent()}}%;">etts</div>
-            <div class="flow-segment flow-runtime etl-step" style="width: {{$row->getEtlStepRuntimePercent()}}%;">ert</div>
-            <div class="flow-segment flow-time-to-start calc-step" style="width: {{$row->getCalcTimeToRunPercent()}}%;">ctts</div>
-            <div class="flow-segment flow-runtime calc-step" style="width: {{$row->getCalcStepRuntimePercent()}}%;">crt</div>
-            <div class="flow-segment flow-time-to-start output-step" style="width: {{$row->getOutputTimeToRunPercent()}}%;">otts</div>
-            <div class="flow-segment flow-runtime output-step" style="width: {{$row->getOutputStepRuntimePercent()}}%;">ort</div>
+            <div class="flow-segment flow-time-to-start import-step" style="width: {{$row->getImportTimeToRunPercent()}}%;"></div>
+            <div class="flow-segment flow-runtime import-step" style="width: {{$row->getImportStepRuntimePercent()}}%;"></div>
+            <div class="flow-segment flow-time-to-start etl-step" style="width: {{$row->getEtlTimeToRunPercent()}}%;"></div>
+            <div class="flow-segment flow-runtime etl-step" style="width: {{$row->getEtlStepRuntimePercent()}}%;"></div>
+            <div class="flow-segment flow-time-to-start calc-step" style="width: {{$row->getCalcTimeToRunPercent()}}%;"></div>
+            <div class="flow-segment flow-runtime calc-step" style="width: {{$row->getCalcStepRuntimePercent()}}%;"></div>
+            <div class="flow-segment flow-time-to-start output-step" style="width: {{$row->getOutputTimeToRunPercent()}}%;"></div>
+            <div class="flow-segment flow-runtime output-step" style="width: {{$row->getOutputStepRuntimePercent()}}%;"></div>
 
             <div class="cleaner"></div>
         </div>
