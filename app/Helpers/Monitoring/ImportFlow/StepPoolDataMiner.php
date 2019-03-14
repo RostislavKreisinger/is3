@@ -9,6 +9,7 @@
 namespace App\Helpers\Monitoring\ImportFlow;
 
 
+use App\Helpers\Monitoring\ImportFlow\Connection\MyConnections;
 use Monkey\Connections\MDImportFlowConnections;
 
 class StepPoolDataMiner
@@ -21,7 +22,8 @@ class StepPoolDataMiner
     }
 
     private function getActualData(string $query){
-        $connection = MDImportFlowConnections::getImportFlowConnection();
+        //$connection = MDImportFlowConnections::getImportFlowConnection();
+        $connection = MyConnections::getMyTestConnection();
         $data = $connection->select($query);
         return $data;
     }

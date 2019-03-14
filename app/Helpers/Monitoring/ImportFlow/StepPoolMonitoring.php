@@ -24,18 +24,13 @@ class StepPoolMonitoring
      */
     private $dataCalculator;
 
-    public function render($view){
-        $this->selectBaseStepData();
-        return $view;
-    }
 
-
-
-    private function selectBaseStepData(){
-
+    /**
+     * @return GraphRowData[]
+     */
+    public function selectBaseStepData(){
         $data = $this->getDataMiner()->getBaseGraphData();
-
-        $this->getDataCalculator()->calculateDataForGraph($data);
+        return $this->getDataCalculator()->calculateDataForGraph($data);
     }
 
     /**

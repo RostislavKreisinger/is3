@@ -33,18 +33,39 @@ class StepPoolDataCalculator
 
     /**
      * @param array $data
+     * @return GraphRowData[]
      */
     public function calculateDataForGraph(array $data){
         $this->preCalculateGlobalVariables($data);
-        vd($this->getCountFlows());
-        vd($this->getAverageFlowRuntime());
 
-        $outRows = $this->calculateGraphRows($data);
-        $outRows[] = $this->getAverageRow();
+        $rows = $this->calculateGraphRows($data);
+        $rows[$this->getAverageRow()->getUnique()] = $this->getAverageRow();
 
-        
+        $rows = $this->sortHighToLow($rows);
 
+        return $rows;
+    }
 
+    /**
+     * @param GraphRowData[] $rows
+     * @param string $by
+     * @return GraphRowData[]
+     */
+    private function sortHighToLow($rows, $by = "flowRuntime"){
+        $getterName="get".ucfirst($by);
+        $baseSortArray = [];
+        foreach($rows as $graphRowData){
+            $baseSortArray[$graphRowData->getUnique()] = $graphRowData->$getterName();
+        }
+
+        arsort($baseSortArray);
+
+        $out = [];
+        foreach ($baseSortArray as $unique => $runtime){
+            $out[$unique] = $rows[$unique];
+        }
+
+        return $out;
     }
 
     /**
@@ -54,7 +75,7 @@ class StepPoolDataCalculator
     private function calculateGraphRows(array $data){
         $out = [];
         foreach($data as $row){
-            $out[] = $this->getGraphRowData($row);
+            $out[$row->unique] = $this->getGraphRowData($row);
         }
         return $out;
     }
@@ -66,6 +87,7 @@ class StepPoolDataCalculator
      * @return GraphRowData
      */
     private function getGraphRowData(\stdClass $row, bool $isAverage = false){
+
         $graphRow = new GraphRowData($row->unique, $row->flow_runtime, $this->getMaximalFlowRunTime(), $isAverage);
 
         $graphRow->setImportTimeToRunPercent($graphRow->getPercent($row->flow_runtime, (int)$row->i_time_to_start));
@@ -83,6 +105,7 @@ class StepPoolDataCalculator
         if($row->flow_runtime > $this->getAverageFlowRuntime()){
             $graphRow->setBiggerThenAverage(true);
         }
+
         return $graphRow;
     }
 
@@ -94,7 +117,7 @@ class StepPoolDataCalculator
         $sumRuntime = 0;
         $this->setCountFlows(count($data));
         $averageRow = new \stdClass();
-        $averageRow->unique = "";
+        $averageRow->unique = "average";
         $averageRow->i_time_to_start = 0;
         $averageRow->i_time_to_start_c = 0;
         $averageRow->i_runtime = 0;
@@ -132,18 +155,17 @@ class StepPoolDataCalculator
         $this->setMaximalFlowRunTime($maximalFlowRuntime);
         $this->setAverageFlowRuntime($sumRuntime, $this->getCountFlows());
 
-
-        $averageRow->i_time_to_start = $averageRow->i_time_to_start_c =! 0 ? round($averageRow->i_time_to_start / $averageRow->i_time_to_start_c,0) : null;
-        $averageRow->i_runtime = $averageRow->i_runtime_c =! 0 ? round($averageRow->i_runtime / $averageRow->i_runtime_c,0) : null;
+        $averageRow->i_time_to_start = $averageRow->i_time_to_start_c != 0 ? round($averageRow->i_time_to_start / $averageRow->i_time_to_start_c,0) : null;
+        $averageRow->i_runtime = $averageRow->i_runtime_c != 0 ? round($averageRow->i_runtime / $averageRow->i_runtime_c,0) : null;
 
         $averageRow->e_time_to_start = $averageRow->e_time_to_start_c =! 0 ? round($averageRow->e_time_to_start / $averageRow->e_time_to_start_c,0) : null;
-        $averageRow->e_runtime = $averageRow->e_runtime_c =! 0 ? round($averageRow->e_runtime / $averageRow->e_runtime_c,0) : null;
+        $averageRow->e_runtime = $averageRow->e_runtime_c != 0 ? round($averageRow->e_runtime / $averageRow->e_runtime_c,0) : null;
 
-        $averageRow->c_time_to_start = $averageRow->c_time_to_start_c =! 0 ? round($averageRow->c_time_to_start / $averageRow->c_time_to_start_c,0) : null;
-        $averageRow->c_runtime = $averageRow->c_runtime_c =! 0 ? round($averageRow->c_runtime / $averageRow->c_runtime_c,0) : null;
+        $averageRow->c_time_to_start = $averageRow->c_time_to_start_c != 0 ? round($averageRow->c_time_to_start / $averageRow->c_time_to_start_c,0) : null;
+        $averageRow->c_runtime = $averageRow->c_runtime_c != 0 ? round($averageRow->c_runtime / $averageRow->c_runtime_c,0) : null;
 
-        $averageRow->o_time_to_start = $averageRow->o_time_to_start_c =! 0 ? round($averageRow->o_time_to_start / $averageRow->o_time_to_start_c,0) : null;
-        $averageRow->o_runtime = $averageRow->o_runtime_c =! 0 ? round($averageRow->o_runtime / $averageRow->o_runtime_c,0) : null;
+        $averageRow->o_time_to_start = $averageRow->o_time_to_start_c != 0 ? round($averageRow->o_time_to_start / $averageRow->o_time_to_start_c,0) : null;
+        $averageRow->o_runtime = $averageRow->o_runtime_c != 0 ? round($averageRow->o_runtime / $averageRow->o_runtime_c,0) : null;
 
         $averageRow->flow_runtime = $this->getAverageFlowRuntime();
 
