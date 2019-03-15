@@ -24,6 +24,8 @@ class Kernel extends ConsoleKernel {
         InsideTokenRefresherCommand::class,
         BrokenFlowsCommand::class,
         Commands\Inspire::class,
+        Commands\IfMonitor\AverageFlowCommand::class,
+        Commands\IfMonitor\CountLongRuntimeFlowCommand::class,
     ];
 
     /**
