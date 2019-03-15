@@ -9,58 +9,20 @@
 namespace App\Helpers\Monitoring\ImportFlow;
 
 use App\Helpers\Monitoring\ImportFlow\Connection\MonitoringCacheConnection;
+use App\Helpers\Monitoring\ImportFlow\Exception\UnknownMonitoringAttributeException;
 use Monkey\Connections\MDDatabaseConnections;
+use Monkey\Raven\Sentry;
+use Monkey\Slack\Slack;
 
 class StepPoolMonitoring
 {
 
+    const EXCEEDING_COUNT = 10;
+
     const AVERAGE_FLOW_RUNTIME = "averageFlowRuntime";
     const BASE_GRAPH = "baseGraph";
     const MONITORING_LOG_TABLE = "if_monitoring";
-
-const ATTRIBUTES = array(
-                        array(
-                        "id" => 1,
-                        "name" => "average_run_time",
-                        ),
-                        array(
-                        "id" => 2,
-                        "name" => "count_long_run_time_flows",
-                        ),
-                        array(
-                        "id" => 3,
-                        "name" => "long_average_import_time_to_start",
-                        ),
-                        array(
-                        "id" => 4,
-                        "name" => "long_average_etl_time_to_start",
-                        ),
-                        array(
-                        "id" => 5,
-                        "name" => "long_average_calc_time_to_start",
-                        ),
-                        array(
-                        "id" => 6,
-                        "name" => "long_average_output_time_to_start",
-                        ),
-                        array(
-                        "id" => 7,
-                        "name" => "long_average_import_run_time",
-                        ),
-                        array(
-                        "id" => 8,
-                        "name" => "long_average_etl_run_time",
-                        ),
-                        array(
-                        "id" => 9,
-                        "name" => "long_average_calc_run_time",
-                        ),
-                        array(
-                        "id" => 10,
-                        "name" => "long_average_output_run_time",
-                        ),
-                    );
-
+    const MONITORING_ATTRIBUTES_SETTING_TABLE = "if_monitoring_attribute";
 
 
     /**
@@ -101,12 +63,97 @@ const ATTRIBUTES = array(
             }
         }
 
-        MDDatabaseConnections::getImportSupportConnection()->table(self::MONITORING_LOG_TABLE);
+
 
         return $out;
     }
 
-    private function compare
+    /**
+     * @param string $attributeName
+     * @param int $value
+     * @throws UnknownMonitoringAttributeException
+     */
+    private function compareAttribute(string $attributeName, int $value){
+
+        $attributeSetting = $this->getAttributeRowSetting($attributeName);
+        if($attributeSetting->getCriticalValue() < $value){
+            $this->logExceededLimit($attributeSetting);
+        }else{
+            $this->resetLog($attributeSetting);
+        }
+    }
+
+    private function logExceededLimit(MonitoringAttributeSetting $attributeSetting){
+        $row = MDDatabaseConnections::getImportSupportConnection()->table(self::MONITORING_LOG_TABLE)
+            ->where("attribute_id","=",$attributeSetting->getId())
+            ->whereNull("confirm_resolution")
+            ->orderBy("id","DESC")
+            ->first()
+        ;
+
+        if(is_null($row)){
+            $values = [];
+            $values["attribute_id"] = $attributeSetting->getId();
+            $values["number_of_sequels"] = 1;
+            $values["start_issue"] = date("Y-m-d H:i:s");
+            MDDatabaseConnections::getImportSupportConnection()->table(self::MONITORING_LOG_TABLE)->insert($values);
+        }else{
+
+            $values = [];
+            if(is_null($row['start_issue'])){
+                $values['start_issue'] = date("Y-m-d H:i:s");
+            }
+            $values["number_of_sequels"]++;
+
+            if($values["number_of_sequels"] == self::EXCEEDING_COUNT){
+                //self messages
+            }
+
+            MDDatabaseConnections::getImportSupportConnection()->table(self::MONITORING_LOG_TABLE)
+                ->where("id","=",$row->id)
+                ->update($values);
+        }
+    }
+
+    private function sendSlackMessageToImportFlowChannel(string $attributeName, string $startIssue, int $numberOfSequence){
+
+        $message = "Exceeded the limit '{$attributeName}' in {$numberOfSequence} consecutive attempts, the first occurrence of the problem was recorded at {$startIssue}";
+
+        try {
+            Slack::getInstance()->onPAImportDone($message);
+        } catch (\Exception $e) {
+            Sentry::error("Sending message to slack failed;", ['reason'=>$e->getMessage()]);
+        }
+    }
+
+    /**
+     * @param MonitoringAttributeSetting $attributeSetting
+     */
+    private function resetLog(MonitoringAttributeSetting $attributeSetting){
+        
+        $row = MDDatabaseConnections::getImportSupportConnection()->table(self::MONITORING_LOG_TABLE)
+            ->where("attribute_id","=",$attributeSetting->getId())
+            ->where("number_of_sequels","<",self::EXCEEDING_COUNT)
+            ->whereNull("confirm_resolution")
+            ->orderBy("id","DESC")
+            ->first()
+        ;
+
+        if(!is_null($row)){
+
+            $values = [];
+            $values["number_of_sequels"] = 0;
+            $values["start_issue"] = null;
+            $values["solver_user_id"] = null;
+
+
+            MDDatabaseConnections::getImportSupportConnection()->table(self::MONITORING_LOG_TABLE)
+                ->where("id","=",$row->id)
+                ->update($values);
+
+        }
+        
+    }
 
     /**
      * @return StepPoolDataMiner
@@ -128,6 +175,40 @@ const ATTRIBUTES = array(
             $this->dataCalculator = new StepPoolDataCalculator();
         }
         return $this->dataCalculator;
+    }
+
+    /**
+     * @param $attrName
+     * @return MonitoringAttributeSetting
+     */
+
+    /**
+     * @param string $attrName
+     * @return MonitoringAttributeSetting
+     * @throws UnknownMonitoringAttributeException
+     */
+    private function getAttributeRowSetting(string $attrName){
+        $out = MonitoringCacheConnection::getMonitoringCacheConnection()->remember(self::MONITORING_ATTRIBUTES_SETTING_TABLE, 60, function (){
+            return $this->loadAttributesSetting();
+        });
+
+        if(!isset($out[$attrName])){
+            throw new UnknownMonitoringAttributeException($attrName);
+        }
+        return $out[$attrName];
+    }
+
+    /**
+     * @return MonitoringAttributeSetting[]
+     */
+    private function loadAttributesSetting(){
+        $rows = MDDatabaseConnections::getImportSupportConnection()->table(self::MONITORING_ATTRIBUTES_SETTING_TABLE)->get();
+        $out = [];
+        foreach($rows as $row){
+            $out[$row->name] = new MonitoringAttributeSetting($row->id, $row->name, $row->criticalValue);
+        }
+
+        return $out;
     }
 
 
