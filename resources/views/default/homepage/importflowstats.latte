@@ -98,7 +98,7 @@
 
                         function reloadChartImportFlowQueuesTimes() {
                             new MDAjax({
-                                url: window.apiBaseGraphUrl + 'queue-times-status',
+                                url: window.apiBaseGraphUrl + 'queue-times-status?access_token={n $apiToken}',
                                 timeout: 30000,
                                 success: function (data) {
                                     var dxInstance = $("#chart-import-flow-queues-times").dxChart("instance");
@@ -191,7 +191,7 @@
 
                         function reloadChartImportFlowQueues(){
                             new MDAjax({
-                                url: window.apiBaseGraphUrl + 'queue-jobs-status',
+                                url: window.apiBaseGraphUrl + 'queue-jobs-status?access_token={n $apiToken}',
                                 timeout: 30000,
                                 success: function (data) {
                                     var dxInstance = $("#chart-import-flow-queues").dxChart("instance");
@@ -277,7 +277,7 @@
 
                         function reloadChartImportFlowQueuesJobsInTime() {
                             new MDAjax({
-                                url: window.apiBaseGraphUrl + 'queue-gearman-status',
+                                url: window.apiBaseGraphUrl + 'queue-gearman-status?access_token={n $apiToken}',
                                 timeout: 30000,
                                 success: function (data) {
                                     var dxInstance = selector.dxChart("instance");
@@ -385,7 +385,7 @@
 
                         function reloadChartImportFlowQueuesJobsInTimeHistory(){
                             new MDAjax({
-                                url: window.apiBaseGraphUrl + 'queue-gearman-status?byHour=1',
+                                url: window.apiBaseGraphUrl + 'queue-gearman-status?byHour=1&access_token={n $apiToken}',
                                 timeout: 30000,
                                 beforeSend: function (xhr) {},
                                 success: function (data) {
