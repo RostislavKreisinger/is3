@@ -59,6 +59,45 @@ class GraphRowData
      */
     private $outputTimeToRunPercent = 0;
 
+
+    /**
+     * @var int
+     */
+    private $importStepRuntime = 0;
+
+    /**
+     * @var int
+     */
+    private $etlStepRuntime = 0;
+
+    /**
+     * @var int
+     */
+    private $calcStepRuntime = 0;
+
+    /**
+     * @var int
+     */
+    private $outputStepRuntime = 0;
+
+    /**
+     * @var int
+     */
+    private $importTimeToRun = 0;
+    /**
+     * @var int
+     */
+    private $etlTimeToRun = 0;
+    /**
+     * @var int
+     */
+    private $calcTimeToRun = 0;
+    /**
+     * @var int
+     */
+    private $outputTimeToRun = 0;
+    
+
     /**
      * @var string
      */
@@ -326,6 +365,136 @@ class GraphRowData
         $this->biggerThenAverage = $biggerThenAverage;
         return $this;
     }
+
+    /**
+     * @return int
+     */
+    public function getImportStepRuntime(): int{
+        return $this->importStepRuntime;
+    }
+
+    /**
+     * @param int $importStepRuntime
+     * @return GraphRowData
+     */
+    public function setImportStepRuntime(int $importStepRuntime): GraphRowData{
+        $this->importStepRuntime = $importStepRuntime;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getEtlStepRuntime(): int{
+        return $this->etlStepRuntime;
+    }
+
+    /**
+     * @param int $etlStepRuntime
+     * @return GraphRowData
+     */
+    public function setEtlStepRuntime(int $etlStepRuntime): GraphRowData{
+        $this->etlStepRuntime = $etlStepRuntime;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getCalcStepRuntime(): int{
+        return $this->calcStepRuntime;
+    }
+
+    /**
+     * @param int $calcStepRuntime
+     * @return GraphRowData
+     */
+    public function setCalcStepRuntime(int $calcStepRuntime): GraphRowData{
+        $this->calcStepRuntime = $calcStepRuntime;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getOutputStepRuntime(): int{
+        return $this->outputStepRuntime;
+    }
+
+    /**
+     * @param int $outputStepRuntime
+     * @return GraphRowData
+     */
+    public function setOutputStepRuntime(int $outputStepRuntime): GraphRowData{
+        $this->outputStepRuntime = $outputStepRuntime;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getImportTimeToRun(): int{
+        return $this->importTimeToRun;
+    }
+
+    /**
+     * @param int $importTimeToRun
+     * @return GraphRowData
+     */
+    public function setImportTimeToRun(int $importTimeToRun): GraphRowData{
+        $this->importTimeToRun = $importTimeToRun;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getEtlTimeToRun(): int{
+        return $this->etlTimeToRun;
+    }
+
+    /**
+     * @param int $etlTimeToRun
+     * @return GraphRowData
+     */
+    public function setEtlTimeToRun(int $etlTimeToRun): GraphRowData{
+        $this->etlTimeToRun = $etlTimeToRun;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getCalcTimeToRun(): int{
+        return $this->calcTimeToRun;
+    }
+
+    /**
+     * @param int $calcTimeToRun
+     * @return GraphRowData
+     */
+    public function setCalcTimeToRun(int $calcTimeToRun): GraphRowData{
+        $this->calcTimeToRun = $calcTimeToRun;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getOutputTimeToRun(): int{
+        return $this->outputTimeToRun;
+    }
+
+    /**
+     * @param int $outputTimeToRun
+     * @return GraphRowData
+     */
+    public function setOutputTimeToRun(int $outputTimeToRun): GraphRowData{
+        $this->outputTimeToRun = $outputTimeToRun;
+        return $this;
+    }
+
+
 
 
 

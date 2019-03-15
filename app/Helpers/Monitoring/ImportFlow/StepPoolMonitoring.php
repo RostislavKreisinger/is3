@@ -19,7 +19,8 @@ class StepPoolMonitoring
 
     const EXCEEDING_COUNT = 10;
 
-    const AVERAGE_FLOW_RUNTIME = "averageFlowRuntime";
+    const AVERAGE_FLOW_RUNTIME = "average_run_time";
+
     const BASE_GRAPH = "baseGraph";
     const MONITORING_LOG_TABLE = "if_monitoring";
     const MONITORING_ATTRIBUTES_SETTING_TABLE = "if_monitoring_attribute";
@@ -49,23 +50,52 @@ class StepPoolMonitoring
         return $out;
     }
 
-    /**
-     * @return int
-     */
-    public function checkAverageFlowRuntime(){
 
+    /**
+     * @throws UnknownMonitoringAttributeException
+     */
+    public function checkAverageFlowAttributes(){
         $graphData = $this->getGraphData();
 
-        $out = 0;
         foreach($graphData as $rowData){
             if($rowData->isAverage()){
-                $out = $rowData->getFlowRuntime();
+
+                $this->compareAttribute("average_run_time", $rowData->getFlowRuntime());
+                $this->compareAttribute("long_average_import_time_to_start", $rowData->getImportTimeToRun());
+                $this->compareAttribute("long_average_etl_time_to_start", $rowData->getEtlTimeToRun());
+                $this->compareAttribute("long_average_calc_time_to_start", $rowData->getCalcTimeToRun());
+                $this->compareAttribute("long_average_output_time_to_start", $rowData->getOutputTimeToRun());
+
+                $this->compareAttribute("long_average_import_run_time", $rowData->getImportStepRuntime());
+                $this->compareAttribute("long_average_etl_run_time", $rowData->getEtlStepRuntime());
+                $this->compareAttribute("long_average_calc_run_time", $rowData->getCalcStepRuntime());
+                $this->compareAttribute("long_average_output_run_time", $rowData->getOutputStepRuntime());
             }
         }
 
+    }
 
+    /**
+     * @throws UnknownMonitoringAttributeException
+     */
+    public function checkCountLongRunTimeFlows(){
+        $graphData = $this->getGraphData();
 
-        return $out;
+        $averageFlowRuntime = 0;
+        foreach($graphData as $rowData){
+            if($rowData->isAverage()){
+                $averageFlowRuntime = $rowData->getFlowRuntime();
+                vde($rowData);
+            }
+        }
+
+        $count = 0;
+        foreach($graphData as $rowData){
+            if(!$rowData->isAverage() AND $rowData->getFlowRuntime() > $averageFlowRuntime){
+                $count++;
+            }
+        }
+        $this->compareAttribute("count_long_run_time_flows", $count);
     }
 
     /**
@@ -76,6 +106,7 @@ class StepPoolMonitoring
     private function compareAttribute(string $attributeName, int $value){
 
         $attributeSetting = $this->getAttributeRowSetting($attributeName);
+
         if($attributeSetting->getCriticalValue() < $value){
             $this->logExceededLimit($attributeSetting);
         }else{
@@ -83,6 +114,9 @@ class StepPoolMonitoring
         }
     }
 
+    /**
+     * @param MonitoringAttributeSetting $attributeSetting
+     */
     private function logExceededLimit(MonitoringAttributeSetting $attributeSetting){
         $row = MDDatabaseConnections::getImportSupportConnection()->table(self::MONITORING_LOG_TABLE)
             ->where("attribute_id","=",$attributeSetting->getId())
@@ -100,13 +134,16 @@ class StepPoolMonitoring
         }else{
 
             $values = [];
-            if(is_null($row['start_issue'])){
+            $startIssue = $row->start_issue;
+            if(is_null($row->start_issue)){
                 $values['start_issue'] = date("Y-m-d H:i:s");
+                $startIssue = $values['start_issue'];
             }
-            $values["number_of_sequels"]++;
+            $values["number_of_sequels"] = $row->number_of_sequels + 1;
 
-            if($values["number_of_sequels"] == self::EXCEEDING_COUNT){
-                //self messages
+            if(($values["number_of_sequels"] % self::EXCEEDING_COUNT) == 0){
+                $priorityLevel = $values["number_of_sequels"] % self::EXCEEDING_COUNT;
+                $this->sendSlackMessageToImportFlowChannel($attributeSetting->getName(), $attributeSetting->getCriticalValue(), $startIssue, $values["number_of_sequels"], $priorityLevel);
             }
 
             MDDatabaseConnections::getImportSupportConnection()->table(self::MONITORING_LOG_TABLE)
@@ -115,12 +152,28 @@ class StepPoolMonitoring
         }
     }
 
-    private function sendSlackMessageToImportFlowChannel(string $attributeName, string $startIssue, int $numberOfSequence){
+    /**
+     * @param string $attributeName
+     * @param int $criticalValue
+     * @param string $startIssue
+     * @param int $numberOfSequence
+     */
+    private function sendSlackMessageToImportFlowChannel(string $attributeName, int $criticalValue, string $startIssue, int $numberOfSequence, int $priorityLevel){
 
-        $message = "Exceeded the limit '{$attributeName}' in {$numberOfSequence} consecutive attempts, the first occurrence of the problem was recorded at {$startIssue}";
+
+        $emojis = ["🚨","💣","🌋","🌀"];
+        $prioritization = [];
+
+        for($i = 0; $i < $priorityLevel; $i++){
+            $prioritization[] = $emojis[ $i % 4 ];
+        }
+
+        $prioritization = "\n".implode(" ", $prioritization)."\n";
+
+        $message = "{$prioritization}Exceeded the limit '{$attributeName}' ({$criticalValue}) in {$numberOfSequence} consecutive attempts, the first occurrence of the problem was recorded at {$startIssue}{$prioritization}";
 
         try {
-            Slack::getInstance()->onPAImportDone($message);
+            Slack::getInstance()->onIFMonitoringLimitExceeded($message);
         } catch (\Exception $e) {
             Sentry::error("Sending message to slack failed;", ['reason'=>$e->getMessage()]);
         }

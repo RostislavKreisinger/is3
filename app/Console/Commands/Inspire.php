@@ -33,7 +33,7 @@ class Inspire extends Command
         $this->comment(PHP_EOL.Inspiring::quote().PHP_EOL);
 
         $monitoring = new StepPoolMonitoring();
-        $monitoring->render(new View());
+        $monitoring->checkAverageFlowAttributes();
 
     }
 }

@@ -90,16 +90,25 @@ class StepPoolDataCalculator
 
         $graphRow = new GraphRowData($row->unique, $row->flow_runtime, $this->getMaximalFlowRunTime(), $isAverage);
 
+        $graphRow->setImportTimeToRun((int)$row->i_time_to_start);
         $graphRow->setImportTimeToRunPercent($graphRow->getPercent($row->flow_runtime, (int)$row->i_time_to_start));
+        $graphRow->setImportStepRuntime((int)$row->i_runtime);
         $graphRow->setImportStepRuntimePercent($graphRow->getPercent($row->flow_runtime, (int)$row->i_runtime));
 
+        $graphRow->setEtlTimeToRun((int)$row->e_time_to_start);
         $graphRow->setEtlTimeToRunPercent($graphRow->getPercent($row->flow_runtime, (int)$row->e_time_to_start));
+        $graphRow->setEtlStepRuntime((int)$row->e_runtime);
         $graphRow->setEtlStepRuntimePercent($graphRow->getPercent($row->flow_runtime, (int)$row->e_runtime));
 
+        $graphRow->setCalcTimeToRun((int)$row->c_time_to_start);
         $graphRow->setCalcTimeToRunPercent($graphRow->getPercent($row->flow_runtime, (int)$row->c_time_to_start));
+        $graphRow->setCalcStepRuntime((int)$row->c_runtime);
         $graphRow->setCalcStepRuntimePercent($graphRow->getPercent($row->flow_runtime, (int)$row->c_runtime));
 
+
+        $graphRow->setOutputTimeToRun((int)$row->o_time_to_start);
         $graphRow->setOutputTimeToRunPercent($graphRow->getPercent($row->flow_runtime, (int)$row->o_time_to_start));
+        $graphRow->setOutputStepRuntime((int)$row->o_runtime);
         $graphRow->setOutputStepRuntimePercent($graphRow->getPercent($row->flow_runtime, (int)$row->o_runtime));
 
         if($row->flow_runtime > $this->getAverageFlowRuntime()){
@@ -137,8 +146,6 @@ class StepPoolDataCalculator
         $averageRow->o_time_to_start_c = 0;
         $averageRow->o_runtime = 0;
         $averageRow->o_runtime_c = 0;
-
-
 
         foreach($data as $row){
             if($row->flow_runtime > $maximalFlowRuntime){
