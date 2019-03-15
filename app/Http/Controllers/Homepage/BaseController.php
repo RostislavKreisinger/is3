@@ -20,6 +20,8 @@ class BaseController extends Controller {
     }
 
     /**
+     * TODO: Změnit způsob získávání tokenu
+     * 
      * @return string
      */
     private function getApiToken(): string {
