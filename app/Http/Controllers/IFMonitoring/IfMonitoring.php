@@ -14,9 +14,23 @@ class IfMonitoring extends Controller
         $ifMonitoring = new StepPoolMonitoring();
         $data = $ifMonitoring->getGraphData();
 
-        $params = [];
-        $params['graph'] = $data;
+        $out = [];
+        foreach ($data as $rowData){
+            if($rowData->isAverage()){
+                $out[] = $rowData;
+                //vd($rowData);
+                $rowData->getImportTimeToStartValue();
 
-        return view("default.IFMonitoring.index", $params);
+            }
+        }
+
+
+
+
+
+        $params = [];
+        $params['graph'] = $out;
+
+        return view("default.IFMonitoring.circle", $params);
     }
 }

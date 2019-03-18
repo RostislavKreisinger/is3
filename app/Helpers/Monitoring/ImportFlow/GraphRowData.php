@@ -132,6 +132,136 @@ class GraphRowData
         return round( $part / ($base / 100)  ,$round);
     }
 
+    private function getCirclePart($part){
+        //vde($this->getHoleUnrealRuntime());
+        return (int) round( $part / round($this->getHoleUnrealRuntime() / 360));
+    }
+
+    /**
+     * @return int
+     */
+    public function getImportTimeToStartOffset(){
+        return 0;
+    }
+
+    /**
+     * @return int
+     */
+    public function getImportTimeToStartValue(){
+        return $this->getCirclePart($this->getImportTimeToRun());
+    }
+
+    /**
+     * @return int
+     */
+    public function getImportRuntimeOffset(){
+        return $this->getImportTimeToStartOffset() + $this->getImportTimeToStartValue();
+    }
+
+    /**
+     * @return int
+     */
+    public function getImportRuntimeValue(){
+        return $this->getCirclePart($this->getImportStepRuntime());
+    }
+
+    /**
+     * @return int
+     */
+    public function getEtlTimeToStartOffset(){
+        return $this->getImportRuntimeOffset() + $this->getImportRuntimeValue();
+    }
+
+    /**
+     * @return int
+     */
+    public function getEtlTimeToStartValue(){
+        return $this->getCirclePart($this->getEtlTimeToRun());
+
+    }
+
+    /**
+     * @return int
+     */
+    public function getEtlRuntimeOffset(){
+        return $this->getEtlTimeToStartOffset() + $this->getEtlTimeToStartValue();
+    }
+
+    /**
+     * @return int
+     */
+    public function getEtlRuntimeValue(){
+        return $this->getCirclePart($this->getEtlStepRuntime());
+    }
+
+    /**
+     * @return int
+     */
+    public function getCalcTimeToStartOffset(){
+        return $this->getEtlRuntimeOffset() + $this->getEtlRuntimeValue();
+    }
+
+    /**
+     * @return int
+     */
+    public function getCalcTimeToStartValue(){
+        return $this->getCirclePart($this->getCalcTimeToRun());
+    }
+
+    /**
+     * @return int
+     */
+    public function getCalcRuntimeOffset(){
+        return $this->getCalcTimeToStartOffset() + $this->getCalcTimeToStartValue();
+    }
+
+    /**
+     * @return int
+     */
+    public function getCalcRuntimeValue(){
+        return $this->getCirclePart($this->getCalcStepRuntime());
+
+    }
+
+    /**
+     * @return int
+     */
+    public function getOutputTimeToStartOffset(){
+        return $this->getCalcRuntimeOffset() + $this->getCalcRuntimeValue();
+    }
+
+    /**
+     * @return int
+     */
+    public function getOutputTimeToStartValue(){
+        return $this->getCirclePart($this->getOutputTimeToRun());
+    }
+
+    /**
+     * @return int
+     */
+    public function getOutputRuntimeOffset(){
+        return $this->getOutputTimeToStartOffset() + $this->getOutputTimeToStartValue();
+    }
+
+    /**
+     * @return int
+     */
+    public function getOutputRuntimeValue(){
+        return $this->getCirclePart($this->getOutputStepRuntime());
+    }
+
+    /**
+     * @return int
+     */
+    private function getHoleUnrealRuntime(){
+        return $this->getImportTimeToRun() + $this->getImportStepRuntime()+
+            $this->getEtlTimeToRun() + $this->getEtlStepRuntime()+
+            $this->getCalcTimeToRun() + $this->getCalcStepRuntime()+
+            $this->getOutputTimeToRun() + $this->getOutputStepRuntime();
+    }
+
+
     /**
      * @return int
      */

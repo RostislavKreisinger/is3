@@ -118,6 +118,7 @@ class StepPoolDataCalculator
         return $graphRow;
     }
 
+
     /**
      * @param array $data
      */
