@@ -95,6 +95,20 @@ class IFControlPool extends IFPool {
     }
 
     /**
+     * Raises workload_difficulty by 1 and updates model in DB
+     *
+     * @return IFControlPool
+     */
+    public function reduceDifficulty(): self {
+        if ($this->workload_difficulty > 0) {
+            $this->workload_difficulty--;
+            $this->save();
+        }
+
+        return $this;
+    }
+
+    /**
      * Sets is_history attribute to 0
      *
      * @return IFControlPool
