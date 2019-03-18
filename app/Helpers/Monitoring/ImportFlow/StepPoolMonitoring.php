@@ -85,7 +85,6 @@ class StepPoolMonitoring
         foreach($graphData as $rowData){
             if($rowData->isAverage()){
                 $averageFlowRuntime = $rowData->getFlowRuntime();
-                vde($rowData);
             }
         }
 
@@ -132,7 +131,6 @@ class StepPoolMonitoring
             $values["start_issue"] = date("Y-m-d H:i:s");
             MDDatabaseConnections::getImportSupportConnection()->table(self::MONITORING_LOG_TABLE)->insert($values);
         }else{
-
             $values = [];
             $startIssue = $row->start_issue;
             if(is_null($row->start_issue)){
@@ -173,7 +171,9 @@ class StepPoolMonitoring
         $message = "{$prioritization}Exceeded the limit '{$attributeName}' ({$criticalValue}) in {$numberOfSequence} consecutive attempts, the first occurrence of the problem was recorded at {$startIssue}{$prioritization}";
 
         try {
+            vdEcho("Try to send message to slack: {$message}");
             Slack::getInstance()->onIFMonitoringLimitExceeded($message);
+            vdEcho("Message to slack was send.");
         } catch (\Exception $e) {
             Sentry::error("Sending message to slack failed;", ['reason'=>$e->getMessage()]);
         }

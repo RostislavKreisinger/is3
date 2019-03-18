@@ -19,7 +19,7 @@ class CountLongRuntimeFlowCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'longruntime';
+    protected $signature = 'ifmonitor:longruntime';
 
     /**
      * The console command description.

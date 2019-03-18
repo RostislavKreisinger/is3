@@ -19,7 +19,7 @@ class AverageFlowCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'average';
+    protected $signature = 'ifmonitor:average';
 
     /**
      * The console command description.
