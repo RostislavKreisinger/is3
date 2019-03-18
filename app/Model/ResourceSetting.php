@@ -94,6 +94,15 @@ class ResourceSetting extends Model {
     /**
      * @return ResourceSetting
      */
+    public function deactivate(): ResourceSetting {
+        $this->setAttribute('active', 10);
+        $this->setAttribute('ttl', 0);
+        return $this;
+    }
+
+    /**
+     * @return ResourceSetting
+     */
     public function test(): ResourceSetting {
         $this->setAttribute('active', 0);
         $this->setAttribute('ttl', 5);
