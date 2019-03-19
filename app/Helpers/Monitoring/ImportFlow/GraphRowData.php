@@ -114,6 +114,13 @@ class GraphRowData
     private $biggerThenAverage = false;
 
     /**
+     * @var int
+     */
+    private $graphSize;
+
+
+
+    /**
      * GraphRowData constructor.
      * @param string $unique
      * @param int $flowRuntime
@@ -126,6 +133,11 @@ class GraphRowData
         $this->setUnique($unique);
         $this->setFlowRuntime($flowRuntime);
         $this->setFlowRuntimePercent($this->getPercent($maxFlowRuntime, $flowRuntime, 0));
+        $this->setGraphSize($this->calculateGrapsSize($maxFlowRuntime, $flowRuntime));
+    }
+
+    private function calculateGrapsSize($base,$part){
+        return round( $part / ($base / 200) );
     }
 
     public function getPercent($base, $part, $round = 0){
@@ -134,7 +146,10 @@ class GraphRowData
 
     private function getCirclePart($part){
         //vde($this->getHoleUnrealRuntime());
-        return (int) round( $part / round($this->getHoleUnrealRuntime() / 360));
+        if($this->getHoleUnrealRuntime() == 0){
+            return 0;
+        }
+        return (int) round( $part / ($this->getHoleUnrealRuntime() / 360));
     }
 
     /**
@@ -142,6 +157,30 @@ class GraphRowData
      */
     public function getImportTimeToStartOffset(){
         return 0;
+    }
+
+    /**
+     * @param $value
+     * @return int
+     */
+    public function isBiggerThen180($value){
+        return ($value > 180?1:0);
+    }
+
+    /**
+     * @return int
+     */
+    public function getGraphSize(): int{
+        return $this->graphSize;
+    }
+
+    /**
+     * @param int $graphSize
+     * @return GraphRowData
+     */
+    private function setGraphSize(int $graphSize): GraphRowData{
+        $this->graphSize = $graphSize;
+        return $this;
     }
 
     /**

@@ -40,11 +40,10 @@ class StepPoolDataCalculator
 
         $rows = $this->calculateGraphRows($data);
         $rows[$this->getAverageRow()->getUnique()] = $this->getAverageRow();
-
         $rows = $this->sortHighToLow($rows);
-
         return $rows;
     }
+
 
     /**
      * @param GraphRowData[] $rows
