@@ -111,7 +111,7 @@ class GraphRowData
     /**
      * @var bool
      */
-    private $biggerThenAverage = false;
+    private $biggerThanAverage = false;
 
     /**
      * @var int
@@ -133,10 +133,10 @@ class GraphRowData
         $this->setUnique($unique);
         $this->setFlowRuntime($flowRuntime);
         $this->setFlowRuntimePercent($this->getPercent($maxFlowRuntime, $flowRuntime, 0));
-        $this->setGraphSize($this->calculateGrapsSize($maxFlowRuntime, $flowRuntime));
+        $this->setGraphSize($this->calculateGraphSize($maxFlowRuntime, $flowRuntime));
     }
 
-    private function calculateGrapsSize($base,$part){
+    private function calculateGraphSize($base, $part){
         return round( $part / ($base / 200) ) + 30;
     }
 
@@ -146,10 +146,10 @@ class GraphRowData
 
     private function getCirclePart($part){
         //vde($this->getHoleUnrealRuntime());
-        if($this->getHoleUnrealRuntime() == 0){
+        if($this->getWholeUnrealRuntime() == 0){
             return 0;
         }
-        return (int) round( $part / ($this->getHoleUnrealRuntime() / 360));
+        return (int) round( $part / ($this->getWholeUnrealRuntime() / 360));
     }
 
     /**
@@ -293,7 +293,7 @@ class GraphRowData
     /**
      * @return int
      */
-    private function getHoleUnrealRuntime(){
+    private function getWholeUnrealRuntime(){
         return $this->getImportTimeToRun() + $this->getImportStepRuntime()+
             $this->getEtlTimeToRun() + $this->getEtlStepRuntime()+
             $this->getCalcTimeToRun() + $this->getCalcStepRuntime()+
@@ -520,18 +520,18 @@ class GraphRowData
     /**
      * @return bool
      */
-    public function isBiggerThenAverage(): bool
+    public function isBiggerThanAverage(): bool
     {
-        return $this->biggerThenAverage;
+        return $this->biggerThanAverage;
     }
 
     /**
-     * @param bool $biggerThenAverage
+     * @param bool $biggerThanAverage
      * @return GraphRowData
      */
-    public function setBiggerThenAverage(bool $biggerThenAverage): GraphRowData
+    public function setBiggerThanAverage(bool $biggerThanAverage): GraphRowData
     {
-        $this->biggerThenAverage = $biggerThenAverage;
+        $this->biggerThanAverage = $biggerThanAverage;
         return $this;
     }
 

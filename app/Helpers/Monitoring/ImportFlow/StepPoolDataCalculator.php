@@ -111,7 +111,7 @@ class StepPoolDataCalculator
         $graphRow->setOutputStepRuntimePercent($graphRow->getPercent($row->flow_runtime, (int)$row->o_runtime));
 
         if($row->flow_runtime > $this->getAverageFlowRuntime()){
-            $graphRow->setBiggerThenAverage(true);
+            $graphRow->setBiggerThanAverage(true);
         }
 
         return $graphRow;
