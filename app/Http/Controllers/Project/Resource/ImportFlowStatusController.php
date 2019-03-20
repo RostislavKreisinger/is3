@@ -81,4 +81,17 @@ class ImportFlowStatusController extends Controller {
         $message = 'Successfully raised difficulty of flow!';
         return back()->with('message', $message);
     }
+
+    /**
+     * @param int $projectId
+     * @param int $resourceId
+     * @param string $unique
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function reduceDifficulty(int $projectId, int $resourceId, string $unique) {
+        $controlPool = IFControlPool::whereUnique($unique)->first();
+        $controlPool->reduceDifficulty();
+        $message = 'Successfully decreased difficulty of flow!';
+        return back()->with('message', $message);
+    }
 }
