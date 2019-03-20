@@ -1,8 +1,18 @@
+<script type="application/javascript">
+    function mouseOver(unique) {
+        document.getElementById(unique).style.display = "block";
+    }
+
+    function mouseOut(unique) {
+        document.getElementById(unique).style.display = "none";
+    }
+</script>
+
 <style>
 
 .pie-cover{
     position: relative;
-    display: inline-block;
+    display: none;
 }
 
 .pie{
@@ -59,17 +69,74 @@
     background: var(--bcg);
 }
 
+.cylinder {
+    position: relative;
+    overflow: hidden;
+    margin: 0 auto -45px;
+    width: calc(var(--size, 0) * 1px);
+    height: 65px;
+    border-radius: calc(var(--size, 0) / 2 * 1px) / 25px;
+    background-color: rgba(160, 160, 160, 1);
+    z-index: var(--z,9999);
+    border-bottom: 1px solid black;
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+}
 
+.cylinder:before {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: calc(var(--size, 0) * 1px);
+    height: 50px;
+    border-radius: calc(var(--size, 0) / 2 * 1px) / 25px;
+    background-color: rgba(160, 160, 160, 0.1);
+    content: '';
+    border: 1px solid black;
+}
+
+.cylinder:after {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: calc(var(--size, 0) * 1px);
+    height: 50px;
+    border-radius: calc(var(--size, 0) / 2 * 1px) / 25px;
+    background-color: rgba(160, 160, 160, 0.1);
+    content: '';
+}
+
+.average{
+    background-color: orange;
+}
+
+.cylinder:hover{
+    background-color: red;
+}
 
 </style>
 
+<div style="float: left;width: 500px;">
+@foreach ($graph as $row)
+    @php
+        $z = count($graph) - $loop->index;
+        $avg = ($row->isAverage()?"average":"");
+    @endphp
+
+    <div class="cylinder {{$avg}}" style="--size: {{$row->getGraphSize()}};--z: {{$z}};"
+         onmouseover="mouseOver('{{$row->getUnique()}}')" onmouseout="mouseOut('{{$row->getUnique()}}')">
+
+    </div>
+@endforeach
+</div>
+<div style="float: left; width: 1000px;">
 @foreach ($graph as $row)
     @php
     $tmp = $colorSet[$loop->index % 2];
     $boc = ($row->isAverage()?"orange":"black");
     $avg = ($row->isAverage()?"Average ":"");
     @endphp
-    <div class="pie-cover">
+    <div class="pie-cover" id="{{$row->getUnique()}}">
         <div class="pie-label">{{$avg}}{{$row->getFlowRuntime()}}s</div>
 
         <div class="pie" style="--size: {{$row->getGraphSize()}};--boc: {{$boc}};">
@@ -99,6 +166,8 @@
     <div style="--bcg:{{$colorSet[0][5]}};">Calc run time</div>
     <div style="--bcg:{{$colorSet[0][6]}};">Output Time to Start</div>
     <div style="--bcg:{{$colorSet[0][7]}};">Output run time</div>
+</div>
+
 </div>
 
 

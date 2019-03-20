@@ -40,24 +40,27 @@ class StepPoolDataCalculator
 
         $rows = $this->calculateGraphRows($data);
         $rows[$this->getAverageRow()->getUnique()] = $this->getAverageRow();
-        $rows = $this->sortHighToLow($rows);
+        $rows = $this->sort($rows,"up");
         return $rows;
     }
 
-
     /**
      * @param GraphRowData[] $rows
-     * @param string $by
+     * @param string $order
      * @return GraphRowData[]
      */
-    private function sortHighToLow($rows, $by = "flowRuntime"){
-        $getterName="get".ucfirst($by);
+    private function sort($rows,$order = "down"){
+        $getterName="get".ucfirst("flowRuntime");
         $baseSortArray = [];
         foreach($rows as $graphRowData){
             $baseSortArray[$graphRowData->getUnique()] = $graphRowData->$getterName();
         }
+        if($order == "down"){
+            arsort($baseSortArray);
+        }else{
+            asort($baseSortArray);
+        }
 
-        arsort($baseSortArray);
 
         $out = [];
         foreach ($baseSortArray as $unique => $runtime){
