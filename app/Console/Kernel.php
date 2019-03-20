@@ -4,6 +4,7 @@ namespace App\Console;
 
 use App\Console\Commands\BrokenFlowsCommand;
 use App\Console\Commands\InsideTokenRefresherCommand;
+use App\Console\Commands\Stats\PlatformOrdersStatsCommand;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -22,7 +23,8 @@ class Kernel extends ConsoleKernel {
         Commands\FillStornoOrderStatuses::class,
         Commands\GaDeleteAndStartHistory::class,
         InsideTokenRefresherCommand::class,
-        BrokenFlowsCommand::class
+        BrokenFlowsCommand::class,
+        PlatformOrdersStatsCommand::class
             // Commands\Inspire::class,
     ];
 
