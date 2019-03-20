@@ -15,6 +15,12 @@ use Monkey\DateTime\DateTimeHelper;
 
 class PlatformDataProvider {
 
+    const CURRENCY_RATES_TO_CZK = [
+        CurrencyNames::EUR => 25,
+        CurrencyNames::CZK => 1,
+        CurrencyNames::USD => 22
+    ];
+
     /**
      * @var string
      */
@@ -121,11 +127,16 @@ class PlatformDataProvider {
             }
 
             $project->orders = 0;
+            $project->revenueCKZ = 0;
 
             foreach ($orders as $order){
                 $project->orders +=  $order->orderSum;
                 $code = CurrencyNames::getById($order->currency_id);
                 $project->revenue[$code] = $order->revenue;
+
+                if(array_key_exists($order->currency_id, self::CURRENCY_RATES_TO_CZK)){
+                    $project->revenueCKZ += $order->revenue * self::CURRENCY_RATES_TO_CZK[$order->currency_id];
+                }
             }
 
 
