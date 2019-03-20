@@ -163,7 +163,7 @@ class GraphRowData
      * @param $value
      * @return int
      */
-    public function isBiggerThen180($value){
+    public function isBiggerThan180($value){
         return ($value > 180?1:0);
     }
 

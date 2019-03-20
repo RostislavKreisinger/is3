@@ -231,11 +231,6 @@ class StepPoolMonitoring
     }
 
     /**
-     * @param $attrName
-     * @return MonitoringAttributeSetting
-     */
-
-    /**
      * @param string $attrName
      * @return MonitoringAttributeSetting
      * @throws UnknownMonitoringAttributeException

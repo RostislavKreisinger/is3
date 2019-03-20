@@ -8,15 +8,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Model\ImportPools\CurrencyEtlCatalog;
-use App\Model\Resource;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Input;
-use Monkey\Helpers\Strings;
-use Monkey\ImportSupport\InvalidProject\ProjectRepository;
-use Monkey\View\View;
-use Symfony\Component\Routing\Route;
-
 /**
  * Description of HomepageController
  *
@@ -24,12 +15,6 @@ use Symfony\Component\Routing\Route;
  */
 class IndexController extends Controller {
 
-
-    public function __construct(){
-        parent::__construct();
-
-
-    }
 
     public function getIndex() {
 

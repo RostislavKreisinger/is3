@@ -75,17 +75,17 @@
         <div class="pie" style="--size: {{$row->getGraphSize()}};--boc: {{$boc}};">
 
 
-            <div class="pie__segment" data-label="{{$row->getImportTimeToRun()}}" style="--offset: {{$row->getImportTimeToStartOffset()}}; --value: {{$row->getImportTimeToStartValue()}}; --bg: {{$tmp[0]}};--over50: {{$row->isBiggerThen180($row->getImportTimeToStartValue())}};"></div>
-            <div class="pie__segment" data-label="{{$row->getImportStepRuntime()}}" style="--offset: {{$row->getImportRuntimeOffset()}}; --value: {{$row->getImportRuntimeValue()}}; --bg: {{$tmp[1]}};--over50: {{$row->isBiggerThen180($row->getImportRuntimeValue())}};"></div>
+            <div class="pie__segment" data-label="{{$row->getImportTimeToRun()}}" style="--offset: {{$row->getImportTimeToStartOffset()}}; --value: {{$row->getImportTimeToStartValue()}}; --bg: {{$tmp[0]}};--over50: {{$row->isBiggerThan180($row->getImportTimeToStartValue())}};"></div>
+            <div class="pie__segment" data-label="{{$row->getImportStepRuntime()}}" style="--offset: {{$row->getImportRuntimeOffset()}}; --value: {{$row->getImportRuntimeValue()}}; --bg: {{$tmp[1]}};--over50: {{$row->isBiggerThan180($row->getImportRuntimeValue())}};"></div>
 
-            <div class="pie__segment" data-label="{{$row->getEtlTimeToRun()}}" style="--offset: {{$row->getEtlTimeToStartOffset()}}; --value: {{$row->getEtlTimeToStartValue()}}; --bg: {{$tmp[2]}};--over50: {{$row->isBiggerThen180($row->getEtlTimeToStartValue())}};"></div>
-            <div class="pie__segment" data-label="{{$row->getEtlStepRuntime()}}" style="--offset: {{$row->getEtlRuntimeOffset()}}; --value: {{$row->getEtlRuntimeValue()}}; --bg: {{$tmp[3]}};--over50: {{$row->isBiggerThen180($row->getEtlRuntimeValue())}};"></div>
+            <div class="pie__segment" data-label="{{$row->getEtlTimeToRun()}}" style="--offset: {{$row->getEtlTimeToStartOffset()}}; --value: {{$row->getEtlTimeToStartValue()}}; --bg: {{$tmp[2]}};--over50: {{$row->isBiggerThan180($row->getEtlTimeToStartValue())}};"></div>
+            <div class="pie__segment" data-label="{{$row->getEtlStepRuntime()}}" style="--offset: {{$row->getEtlRuntimeOffset()}}; --value: {{$row->getEtlRuntimeValue()}}; --bg: {{$tmp[3]}};--over50: {{$row->isBiggerThan180($row->getEtlRuntimeValue())}};"></div>
 
-            <div class="pie__segment" data-label="{{$row->getCalcTimeToRun()}}" style="--offset: {{$row->getCalcTimeToStartOffset()}}; --value: {{$row->getCalcTimeToStartValue()}}; --bg: {{$tmp[4]}};--over50: {{$row->isBiggerThen180($row->getCalcTimeToStartValue())}};"></div>
-            <div class="pie__segment" data-label="{{$row->getCalcStepRuntime()}}" style="--offset: {{$row->getCalcRuntimeOffset()}}; --value: {{$row->getCalcRuntimeValue()}}; --bg: {{$tmp[5]}};--over50: {{$row->isBiggerThen180($row->getCalcRuntimeValue())}};"></div>
+            <div class="pie__segment" data-label="{{$row->getCalcTimeToRun()}}" style="--offset: {{$row->getCalcTimeToStartOffset()}}; --value: {{$row->getCalcTimeToStartValue()}}; --bg: {{$tmp[4]}};--over50: {{$row->isBiggerThan180($row->getCalcTimeToStartValue())}};"></div>
+            <div class="pie__segment" data-label="{{$row->getCalcStepRuntime()}}" style="--offset: {{$row->getCalcRuntimeOffset()}}; --value: {{$row->getCalcRuntimeValue()}}; --bg: {{$tmp[5]}};--over50: {{$row->isBiggerThan180($row->getCalcRuntimeValue())}};"></div>
 
-            <div class="pie__segment" data-label="{{$row->getOutputTimeToRun()}}" style="--offset: {{$row->getOutputTimeToStartOffset()}}; --value: {{$row->getOutputTimeToStartValue()}}; --bg: {{$tmp[6]}};--over50: {{$row->isBiggerThen180($row->getOutputTimeToStartValue())}};"></div>
-            <div class="pie__segment" data-label="{{$row->getOutputStepRuntime()}}" style="--offset: {{$row->getOutputRuntimeOffset()}}; --value: {{$row->getOutputRuntimeValue()}}; --bg: {{$tmp[7]}};--over50: {{$row->isBiggerThen180($row->getOutputRuntimeValue())}};"></div>
+            <div class="pie__segment" data-label="{{$row->getOutputTimeToRun()}}" style="--offset: {{$row->getOutputTimeToStartOffset()}}; --value: {{$row->getOutputTimeToStartValue()}}; --bg: {{$tmp[6]}};--over50: {{$row->isBiggerThan180($row->getOutputTimeToStartValue())}};"></div>
+            <div class="pie__segment" data-label="{{$row->getOutputStepRuntime()}}" style="--offset: {{$row->getOutputRuntimeOffset()}}; --value: {{$row->getOutputRuntimeValue()}}; --bg: {{$tmp[7]}};--over50: {{$row->isBiggerThan180($row->getOutputRuntimeValue())}};"></div>
         </div>
     </div>
 @endforeach
