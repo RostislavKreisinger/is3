@@ -35,6 +35,21 @@ class PlatformOrdersStatsCommand extends Command {
         $dateFrom = new DateTimeHelper("2018-06-01");
         $dateTo = new DateTimeHelper();
         $data = $provider->getStats($dateFrom, $dateTo);
-        vde($data);
+
+        echo "UID;createdAt;productVariantCount;RevenueCZK;\n";
+        foreach ($data as $project) {
+            echo $this->printRow([$project->user_id, $project->created_at, $project->productsVariant, $project->revenueCKZ]) . "\n";
+        }
+    }
+
+    private function printRow($data) {
+        $string = "";
+        foreach ($data as $item){
+            if(is_string($item)){
+                $item = "\"{$item}\"";
+            }
+            $string .= $item . ";";
+        }
+        return $string;
     }
 }
