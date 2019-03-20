@@ -22,19 +22,19 @@
     }
 
     .flow-row .import-step{
-        background-color: #f6d300;
+        background-color: {{$colorSet[0][1]}};
     }
 
     .flow-row .etl-step{
-        background-color: #00b40c;
+        background-color: {{$colorSet[0][3]}};
     }
 
     .flow-row .calc-step{
-        background-color: #A60D0D;
+        background-color: {{$colorSet[0][5]}};
     }
 
     .flow-row .output-step{
-        background-color: #3E89E4;
+        background-color: {{$colorSet[0][7]}};
     }
 
     .flow-row  .flow-time-to-start{
