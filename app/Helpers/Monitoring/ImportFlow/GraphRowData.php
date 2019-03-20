@@ -137,7 +137,7 @@ class GraphRowData
     }
 
     private function calculateGrapsSize($base,$part){
-        return round( $part / ($base / 200) );
+        return round( $part / ($base / 200) ) + 30;
     }
 
     public function getPercent($base, $part, $round = 0){
