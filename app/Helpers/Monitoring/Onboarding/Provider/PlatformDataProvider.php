@@ -100,6 +100,9 @@ class PlatformDataProvider {
             $project->user_email = null;
             $project->countriesInOrders = null;
 
+            $project->orders = 0;
+            $project->revenueCKZ = 0;
+
             $user = MDDatabaseConnections::getMasterAppConnection()
                 ->table("user as u")
                 ->join("client as c", 'c.user_id', '=', 'u.id')
@@ -126,8 +129,7 @@ class PlatformDataProvider {
                 continue;
             }
 
-            $project->orders = 0;
-            $project->revenueCKZ = 0;
+
 
             foreach ($orders as $order){
                 $project->orders +=  $order->orderSum;
