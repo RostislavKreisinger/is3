@@ -37,7 +37,7 @@ class PlatformOrdersStatsCommand extends Command {
         $data = $provider->getStats($dateFrom, $dateTo);
 
         echo "UID;createdAt;productVariantCount;RevenueCZK;\n";
-        foreach ($data as $project) {
+        foreach ($data->projects as $project) {
             echo $this->printRow([$project->user_id, $project->created_at, $project->productsVariant, $project->revenueCKZ]) . "\n";
         }
     }
