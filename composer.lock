@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "0971a077ccd4219407f0f8f38e234a0b",
+    "content-hash": "62465d2d8d6977c7aac499b94e5fa490",
     "packages": [
         {
             "name": "barryvdh/laravel-ide-helper",
@@ -1717,17 +1717,17 @@
         },
         {
             "name": "monkey/currency-rate",
-            "version": "1.0.3",
+            "version": "dev-hotfix/datatype",
             "source": {
                 "type": "git",
                 "url": "git@gitlab.monkeydata.com:composer/currency-rate.git",
-                "reference": "710d5f4a2bfa21922c8c9bc4d17e523ddf4fe063"
+                "reference": "4309b3c17a4d24c94cfd589fe279e80d4e78229d"
             },
             "dist": {
                 "type": "tar",
-                "url": "https://composer.monkeydata.com/dist/monkey-currency-rate-1.0.3-bc5aba.tar",
-                "reference": "710d5f4a2bfa21922c8c9bc4d17e523ddf4fe063",
-                "shasum": "980ee4bb06b91e40cd2fd53f4f4392d35c2f2f11"
+                "url": "https://composer.monkeydata.com/dist/monkey-currency-rate-dev-hotfix-datatype-584cac.tar",
+                "reference": "4309b3c17a4d24c94cfd589fe279e80d4e78229d",
+                "shasum": "d04b1da10a9792ccb7065b062f9230424f852d29"
             },
             "require": {
                 "monkey/connections": "^2.0.0",
@@ -1752,7 +1752,7 @@
                 }
             ],
             "description": "package for composer",
-            "time": "2018-04-10T14:17:37+00:00"
+            "time": "2019-03-21T12:40:25+00:00"
         },
         {
             "name": "monkey/date-time",
@@ -5940,9 +5940,18 @@
             "time": "2018-12-25T11:19:39+00:00"
         }
     ],
-    "aliases": [],
+    "aliases": [
+        {
+            "alias": "1.0.4",
+            "alias_normalized": "1.0.4.0",
+            "version": "dev-hotfix/datatype",
+            "package": "monkey/currency-rate"
+        }
+    ],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "monkey/currency-rate": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
