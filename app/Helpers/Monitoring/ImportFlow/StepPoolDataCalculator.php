@@ -50,10 +50,9 @@ class StepPoolDataCalculator
      * @return GraphRowData[]
      */
     private function sort($rows,$order = "down"){
-        $getterName="get".ucfirst("flowRuntime");
         $baseSortArray = [];
         foreach($rows as $graphRowData){
-            $baseSortArray[$graphRowData->getUnique()] = $graphRowData->$getterName();
+            $baseSortArray[$graphRowData->getUnique()] = $graphRowData->getFlowRuntime();
         }
         if($order == "down"){
             arsort($baseSortArray);
