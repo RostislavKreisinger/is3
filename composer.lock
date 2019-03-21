@@ -1,10 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "ae150e19807b8031e7483ee669a2f880",
+    "content-hash": "0971a077ccd4219407f0f8f38e234a0b",
     "packages": [
         {
             "name": "barryvdh/laravel-ide-helper",
@@ -768,16 +768,16 @@
         },
         {
             "name": "erusev/parsedown",
-            "version": "1.7.1",
+            "version": "v1.7.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/erusev/parsedown.git",
-                "reference": "92e9c27ba0e74b8b028b111d1b6f956a15c01fc1"
+                "reference": "d60bcdc46978357759ecb13cb4b078da783f8faf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/erusev/parsedown/zipball/92e9c27ba0e74b8b028b111d1b6f956a15c01fc1",
-                "reference": "92e9c27ba0e74b8b028b111d1b6f956a15c01fc1",
+                "url": "https://api.github.com/repos/erusev/parsedown/zipball/d60bcdc46978357759ecb13cb4b078da783f8faf",
+                "reference": "d60bcdc46978357759ecb13cb4b078da783f8faf",
                 "shasum": ""
             },
             "require": {
@@ -810,7 +810,7 @@
                 "markdown",
                 "parser"
             ],
-            "time": "2018-03-08T01:11:30+00:00"
+            "time": "2019-03-17T17:19:46+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",
@@ -1357,16 +1357,16 @@
         },
         {
             "name": "mikehaertl/phpwkhtmltopdf",
-            "version": "2.3.1",
+            "version": "2.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mikehaertl/phpwkhtmltopdf.git",
-                "reference": "45974cc1f0b99a8200aeedac6b692934a8a592cd"
+                "reference": "dcd1236026e8bec9e429308e867c26cd1f941e0a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mikehaertl/phpwkhtmltopdf/zipball/45974cc1f0b99a8200aeedac6b692934a8a592cd",
-                "reference": "45974cc1f0b99a8200aeedac6b692934a8a592cd",
+                "url": "https://api.github.com/repos/mikehaertl/phpwkhtmltopdf/zipball/dcd1236026e8bec9e429308e867c26cd1f941e0a",
+                "reference": "dcd1236026e8bec9e429308e867c26cd1f941e0a",
                 "shasum": ""
             },
             "require": {
@@ -1402,7 +1402,7 @@
                 "wkhtmltoimage",
                 "wkhtmltopdf"
             ],
-            "time": "2018-02-18T10:54:00+00:00"
+            "time": "2019-03-12T07:03:42+00:00"
         },
         {
             "name": "monkey/abstract-domain-model",
@@ -1414,7 +1414,7 @@
             },
             "dist": {
                 "type": "tar",
-                "url": "https://composer.monkeydata.com/dist/monkey-abstract-domain-model-1.4.1-316360.tar",
+                "url": "https://composer:uxJ4EhTaf61fo3pnTvK5@composer.monkeydata.com/dist/monkey-abstract-domain-model-1.4.1-316360.tar",
                 "reference": "efbc28d4a56fe22981bdec1a0430f927736e3b41",
                 "shasum": "68a56d783dc349c500dfa8a851c8f489c4bfa184"
             },
@@ -1432,7 +1432,7 @@
                     "Monkey\\AbstractDomainModel\\": "src/"
                 }
             },
-            "notification-url": "https://composer.monkeydata.com/notify-download/",
+            "notification-url": "https://composer:uxJ4EhTaf61fo3pnTvK5@composer.monkeydata.com/notify-download/",
             "authors": [
                 {
                     "name": "henry",
@@ -1561,17 +1561,17 @@
         },
         {
             "name": "monkey/connections",
-            "version": "2.18.0",
+            "version": "2.19.0",
             "source": {
                 "type": "git",
                 "url": "git@gitlab.monkeydata.com:composer/connections.git",
-                "reference": "50e9a3be8087aa84dc112bc391ab0e3f1942b533"
+                "reference": "f53a688eac550b9d9ea5327bb697d4a90bf06632"
             },
             "dist": {
                 "type": "tar",
-                "url": "https://composer.monkeydata.com/dist/monkey-connections-2.18.0-5d48ff.tar",
-                "reference": "50e9a3be8087aa84dc112bc391ab0e3f1942b533",
-                "shasum": "b310ba1be0a885af2ffdd7ddcb8ba9ca3ba50aae"
+                "url": "https://composer.monkeydata.com/dist/monkey-connections-2.19.0-3735b3.tar",
+                "reference": "f53a688eac550b9d9ea5327bb697d4a90bf06632",
+                "shasum": "42251d82826c1e69ba31a88ea42ccf6151b5202d"
             },
             "require": {
                 "illuminate/database": "4.*|5.2.*|5.4.*",
@@ -1602,7 +1602,7 @@
                 }
             ],
             "description": "package for composer",
-            "time": "2019-01-11T22:35:32+00:00"
+            "time": "2019-02-19T22:00:34+00:00"
         },
         {
             "name": "monkey/constants",
@@ -1716,6 +1716,45 @@
             "time": "2018-09-22T21:42:03+00:00"
         },
         {
+            "name": "monkey/currency-rate",
+            "version": "1.0.3",
+            "source": {
+                "type": "git",
+                "url": "git@gitlab.monkeydata.com:composer/currency-rate.git",
+                "reference": "710d5f4a2bfa21922c8c9bc4d17e523ddf4fe063"
+            },
+            "dist": {
+                "type": "tar",
+                "url": "https://composer.monkeydata.com/dist/monkey-currency-rate-1.0.3-bc5aba.tar",
+                "reference": "710d5f4a2bfa21922c8c9bc4d17e523ddf4fe063",
+                "shasum": "980ee4bb06b91e40cd2fd53f4f4392d35c2f2f11"
+            },
+            "require": {
+                "monkey/connections": "^2.0.0",
+                "monkey/helpers": "^1.0.7",
+                "php": ">=5.5.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "*",
+                "phpunit/phpunit": "3.7.*"
+            },
+            "type": "package",
+            "autoload": {
+                "psr-4": {
+                    "Monkey\\CurrencyRate\\": "src/"
+                }
+            },
+            "notification-url": "https://composer.monkeydata.com/notify-download/",
+            "authors": [
+                {
+                    "name": "henry",
+                    "email": "root@monkeydata.com"
+                }
+            ],
+            "description": "package for composer",
+            "time": "2018-04-10T14:17:37+00:00"
+        },
+        {
             "name": "monkey/date-time",
             "version": "1.3.1",
             "source": {
@@ -1763,7 +1802,7 @@
             },
             "dist": {
                 "type": "tar",
-                "url": "https://composer.monkeydata.com/dist/monkey-domain-model-1.5.1-0e48fe.tar",
+                "url": "https://composer:uxJ4EhTaf61fo3pnTvK5@composer.monkeydata.com/dist/monkey-domain-model-1.5.1-0e48fe.tar",
                 "reference": "d27009a62b0d921a12f0bb2c9fb03f46b9e59f72",
                 "shasum": "06f5a5c64321fd06c9851077790547c087ade3fa"
             },
@@ -1781,7 +1820,7 @@
                     "Monkey\\DomainModel\\": "src/"
                 }
             },
-            "notification-url": "https://composer.monkeydata.com/notify-download/",
+            "notification-url": "https://composer:uxJ4EhTaf61fo3pnTvK5@composer.monkeydata.com/notify-download/",
             "authors": [
                 {
                     "name": "henry",
@@ -2740,7 +2779,7 @@
             },
             "dist": {
                 "type": "tar",
-                "url": "https://composer.monkeydata.com/dist/monkey-translator-1.1.1-f3439c.tar",
+                "url": "https://composer:uxJ4EhTaf61fo3pnTvK5@composer.monkeydata.com/dist/monkey-translator-1.1.1-f3439c.tar",
                 "reference": "e0eab79393c6ca4cb9068d5826642b973656bbf9",
                 "shasum": "99f4992b05e588f370e72e8981d681f84b6fa613"
             },
@@ -2760,7 +2799,7 @@
                     "Monkey\\Translator\\": "src/"
                 }
             },
-            "notification-url": "https://composer.monkeydata.com/notify-download/",
+            "notification-url": "https://composer:uxJ4EhTaf61fo3pnTvK5@composer.monkeydata.com/notify-download/",
             "authors": [
                 {
                     "name": "henry",
@@ -5418,6 +5457,7 @@
                 "mock",
                 "xunit"
             ],
+            "abandoned": true,
             "time": "2015-10-02T06:51:40+00:00"
         },
         {

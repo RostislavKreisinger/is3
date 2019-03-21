@@ -6,20 +6,17 @@ namespace App\Helpers\Monitoring\Onboarding\Provider;
 
 use App\Helpers\Monitoring\Onboarding\Platform;
 use App\Http\Controllers\Open\Monitoring\Onboarding\Platform\Objects\Project;
+use Exception;
 use Illuminate\Database\Query\JoinClause;
 use Illuminate\Support\Facades\Input;
 use Monkey\Connections\MDDatabaseConnections;
 use Monkey\Connections\MDDataStorageConnections;
 use Monkey\Constants\MonkeyData\Currency\CurrencyNames;
+use Monkey\CurrencyRate\CurrencyRate;
 use Monkey\DateTime\DateTimeHelper;
 
 class PlatformDataProvider {
 
-    const CURRENCY_RATES_TO_CZK = [
-        CurrencyNames::EUR => 25,
-        CurrencyNames::CZK => 1,
-        CurrencyNames::USD => 22
-    ];
 
     /**
      * @var string
@@ -92,6 +89,9 @@ class PlatformDataProvider {
         $outputData = [];
         $projects = $this->getProjects($dateFromDth, $dateToDth, ['p.weburl']);
 
+        $currencyRate = new CurrencyRate();
+        $todayDateId = (new DateTimeHelper())->getMySqlId();
+
         foreach ($projects as $project){
             $project->orders = null;
             $project->products = null;
@@ -101,7 +101,11 @@ class PlatformDataProvider {
             $project->countriesInOrders = null;
 
             $project->orders = 0;
-            $project->revenueCKZ = 0;
+            $project->revenueCKZ = [
+                2017 => 0,
+                2018 => 0,
+                2019 => 0
+            ];
 
             $user = MDDatabaseConnections::getMasterAppConnection()
                 ->table("user as u")
@@ -115,9 +119,9 @@ class PlatformDataProvider {
             $table = "f_eshop_order_{$user->client_id}";
             $query = MDDataStorageConnections::getImportDw2Connection()
                 ->table($table)
-                ->whereBetween("date_id", ['20180101', '20181231'])
-                ->selectRaw("count(id) as orderSum, SUM(price_without_vat) as revenue, currency_id")
-                ->groupBy("currency_id")
+                // ->whereBetween("date_id", ['20180101', '20181231'])
+                ->selectRaw("date_id, count(id) as orderSum, SUM(price_without_vat) as revenue, currency_id")
+                ->groupBy("date_id", "currency_id")
             ;
 
             try {
@@ -136,9 +140,17 @@ class PlatformDataProvider {
                 $code = CurrencyNames::getById($order->currency_id);
                 $project->revenue[$code] = $order->revenue;
 
-                if(array_key_exists($order->currency_id, self::CURRENCY_RATES_TO_CZK)){
-                    $project->revenueCKZ += $order->revenue * self::CURRENCY_RATES_TO_CZK[$order->currency_id];
+
+                try {
+                    $rate = $currencyRate->getRate($order->currency_id, CurrencyNames::CZK, $todayDateId);
+                    $year = substr($order->date_id, 0, 4);
+                    if(array_key_exists($year, $project->revenueCKZ)){
+                        $project->revenueCKZ[$year] += $order->revenue * $rate;
+                    }
+                }catch (Exception $e){
+                    continue;
                 }
+
             }
 
 
