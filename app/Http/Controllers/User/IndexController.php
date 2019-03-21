@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\User;
 
 
-use App\Http\Controllers\ApiClient;
+use App\Http\Controllers\ISApiClient;
 use App\Model\User;
 use Illuminate\Support\Facades\Auth;
 
@@ -18,7 +18,7 @@ class IndexController extends Controller {
             return redirect('/');
         }
 
-        $api = new ApiClient;
+        $api = new ISApiClient;
         $results = $api->index('base/users');
 
         $users = collect(array_map(function (array $userArray) {

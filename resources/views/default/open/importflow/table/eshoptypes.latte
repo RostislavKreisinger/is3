@@ -92,7 +92,7 @@
                     params.take = loadOptions.take;
                     $.getJSON({$baseUrl} + "/open/import-flow/table/eshop-types", params).done(function (data) {
                         if (data.data) {
-                            d.resolve(data.data, {"totalCount": data.meta.page.total});
+                            d.resolve(data.data, {"totalCount": data.data.length});
                         }
                     });
                     return d.promise();
@@ -112,7 +112,7 @@
                 enabled: true,
                 pageSize: 10
             },
-            remoteOperations: true
+            remoteOperations: false
         });
 
         function filtersToObject(filters) {

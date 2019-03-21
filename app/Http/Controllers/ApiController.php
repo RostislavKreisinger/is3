@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 
+use App\Helpers\API\ISAPIClient;
+use App\Helpers\API\ISAPIRequest;
 use Illuminate\Routing\Controller;
 
 /**
@@ -11,7 +13,7 @@ use Illuminate\Routing\Controller;
  */
 abstract class ApiController extends Controller {
     /**
-     * @var ApiClient $client
+     * @var ISAPIClient $client
      */
     private $client;
 
@@ -19,15 +21,24 @@ abstract class ApiController extends Controller {
      * @return bool|string
      */
     public function index() {
-        return $this->getClient()->index($this->getEndpoint());
+        $pageSize = request('take', 15);
+        $pageNumber = request('skip', 0) / $pageSize + 1;
+        return $this->getClient()->call(new ISAPIRequest(
+            $this->getEndpoint(),
+            [],
+            request('filter', []),
+            [],
+            ['number' => $pageNumber, 'size' => $pageSize],
+            request('sort', [])
+        ));
     }
 
     /**
-     * @return ApiClient
+     * @return ISAPIClient
      */
-    public function getClient(): ApiClient {
+    public function getClient(): ISAPIClient {
         if ($this->client === null) {
-            $this->client = new ApiClient;
+            $this->client = new ISAPIClient();
         }
 
         return $this->client;
