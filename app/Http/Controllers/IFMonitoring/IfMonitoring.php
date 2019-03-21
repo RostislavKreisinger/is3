@@ -14,16 +14,10 @@ class IfMonitoring extends Controller
         $ifMonitoring = new StepPoolMonitoring();
         $data = $ifMonitoring->getGraphData();
 
-        $out = [];
-        foreach ($data as $rowData){
-            if($rowData->isAverage()){
-                $out[] = $rowData;
-                //vd($rowData);
-                $rowData->getImportTimeToStartValue();
-            }
-        }
-
         $params = [];
+        $params['averageRow'] = $ifMonitoring->getDataCalculator()->getAverageRow();
+        $params['maximalFlowRuntime'] = $ifMonitoring->getDataCalculator()->getMaximalFlowRunTime();
+        $params['flowsCount'] = count($data);
         $params['graph'] = $data;
         $params['colorSet'][0] = ['#00DBFF','#006DFF','#33E900','#33A800','#FF9900','#FF4200','#DBDBDB','#494949'];
         $params['colorSet'][1] = ['#00DBFF','#006DFF','#33E900','#33A800','#FF9900','#FF4200','#DBDBDB','#494949'];

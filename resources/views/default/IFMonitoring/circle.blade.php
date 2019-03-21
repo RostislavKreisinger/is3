@@ -1,10 +1,17 @@
 <script type="application/javascript">
     function mouseOver(unique) {
         document.getElementById(unique).style.display = "block";
+        if(unique != "average"){
+            document.getElementById("average").style.display = "none";
+        }
+
     }
 
     function mouseOut(unique) {
         document.getElementById(unique).style.display = "none";
+        if(unique != "average") {
+            document.getElementById("average").style.display = "block";
+        }
     }
 </script>
 
@@ -15,6 +22,10 @@
     display: none;
 }
 
+#average{
+    display: block;
+}
+
 .pie{
     border-radius: 100%;
     border:1px solid var(--boc);
@@ -22,18 +33,14 @@
     position: relative;
     overflow: hidden;
     width: calc(var(--size, 200)* 1px);
-    margin: 5px;
+    margin: 10px auto;
 }
 .pie__segment{
     --a: calc(var(--over50,0)* -100%);
     --b: calc((1 + var(--over50,0)) * 100%);
     --degrees: calc((var(--offset, 0) / 100) * 360);
     height: 100%;
-
-
     clip-path: polygon(var(--a) var(--a),var(--b) var(--a),var(--b) var(--b), var(--a) var(--b));
-    -webkit-clip-path: polygon(var(--a) var(--a),var(--b) var(--a),var(--b) var(--b), var(--a) var(--b));
-
     position: absolute;
     transform: translate(0,-50%) rotate(90deg) rotate( calc(var(--offset) * 1deg ) );
     transform-origin: 50% 100%;
@@ -68,19 +75,28 @@
     padding: 2px;
     background: var(--bcg);
 }
+.pie-legend div div {
+    background: linear-gradient(to right, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0) 50%, rgba(0, 0, 0, 0.5) 100%);
+}
 
 .cylinder {
     position: relative;
     overflow: hidden;
-    margin: 0 auto -45px;
+    margin: calc(var(--margin) * -1px) auto 0;
     width: calc(var(--size, 0) * 1px);
     height: 65px;
     border-radius: calc(var(--size, 0) / 2 * 1px) / 25px;
-    background-color: rgba(160, 160, 160, 1);
     z-index: var(--z,9999);
     border-bottom: 1px solid black;
     border-left: 1px solid black;
     border-right: 1px solid black;
+    background-color: var(--color);
+}
+
+.cylinder div{
+    background: linear-gradient(to right, rgba(255,255,255,0.5) 0%,rgba(255,255,255,0) 50%,rgba(0,0,0,0.5) 100%);
+    width: 100%;
+    height: 100%;
 }
 
 .cylinder:before {
@@ -90,9 +106,9 @@
     width: calc(var(--size, 0) * 1px);
     height: 50px;
     border-radius: calc(var(--size, 0) / 2 * 1px) / 25px;
-    background-color: rgba(160, 160, 160, 0.1);
     content: '';
     border: 1px solid black;
+    background-color: var(--color);
 }
 
 .cylinder:after {
@@ -102,42 +118,69 @@
     width: calc(var(--size, 0) * 1px);
     height: 50px;
     border-radius: calc(var(--size, 0) / 2 * 1px) / 25px;
-    background-color: rgba(160, 160, 160, 0.1);
     content: '';
 }
 
 .average{
-    background-color: orange;
+    border:1px solid orange;
 }
 
-.cylinder:hover{
+.cylinder:hover, .cylinder:hover:before{
     background-color: red;
 }
 
 </style>
 
-<div style="float: left;width: 500px;">
+
+
+
+
+
+
+<div style="float: left;width: 500px;padding: 50px;">
+
+    @php
+    $oldSize = 0;
+    @endphp
 @foreach ($graph as $row)
     @php
+
+        $margin = ($oldSize/($row->getGraphSize()/100))>98 ? 55 : 45;
+        $oldSize = $row->getGraphSize();
+
         $z = count($graph) - $loop->index;
         $avg = ($row->isAverage()?"average":"");
+        $color = $colorSet[0][$row->getActualActivePart()];
+        $color = ($row->isAverage()?"FFFC00":$color);
     @endphp
 
-    <div class="cylinder {{$avg}}" style="--size: {{$row->getGraphSize()}};--z: {{$z}};"
+    <div class="cylinder {{$avg}}" style="--size: {{$row->getGraphSize()}};--z: {{$z}};--margin: {{$margin}};--color: {{$color}};"
          onmouseover="mouseOver('{{$row->getUnique()}}')" onmouseout="mouseOut('{{$row->getUnique()}}')">
 
+
+        <div>
+
+        </div>
     </div>
+
 @endforeach
 </div>
+
+
+
+
+
+
+
 <div style="float: left; width: 1000px;">
 @foreach ($graph as $row)
     @php
     $tmp = $colorSet[$loop->index % 2];
     $boc = ($row->isAverage()?"orange":"black");
-    $avg = ($row->isAverage()?"Average ":"");
+    $flowName = ($row->isAverage()?"Average":$row->getUnique());
     @endphp
     <div class="pie-cover" id="{{$row->getUnique()}}">
-        <div class="pie-label">{{$avg}}{{$row->getFlowRuntime()}}s</div>
+        <div class="pie-label">{{$flowName}} - {{$row->getFlowRuntime()}}s</div>
 
         <div class="pie" style="--size: {{$row->getGraphSize()}};--boc: {{$boc}};">
 
@@ -158,14 +201,16 @@
 @endforeach
 
 <div class="pie-legend">
-    <div style="--bcg:{{$colorSet[0][0]}};">Import Time to Start</div>
-    <div style="--bcg:{{$colorSet[0][1]}};">Import run time</div>
-    <div style="--bcg:{{$colorSet[0][2]}};">Etl Time to Start</div>
-    <div style="--bcg:{{$colorSet[0][3]}};">Etl run time</div>
-    <div style="--bcg:{{$colorSet[0][4]}};">Calc Time to Start</div>
-    <div style="--bcg:{{$colorSet[0][5]}};">Calc run time</div>
-    <div style="--bcg:{{$colorSet[0][6]}};">Output Time to Start</div>
-    <div style="--bcg:{{$colorSet[0][7]}};">Output run time</div>
+    <div style="--bcg:#FFFC00;"><div>Average - {{$averageRow->getFlowRuntime()}} s</div></div>
+    <div style="--bcg:{{$colorSet[0][0]}};"><div>Import Time to Start - {{$averageRow->getImportTimeToRun()}} s</div></div>
+    <div style="--bcg:{{$colorSet[0][1]}};"><div>Import run time - {{$averageRow->getImportStepRuntime()}} s</div></div>
+    <div style="--bcg:{{$colorSet[0][2]}};"><div>Etl Time to Start - {{$averageRow->getEtlTimeToRun()}} s</div></div>
+    <div style="--bcg:{{$colorSet[0][3]}};"><div>Etl run time - {{$averageRow->getEtlStepRuntime()}} s</div></div>
+    <div style="--bcg:{{$colorSet[0][4]}};"><div>Calc Time to Start - {{$averageRow->getCalcTimeToRun()}} s</div></div>
+    <div style="--bcg:{{$colorSet[0][5]}};"><div>Calc run time - {{$averageRow->getCalcStepRuntime()}} s</div></div>
+    <div style="--bcg:{{$colorSet[0][6]}};"><div>Output Time to Start - {{$averageRow->getOutputTimeToRun()}} s</div></div>
+    <div style="--bcg:{{$colorSet[0][7]}};"><div>Output run time - {{$averageRow->getOutputStepRuntime()}} s</div></div>
+    <div style="--bcg:white;"><div>Flow count - {{$flowsCount}}</div></div>
 </div>
 
 </div>

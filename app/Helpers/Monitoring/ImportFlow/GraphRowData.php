@@ -118,6 +118,11 @@ class GraphRowData
      */
     private $graphSize;
 
+    /**
+     * @var int
+     */
+    private $actualActivePart = -1;
+
 
 
     /**
@@ -660,6 +665,34 @@ class GraphRowData
      */
     public function setOutputTimeToRun(int $outputTimeToRun): GraphRowData{
         $this->outputTimeToRun = $outputTimeToRun;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getActualActivePart(): int{
+
+        $this->setActualActivePart(0, $this->getImportTimeToRun());
+        $this->setActualActivePart(1, $this->getImportStepRuntime());
+        $this->setActualActivePart(2, $this->getEtlTimeToRun());
+        $this->setActualActivePart(3, $this->getEtlStepRuntime());
+        $this->setActualActivePart(4, $this->getCalcTimeToRun());
+        $this->setActualActivePart(5, $this->getCalcStepRuntime());
+        $this->setActualActivePart(6, $this->getOutputTimeToRun());
+        $this->setActualActivePart(7, $this->getOutputStepRuntime());
+
+        return $this->actualActivePart;
+    }
+
+    /**
+     * @param int $actualActivePart
+     * @return GraphRowData
+     */
+    private function setActualActivePart(int $actualActivePart, int $time): GraphRowData{
+        if($actualActivePart > $this->actualActivePart AND $time > 0){
+            $this->actualActivePart = $actualActivePart;
+        }
         return $this;
     }
 
