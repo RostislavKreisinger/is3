@@ -3,19 +3,14 @@
 namespace App\Http\Controllers\Open\ImportFlow\Table;
 
 
-use App\Model\Resource;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Routing\Controller;
+use App\Http\Controllers\ApiController;
 
 /**
  * Class ResourcesController
  * @package App\Http\Controllers\Open\ImportFlow\Table
  */
-class ResourcesController extends Controller {
-    /**
-     * @return Collection
-     */
-    public function index(): Collection {
-        return Resource::all();
+class ResourcesController extends ApiController {
+    public function getEndpoint(): string {
+        return 'catalogs/resources';
     }
 }

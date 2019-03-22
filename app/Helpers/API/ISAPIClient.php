@@ -17,16 +17,19 @@ class ISAPIClient {
 
     /**
      * @param ISAPIRequest $request
+     * @param int $method
      * @return bool|string
      */
-    public function call(ISAPIRequest $request) {
+    public function call(ISAPIRequest $request, int $method = CURLOPT_HTTPGET) {
         $url = $this->getUrl($request);
         $curl = curl_init($url);
         curl_setopt($curl, CURLOPT_HTTPHEADER, [
             'Accept: application/vnd.api+json',
+            //TODO: Change access token acquisition
             'Authorization: Bearer UOM0d36nrSB9odnbpfWxVpFGM28K0Q5DLQCt8JRh'
         ]);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, $method, true);
         $results = curl_exec($curl);
         curl_close($curl);
         return json_decode($results, true);

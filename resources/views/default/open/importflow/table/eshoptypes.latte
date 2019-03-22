@@ -18,13 +18,11 @@
                     dataField: 'attributes.name'
                 },
                 {
-                    allowHeaderFiltering: false,
                     caption: 'Active',
                     dataField: 'attributes.active',
                     dataType: 'boolean'
                 },
                 {
-                    allowSorting: false,
                     caption: 'Connection',
                     calculateCellValue: function (data) {
                         var connection = data.attributes.data_storage_connection;
@@ -39,15 +37,11 @@
                     dataField: 'attributes.data_storage_connection'
                 },
                 {
-                    allowFiltering: false,
-                    allowSorting: false,
                     caption: 'Interval',
                     dataField: 'attributes.import_interval',
                     dataType: 'number'
                 },
                 {
-                    allowFiltering: false,
-                    allowSorting: false,
                     caption: 'History interval',
                     dataField: 'attributes.import_history_interval',
                     dataType: 'number'
@@ -58,85 +52,25 @@
                     dataType: 'number'
                 },
                 {
-                    allowHeaderFiltering: false,
                     caption: 'Public',
                     dataField: 'attributes.public',
                     dataType: 'boolean'
                 },
                 {
-                    allowHeaderFiltering: false,
                     caption: 'POS',
                     dataField: 'attributes.pos_included',
                     dataType: 'boolean'
                 }
 
             ],
-            dataSource: {
-                load: function (loadOptions) {
-                    var d = new $.Deferred();
-                    var params = {};
-
-                    if (loadOptions.filter)  {
-                        params.filter = filtersToObject(loadOptions.filter);
-                    }
-
-                    if (loadOptions.sort)  {
-                        var sortAttrs = loadOptions.sort.map(function (sortAttr) {
-                            return (sortAttr.desc ? "-" : "") + sortAttr.selector.replace('attributes.', '');
-                        });
-
-                        params.sort = sortAttrs.join(',');
-                    }
-
-                    params.skip = loadOptions.skip;
-                    params.take = loadOptions.take;
-                    $.getJSON({$baseUrl} + "/open/import-flow/table/eshop-types", params).done(function (data) {
-                        if (data.data) {
-                            d.resolve(data.data, {"totalCount": data.data.length});
-                        }
-                    });
-                    return d.promise();
-                },
-                pageSize: 10,
-                paginate: true
-            },
+            dataSource: {$baseUrl} + "/open/import-flow/table/eshop-types",
             filterRow: {
-                showOperationChooser: false,
                 visible: true
             },
             hoverStateEnabled: true,
-            pager: {
-                visible: true
-            },
             paging: {
-                enabled: true,
                 pageSize: 10
-            },
-            remoteOperations: false
+            }
         });
-
-        function filtersToObject(filters) {
-            if (typeof filters[0] === 'string') {
-                var filter = Object.create({});
-                filter[filters[0].replace('attributes.', '')] = filters[2];
-                return filter;
-            }
-
-            var filtersObject = {};
-
-            for (var filter in filters) {
-                if (!filters.hasOwnProperty(filter)) {
-                    continue;
-                }
-
-                var currentFilter = filters[filter];
-
-                if (currentFilter instanceof Array) {
-                    filtersObject = Object.assign(filtersObject, filtersToObject(currentFilter));
-                }
-            }
-
-            return filtersObject;
-        }
     });
 </script>

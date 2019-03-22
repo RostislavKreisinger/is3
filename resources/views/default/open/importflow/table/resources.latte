@@ -15,41 +15,41 @@
                 },
                 {
                     caption: 'Name',
-                    dataField: 'name'
+                    dataField: 'attributes.name'
                 },
                 {
                     caption: 'Active',
-                    dataField: 'active',
+                    dataField: 'attributes.active',
                     dataType: 'boolean'
                 },
                 {
                     caption: 'Interval',
-                    dataField: 'import_interval',
+                    dataField: 'attributes.import_interval',
                     dataType: 'number'
                 },
                 {
                     caption: 'History interval',
-                    dataField: 'import_history_interval',
+                    dataField: 'attributes.import_history_interval',
                     dataType: 'number'
                 },
                 {
                     caption: 'Version',
-                    dataField: 'import_version',
+                    dataField: 'attributes.import_version',
                     dataType: 'number'
                 },
                 {
                     caption: 'Public',
-                    dataField: 'is_public',
+                    dataField: 'attributes.is_public',
                     dataType: 'boolean'
                 },
                 {
                     caption: 'Online store',
-                    dataField: 'is_onlinestore',
+                    dataField: 'attributes.is_onlinestore',
                     dataType: 'boolean'
                 },
                 {
                     caption: 'Resource',
-                    dataField: 'is_resource',
+                    dataField: 'attributes.is_resource',
                     dataType: 'boolean'
                 }
 
@@ -58,7 +58,10 @@
             filterRow: {
                 visible: true
             },
-            hoverStateEnabled: true
+            hoverStateEnabled: true,
+            paging: {
+                pageSize: 10
+            }
         });
     });
 </script>
