@@ -35,7 +35,7 @@ class PlatformDataProvider {
      * @param DateTimeHelper $dateFromDth
      * @param DateTimeHelper $dateToDth
      * @param array $columns
-     * @return array
+     * @return Project[]
      */
     protected function getProjects(DateTimeHelper $dateFromDth, DateTimeHelper $dateToDth, $columns = array()) {
 
@@ -119,6 +119,8 @@ class PlatformDataProvider {
             $table = "f_eshop_order_{$user->client_id}";
             $query = MDDataStorageConnections::getImportDw2Connection()
                 ->table($table)
+                ->where("project_id", "=", $project->id)
+                ->where("row_status", "<", 100)
                 // ->whereBetween("date_id", ['20180101', '20181231'])
                 ->selectRaw("date_id, count(id) as orderSum, SUM(price_without_vat) as revenue, currency_id")
                 ->groupBy("date_id", "currency_id")
