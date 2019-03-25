@@ -172,7 +172,7 @@
 
 
 
-<div style="float: left; width: 1000px;">
+<div style="width: 1000px;position: fixed;left:600px;">
 @foreach ($graph as $row)
     @php
     $tmp = $colorSet[$loop->index % 2];
@@ -200,18 +200,18 @@
     </div>
 @endforeach
 
-<div class="pie-legend">
-    <div style="--bcg:#FFFC00;"><div>Average - {{$averageRow->getFlowRuntime()}} s</div></div>
-    <div style="--bcg:{{$colorSet[0][0]}};"><div>Import Time to Start - {{$averageRow->getImportTimeToRun()}} s</div></div>
-    <div style="--bcg:{{$colorSet[0][1]}};"><div>Import run time - {{$averageRow->getImportStepRuntime()}} s</div></div>
-    <div style="--bcg:{{$colorSet[0][2]}};"><div>Etl Time to Start - {{$averageRow->getEtlTimeToRun()}} s</div></div>
-    <div style="--bcg:{{$colorSet[0][3]}};"><div>Etl run time - {{$averageRow->getEtlStepRuntime()}} s</div></div>
-    <div style="--bcg:{{$colorSet[0][4]}};"><div>Calc Time to Start - {{$averageRow->getCalcTimeToRun()}} s</div></div>
-    <div style="--bcg:{{$colorSet[0][5]}};"><div>Calc run time - {{$averageRow->getCalcStepRuntime()}} s</div></div>
-    <div style="--bcg:{{$colorSet[0][6]}};"><div>Output Time to Start - {{$averageRow->getOutputTimeToRun()}} s</div></div>
-    <div style="--bcg:{{$colorSet[0][7]}};"><div>Output run time - {{$averageRow->getOutputStepRuntime()}} s</div></div>
-    <div style="--bcg:white;"><div>Flow count - {{$flowsCount}}</div></div>
-</div>
+    <div class="pie-legend">
+        <div style="--bcg:#FFFC00;"><div>Average - {{$averageRow->getFlowRuntime()}} s</div></div>
+        <div style="--bcg:{{$colorSet[0][0]}};"><div>Import Time to Start - {{$averageRow->getImportTimeToRun()}} s</div></div>
+        <div style="--bcg:{{$colorSet[0][1]}};"><div>Import run time - {{$averageRow->getImportStepRuntime()}} s</div></div>
+        <div style="--bcg:{{$colorSet[0][2]}};"><div>Etl Time to Start - {{$averageRow->getEtlTimeToRun()}} s</div></div>
+        <div style="--bcg:{{$colorSet[0][3]}};"><div>Etl run time - {{$averageRow->getEtlStepRuntime()}} s</div></div>
+        <div style="--bcg:{{$colorSet[0][4]}};"><div>Calc Time to Start - {{$averageRow->getCalcTimeToRun()}} s</div></div>
+        <div style="--bcg:{{$colorSet[0][5]}};"><div>Calc run time - {{$averageRow->getCalcStepRuntime()}} s</div></div>
+        <div style="--bcg:{{$colorSet[0][6]}};"><div>Output Time to Start - {{$averageRow->getOutputTimeToRun()}} s</div></div>
+        <div style="--bcg:{{$colorSet[0][7]}};"><div>Output run time - {{$averageRow->getOutputStepRuntime()}} s</div></div>
+        <div style="--bcg:white;"><div>Flow count - {{$flowsCount}}</div></div>
+    </div>
 
 </div>
 

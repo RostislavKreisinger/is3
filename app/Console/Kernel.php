@@ -3,6 +3,9 @@
 namespace App\Console;
 
 use App\Console\Commands\BrokenFlowsCommand;
+use App\Console\Commands\IfMonitor\AverageFlowCommand;
+use App\Console\Commands\IfMonitor\CountHigherDifficultyFlowCommand;
+use App\Console\Commands\IfMonitor\CountLongRuntimeFlowCommand;
 use App\Console\Commands\InsideTokenRefresherCommand;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
@@ -24,8 +27,9 @@ class Kernel extends ConsoleKernel {
         InsideTokenRefresherCommand::class,
         BrokenFlowsCommand::class,
         Commands\Inspire::class,
-        Commands\IfMonitor\AverageFlowCommand::class,
-        Commands\IfMonitor\CountLongRuntimeFlowCommand::class,
+        AverageFlowCommand::class,
+        CountLongRuntimeFlowCommand::class,
+        CountHigherDifficultyFlowCommand::class
     ];
 
     /**

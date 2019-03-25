@@ -22,6 +22,11 @@ class StepPoolDataMiner
         return $this->getActualData($query);
     }
 
+    public function getDifficultyData(){
+        $query = $this->buildDifficultyQuery();
+        return $this->getActualData($query);
+    }
+
     private function getActualData(string $query){
         if(Environment::isProduction()){
             $connection = MDImportFlowConnections::getImportFlowConnection();
@@ -33,6 +38,23 @@ class StepPoolDataMiner
         $data = $connection->select($query);
         return $data;
     }
+
+    private function buildDifficultyQuery(){
+
+
+        $uniquePart = $this->getAllUniqueQueryPart();
+
+        $query = "
+        SELECT con.workload_difficulty as difficulty
+        FROM ($uniquePart) as u
+        JOIN if_control as con ON (con.`unique` = u.`unique`)
+        WHERE con.workload_difficulty > 0
+        ";
+
+
+        return $query;
+    }
+
 
     /**
      * @return string

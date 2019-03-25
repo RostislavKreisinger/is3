@@ -72,7 +72,6 @@ class StepPoolMonitoring
                 $this->compareAttribute("long_average_output_run_time", $rowData->getOutputStepRuntime());
             }
         }
-
     }
 
     /**
@@ -95,6 +94,19 @@ class StepPoolMonitoring
             }
         }
         $this->compareAttribute("count_long_run_time_flows", $count);
+    }
+
+    /**
+     * @throws UnknownMonitoringAttributeException
+     */
+    public function checkCountHigherWorkflowDifficulty(){
+
+        $data = $this->getDataMiner()->getDifficultyData();
+
+        $count = count($data);
+        vd($count);
+
+        $this->compareAttribute("count_higher_difficulty_flows", $count);
     }
 
     /**

@@ -18,7 +18,7 @@ class MyTestServer extends AMySQLServer
     }
 
     protected function fetchSchemaName() {
-        return "md_import_flow_test";
+        return "md_import_flow_test2";
     }
 
     protected function fetchUsername() {

@@ -31,5 +31,7 @@ class MonitoringAttributesSeeder extends Seeder
             ->table("if_monitoring_attribute")->insert(["name"=>"long_average_calc_run_time","criticalValue"=>1800]);
         \Monkey\Connections\MDDatabaseConnections::getImportSupportConnection()
             ->table("if_monitoring_attribute")->insert(["name"=>"long_average_output_run_time","criticalValue"=>1800]);
+        \Monkey\Connections\MDDatabaseConnections::getImportSupportConnection()
+            ->table("if_monitoring_attribute")->insert(["name"=>"count_higher_difficulty_flows","criticalValue"=>100]);
     }
 }
