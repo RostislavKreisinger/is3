@@ -3,7 +3,8 @@
 namespace App\Http\Controllers\User;
 
 
-use App\Http\Controllers\ISApiClient;
+use App\Helpers\API\ISAPIClient;
+use App\Helpers\API\ISAPIRequest;
 use App\Model\User;
 use Illuminate\Support\Facades\Auth;
 
@@ -19,7 +20,7 @@ class IndexController extends Controller {
         }
 
         $api = new ISApiClient;
-        $results = $api->index('base/users');
+        $results = $api->call(new ISAPIRequest('base/users'));
 
         $users = collect(array_map(function (array $userArray) {
             $user = new User;

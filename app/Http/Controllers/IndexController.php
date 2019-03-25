@@ -1,20 +1,7 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 namespace App\Http\Controllers;
 
-use App\Model\ImportPools\CurrencyEtlCatalog;
-use App\Model\Resource;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Input;
-use Monkey\Helpers\Strings;
-use Monkey\ImportSupport\InvalidProject\ProjectRepository;
-use Monkey\View\View;
 
 /**
  * Description of HomepageController
@@ -22,12 +9,10 @@ use Monkey\View\View;
  * @author Tomas
  */
 class IndexController extends Controller {
-
-
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function getIndex() {
-
-
+        return view('default.index', ['menu' => $this->prepareMenu()]);
     }
-
-
 }

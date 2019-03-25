@@ -110,7 +110,7 @@ class BaseViewController extends BaseAuthController {
     /**
      *
      * @param MenuList $menu
-     * @return Controller
+     * @return static
      */
     public function setMenu(MenuList $menu) {
         $this->menu = $menu;

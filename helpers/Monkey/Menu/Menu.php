@@ -26,7 +26,6 @@ class Menu extends MenuList {
     private $opened = false;
     
     public function __construct($name, $link) {
-        parent::__construct();
         $this->setName($name);
         $this->setLink($link);
     }

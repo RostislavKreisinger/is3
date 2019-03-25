@@ -44,16 +44,19 @@ class Controller extends BaseViewController {
     }
 
     protected function prepareMenu() {
-        $menu = $this->getMenu();
+        $menu = parent::prepareMenu();
 
-        $menu->addMenuItem(new Menu("Import v2", URL::action(Importv2Controller::getMethodAction())));
-        $menu->addMenuItem(new Menu("Import-flow", URL::action(ImportFlowController::getMethodAction())));
-        $menu->addMenuItem(new Menu("Import-flow stats", URL::action(ImportFlowStatsController::getMethodAction())));
-        $menu->addMenuItem(new Menu("Order Alert", URL::action(IndexController::getMethodAction())));
-        $menu->addMenuItem(new Menu("IF Control Pool", URL::action(ImportFlowControlPoolController::getMethodAction())));
-        $menu->addMenuItem(new Menu("Resources", URL::action(ResourcesController::getMethodAction())));
-        $menu->addMenuItem(new Menu("Large flows", URL::action(LargeFlowController::getMethodAction())));
-        $menu->addMenuItem(new Menu("Broken flows", URL::action(BrokenFlowController::getMethodAction())));
+        if (!$menu->isPrepared()) {
+            $menu->addMenuItem(new Menu("Import v2", URL::action(Importv2Controller::getMethodAction())));
+            $menu->addMenuItem(new Menu("Import-flow", URL::action(ImportFlowController::getMethodAction())));
+            $menu->addMenuItem(new Menu("Import-flow stats", URL::action(ImportFlowStatsController::getMethodAction())));
+            $menu->addMenuItem(new Menu("Order Alert", URL::action(IndexController::getMethodAction())));
+            $menu->addMenuItem(new Menu("IF Control Pool", URL::action(ImportFlowControlPoolController::getMethodAction())));
+            $menu->addMenuItem(new Menu("Resources", URL::action(ResourcesController::getMethodAction())));
+            $menu->addMenuItem(new Menu("Large flows", URL::action(LargeFlowController::getMethodAction())));
+            $menu->addMenuItem(new Menu("Broken flows", URL::action(BrokenFlowController::getMethodAction())));
+            $menu->setPrepared();
+        }
 
         return $menu;
     }
