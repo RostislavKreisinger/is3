@@ -100,12 +100,8 @@ class StepPoolMonitoring
      * @throws UnknownMonitoringAttributeException
      */
     public function checkCountHigherWorkflowDifficulty(){
-
         $data = $this->getDataMiner()->getDifficultyData();
-
         $count = count($data);
-        vd($count);
-
         $this->compareAttribute("count_higher_difficulty_flows", $count);
     }
 
