@@ -2,8 +2,10 @@
 
 namespace App\Model;
 
-use Eloquent;
-
+/**
+ * Class Currency
+ * @package App\Model
+ */
 class Currency extends Model {
 
 

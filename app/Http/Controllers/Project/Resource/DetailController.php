@@ -121,7 +121,7 @@ class DetailController extends Controller {
     protected function breadcrumbAfterAction($parameters = array()) {
         $breadcrumbs = parent::breadcrumbAfterAction();
         $breadcrumbs->addBreadcrumbItem(new BreadcrumbItem('user', 'User', \Monkey\action(UserDetailController::class, ['user_id' => $this->project->user_id])));
-        $breadcrumbs->addBreadcrumbItem(new BreadcrumbItem('project', 'Project', \Monkey\action(ProjectDetailController::class, ['project_id' => $this->project->id])));
+        $breadcrumbs->addBreadcrumbItem(new BreadcrumbItem('project', 'Project', url("/project/{$this->project->id}")));
         $breadcrumbs->addBreadcrumbItem(new BreadcrumbItem('resource', 'Resource', \Monkey\action(self::class, ['project_id' => $this->project->id, 'resource_id' => $this->resource->id])));
     }
 

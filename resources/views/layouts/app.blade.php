@@ -47,11 +47,12 @@
     </div>
 </nav>
 <div class="container-fluid">
-    <div class="row content">
-        <div class="col-sm-2 navbar-default sidebar sidebar-nav" role="navigation">
+    <div class="row">
+        <div class="col-md-2 navbar-default sidebar sidebar-nav" role="navigation">
             @yield('left-menu')
         </div>
-        <div class="col-sm-10">
+        <div class="col-md-10 content">
+            @includeWhen(isset($breadcrumbs), 'default.breadcrumbs')
             @yield('page-title')
             @yield('content')
         </div>

@@ -22,6 +22,7 @@ class ISAPIClient {
      */
     public function call(ISAPIRequest $request, int $method = CURLOPT_HTTPGET) {
         $url = $this->getUrl($request);
+        $url = trim($url, '?');
         $curl = curl_init($url);
         curl_setopt($curl, CURLOPT_HTTPHEADER, [
             'Accept: application/vnd.api+json',

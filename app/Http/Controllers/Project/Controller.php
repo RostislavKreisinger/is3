@@ -28,13 +28,13 @@ class Controller extends BaseController {
     protected function prepareMenu($project = null) {
         View::share('project', $project);
         $menu = $this->getMenu();
+
         if ($project !== null) {
-            $resources = new Menu($project->name, '#');
+            $resources = new Menu($project->name, url("#"));
             $resources->setOpened(true);
             $projectResources = $project->getResources(); // ->get();
 
             foreach ($projectResources as $resource) {
-                // vde($resource);
                 $menuItem = new Menu(
                     Tr::_($resource->btf_name),
                     action(DetailController::routeMethod('getIndex'), ['project_id' => $project->id, 'resource_id' => $resource->id])
@@ -60,7 +60,7 @@ class Controller extends BaseController {
                 if ($project->id == $userProject->id) continue;
                 $menuItem = new Menu(
                     $userProject->name,
-                    action(ProjectDetailController::routeMethod('getIndex'), ['project_id' => $userProject->id])
+                    url("/project/{$userProject->id}")
                 );
                 $menuItem->setTitle($userProject->id);
                 if (!$userProject->isValid()) {

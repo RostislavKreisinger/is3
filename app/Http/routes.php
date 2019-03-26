@@ -161,7 +161,7 @@ Route::group(['middleware' => 'web'], function () {
 
                     Route::controller('/', \App\Http\Controllers\Project\IndexController::class);
                 });
-                Route::controller('/', App\Http\Controllers\Project\DetailController::class);
+                Route::get('/', '\App\Http\Controllers\Project\DetailController@show');
             });
             Route::controller('/', \App\Http\Controllers\Project\IndexController::class);
         });

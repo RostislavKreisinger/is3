@@ -4,6 +4,8 @@ namespace App\Model;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Monkey\Connections\MDDatabaseConnections;
 
 /**
  * App\Model\Project
@@ -63,8 +65,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @mixin \Eloquent
  */
 class Project extends Model {
-
-    use \Illuminate\Database\Eloquent\SoftDeletes;
+    use SoftDeletes;
 
     protected $connection = 'mysql-master-app';
     protected $table = 'project';
@@ -106,7 +107,35 @@ class Project extends Model {
     /**
      * @return BelongsTo
      */
+    public function projectType() {
+        return $this->belongsTo(ProjectType::class, 'project_type_id');
+    }
+
+    /**
+     * @return BelongsTo
+     */
     public function eshopTypeName(): BelongsTo {
         return $this->belongsTo(EshopType::class, 'eshop_type_id')->select(['id', 'name']);
+    }
+
+    /**
+     * @return BelongsTo
+     */
+    public function currency() {
+        return $this->belongsTo(Currency::class);
+    }
+
+    /**
+     * @return BelongsTo
+     */
+    public function timezone() {
+        return $this->belongsTo(Timezone::class);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getConnection() {
+        return MDDatabaseConnections::getMasterAppConnection();
     }
 }

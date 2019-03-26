@@ -1,19 +1,21 @@
-<ul class="nav" id="side-menu">
-    @include('default.views.menu.leftmenu.userinfo')
+@include('default.views.menu.leftmenu.userinfo')
+<ul class="nav nav-pills nav-stacked" id="side-menu">
     @foreach($menu as $menuItem)
-        <li class="{{ $menuItem->getOpened() ? 'active' : '' }} {{ $menuItem->getClass() }}">
+        <li class="{{ $menuItem->getClass() }} {{ $menuItem->getOpened() ? 'active' : '' }}">
             <a href="{{ $menuItem->getLink() }}" title="{{ $menuItem->getTitle() }}"  data-toggle="tooltip" data-placement="right">
-                {{ $menuItem->getName() }}
-                <span class="fa arrow"></span>
+                <span>{{ $menuItem->getName() }}</span>
             </a>
-            {{--<ul n:if="$menuItem->hasSubList()" class="nav nav-second-level collapse">--}}
-            {{--<li n:foreach="$menuItem->getList() as $subMenuItem" class="{$subMenuItem->getClass()}">--}}
-            {{--<a {if $subMenuItem->getLink()} href="{$subMenuItem->getLink()}" {/if} title="{$subMenuItem->getTitle()}" data-toggle="tooltip" data-placement="right">--}}
-            {{--{$subMenuItem->getName()}--}}
-            {{--</a>--}}
-            {{--</li>--}}
-
-            {{--</ul>--}}
+            @if($menuItem->hasSubList())
+                <ul class="nav nav-second-level collapse in">
+                    @foreach($menuItem->getList() as $subMenuItem)
+                        <li class="{{ $subMenuItem->getClass() }}">
+                            <a {!! $subMenuItem->getLink() ? 'href="' . $subMenuItem->getLink() . '"' : '' !!} title="{{ $subMenuItem->getTitle() }}" data-toggle="tooltip" data-placement="right">
+                                {{ $subMenuItem->getName() }}
+                            </a>
+                        </li>
+                    @endforeach
+                </ul>
+            @endif
         </li>
     @endforeach
 </ul>

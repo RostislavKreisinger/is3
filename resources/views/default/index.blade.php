@@ -2,7 +2,7 @@
 
 @section('page-title')
     <div class="row">
-        <div class="col-lg-12">
+        <div class="col-sm-12">
             <h1 class="page-header">Import support</h1>
         </div>
     </div>
