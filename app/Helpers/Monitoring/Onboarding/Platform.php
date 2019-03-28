@@ -11,9 +11,10 @@ class Platform {
     const ALL = "all";
 
     const PLATFORM_CODE = [
-        self::ALL => [EshopType::CODE_SHOPTETINSIDE, EshopType::CODE_EPAGESINSIDE],
+        self::ALL => [EshopType::CODE_SHOPTETINSIDE, EshopType::CODE_EPAGESINSIDE, EshopType::CODE_ECWID],
         PlatformConstants::CODE_SHOPTET => EshopType::CODE_SHOPTETINSIDE,
-        PlatformConstants::CODE_VILKAS => EshopType::CODE_EPAGESINSIDE
+        PlatformConstants::CODE_VILKAS => EshopType::CODE_EPAGESINSIDE,
+        PlatformConstants::CODE_ECWID => EshopType::CODE_ECWID
     ];
 
 
