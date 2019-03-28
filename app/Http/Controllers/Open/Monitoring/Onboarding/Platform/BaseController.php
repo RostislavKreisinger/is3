@@ -120,6 +120,7 @@ class BaseController extends \App\Http\Controllers\Open\Monitoring\Onboarding\Ba
             })
             ->where("rs.created_at", '>', "{$dateFrom} 00:00:00")
             ->where("rs.created_at", '<', "{$dateTo} 23:59:59")
+            ->where("p.project_type_id", "=", 7)
             ->whereNull("p.deleted_at")
             ->orderBy("p.created_at", 'DESC')
             ->select(array_merge(['rs.created_at', 'p.id', 'p.user_id', 'rs.active as rs_active', 're.eshop_type_id as eshop_type_id'], $columns))
