@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Project\Resource;
 
 
 use App\Exceptions\ProjectUserMissingException;
+use App\Helpers\API\ISAPIClient;
+use App\Helpers\API\ISAPIRequest;
 use App\Http\Controllers\Project\Controller;
 use App\Http\Controllers\Project\DetailController as ProjectDetailController;
 use App\Http\Controllers\User\DetailController as UserDetailController;
@@ -12,15 +14,22 @@ use App\Model\Currency;
 use App\Model\EshopType;
 use App\Model\ImportSupport\ResourceError;
 use App\Model\ResourceSetting;
+use App\Services\ProjectsService;
+use App\Services\ResourceSettingsService;
 use Eloquent;
 use Exception;
+use Illuminate\Contracts\Routing\ResponseFactory;
+use Illuminate\Contracts\View\Factory;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\View\View;
 use Monkey\Breadcrump\BreadcrumbItem;
 use Monkey\Connections\MDDatabaseConnections;
 use Monkey\ImportSupport\Project;
 use Monkey\View\ViewFinder;
 use stdClass;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class DetailController
@@ -39,12 +48,53 @@ class DetailController extends Controller {
     private $resource;
 
     /**
+     * @var ResourceSetting $resourceSetting
+     */
+    private $resourceSetting;
+
+    /**
+     * @param int $resourceSettingId
+     * @return ResponseFactory|Factory|View|Response
+     * @throws Exception
+     */
+    public function show(int $resourceSettingId) {
+        $rsService = new ResourceSettingsService($this->getAPIClient());
+        $this->resourceSetting = $rsService->find($resourceSettingId);
+
+        if ($this->resourceSetting === null) {
+            return response('', 404);
+        }
+
+        $projectsService = new ProjectsService($this->getAPIClient());
+        $this->project = $projectsService->find($this->resourceSetting->project_id);
+        $resourceDetail = $rsService->getDetail($resourceSettingId);
+
+        try {
+            return view(
+                'default.project.resource.detail.resource',
+                [
+                    'breadcrumbs' => $this->getBreadcrumbs(),
+                    'eshopType' => $this->getCatalogsService()->findEshopType($resourceDetail->eshop_type_id),
+                    'menu' => $this->prepareMenu($this->project),
+                    'resourceSetting' => $this->resourceSetting,
+                    'resourceDetail' => $resourceDetail
+                ]
+            );
+        } catch (ProjectUserMissingException $exception) {
+            return redirect('error')->with('errorMessage', $exception->getMessage());
+        }
+    }
+
+    /**
      * @param $projectId
      * @param $resourceId
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      * @throws Exception
      */
     public function getIndex($projectId, $resourceId) {
+        $client = new ISAPIClient;
+        $resourceSettings = $client->call(new ISAPIRequest('base/resource-settings', [], ['project_id' => $projectId, 'resource_id' => $resourceId]));
+        vde($resourceSettings);
         $this->project = $project = Project::find($projectId);
         $this->resource = $resource = $project->getResource($resourceId);
 
@@ -120,9 +170,9 @@ class DetailController extends Controller {
      */
     protected function breadcrumbAfterAction($parameters = array()) {
         $breadcrumbs = parent::breadcrumbAfterAction();
-        $breadcrumbs->addBreadcrumbItem(new BreadcrumbItem('user', 'User', \Monkey\action(UserDetailController::class, ['user_id' => $this->project->user_id])));
+        $breadcrumbs->addBreadcrumbItem(new BreadcrumbItem('user', 'User', url("/user/{$this->project->user_id}")));
         $breadcrumbs->addBreadcrumbItem(new BreadcrumbItem('project', 'Project', url("/project/{$this->project->id}")));
-        $breadcrumbs->addBreadcrumbItem(new BreadcrumbItem('resource', 'Resource', \Monkey\action(self::class, ['project_id' => $this->project->id, 'resource_id' => $this->resource->id])));
+        $breadcrumbs->addBreadcrumbItem(new BreadcrumbItem('resource', 'Resource', url("/resource-settings/{$this->resourceSetting->id}")));
     }
 
     /**

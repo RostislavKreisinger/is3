@@ -35,6 +35,7 @@ namespace App\Model\ImportPools;
  * @method static \Illuminate\Database\Eloquent\Builder|IFDailyPool whereTtl($value)
  * @method static \Illuminate\Database\Eloquent\Builder|IFDailyPool whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property-read \App\Model\ImportPools\IFImportPool $importPool
  */
 class IFDailyPool extends IFPeriodPool {
     /**

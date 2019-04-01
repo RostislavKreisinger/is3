@@ -1,0 +1,255 @@
+{php $statuses = array(
+        ['tab' => 'daily', 'code' => 'ifDaily', 'methodName' => 'DailyImportFlow', 'name'=> 'Daily'],
+        ['tab' => 'history', 'code' => 'ifHistory', 'methodName' => 'HistoryImportFlow', 'name'=> 'History'],
+        ['tab' => 'resource', 'code' => 'ifResource', 'name'=> $resource->name],
+        ['tab' => 'controlPool', 'code' => 'ifControlPool', 'name' => 'IF Control Pool']
+    );
+    $debugEshopTypes = [50, 51, 52, 58];
+
+    if (isset($eshopType) && in_array($eshopType->id, $debugEshopTypes)) {
+        $statuses[] = ['tab' => 'debug', 'code' => 'debug', 'name' => 'Debug'];
+    }
+}
+<div>
+    <ul class="nav nav-tabs">
+        <li n:foreach="$statuses as $status"
+                id="tab-{$status['tab']}"
+                class="font-bold {if $status['tab'] == 'resource'}active{/if}">
+            <a href="#{$status['code']}"
+               data-toggle="tab"
+               aria-expanded="true">{$status['name']}</a>
+        </li>
+    </ul>
+    <div class="tab-content">
+        <div n:foreach="$statuses as $status"
+                class="tab-pane {if $status['tab'] == 'resource'}active in{/if}"
+                id="{$status['code']}">
+            {view 'default.project.resource.template.import-flow-panel.'.$status['code']}
+        </div>
+    </div>
+</div>
+
+<script>
+    function refreshImportFlowData() {
+        getDailyHistory();
+
+        downloadImportFlowStatusAndShow(function() {
+            window.setTimeout(function() {
+                refreshImportFlowData();
+            }, 15000);
+        });
+    }
+
+    function downloadImportFlowStatusAndShow(callback) {
+            $(".refresh-btn .loader").show();
+            var currentLocation = location.href;
+
+            if (!currentLocation.endsWith('/')) {
+                currentLocation += '/';
+            }
+
+            $.get(currentLocation + "importflowstatus", function (data) {
+                $("#importFlowStatusDataGrid").dxDataGrid("instance").option('noDataText', "No data");
+                renderResource(data.resource);
+                $(".refresh-btn .loader").hide();
+                if (callback && window.refreshActivated) {
+                    callback();
+                }
+            }).fail(function () {
+                $("#importFlowStatusDataGrid").dxDataGrid("instance").option('noDataText', "Fail to get data. Click to refresh.");
+                $(".refresh-btn .loader").hide();
+                if (callback && window.refreshActivated) {
+                    callback();
+                }
+            });
+    }
+
+    function getDailyHistory() {
+        var currentLocation = window.location.href;
+
+        if (!currentLocation.endsWith('/')) {
+            currentLocation += '/';
+        }
+
+        $.get(currentLocation + "daily-history", function (data) {
+            renderDaily(data.daily);
+            renderHistory(data.history);
+        });
+    }
+
+    function resetClass(element) {
+        $(element).removeClass('state-done state-active state-running state-missing state-error state-deactive');
+    }
+
+    function resetCaption(element) {
+        $(element).removeClass('done active running missing error deactive');
+    }
+
+    function setCaptionStatus(element, status) {
+        resetCaption(element);
+        element.addClass(status);
+        var text = element.text();
+
+        text = text.substr(0, text.lastIndexOf("["));
+
+        if(status!==undefined) {
+            element.text(text + "[" + status + "]");
+        } else {
+            element.text(text + "[missing]");
+        }
+
+    }
+
+    function getHtmlElement(tab, id) {
+        return $("#" + id + "-" + tab);
+    }
+
+    function resetBlocks(block, object) {
+        var target = $("#tab-" + block);
+        resetClass(target);
+        target.addClass("state-" + object.status);
+
+        var missing = $("#missing-" + block);
+        var table = $("#table-" + block);
+        var isEmpty = false;
+        if (object.length == 0) {
+            missing.show();
+            table.hide();
+            isEmpty = true;
+        } else {
+            missing.hide();
+            table.show();
+        }
+
+        var caption = $("#caption-" + block);
+        if (caption) {
+            setCaptionStatus(caption, object.status);
+        }
+
+        return isEmpty;
+    }
+
+
+    ///**************************************////
+
+    function renderHistory(object) {
+        var tab = "history";
+        var isEmpty = resetBlocks(tab, object);
+        if (isEmpty) {
+            return;
+        }
+        $.each(object, function (key, value) {
+            getHtmlElement(tab, key).text(value);
+        });
+    }
+
+    function renderDaily(object) {
+        var tab = "daily";
+        var isEmpty = resetBlocks(tab, object);
+        if (isEmpty) {
+            return;
+        }
+
+        $.each(object, function (key, value) {
+            getHtmlElement(tab, key).text(value);
+        });
+
+
+    }
+
+
+
+
+
+
+    function renderResource(object) {
+
+        $("#importFlowStatusDataGrid").dxDataGrid("instance").option('dataSource', object);
+
+        return;
+
+        var tab = "resource";
+        var isEmpty = resetBlocks(tab, object);
+        if (isEmpty) {
+            return;
+        }
+
+        var target = $("#table-" + tab);
+
+        target.find("tr:gt(0)").remove();
+
+        var body = target.find('tbody');
+        for (var i = 0; i < object.length; i++) {
+            var obj = object[i];
+            body.append($('<tr>')
+                .append($('<td>')
+                    .append($('<span>')
+                        .html(resolveValue(obj.is_history_status))
+                    )
+                )
+                .append($('<td>')
+                    .append($('<span>')
+                        .html(resolveValue(obj.code.toUpperCase())).css('white-space', 'nowrap').css('font-weight', "bold")
+                    )
+                )
+                .append($('<td>')
+                    .append(
+                        getIFStatusIcons(obj.final_state)
+                    )
+                    .append($('<span>')
+                        .html(resolveValue(obj.final_state))
+                    )
+                )
+                .append($('<td>')
+                        .append($('<span>')
+                                .html(resolveBoolValueImportFlow(obj.is_in_gearman_queue))
+                        )
+                )
+                .append($('<td>')
+                    .append($('<span>')
+                        .html(resolveValue(obj.unique))
+                    )
+                )
+                .append($('<td>')
+                        .append($('<span>').css('white-space', 'nowrap')
+                                .html(resolveValue(obj.start_at))
+                        )
+                )
+                .append($('<td>')
+                        .append($('<span>').css('white-space', 'nowrap')
+                                .html(resolveValue(obj.finist_at))
+                        )
+                )
+                .append($('<td>')
+                        .append($('<span>').css('white-space', 'nowrap')
+                                .html(resolveValue(obj.updated_at))
+                        )
+                )
+                .append($('<td>')
+                    .append($('<a>')
+                        .attr('href', obj.refresh_link)
+                        .attr('target', "_blank")
+                        .html("Refresh")
+                    )
+                )
+            );
+            return;
+        }
+    }
+
+
+    $(function() {
+        refreshImportFlowData();
+        window.refreshActivated = false;
+
+        $('#cb_auto_refresh').change(function () {
+            if (this.checked) {
+                window.refreshActivated = true;
+                refreshImportFlowData();
+            } else {
+                window.refreshActivated = false;
+            }
+        });
+    });
+
+</script>

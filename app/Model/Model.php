@@ -4,6 +4,11 @@ namespace App\Model;
 
 use Eloquent;
 
+/**
+ * App\Model\Model
+ *
+ * @mixin \Eloquent
+ */
 class Model extends Eloquent {
 
    

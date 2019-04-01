@@ -13,6 +13,17 @@ use Illuminate\Database\Eloquent\Builder;
 
 
 
+/**
+ * App\Model\ImportPools\CurrencyEtlCatalog
+ *
+ * @property int $id
+ * @property string|null $ISO3
+ * @property int|null $currency_names_id
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\ImportPools\CurrencyEtlCatalog whereCurrencyNamesId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\ImportPools\CurrencyEtlCatalog whereISO3($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\ImportPools\CurrencyEtlCatalog whereId($value)
+ * @mixin \Eloquent
+ */
 class CurrencyEtlCatalog extends Model {
     
     // use \Illuminate\Database\Eloquent\SoftDeletes;

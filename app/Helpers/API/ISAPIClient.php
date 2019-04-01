@@ -49,7 +49,16 @@ class ISAPIClient {
      * @return string
      */
     private function getParamsString(ISAPIRequest $request): string {
-        return "{$this->getPageString($request->getPage())}{$this->getFilterString($request->getFilters())}{$this->getSortString($request->getSorts())}";
+        $paramStrings = [
+            $this->getPageString($request->getPage()),
+            $this->getFilterString($request->getFilters()),
+            $this->getIncludeString($request->getIncludes()),
+            $this->getSortString($request->getSorts())
+        ];
+
+        return implode('&', array_filter($paramStrings, function ($value) {
+            return !empty($value);
+        }));
     }
 
     /**
@@ -84,6 +93,14 @@ class ISAPIClient {
     }
 
     /**
+     * @param array $includes
+     * @return string
+     */
+    private function getIncludeString(array $includes): string {
+        return empty($includes) ? "" : "include=" . implode(",", $includes);
+    }
+
+    /**
      * @param array $sorts
      * @return string
      */
@@ -93,7 +110,7 @@ class ISAPIClient {
         }
 
         $sortParam = implode(',', $sorts);
-        return "&sort={$sortParam}";
+        return "sort={$sortParam}";
     }
 
     /**

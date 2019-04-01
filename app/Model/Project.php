@@ -63,6 +63,9 @@ use Monkey\Connections\MDDatabaseConnections;
  * @method static \Illuminate\Database\Query\Builder|\App\Model\Project withTrashed()
  * @method static \Illuminate\Database\Query\Builder|\App\Model\Project withoutTrashed()
  * @mixin \Eloquent
+ * @property-read \App\Model\Currency|null $currency
+ * @property-read \App\Model\ProjectType|null $projectType
+ * @property-read \App\Model\Timezone|null $timezone
  */
 class Project extends Model {
     use SoftDeletes;

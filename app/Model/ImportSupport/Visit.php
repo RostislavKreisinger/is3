@@ -13,7 +13,15 @@ use App\Model\Model;
 
 
 /**
- * 
+ * App\Model\ImportSupport\Visit
+ *
+ * @property int $id
+ * @property int|null $user_id
+ * @property string|null $visited_at
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\ImportSupport\Visit whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\ImportSupport\Visit whereUserId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\ImportSupport\Visit whereVisitedAt($value)
+ * @mixin \Eloquent
  */
 class Visit extends Model {
     

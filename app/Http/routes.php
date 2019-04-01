@@ -166,6 +166,8 @@ Route::group(['middleware' => 'web'], function () {
             Route::controller('/', \App\Http\Controllers\Project\IndexController::class);
         });
 
+        Route::get('resource-settings/{resource_setting_id}', '\App\Http\Controllers\Project\Resource\DetailController@show');
+
         Route::group(['prefix' => 'user'], function () {
             Route::controller('/{user_id}', App\Http\Controllers\User\DetailController::class);
             Route::controller('/', \App\Http\Controllers\User\IndexController::class);

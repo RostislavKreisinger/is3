@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\CatalogsService;
 use Monkey\Breadcrump\BreadcrumbItem;
 use Monkey\Breadcrump\Breadcrumbs;
 use Monkey\Menu\MenuList;
@@ -149,6 +150,4 @@ class BaseViewController extends BaseAuthController {
         $breadcrumbs = $this->getBreadcrumbs();
         return $breadcrumbs;
     }
-
-
 }

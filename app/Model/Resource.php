@@ -43,40 +43,40 @@ use Illuminate\Database\Eloquent\Builder;
  * @property bool|null $is_resource is standard resource
  * @property string $data_storage_connection
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Model\ImportSupport\ResourceError[] $builderResourceErrors
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Model\ResourceSetting[] $resourceSettings
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Resource whereActive($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Resource whereAllowLink($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Resource whereBtfName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Resource whereCode($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Resource whereCodename($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Resource whereColor($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Resource whereCustomFormBtfs($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Resource whereDataStorageConnection($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Resource whereDbImport($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Resource whereDefaultDate($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Resource whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Resource whereImg($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Resource whereImportClass($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Resource whereImportHistoryInterval($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Resource whereImportInterval($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Resource whereImportVersion($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Resource whereIsOnlinestore($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Resource whereIsPublic($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Resource whereIsResource($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Resource whereLogo($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Resource whereLogoBigWidth($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Resource whereLogoSmallWidth($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Resource whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Resource whereOrder($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Resource whereResourceTypeId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Resource whereSettingTutorial($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Resource whereSourceTypeId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Resource whereTbl($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Resource whereTblSetting($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Resource whereUrl($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Resource whereUseFootnote($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Resource whereUseTitle($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Resource whereYoutubeLink($value)
+ * @property-read \Illuminate\Database\Eloquent\Collection|ResourceSetting[] $resourceSettings
+ * @method static Builder|Resource whereActive($value)
+ * @method static Builder|Resource whereAllowLink($value)
+ * @method static Builder|Resource whereBtfName($value)
+ * @method static Builder|Resource whereCode($value)
+ * @method static Builder|Resource whereCodename($value)
+ * @method static Builder|Resource whereColor($value)
+ * @method static Builder|Resource whereCustomFormBtfs($value)
+ * @method static Builder|Resource whereDataStorageConnection($value)
+ * @method static Builder|Resource whereDbImport($value)
+ * @method static Builder|Resource whereDefaultDate($value)
+ * @method static Builder|Resource whereId($value)
+ * @method static Builder|Resource whereImg($value)
+ * @method static Builder|Resource whereImportClass($value)
+ * @method static Builder|Resource whereImportHistoryInterval($value)
+ * @method static Builder|Resource whereImportInterval($value)
+ * @method static Builder|Resource whereImportVersion($value)
+ * @method static Builder|Resource whereIsOnlinestore($value)
+ * @method static Builder|Resource whereIsPublic($value)
+ * @method static Builder|Resource whereIsResource($value)
+ * @method static Builder|Resource whereLogo($value)
+ * @method static Builder|Resource whereLogoBigWidth($value)
+ * @method static Builder|Resource whereLogoSmallWidth($value)
+ * @method static Builder|Resource whereName($value)
+ * @method static Builder|Resource whereOrder($value)
+ * @method static Builder|Resource whereResourceTypeId($value)
+ * @method static Builder|Resource whereSettingTutorial($value)
+ * @method static Builder|Resource whereSourceTypeId($value)
+ * @method static Builder|Resource whereTbl($value)
+ * @method static Builder|Resource whereTblSetting($value)
+ * @method static Builder|Resource whereUrl($value)
+ * @method static Builder|Resource whereUseFootnote($value)
+ * @method static Builder|Resource whereUseTitle($value)
+ * @method static Builder|Resource whereYoutubeLink($value)
  * @mixin \Eloquent
  */
 class Resource extends Model {
@@ -90,7 +90,7 @@ class Resource extends Model {
     protected static function boot() {
         parent::boot();
         static::addGlobalScope('id', function(Builder $builder) {
-            $builder->whereNotIn('resource.id', [1, 19]);
+//            $builder->whereNotIn('resource.id', [1, 19]);
         });
     }
 

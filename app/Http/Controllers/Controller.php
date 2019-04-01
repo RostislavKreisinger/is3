@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+
+use App\Helpers\API\ISAPIClient;
 use App\Http\Controllers\Homepage\BrokenFlowController;
 use App\Http\Controllers\Homepage\ImportFlowController;
 use App\Http\Controllers\Homepage\ImportFlowControlPoolController;
@@ -10,6 +12,7 @@ use App\Http\Controllers\Homepage\Importv2Controller;
 use App\Http\Controllers\Homepage\ResourcesController;
 use App\Http\Controllers\OrderAlert\IndexController;
 use App\Http\Controllers\Homepage\LargeFlowController;
+use App\Services\CatalogsService;
 use Illuminate\Support\Collection;
 use Monkey\Connections\MDDatabaseConnections;
 use Monkey\Connections\MDImportFlowConnections;
@@ -28,6 +31,16 @@ use URL;
  * @package App\Http\Controllers
  */
 class Controller extends BaseViewController {
+    /**
+     * @var ISAPIClient $apiClient
+     */
+    private $apiClient;
+
+    /**
+     * @var CatalogsService $catalogsService
+     */
+    private $catalogsService;
+
     /**
      * @var Project
      */
@@ -441,4 +454,25 @@ SQL;
         return new Collection(MDDatabaseConnections::getMasterAppConnection()->table('project')->select(['id as project_id', 'name'])->whereIn('id', $projectIds->all())->get());
     }
 
+    /**
+     * @return ISAPIClient
+     */
+    protected function getAPIClient(): ISAPIClient {
+        if ($this->apiClient === null) {
+            $this->apiClient = new ISAPIClient;
+        }
+
+        return $this->apiClient;
+    }
+
+    /**
+     * @return CatalogsService
+     */
+    protected function getCatalogsService(): CatalogsService {
+        if ($this->catalogsService === null) {
+            $this->catalogsService = new CatalogsService($this->getAPIClient());
+        }
+
+        return $this->catalogsService;
+    }
 }

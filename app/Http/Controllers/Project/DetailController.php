@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Project;
 
 
 use App\Exceptions\ProjectUserMissingException;
-use App\Helpers\API\ISAPIClient;
 use App\Helpers\API\ISAPIRequest;
 use App\Http\Controllers\User\DetailController as UserDetailController;
+use App\Services\ProjectsService;
 use Monkey\Breadcrump\BreadcrumbItem;
 use Monkey\ImportSupport\Project;
 
@@ -27,11 +27,8 @@ class DetailController extends Controller {
      * @throws \Exception
      */
     public function show(int $projectId) {
-        $client = new ISAPIClient;
-        $result = $client->call(new ISAPIRequest("base/projects/{$projectId}", [], [], [], []));
-        $this->project = new Project;
-        $this->project->id = $result['data']['id'];
-        $this->project->fill($result['data']['attributes']);
+        $projectsService = new ProjectsService($this->getAPIClient());
+        $this->project = $projectsService->find($projectId);
 
         try {
             return view('default.project.detail', [
