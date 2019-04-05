@@ -17,7 +17,7 @@ class ResourceSettingsService extends ApiService {
      * @return object|null
      */
     public function getDetail(int $resourceSettingId) {
-        $result = $this->getClient()->call(new ISAPIRequest("/base/resource-settings/{$resourceSettingId}/detail", [], [], [], []));
+        $result = $this->getClient()->call(new ISAPIRequest("{$this->getEndpoint()}/{$resourceSettingId}/detail", [], [], [], []));
 
         if (empty($result['data'])) {
             return null;
@@ -32,7 +32,7 @@ class ResourceSettingsService extends ApiService {
      * @return string
      */
     protected function getEndpoint(): string {
-        return '/base/resource-settings';
+        return 'base/resource-settings';
     }
 
     /**

@@ -238,7 +238,7 @@
     }
 
 
-    $(function() {
+    $(document).ready(function() {
         refreshImportFlowData();
         window.refreshActivated = false;
 

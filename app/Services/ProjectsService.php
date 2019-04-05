@@ -15,7 +15,7 @@ class ProjectsService extends ApiService {
      * @return string
      */
     protected function getEndpoint(): string {
-        return '/base/projects';
+        return 'base/projects';
     }
 
     /**

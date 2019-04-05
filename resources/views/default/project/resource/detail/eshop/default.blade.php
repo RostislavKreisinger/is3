@@ -1,12 +1,15 @@
-<h4>{{ $eshopType->name }} ({{ $eshopType->id }})</h4>
+<h4>[{{ $eshopType->id }}] {{ $eshopType->name }}</h4>
 <div class="table-responsive">
     <table class="table table-hover">
         <tbody>
-        @foreach($connectionDetail->getAttributes() as )
-            <tr n:foreach="$connectionDetail as $key => $value">
-                <th>{$key}</th>
-                <td>{$value}</td>
-            </tr>
+        @foreach(get_object_vars($resourceDetail) as $key => $value)
+            @if(!empty($value))
+                <tr>
+                    <th>{{ $key }}</th>
+                    <td>{{ $value }}</td>
+                </tr>
+            @endif
+        @endforeach
         </tbody>
     </table>
 </div>
