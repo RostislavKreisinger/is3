@@ -8,6 +8,7 @@ use App\Http\Controllers\Homepage\ImportFlowControlPoolController;
 use App\Http\Controllers\Homepage\ImportFlowStatsController;
 use App\Http\Controllers\Homepage\Importv2Controller;
 use App\Http\Controllers\Homepage\ResourcesController;
+use App\Http\Controllers\Homepage\TestedNotRunningProjectsController;
 use App\Http\Controllers\OrderAlert\IndexController;
 use App\Http\Controllers\Homepage\LargeFlowController;
 use Illuminate\Support\Collection;
@@ -54,6 +55,7 @@ class Controller extends BaseViewController {
         $menu->addMenuItem(new Menu("Resources", URL::action(ResourcesController::getMethodAction())));
         $menu->addMenuItem(new Menu("Large flows", URL::action(LargeFlowController::getMethodAction())));
         $menu->addMenuItem(new Menu("Broken flows", URL::action(BrokenFlowController::getMethodAction())));
+        $menu->addMenuItem(new Menu("Tested not running", URL::action(TestedNotRunningProjectsController::getMethodAction())));
 
         return $menu;
     }

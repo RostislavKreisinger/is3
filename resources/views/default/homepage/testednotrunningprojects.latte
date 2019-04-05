@@ -1,0 +1,49 @@
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">Tested projects that don't have IF running</h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel">
+            <div class="panel-body">
+                <div id="import-flow-tested-projects"></div>
+            </div>
+        </div>
+        <script>
+            $(function () {
+                $("#import-flow-tested-projects").dxDataGrid({
+                    columnAutoWidth: true,
+                    columns: [
+                        {
+                            caption: 'PID',
+                            cellTemplate: function (cellElement, cellInfo) {
+                                cellElement.html('<a href="{n $baseUrl}/project/' + cellInfo.value + '/resource/4">' + cellInfo.value + '</a>');
+                            },
+                            dataField: 'project_id',
+                            dataType: 'number',
+                            selectedFilterOperation: 'contains'
+                        },
+                        {
+                            caption: 'Last import',
+                            dataField: 'last_import_at',
+                            dataType: 'date'
+                        },
+                        {
+                            caption: 'Created',
+                            dataField: 'created_at',
+                            dataType: 'date'
+                        }
+                    ],
+                    dataSource: {$baseUrl} + "/open/import-flow/table/tested-not-running-projects",
+                    filterRow: {
+                        visible: true
+                    },
+                    paging: {
+                        pageSize: 20
+                    }
+                });
+            });
+        </script>
+    </div>
+</div>

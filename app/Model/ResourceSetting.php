@@ -3,6 +3,8 @@
 namespace App\Model;
 
 
+use Carbon\Carbon;
+use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -17,8 +19,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string $resource_code
  * @property int|null $resource_id
  * @property bool|null $active 100 - fake records for POS included to eshop
- * @property \Carbon\Carbon|null $created_at
- * @property \Carbon\Carbon|null $updated_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
  * @property string|null $deleted_at
  * @property bool $ttl
  * @property string|null $next_check_date
@@ -26,29 +28,29 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property int|null $custom_import_history_interval
  * @property bool $workload_difficulty
  * @property string|null $note
- * @property-read \App\Model\Project|null $project
- * @property-read \App\Model\Resource|null $resourceName
+ * @property-read Project|null $project
+ * @property-read Resource|null $resourceName
  * @method static bool|null forceDelete()
- * @method static \Illuminate\Database\Query\Builder|\App\Model\ResourceSetting onlyTrashed()
+ * @method static \Illuminate\Database\Query\Builder|ResourceSetting onlyTrashed()
  * @method static bool|null restore()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\ResourceSetting whereActive($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\ResourceSetting whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\ResourceSetting whereCurrencyId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\ResourceSetting whereCustomImportHistoryInterval($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\ResourceSetting whereCustomerCurrencyId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\ResourceSetting whereDeletedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\ResourceSetting whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\ResourceSetting whereNextCheckDate($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\ResourceSetting whereNote($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\ResourceSetting whereProjectId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\ResourceSetting whereResourceCode($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\ResourceSetting whereResourceId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\ResourceSetting whereTtl($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\ResourceSetting whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\ResourceSetting whereWorkloadDifficulty($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Model\ResourceSetting withTrashed()
- * @method static \Illuminate\Database\Query\Builder|\App\Model\ResourceSetting withoutTrashed()
- * @mixin \Eloquent
+ * @method static Builder|ResourceSetting whereActive($value)
+ * @method static Builder|ResourceSetting whereCreatedAt($value)
+ * @method static Builder|ResourceSetting whereCurrencyId($value)
+ * @method static Builder|ResourceSetting whereCustomImportHistoryInterval($value)
+ * @method static Builder|ResourceSetting whereCustomerCurrencyId($value)
+ * @method static Builder|ResourceSetting whereDeletedAt($value)
+ * @method static Builder|ResourceSetting whereId($value)
+ * @method static Builder|ResourceSetting whereNextCheckDate($value)
+ * @method static Builder|ResourceSetting whereNote($value)
+ * @method static Builder|ResourceSetting whereProjectId($value)
+ * @method static Builder|ResourceSetting whereResourceCode($value)
+ * @method static Builder|ResourceSetting whereResourceId($value)
+ * @method static Builder|ResourceSetting whereTtl($value)
+ * @method static Builder|ResourceSetting whereUpdatedAt($value)
+ * @method static Builder|ResourceSetting whereWorkloadDifficulty($value)
+ * @method static \Illuminate\Database\Query\Builder|ResourceSetting withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|ResourceSetting withoutTrashed()
+ * @mixin Eloquent
  */
 class ResourceSetting extends Model {
     protected $connection = 'mysql-master-app';
@@ -71,15 +73,6 @@ class ResourceSetting extends Model {
     public function resourceName(): BelongsTo {
         return $this->belongsTo(Resource::class, 'resource_id')
             ->select(['id', 'name']);
-    }
-
-    /**
-     * @param Builder $query
-     * @param int $active
-     * @return Builder
-     */
-    public function scopeWhereActive(Builder $query, int $active): Builder {
-        return $query->where('active', '=', $active);
     }
 
     /**
