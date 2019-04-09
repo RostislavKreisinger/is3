@@ -33,7 +33,7 @@ class ResourcesInErrorStateController extends Controller {
             ->where('resource.active', 1)
             ->where('resource_setting.active', 3)
             ->orderBy('resource_setting.updated_at', 'desc')
-            ->select([
+            ->get([
                 'resource_setting.active',
                 'user.id',
                 'eshop_type_id',
@@ -43,7 +43,6 @@ class ResourcesInErrorStateController extends Controller {
                 'eshop_type.name',
                 'resource.name AS resource_name'
             ]);
-        vde($resources->toSql());
 
         for ($i = 0; $i < count($resources); $i++) {
             $resources[$i]->project_url = action(DetailController::routeMethod('getIndex'), [
