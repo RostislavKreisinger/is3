@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Open\ImportFlow\Table;
 use App\Http\Controllers\Project\DetailController;
 use App\Http\Controllers\Project\Resource\DetailController as ResourceDetailController;
 use App\Model\ResourceSetting;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Routing\Controller;
 
@@ -25,10 +26,24 @@ class ResourcesInErrorStateController extends Controller {
             ->join('client', 'client.user_id', '=', 'user.id')
             ->whereNull('client.deleted_at')
             ->leftJoin('eshop_type', 'eshop_type_id', '=', 'eshop_type.id')
-            ->with(['resourceName'])
+            ->where(function (Builder $builder) {
+                $builder->where('eshop_type.active', 1)->orWhereNull('eshop_type.active');
+            })
+            ->join('resource', 'resource_id', '=', 'resource.id')
+            ->where('resource.active', 1)
             ->where('resource_setting.active', 3)
             ->orderBy('resource_setting.updated_at', 'desc')
-            ->get(['resource_setting.active', 'user.id', 'eshop_type_id', 'project_id', 'resource_id', 'ttl', 'eshop_type.name']);
+            ->select([
+                'resource_setting.active',
+                'user.id',
+                'eshop_type_id',
+                'project_id',
+                'resource_id',
+                'ttl',
+                'eshop_type.name',
+                'resource.name AS resource_name'
+            ]);
+        vde($resources->toSql());
 
         for ($i = 0; $i < count($resources); $i++) {
             $resources[$i]->project_url = action(DetailController::routeMethod('getIndex'), [
