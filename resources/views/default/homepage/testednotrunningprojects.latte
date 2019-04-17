@@ -27,12 +27,16 @@
                         {
                             caption: 'Last import',
                             dataField: 'last_import_at',
-                            dataType: 'date'
+                            cellTemplate: function (cellElement, cellInfo) {
+                                cellElement.html((new Date(Date.parse(cellInfo.value))).toISOString());
+                            }
                         },
                         {
                             caption: 'Created',
                             dataField: 'created_at',
-                            dataType: 'date'
+                            cellTemplate: function (cellElement, cellInfo) {
+                                cellElement.html((new Date(Date.parse(cellInfo.value))).toISOString());
+                            }
                         }
                     ],
                     dataSource: {$baseUrl} + "/open/import-flow/table/tested-not-running-projects",
