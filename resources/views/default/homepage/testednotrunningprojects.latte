@@ -28,14 +28,18 @@
                             caption: 'Last import',
                             dataField: 'last_import_at',
                             cellTemplate: function (cellElement, cellInfo) {
-                                cellElement.html((new Date(Date.parse(cellInfo.value))).toISOString());
+                                if (cellInfo.value) {
+                                    cellElement.html((new Date(Date.parse(cellInfo.value))).toISOString());
+                                }
                             }
                         },
                         {
                             caption: 'Created',
                             dataField: 'created_at',
                             cellTemplate: function (cellElement, cellInfo) {
-                                cellElement.html((new Date(Date.parse(cellInfo.value))).toISOString());
+                                if (cellInfo.value) {
+                                    cellElement.html((new Date(Date.parse(cellInfo.value))).toISOString());
+                                }
                             }
                         }
                     ],
