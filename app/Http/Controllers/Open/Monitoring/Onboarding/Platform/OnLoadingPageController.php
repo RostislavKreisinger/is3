@@ -103,7 +103,7 @@ class OnLoadingPageController extends BaseController {
             }
         }
 
-        $responseProjects = Arrays::limit($projectsOnLoadingPage, 50);
+        $responseProjects = $this->filterProjectsCount($projectsOnLoadingPage, 50);
 
         View::share("projectsCounts", $this->getProjectPlatformCounts($projects));
         View::share("projectsCount", count($projectsOnLoadingPage));

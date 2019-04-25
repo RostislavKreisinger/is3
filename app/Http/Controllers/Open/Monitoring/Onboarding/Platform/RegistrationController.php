@@ -22,7 +22,8 @@ class RegistrationController extends BaseController {
             $project->created_at = (new DateTimeHelper($project->created_at))->format("d.m. h:i");
         }
 
-        $responseProjects = Arrays::limit($projects, 50);
+
+        $responseProjects = $this->filterProjectsCount($projects, 50);
 
         View::share("projectsCount", count($projects));
         View::share("projects", $responseProjects);
