@@ -21,7 +21,7 @@
                     caption: 'Resource',
                     cellTemplate: function (cellElement, cellInfo) {
                         var eshopTypeName = cellInfo.data.name ? cellInfo.data.name : 'Eshop';
-                        var notEshopName = cellInfo.data.resource_name ? cellInfo.data.resource_name.name : 'Unknown';
+                        var notEshopName = cellInfo.data.resource_name ? cellInfo.data.resource_name : 'Unknown';
                         var resourceName = cellInfo.data.resource_id === 4 ? eshopTypeName : notEshopName;
                         cellElement.html('<a href="' + cellInfo.data.resource_url + '">' + resourceName + '</a>');
                     },
