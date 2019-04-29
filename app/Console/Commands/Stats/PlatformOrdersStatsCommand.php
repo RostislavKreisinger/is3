@@ -36,9 +36,21 @@ class PlatformOrdersStatsCommand extends Command {
         $dateTo = new DateTimeHelper();
         $data = $provider->getStats($dateFrom, $dateTo);
 
-        echo "UID;email;PID;createdAt;productVariantCount;RevenueCZK-2017;RevenueCZK-2018;RevenueCZK-2019\n";
+        echo "UID;email;PID;createdAt;productVariantCount;RevenueCZK-2017;RevenueCZK-2018;RevenueCZK-2019;OrdersCZK-2017;OrdersCZK-2018;OrdersCZK-2019\n";
         foreach ($data["projects"] as $project) {
-            echo $this->printRow([$project->user_id, $project->user_email, $project->id, $project->created_at, $project->productsVariant, $project->revenueCKZ[2017], $project->revenueCKZ[2018], $project->revenueCKZ[2019]]) . "\n";
+            echo $this->printRow([
+                    $project->user_id,
+                    $project->user_email,
+                    $project->id,
+                    $project->created_at,
+                    $project->productsVariant,
+                    $project->revenueCKZ[2017],
+                    $project->revenueCKZ[2018], 
+                    $project->revenueCKZ[2019],
+                    $project->ordersYear[2017],
+                    $project->ordersYear[2018],
+                    $project->ordersYear[2019]
+                ]) . "\n";
         }
     }
 

@@ -101,6 +101,11 @@ class PlatformDataProvider {
             $project->countriesInOrders = null;
 
             $project->orders = 0;
+            $project->ordersYear = [
+                2017 => 0,
+                2018 => 0,
+                2019 => 0
+            ];
             $project->revenueCKZ = [
                 2017 => 0,
                 2018 => 0,
@@ -138,14 +143,17 @@ class PlatformDataProvider {
 
 
             foreach ($orders as $order){
+                $year = substr($order->date_id, 0, 4);
+
                 $project->orders +=  $order->orderSum;
+                $project->ordersYear[$year] += $order->orderSum;
+
                 $code = CurrencyNames::getById($order->currency_id);
                 $project->revenue[$code] = $order->revenue;
 
 
                 try {
                     $rate = $currencyRate->getRate($order->currency_id, CurrencyNames::CZK, $todayDateId);
-                    $year = substr($order->date_id, 0, 4);
                     if(array_key_exists($year, $project->revenueCKZ)){
                         $project->revenueCKZ[$year] += $order->revenue * $rate;
                     }
