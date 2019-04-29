@@ -146,7 +146,10 @@ class PlatformDataProvider {
                 $year = substr($order->date_id, 0, 4);
 
                 $project->orders +=  $order->orderSum;
-                $project->ordersYear[$year] += $order->orderSum;
+                if(array_key_exists($year, $project->ordersYear)){
+                    $project->ordersYear[$year] += $order->orderSum;
+                }
+
 
                 $code = CurrencyNames::getById($order->currency_id);
                 $project->revenue[$code] = $order->revenue;
