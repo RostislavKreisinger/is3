@@ -29,7 +29,7 @@
                             dataField: 'last_import_at',
                             cellTemplate: function (cellElement, cellInfo) {
                                 if (cellInfo.value) {
-                                    cellElement.html((new Date(Date.parse(cellInfo.value))).toISOString());
+                                    cellElement.html(moment(cellInfo.value).format("YYYY-MM-DD HH:mm:ss"));
                                 }
                             }
                         },
@@ -38,7 +38,7 @@
                             dataField: 'created_at',
                             cellTemplate: function (cellElement, cellInfo) {
                                 if (cellInfo.value) {
-                                    cellElement.html((new Date(Date.parse(cellInfo.value))).toISOString());
+                                    cellElement.html(moment(cellInfo.value).format("YYYY-MM-DD HH:mm:ss"));
                                 }
                             }
                         }
