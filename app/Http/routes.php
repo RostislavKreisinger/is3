@@ -23,6 +23,7 @@ Route::group(['prefix' => 'open'], function () {
             Route::get('resources', 'App\Http\Controllers\Open\ImportFlow\Table\ResourcesController@index');
             Route::get('eshop-types', 'App\Http\Controllers\Open\ImportFlow\Table\EshopTypesController@index');
             Route::get('broken-flows', 'App\Http\Controllers\Open\ImportFlow\Table\BrokenFlowsController@index');
+            Route::get('tested-not-running-projects', 'App\Http\Controllers\Open\ImportFlow\Table\TestedNotRunningProjectsController@index');
         });
     });
 
@@ -202,6 +203,7 @@ Route::group(['middleware' => 'web'], function () {
             Route::get('resources', \App\Http\Controllers\Homepage\ResourcesController::getMethodAction());
             Route::controller('large-flow', \App\Http\Controllers\Homepage\LargeFlowController::class);
             Route::get('broken-flow', \App\Http\Controllers\Homepage\BrokenFlowController::getMethodAction());
+            Route::get('tested-not-running-projects', \App\Http\Controllers\Homepage\TestedNotRunningProjectsController::getMethodAction());
         });
 
         // Route::get('/', HomepageController::routeMethod('index'));

@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
+
 use App\Http\Controllers\Homepage\BrokenFlowController;
 use App\Http\Controllers\Homepage\ImportFlowController;
 use App\Http\Controllers\Homepage\ImportFlowControlPoolController;
 use App\Http\Controllers\Homepage\ImportFlowStatsController;
-use App\Http\Controllers\Homepage\Importv2Controller;
 use App\Http\Controllers\Homepage\ResourcesController;
+use App\Http\Controllers\Homepage\TestedNotRunningProjectsController;
 use App\Http\Controllers\OrderAlert\IndexController;
-use App\Http\Controllers\Homepage\LargeFlowController;
 use Illuminate\Support\Collection;
 use Monkey\Connections\MDDatabaseConnections;
 use Monkey\Connections\MDImportFlowConnections;
@@ -46,14 +46,13 @@ class Controller extends BaseViewController {
     protected function prepareMenu() {
         $menu = $this->getMenu();
 
-        $menu->addMenuItem(new Menu("Import v2", URL::action(Importv2Controller::getMethodAction())));
         $menu->addMenuItem(new Menu("Import-flow", URL::action(ImportFlowController::getMethodAction())));
         $menu->addMenuItem(new Menu("Import-flow stats", URL::action(ImportFlowStatsController::getMethodAction())));
         $menu->addMenuItem(new Menu("Order Alert", URL::action(IndexController::getMethodAction())));
         $menu->addMenuItem(new Menu("IF Control Pool", URL::action(ImportFlowControlPoolController::getMethodAction())));
         $menu->addMenuItem(new Menu("Resources", URL::action(ResourcesController::getMethodAction())));
-        $menu->addMenuItem(new Menu("Large flows", URL::action(LargeFlowController::getMethodAction())));
         $menu->addMenuItem(new Menu("Broken flows", URL::action(BrokenFlowController::getMethodAction())));
+        $menu->addMenuItem(new Menu("Tested not running", URL::action(TestedNotRunningProjectsController::getMethodAction())));
 
         return $menu;
     }
