@@ -1878,17 +1878,17 @@
         },
         {
             "name": "monkey/environment",
-            "version": "1.10.0",
+            "version": "1.11.0",
             "source": {
                 "type": "git",
                 "url": "git@gitlab.monkeydata.com:composer/environment.git",
-                "reference": "83e2d36cfd5bd9553c8acc13f35b1261f036cfd5"
+                "reference": "ee9ab6eb0db8803a93a248ac7f458c6121fb1ade"
             },
             "dist": {
                 "type": "tar",
-                "url": "https://composer.monkeydata.com/dist/monkey-environment-1.10.0-47a4d7.tar",
-                "reference": "83e2d36cfd5bd9553c8acc13f35b1261f036cfd5",
-                "shasum": "feab38f73338dd49a13fb748d1520ebb40cb97bc"
+                "url": "https://composer.monkeydata.com/dist/monkey-environment-1.11.0-d7d8c0.tar",
+                "reference": "ee9ab6eb0db8803a93a248ac7f458c6121fb1ade",
+                "shasum": "1233a43a23c5cc9f8c15f452c3ff6f7b0a79d7cf"
             },
             "require": {
                 "php": ">=5.5.0"
@@ -1914,7 +1914,7 @@
                 }
             ],
             "description": "package for composer",
-            "time": "2019-01-13T21:01:56+00:00"
+            "time": "2019-04-30T11:29:20+00:00"
         },
         {
             "name": "monkey/graph-structure",
@@ -1956,17 +1956,17 @@
         },
         {
             "name": "monkey/helpers",
-            "version": "1.17.0",
+            "version": "1.18.0",
             "source": {
                 "type": "git",
                 "url": "git@gitlab.monkeydata.com:composer/helpers.git",
-                "reference": "c80891ef98de331683be3f8992792b00343ff167"
+                "reference": "791085749631a42f313d20635e15a53d633b1c48"
             },
             "dist": {
                 "type": "tar",
-                "url": "https://composer.monkeydata.com/dist/monkey-helpers-1.17.0-bd1c62.tar",
-                "reference": "c80891ef98de331683be3f8992792b00343ff167",
-                "shasum": "b59e8f847dc0471deee54c2a61e29759893ea347"
+                "url": "https://composer.monkeydata.com/dist/monkey-helpers-1.18.0-576a27.tar",
+                "reference": "791085749631a42f313d20635e15a53d633b1c48",
+                "shasum": "aafb916fe5e9a572c0a6847f09e44467ec36a289"
             },
             "require": {
                 "monkey/environment": "^1.7.0",
@@ -1990,7 +1990,7 @@
                 }
             ],
             "description": "helper functions",
-            "time": "2019-03-25T11:51:21+00:00"
+            "time": "2019-04-26T12:12:19+00:00"
         },
         {
             "name": "monkey/import-eshop-data-objects",
