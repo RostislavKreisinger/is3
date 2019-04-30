@@ -287,7 +287,7 @@ SQL;
     }
 
     private function getFlowStatusLink($uniqueId, $type) {
-        return "https://import-flow.monkeydata.com/management/{$type}/?unique={$uniqueId}";
+        return "https://staging.monkeydata.cloud/import/import-flow/production/0/management/{$type}/?unique={$uniqueId}";
     }
 
     /**
