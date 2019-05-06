@@ -18,6 +18,9 @@ class IfMonitoringAttribute extends \App\Migration\ImportSupportMigration
             $table->string("name",50);
             $table->integer("criticalValue",false,true);
         });
+
+        $seed = new MonitoringAttributesSeeder();
+        $seed->run();
     }
 
     /**
