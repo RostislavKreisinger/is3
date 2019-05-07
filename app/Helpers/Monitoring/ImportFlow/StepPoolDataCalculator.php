@@ -167,7 +167,7 @@ class StepPoolDataCalculator
         $averageRow->i_time_to_start = $averageRow->i_time_to_start_c != 0 ? round($averageRow->i_time_to_start / $averageRow->i_time_to_start_c,0) : null;
         $averageRow->i_runtime = $averageRow->i_runtime_c != 0 ? round($averageRow->i_runtime / $averageRow->i_runtime_c,0) : null;
 
-        $averageRow->e_time_to_start = $averageRow->e_time_to_start_c =! 0 ? round($averageRow->e_time_to_start / $averageRow->e_time_to_start_c,0) : null;
+        $averageRow->e_time_to_start = $averageRow->e_time_to_start_c != 0 ? round($averageRow->e_time_to_start / $averageRow->e_time_to_start_c,0) : null;
         $averageRow->e_runtime = $averageRow->e_runtime_c != 0 ? round($averageRow->e_runtime / $averageRow->e_runtime_c,0) : null;
 
         $averageRow->c_time_to_start = $averageRow->c_time_to_start_c != 0 ? round($averageRow->c_time_to_start / $averageRow->c_time_to_start_c,0) : null;
