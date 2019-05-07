@@ -1,9 +1,10 @@
 <h2>Projects on loading page</h2>
 <div class="content"></div>
+<div n:if="$limited_view">Number of results is limited</div>
 <script>
     function download(){
         loader(window.pageRefresh);
-        $.get('{action "Open\\Monitoring\\Onboarding\\Platform\\OnLoadingPageController@getData", ["platform" => $platformCode, "date_from" => $date_from, "date_to" => $date_to]}', function(data){
+        $.get('{action "Open\\Monitoring\\Onboarding\\Platform\\OnLoadingPageController@getData", $dataQuery}', function(data){
             $(".content").html(data.html);
 
         }).always(function() {

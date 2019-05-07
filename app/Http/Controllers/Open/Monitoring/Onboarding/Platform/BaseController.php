@@ -6,12 +6,13 @@ namespace App\Http\Controllers\Open\Monitoring\Onboarding\Platform;
 
 use App\Helpers\Monitoring\Onboarding\Platform;
 use App\Http\Controllers\Open\Monitoring\Onboarding\Platform\Objects\Project;
-use Illuminate\Http\Request;
 use Illuminate\Database\Query\JoinClause;
 use Illuminate\Support\Facades\Input;
 use Monkey\Connections\MDDatabaseConnections;
 use Monkey\DateTime\DateTimeHelper;
+use Monkey\Helpers\Arrays;
 use Monkey\View\View;
+use \Exception;
 
 class BaseController extends \App\Http\Controllers\Open\Monitoring\Onboarding\BaseController {
 
@@ -69,19 +70,29 @@ class BaseController extends \App\Http\Controllers\Open\Monitoring\Onboarding\Ba
 
 
     public function getIndex() {
-       //  vde([]);
         $this->setPageRefresh(5000);
-        $fontSize = Input::get("fontSize", '1em');
-        View::share("fontSize", $fontSize);
+
+        $query = $this->getRequest()->input();
+        $dataQuery = [];
+
+        $dataQuery["platformCode"] = $this->getPlatformCode();
         View::share("platformCode", $this->getPlatformCode());
+
+        $dataQuery["date_from"] = $this->getDateFrom()->mysqlFormatDate();
         View::share("date_from", $this->getDateFrom()->mysqlFormatDate());
 
-        if($this->isDateToNow()){
-            View::share("date_to", "NOW");
-        }else{
-            View::share("date_to", $this->getDateTo()->mysqlFormatDate());
-        }
+        $fontSize = Input::get("fontSize", '1em');
+        View::share("fontSize", $fontSize);
 
+        $dateTo = "NOW";
+        if(!$this->isDateToNow()){
+            $dateTo = $this->getDateTo()->mysqlFormatDate();
+        }
+        View::share("date_to", $dateTo);
+
+        View::share("query", $query);
+        View::share("dataQuery", array_merge($dataQuery, $query));
+        View::share("limited_view", $this->getRequest()->exists("limited_view"));
     }
 
 
@@ -120,6 +131,7 @@ class BaseController extends \App\Http\Controllers\Open\Monitoring\Onboarding\Ba
             })
             ->where("rs.created_at", '>', "{$dateFrom} 00:00:00")
             ->where("rs.created_at", '<', "{$dateTo} 23:59:59")
+            ->where("p.project_type_id", "=", 7)
             ->whereNull("p.deleted_at")
             ->orderBy("p.created_at", 'DESC')
             ->select(array_merge(['rs.created_at', 'p.id', 'p.user_id', 'rs.active as rs_active', 're.eshop_type_id as eshop_type_id'], $columns))
@@ -172,7 +184,7 @@ class BaseController extends \App\Http\Controllers\Open\Monitoring\Onboarding\Ba
     /**
      * @param Project[] $projects
      * @return array
-     * @throws \Exception
+     * @throws Exception
      */
     protected function getProjectPlatformCounts($projects) {
         $projectPlatformCounts = [];
@@ -188,6 +200,18 @@ class BaseController extends \App\Http\Controllers\Open\Monitoring\Onboarding\Ba
             $projectPlatformCounts[$platformCode]++;
         }
         return $projectPlatformCounts;
+    }
+
+    /**
+     * @param array|Project[] $projects
+     * @param int $limit
+     * @return array|Project[]
+     */
+    final protected function filterProjectsCount(array $projects, $limit = 50) {
+        if($this->getRequest()->exists("limited_view")){
+            return Arrays::limit($projects, $limit);
+        }
+        return $projects;
     }
 
 }

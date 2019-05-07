@@ -6,6 +6,7 @@ namespace App\Services;
 use App\Model\ImportPools\IFControlPool;
 use App\Model\ImportPools\IFHistoryReload;
 use App\Model\ImportPools\IFImportPool;
+use Exception;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Monkey\DateTime\DateTimeHelper;
 
@@ -39,7 +40,7 @@ class FlowGeneratorService {
      * @param string $dateTo
      * @param int $split
      * @return bool
-     * @throws \Exception
+     * @throws Exception
      */
     public function generate(string $dateFrom, string $dateTo, int $split): bool {
         if (!$this->canGenerate()) {
@@ -91,7 +92,7 @@ class FlowGeneratorService {
      * @param string $dateTo
      * @param string $runTime
      * @return IFControlPool
-     * @throws \Exception
+     * @throws Exception
      */
     private function createNewControlPool(string $dateFrom, string $dateTo, string $runTime): IFControlPool {
         $controlPool = new IFControlPool;
@@ -153,9 +154,10 @@ class FlowGeneratorService {
                     )
                 )
             ) {
-                foreach ($historyReload as $record) {
+                foreach ($historyReload as $index => $record) {
                     if ($record->unique === $pool->unique) {
                         $record->delete();
+                        $historyReload->forget($index);
                     }
                 }
             }
