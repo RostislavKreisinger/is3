@@ -1525,13 +1525,13 @@
             "source": {
                 "type": "git",
                 "url": "git@gitlab.monkeydata.com:composer/config.git",
-                "reference": "ebc21f6243a88dd52cb3458ccbde7efc6fef2e0d"
+                "reference": "16df86bc9cd5f419e42f534f626c01baf3758b10"
             },
             "dist": {
                 "type": "tar",
-                "url": "https://composer.monkeydata.com/dist/monkey-config-dev-feature-is-44-if-management-links-a49834.tar",
-                "reference": "ebc21f6243a88dd52cb3458ccbde7efc6fef2e0d",
-                "shasum": "5e4bc16a93316706ae0001fcc71a4ec2891d9898"
+                "url": "https://composer.monkeydata.com/dist/monkey-config-dev-feature-is-44-if-management-links-effbfa.tar",
+                "reference": "16df86bc9cd5f419e42f534f626c01baf3758b10",
+                "shasum": "c15a41302ddaca84d68777baaab38247aaf4a3d9"
             },
             "require": {
                 "monkey/dotenv": "^1.6.0",
@@ -1557,7 +1557,7 @@
                 }
             ],
             "description": "General configuration for common things and setting",
-            "time": "2019-01-12T21:52:06+00:00"
+            "time": "2019-05-07T13:08:40+00:00"
         },
         {
             "name": "monkey/connections",
