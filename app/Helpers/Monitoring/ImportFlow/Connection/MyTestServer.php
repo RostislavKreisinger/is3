@@ -14,7 +14,7 @@ use Monkey\Connections\Server\Database\AMySQLServer;
 class MyTestServer extends AMySQLServer
 {
     protected function fetchPassword() {
-        return "";
+        return "root";
     }
 
     protected function fetchSchemaName() {

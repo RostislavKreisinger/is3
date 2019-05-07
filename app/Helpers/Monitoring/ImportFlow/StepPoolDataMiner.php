@@ -28,13 +28,16 @@ class StepPoolDataMiner
     }
 
     private function getActualData(string $query){
-        if(Environment::isProduction()){
-            $connection = MDImportFlowConnections::getImportFlowConnection();
-        }else{
-            $connection = MyConnections::getMyTestConnection();
-        }
+        //pro testování
+//        if(Environment::isProduction()){
+//            $connection = MDImportFlowConnections::getImportFlowConnection();
+//        }else{
+//            $connection = MyConnections::getMyTestConnection();
+//        }
 
+        $connection = MDImportFlowConnections::getImportFlowConnection();
 
+        //vdEcho($query);
         $data = $connection->select($query);
         return $data;
     }
@@ -139,7 +142,7 @@ class StepPoolDataMiner
             $select[] = "{$name}.active as {$alias}_active";
             $select[] = "{$name}.delay_count as {$alias}_delay_count";
         }
-        $select[] = "TIME_TO_SEC(TIMEDIFF(NOW(), import.init_flow)) as flow_runtime";
+        $select[] = "TIME_TO_SEC(TIMEDIFF(NOW(), COALESCE(import.init_flow, etl.start, calc.start, output.start))) as flow_runtime";
 
         return implode(", \n", $select);
     }
@@ -154,10 +157,10 @@ imp.time_to_start as import_time_to_start, imp.runtime as import_runtime,
 etl.time_to_start as etl_time_to_start, etl.runtime as etl_runtime,
 calc.time_to_start as calc_time_to_start, calc.runtime as calc_runtime,
 outp.time_to_start as output_time_to_start, outp.runtime as output_runtime,
-TIME_TO_SEC(TIMEDIFF(NOW(), imp.init_flow)) as flow_runtime,
+TIME_TO_SEC(TIMEDIFF(NOW(), COALESCE(imp.init_flow, etl.start, calc.start, outp.start))) as flow_runtime,
 "|" as `|`,
 imp.active as iActive, imp.delay_count as iDelayC,
-el.active as eActive, etl.delay_count as eDelayC,
+etl.active as eActive, etl.delay_count as eDelayC,
 calc.active as cActive, calc.delay_count as cDelayC,
 outp.active as oActive, outp.delay_count as oDelayC,
 "|" as `||`
@@ -168,7 +171,7 @@ WHERE i.active != 0
 UNION
 SELECT e.`unique`
 FROM if_etl as e
-WHERE e.active != 0if_importif_import
+WHERE e.active != 0
 UNION
 SELECT c.`unique`
 FROM if_calc as c
