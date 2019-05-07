@@ -4,12 +4,10 @@ namespace App\Http\Controllers\Project\Resource;
 
 
 use App\Http\Controllers\Controller;
-use App\Model\ImportPools\IFHistoryReload;
 use App\Services\FlowGeneratorService;
 use Monkey\Config\Application\ProjectEndpointBaseUrl;
 use Monkey\Connections\MDImportFlowConnections;
 use Monkey\ImportSupport\Project;
-use Monkey\View\View;
 
 /**
  * Class ImportFlowPoolController
@@ -31,7 +29,7 @@ class ImportFlowPoolController extends Controller {
      */
     public function __construct() {
         parent::__construct();
-        View::share('ifBaseUrl', ProjectEndpointBaseUrl::getInstance()->getImportFlowUrl());
+        $this->getView()->addParameter('ifBaseUrl', ProjectEndpointBaseUrl::getInstance()->getImportFlowUrl());
     }
 
     /**
