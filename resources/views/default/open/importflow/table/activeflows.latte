@@ -181,7 +181,9 @@
             }
         });
 
-        $("#filter_button").click(function () {
+        $("#filter_button").click(function (e) {
+            e.preventDefault();
+
             if (!$(dateFromInput).val()) {
                 $(dateFromInput).val(dayAgo.toISOString().split('T')[0]);
             }
@@ -190,7 +192,7 @@
                 $(dateToInput).val(now.toISOString().split('T')[0]);
             }
 
-            var actives = [];
+            let actives = [];
 
             $("input[name=cb_active]:checked").each(function() {
                 actives.push($(this).val());
