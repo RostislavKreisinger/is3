@@ -11,6 +11,7 @@ use App\Http\Controllers\Homepage\ResourcesController;
 use App\Http\Controllers\OrderAlert\IndexController;
 use App\Http\Controllers\Homepage\LargeFlowController;
 use Illuminate\Support\Collection;
+use Monkey\Config\Application\ProjectEndpointBaseUrl;
 use Monkey\Connections\MDDatabaseConnections;
 use Monkey\Connections\MDImportFlowConnections;
 use Monkey\DateTime\DateTimeHelper;
@@ -287,7 +288,7 @@ SQL;
     }
 
     private function getFlowStatusLink($uniqueId, $type) {
-        return "https://staging.monkeydata.cloud/import/import-flow/production/0/management/{$type}/?unique={$uniqueId}";
+        return ProjectEndpointBaseUrl::getInstance()->getImportFlowUrl() . "/management/{$type}/?unique={$uniqueId}";
     }
 
     /**
