@@ -20,7 +20,7 @@ class StepPoolDataCalculator
      * @var int
      */
     private $countFlows = 0;
-
+    
     /**
      * @var int
      */
@@ -40,33 +40,12 @@ class StepPoolDataCalculator
 
         $rows = $this->calculateGraphRows($data);
         $rows[$this->getAverageRow()->getUnique()] = $this->getAverageRow();
-        $rows = $this->sort($rows,"up");
+
+
+        uasort($rows, function(GraphRowData $a,GraphRowData $b){
+            return ($a->getFlowRuntime() <= $b->getFlowRuntime()) ? -1 : 1;
+        });
         return $rows;
-    }
-
-    /**
-     * @param GraphRowData[] $rows
-     * @param string $order
-     * @return GraphRowData[]
-     */
-    private function sort($rows,$order = "down"){
-        $baseSortArray = [];
-        foreach($rows as $graphRowData){
-            $baseSortArray[$graphRowData->getUnique()] = $graphRowData->getFlowRuntime();
-        }
-        if($order == "down"){
-            arsort($baseSortArray);
-        }else{
-            asort($baseSortArray);
-        }
-
-
-        $out = [];
-        foreach ($baseSortArray as $unique => $runtime){
-            $out[$unique] = $rows[$unique];
-        }
-
-        return $out;
     }
 
     /**
