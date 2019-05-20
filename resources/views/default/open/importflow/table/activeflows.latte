@@ -105,9 +105,12 @@
                     dataType: 'number'
                 },
                 {
-                    caption: 'Delay count',
+                    caption: 'Delays',
                     dataField: 'delay_count',
-                    dataType: 'number'
+                    dataType: 'number',
+                    headerCellTemplate: function (header, info) {
+                        $(header).html(info.column.caption).attr('title', 'Delay count');
+                    }
                 },
                 {
                     caption: 'RunTime',
@@ -147,8 +150,11 @@
                     dataField: 'unique'
                 },
                 {
-                    caption: 'Difficulty',
-                    dataField: 'control_pool.workload_difficulty'
+                    caption: 'Diff',
+                    dataField: 'control_pool.workload_difficulty',
+                    headerCellTemplate: function (header, info) {
+                        $(header).html(info.column.caption).attr('title', 'Difficulty');
+                    }
                 },
                 {
                     caption: 'Hostname',
