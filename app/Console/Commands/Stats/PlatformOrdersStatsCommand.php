@@ -36,9 +36,30 @@ class PlatformOrdersStatsCommand extends Command {
         $dateTo = new DateTimeHelper();
         $data = $provider->getStats($dateFrom, $dateTo);
 
-        echo "UID;email;PID;createdAt;productVariantCount;RevenueCZK-2017;RevenueCZK-2018;RevenueCZK-2019;OrdersCZK-2017;OrdersCZK-2018;OrdersCZK-2019\n";
+
+        $headers = [
+            "UID",
+            "email",
+            "PID",
+            "createdAt",
+            "productVariantCount",
+            "RevenueCZK-2017",
+            "RevenueCZK-2018",
+            "RevenueCZK-2019",
+            "OrdersCZK-2017",
+            "OrdersCZK-2018",
+            "OrdersCZK-2019",
+
+            "weburl",
+            "CustomersCountAllTheTime",
+            "TopProductName",
+            "TopProductSales"
+        ];
+
+        echo $this->getCsvRow($headers);
+        // echo "UID;email;PID;createdAt;productVariantCount;RevenueCZK-2017;RevenueCZK-2018;RevenueCZK-2019;OrdersCZK-2017;OrdersCZK-2018;OrdersCZK-2019\n";
         foreach ($data["projects"] as $project) {
-            echo $this->printRow([
+            echo $this->getCsvRow([
                     $project->user_id,
                     $project->user_email,
                     $project->id,
@@ -49,12 +70,29 @@ class PlatformOrdersStatsCommand extends Command {
                     $project->revenueCKZ[2019],
                     $project->ordersYear[2017],
                     $project->ordersYear[2018],
-                    $project->ordersYear[2019]
-                ]) . "\n";
+                    $project->ordersYear[2019],
+
+                    $project->weburl,
+                    $project->customers,
+                    $project->topProductName,
+                    $project->topProductSales
+                ]);
         }
     }
 
-    private function printRow($data) {
+    /**
+     * @param $data
+     * @return string
+     */
+    private function getCsvRow($data) {
+        return $this->getRow($data) . "\n";
+    }
+
+    /**
+     * @param $data
+     * @return string
+     */
+    private function getRow($data) {
         $string = "";
         foreach ($data as $item){
             if(is_string($item)){

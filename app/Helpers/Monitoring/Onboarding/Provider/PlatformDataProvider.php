@@ -99,6 +99,8 @@ class PlatformDataProvider {
             $project->revenue = array();
             $project->user_email = null;
             $project->countriesInOrders = null;
+            $project->customers = 0;
+
 
             $project->orders = 0;
             $project->ordersYear = [
@@ -121,9 +123,14 @@ class PlatformDataProvider {
                 $project->user_email = $user->email;
             }
 
-            $table = "f_eshop_order_{$user->client_id}";
+            $tableEshopOrder = "f_eshop_order_{$user->client_id}";
+            $tableEshopOrderDetail = "f_eshop_order_detail_{$user->client_id}";
+            $tableEshopProduct = "d_eshop_product_{$user->client_id}";
+            $tableEshopCustomer = "d_eshop_customer_{$user->client_id}";
+
+
             $query = MDDataStorageConnections::getImportDw2Connection()
-                ->table($table)
+                ->table($tableEshopOrder)
                 ->where("project_id", "=", $project->id)
                 ->where("row_status", "<", 100)
                 // ->whereBetween("date_id", ['20180101', '20181231'])
@@ -167,12 +174,47 @@ class PlatformDataProvider {
             }
 
 
-
-
-
-            $tableProducts = "d_eshop_product_{$user->client_id}";
             $query = MDDataStorageConnections::getImportDw2Connection()
-                ->table($tableProducts)
+                ->table($tableEshopOrder)
+                ->where("project_id", "=", $project->id)
+                ->where("row_status", "<", 100)
+                ->selectRaw("COUNT(DISTINCT customer_id) as customers");
+            try {
+                $customers = $query->get();
+                $project->customers = $customers["customers"];
+            }catch (\Throwable $e){
+                continue;
+            }
+            if(empty($orders)){
+                continue;
+            }
+
+
+            $query = MDDataStorageConnections::getImportDw2Connection()
+                ->table($tableEshopOrderDetail)
+                ->join($tableEshopProduct, "$tableEshopOrderDetail.product_id", "=", "$tableEshopProduct.id")
+                ->where("project_id", "=", $project->id)
+                ->where("row_status", "<", 100)
+                ->selectRaw("product_id, SUM(products_count) as product_sum, product_name")
+                ->groupBy("product_id")
+                ->orderBy("product_sum")
+            ;
+            try {
+                $topProduct = $query->first();
+                $project->topProductName = $topProduct->product_name;
+                $project->topProductSales = $topProduct->product_sum;
+            }catch (\Throwable $e){
+                continue;
+            }
+            if(empty($orders)){
+                continue;
+            }
+
+
+
+
+            $query = MDDataStorageConnections::getImportDw2Connection()
+                ->table($tableEshopProduct)
                 ->selectRaw("count(id) as productsVariantSum, count(distinct product_parent_id) as productsSum")
             ;
 
@@ -187,9 +229,9 @@ class PlatformDataProvider {
             $project->products = $products->productsSum;
             $project->productsVariant = $products->productsVariantSum;
 
-            $tableCustomersCountries = "d_eshop_customer_{$user->client_id}";
+
             $query = MDDataStorageConnections::getImportDw2Connection()
-                ->table($tableCustomersCountries)
+                ->table($tableEshopCustomer)
                 ->whereNotNull('country_id');
 
             try {
