@@ -74,4 +74,12 @@ class Project extends \stdClass {
         return "platform-".$this->getPlatformCode();
     }
 
+
+    /**
+     * @param $name
+     * @return null
+     */
+    public function __get($name) {
+        return null;
+    }
 }

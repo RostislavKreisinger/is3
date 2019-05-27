@@ -4,16 +4,17 @@
 namespace App\Helpers\Monitoring\Onboarding\Provider;
 
 
+use App\Helpers\IO\IErrorReporter;
 use App\Helpers\Monitoring\Onboarding\Platform;
 use App\Http\Controllers\Open\Monitoring\Onboarding\Platform\Objects\Project;
 use Exception;
 use Illuminate\Database\Query\JoinClause;
-use Illuminate\Support\Facades\Input;
 use Monkey\Connections\MDDatabaseConnections;
 use Monkey\Connections\MDDataStorageConnections;
 use Monkey\Constants\MonkeyData\Currency\CurrencyNames;
 use Monkey\CurrencyRate\CurrencyRate;
 use Monkey\DateTime\DateTimeHelper;
+use Throwable;
 
 class PlatformDataProvider {
 
@@ -24,11 +25,18 @@ class PlatformDataProvider {
     private $platformCode;
 
     /**
+     * @var IErrorReporter
+     */
+    private $errorReporter;
+
+    /**
      * PlatformDataProvider constructor.
      * @param string $platformCode
+     * @param IErrorReporter $errorReporter
      */
-    public function __construct(string $platformCode) {
+    public function __construct(string $platformCode, IErrorReporter $errorReporter) {
         $this->platformCode = $platformCode;
+        $this->errorReporter = $errorReporter;
     }
 
     /**
@@ -140,7 +148,8 @@ class PlatformDataProvider {
 
             try {
                 $orders = $query->get();
-            }catch (\Throwable $e){
+            }catch (Throwable $e){
+                $this->report($e);
                 continue;
             }
             if(empty($orders)){
@@ -168,6 +177,7 @@ class PlatformDataProvider {
                         $project->revenueCKZ[$year] += $order->revenue * $rate;
                     }
                 }catch (Exception $e){
+                    $this->report($e);
                     continue;
                 }
 
@@ -182,12 +192,11 @@ class PlatformDataProvider {
             try {
                 $customers = $query->get();
                 $project->customers = $customers["customers"];
-            }catch (\Throwable $e){
-                continue;
+            }catch (Throwable $e){
+                $this->report($e);
+                // continue;
             }
-            if(empty($orders)){
-                continue;
-            }
+
 
 
             $query = MDDataStorageConnections::getImportDw2Connection()
@@ -203,12 +212,11 @@ class PlatformDataProvider {
                 $topProduct = $query->first();
                 $project->topProductName = $topProduct->product_name;
                 $project->topProductSales = $topProduct->product_sum;
-            }catch (\Throwable $e){
-                continue;
+            }catch (Throwable $e){
+                $this->report($e);
+                // continue;
             }
-            if(empty($orders)){
-                continue;
-            }
+
 
 
 
@@ -220,7 +228,8 @@ class PlatformDataProvider {
 
             try {
                 $products = $query->first();
-            }catch (\Throwable $e){
+            }catch (Throwable $e){
+                $this->report($e);
                 continue;
             }
             if(empty($products)){
@@ -236,7 +245,8 @@ class PlatformDataProvider {
 
             try {
                 $countriesCount = $query->get();
-            }catch (\Throwable $e){
+            }catch (Throwable $e){
+                $this->report($e);
                 continue;
             }
 
@@ -263,5 +273,11 @@ class PlatformDataProvider {
         return $this->platformCode;
     }
 
+    /**
+     * @param Throwable $exception
+     */
+    private function report(Throwable $exception) {
+        $this->errorReporter->report($exception);
+    }
 
 }
