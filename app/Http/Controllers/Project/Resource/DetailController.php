@@ -17,6 +17,7 @@ use Exception;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
 use Monkey\Breadcrump\BreadcrumbItem;
+use Monkey\Config\Application\ProjectEndpointBaseUrl;
 use Monkey\Connections\MDDatabaseConnections;
 use Monkey\ImportSupport\Project;
 use Monkey\View\ViewFinder;
@@ -90,6 +91,7 @@ class DetailController extends Controller {
 
         $this->getView()->addParameter('project', $project);
         $this->getView()->addParameter('resource', $resource);
+        $this->getView()->addParameter('ifBaseUrl', ProjectEndpointBaseUrl::getInstance()->getImportFlowUrl());
 
         $this->getView()->addParameter('resourceCurrency', $resourceCurrency);
         $this->getView()->addParameter('connectionDetail', $connectionDetail);
