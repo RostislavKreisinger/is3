@@ -20,7 +20,7 @@
         "monkey/translator": "^1.1.0",
         "monkey/old-monkey": "^1.0",
         "monkey/crypt": "^1.0",
-        "monkey/config": "^1.29.0",
+        "monkey/config": "^1.34.0",
         "monkey/url-handler": "^1.1.0",
         "monkey/connections": "^2.6.0",
         "monkey/raven": "^2.0.0",
