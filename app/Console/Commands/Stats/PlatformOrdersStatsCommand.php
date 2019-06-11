@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands\Stats;
 
+use App\Helpers\IO\ErrorReporter;
 use App\Helpers\Monitoring\Onboarding\Provider\PlatformDataProvider;
 use Illuminate\Console\Command;
 use Illuminate\Foundation\Inspiring;
@@ -30,7 +31,8 @@ class PlatformOrdersStatsCommand extends Command {
     public function handle() {
 
 
-        $provider = new PlatformDataProvider("shoptet");
+        $errorReporter = new ErrorReporter(false);
+        $provider = new PlatformDataProvider("shoptet", $errorReporter);
 
         $dateFrom = new DateTimeHelper("2018-04-01");
         $dateTo = new DateTimeHelper();

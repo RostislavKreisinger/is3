@@ -190,8 +190,8 @@ class PlatformDataProvider {
                 ->where("row_status", "<", 100)
                 ->selectRaw("COUNT(DISTINCT customer_id) as customers");
             try {
-                $customers = $query->get();
-                $project->customers = $customers["customers"];
+                $customers = $query->first();
+                $project->customers = $customers->customers;
             }catch (Throwable $e){
                 $this->report($e);
                 // continue;
@@ -202,16 +202,18 @@ class PlatformDataProvider {
             $query = MDDataStorageConnections::getImportDw2Connection()
                 ->table($tableEshopOrderDetail)
                 ->join($tableEshopProduct, "$tableEshopOrderDetail.product_id", "=", "$tableEshopProduct.id")
-                ->where("project_id", "=", $project->id)
-                ->where("row_status", "<", 100)
+                ->where("$tableEshopOrderDetail.project_id", "=", $project->id)
+                ->where("$tableEshopOrderDetail.row_status", "<", 100)
                 ->selectRaw("product_id, SUM(products_count) as product_sum, product_name")
                 ->groupBy("product_id")
-                ->orderBy("product_sum")
+                ->orderBy("product_sum", "desc")
             ;
             try {
                 $topProduct = $query->first();
-                $project->topProductName = $topProduct->product_name;
-                $project->topProductSales = $topProduct->product_sum;
+                if(!empty($topProduct)) {
+                    $project->topProductName = $topProduct->product_name;
+                    $project->topProductSales = $topProduct->product_sum;
+                }
             }catch (Throwable $e){
                 $this->report($e);
                 // continue;
