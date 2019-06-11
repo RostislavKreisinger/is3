@@ -23,12 +23,14 @@ class BaseViewController extends BaseAuthController {
 
     public function __construct() {
         parent::__construct();
-        $currentRouteAction = Route::currentRouteAction();
-        $route = $this->cleanRoute($currentRouteAction);
-        $this->view = ViewRender::getInstance($route);
+
     }
 
     private function constructInit() {
+        $currentRouteAction = Route::currentRouteAction();
+        $route = $this->cleanRoute($currentRouteAction);
+        $this->view = ViewRender::getInstance($route);
+
         View::share('breadcrumbs', $this->getBreadcrumbs());
         View::share('user', $this->getUser());
         $this->initMenu();
