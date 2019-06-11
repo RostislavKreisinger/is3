@@ -1,0 +1,16 @@
+<h2>Webhook stats</h2>
+<div class="content"></div>
+<script>
+    function download(){
+        loader(window.pageRefresh);
+        $.get('{action "Open\\Monitoring\\OrderAlert\\Webhook\\WebhookQueueStatsController@getData"}', function(data){
+            $(".content").html(data.html);
+
+        }).always(function() {
+            window.setTimeout(function(){
+                download();
+            }, window.pageRefresh);
+        });
+    }
+    download();
+</script>
