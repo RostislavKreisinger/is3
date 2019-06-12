@@ -27,7 +27,26 @@ abstract class BaseController extends BaseViewController {
         $this->setRequest($request);
     }
 
+    /**
+     * @return string
+     */
+    public static function getMethodData() {
+        return static::getMethodAction("getData");
+    }
 
+    /**
+     * @param $route
+     * @return array|mixed
+     */
+    protected function cleanRoute($route) {
+        $pathArray = parent::cleanRoute($route);
+        if(strpos($route, "@getData") !== false) {
+            $tmp = $pathArray[count($pathArray) - 1];
+            $pathArray[count($pathArray) - 1] = "data";
+            $pathArray[] = $tmp;
+        }
+        return $pathArray;
+    }
 
 
     /**
@@ -58,6 +77,14 @@ abstract class BaseController extends BaseViewController {
     private function setRequest(Request $request) {
         $this->request = $request;
         return $this;
+    }
+
+    /**
+     *
+     */
+    protected function setupFontSize() {
+        $fontSize = Input::get("fontSize", '1em');
+        View::share("fontSize", $fontSize);
     }
 
 }

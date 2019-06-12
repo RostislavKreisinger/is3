@@ -47,6 +47,13 @@ Route::group(['prefix' => 'open'], function () {
                 Route::get('subscription-stream', \App\Http\Controllers\Open\Monitoring\Pricing\Stream\SubscriptionStreamController::getMethodAction());
             });
         });
+
+        Route::group(['prefix' => 'order-alert'], function(){
+            Route::group(['prefix' => 'webhook'], function(){
+                Route::get('webhook-queue-stats', \App\Http\Controllers\Open\Monitoring\OrderAlert\Webhook\WebhookQueueStatsController::getMethodAction());
+                Route::get('webhook-queue-stats/data', \App\Http\Controllers\Open\Monitoring\OrderAlert\Webhook\WebhookQueueStatsController::getMethodData());
+            });
+        });
     });
 });
 
