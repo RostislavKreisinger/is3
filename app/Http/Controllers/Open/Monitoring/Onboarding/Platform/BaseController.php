@@ -39,20 +39,6 @@ class BaseController extends \App\Http\Controllers\Open\Monitoring\Onboarding\Ba
     }
 
     /**
-     * @param $route
-     * @return array|mixed
-     */
-    protected function cleanRoute($route) {
-        $pathArray = parent::cleanRoute($route);
-        if(strpos($route, "@getData") !== false) {
-            $tmp = $pathArray[count($pathArray) - 1];
-            $pathArray[count($pathArray) - 1] = "data";
-            $pathArray[] = $tmp;
-        }
-        return $pathArray;
-    }
-
-    /**
      * @return string
      */
     final protected function getPlatformCode() {
