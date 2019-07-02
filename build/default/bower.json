@@ -17,7 +17,8 @@
         "startbootstrap-sb-admin-2": "v1.0.4",
         "bootstrap": "3.3.1",
         "remarkable-bootstrap-notify": "3.1.3",
-        "raphael": "2.1.0"
+        "raphael": "2.1.0",
+        "moment": "*"
     },
     "exportsOverride": {
         "startbootstrap-sb-admin-2": {
@@ -37,6 +38,9 @@
         },
         "jquery": {
             "js": "dist/jquery.min.js"
+        },
+        "moment": {
+            "js": "min/moment.min.js"
         },
         "datatables": {
             

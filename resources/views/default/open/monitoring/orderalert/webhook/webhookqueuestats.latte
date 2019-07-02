@@ -1,10 +1,15 @@
-<h2>Projects on loading page</h2>
+<style>
+    .table-status tr td {
+        font-size: 1.6em;
+        font-weight: bold;
+    }
+</style>
+<h2>Webhook stats</h2>
 <div class="content"></div>
-<div n:if="$limited_view">Number of results is limited</div>
 <script>
     function download(){
         loader(window.pageRefresh);
-        $.get('{action "Open\\Monitoring\\Onboarding\\Platform\\OnLoadingPageController@getData", $dataQuery}', function(data){
+        $.get('{action "Open\\Monitoring\\OrderAlert\\Webhook\\WebhookQueueStatsController@getData"}', function(data){
             $(".content").html(data.html);
 
         }).always(function() {

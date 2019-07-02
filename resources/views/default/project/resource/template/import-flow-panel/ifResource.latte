@@ -274,13 +274,23 @@
                             currentLocation += '/';
                         }
 
-                        cellElement.html(
+                        var difficultyCellValue =
                             cellInfo.value
                             + ' <form action="' + currentLocation + 'importflowstatus/' + cellInfo.data.unique + '/raise_difficulty" method="POST" style="display: inline;">'
                             + '{csrf_field()|noescape}'
+                            + '{method_field("PUT")|noescape}'
                             + '<input type="submit" value="+" title="Raise difficulty" />'
-                            + '</form>'
-                        );
+                            + '</form>';
+
+                        if (cellInfo.value > 0) {
+                            difficultyCellValue += ' <form action="' + currentLocation + 'importflowstatus/' + cellInfo.data.unique + '/reduce_difficulty" method="POST" style="display: inline;">'
+                                + '{csrf_field()|noescape}'
+                                + '{method_field("PUT")|noescape}'
+                                + '<input type="submit" value="-" title="Reduce difficulty" />'
+                                + '</form>';
+                        }
+
+                        cellElement.html(difficultyCellValue);
                     },
                     dataField: 'workload_difficulty',
                     headerCellTemplate: function (header, info) {

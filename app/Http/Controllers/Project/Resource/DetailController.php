@@ -15,7 +15,9 @@ use App\Model\ResourceSetting;
 use Eloquent;
 use Exception;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Auth;
 use Monkey\Breadcrump\BreadcrumbItem;
+use Monkey\Config\Application\ProjectEndpointBaseUrl;
 use Monkey\Connections\MDDatabaseConnections;
 use Monkey\ImportSupport\Project;
 use Monkey\View\ViewFinder;
@@ -47,7 +49,7 @@ class DetailController extends Controller {
         $this->project = $project = Project::find($projectId);
         $this->resource = $resource = $project->getResource($resourceId);
 
-        if (request()->getMethod() === 'POST') {
+        if (request()->getMethod() === 'PUT') {
             if ($this->findAction()) {
                 return back()->with(['message' => 'Success!']);
             }
@@ -89,6 +91,7 @@ class DetailController extends Controller {
 
         $this->getView()->addParameter('project', $project);
         $this->getView()->addParameter('resource', $resource);
+        $this->getView()->addParameter('ifBaseUrl', ProjectEndpointBaseUrl::getInstance()->getImportFlowUrl());
 
         $this->getView()->addParameter('resourceCurrency', $resourceCurrency);
         $this->getView()->addParameter('connectionDetail', $connectionDetail);
@@ -185,6 +188,18 @@ class DetailController extends Controller {
         $resourceSetting->activate()->save();
     }
 
+    private function deactivate() {
+        if (!Auth::user()->can('project.resource.button.delete.unconnect')) {
+            return;
+        }
+
+        /**
+         * @var ResourceSetting $resourceSetting
+         */
+        $resourceSetting = $this->project->resourceSettings($this->resource->id)->first();
+        $resourceSetting->deactivate()->save();
+    }
+
     private function test() {
         /**
          * @var ResourceSetting $resourceSetting
@@ -202,6 +217,10 @@ class DetailController extends Controller {
         switch (request()->input('action')) {
             case 'activate':
                 $this->activate();
+                $found = true;
+                break;
+            case 'deactivate':
+                $this->deactivate();
                 $found = true;
                 break;
             case 'test':
