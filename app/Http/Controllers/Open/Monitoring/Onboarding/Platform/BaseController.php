@@ -86,6 +86,38 @@ class BaseController extends \App\Http\Controllers\Open\Monitoring\Onboarding\Ba
 
 
     /**
+     * @param $projectId
+     * @param $userId
+     * @return \Illuminate\Database\Eloquent\Model|\Illuminate\Database\Query\Builder|null
+     */
+    protected function getShoptetProjectByProjectAndUserId($projectId, $userId) {
+
+        $query = MDDatabaseConnections::getMasterAppConnection()
+            ->table("project as p")
+            ->join("resource_setting as rs", function(JoinClause $join){
+                $join->on("rs.project_id", '=', 'p.id')
+                    ->where("rs.resource_id", '=', 4)
+                    ->whereIn("rs.active", [0, 1, 2, 3])
+                    ->whereNull("rs.deleted_at")
+                ;
+            })
+            ->join("resource_eshop as re", function(JoinClause $join){
+                $join->on("re.resource_setting_id", '=', 'rs.id')
+                    ->whereNull("re.deleted_at")
+                ;
+            })
+            ->leftJoin("timezone as t", 'p.timezone_id', '=', 't.id')
+            ->leftJoin("currency_names as cn", 'p.currency_id', '=', 'cn.id')
+            ->leftJoin("country as c", 'p.country_id', '=', 'c.id')
+            ->where('p.id', '=', $projectId)
+            ->where('p.user_id', '=', $userId)
+            ->whereNull("p.deleted_at")
+            ->select(['p.*', 't.name as timezone', 'cn.code as currency', 'c.iso3 as country', 're.url as url']);
+
+        return $query->first();
+    }
+
+    /**
      * @return Project[] projects array
      */
     protected function getShoptetProjects($columns = array()) {

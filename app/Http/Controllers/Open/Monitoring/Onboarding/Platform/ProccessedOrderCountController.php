@@ -4,13 +4,88 @@ namespace App\Http\Controllers\Open\Monitoring\Onboarding\Platform;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Str;
 use Monkey\Connections\MDDatabaseConnections;
 use Monkey\Connections\MDDataStorageConnections;
 use Monkey\Constants\MonkeyData\Currency\CurrencyNames;
 use Monkey\DateTime\DateTimeHelper;
+use Monkey\Helpers\Strings;
 
 class ProccessedOrderCountController extends BaseController {
 
+
+    public function getEshop() {
+        $projectId = Input::get('project_id');
+        $userId = Input::get('user_id');
+
+        if (!isset($projectId, $userId)) {
+            throw new \Exception('Missing Query Params');
+        }
+
+        $project = $this->getShoptetProjectByProjectAndUserId($projectId, $userId);
+
+        if (is_null($project)) {
+            throw new \Exception('Missing Query Params');
+        }
+
+        $project->orders = 0;
+        $project->revenue = array();
+
+        $user = MDDatabaseConnections::getMasterAppConnection()
+            ->table("user as u")
+            ->join("client as c", 'c.user_id', '=', 'u.id')
+            ->where("u.id", '=', $project->user_id)
+            ->first(["u.email", "u.id", 'c.id as client_id' ]);
+
+
+        $currentStartDateTimeHelper = new DateTimeHelper();
+        $currentEndDateTimeHelper = $currentStartDateTimeHelper->getCloneThis();
+
+        $currentStartDateTimeHelper->setDate($currentStartDateTimeHelper->getYear() , 1, 1);
+
+        $previousStartDateTimeHelper = $currentStartDateTimeHelper->getCloneThis()->setDate($currentStartDateTimeHelper->getYear() - 1, $currentStartDateTimeHelper->getMonth(), $currentStartDateTimeHelper->getDay());
+        $previousEndDateTimeHelper = $currentEndDateTimeHelper->getCloneThis()->setDate($currentEndDateTimeHelper->getYear() - 1, $currentEndDateTimeHelper->getMonth(), $currentEndDateTimeHelper->getDay());
+
+        $projectResponse = new \stdClass();
+        $projectResponse->timezone = $project->timezone;
+        $projectResponse->currency = $project->currency;
+        $projectResponse->country = $project->country;
+        $projectResponse->revenue = $project->revenue;
+        $projectResponse->url = $project->url;
+        $projectResponse->name = $project->name;
+        $projectResponse->revenue = [];
+        $projectResponse->email = $user->email;
+        $projectResponse->projectAlphaId = Strings::id2alpha($projectId);
+        $projectResponse->userAlphaId = Strings::id2alpha($userId);
+        $projectResponse->revenue['previous'] = $this->getRevenueInRange($user->client_id, $previousStartDateTimeHelper->getMySqlId(), $previousEndDateTimeHelper->getMySqlId());
+        $projectResponse->revenue['current'] = $this->getRevenueInRange($user->client_id, $currentStartDateTimeHelper->getMySqlId(), $currentEndDateTimeHelper->getMySqlId());
+
+        $response = new JsonResponse();
+        $response->setData($projectResponse);
+        return $response;
+    }
+
+    private function getRevenueInRange($clientId, $dateFrom, $dateTo) {
+        $table = "f_eshop_order_{$clientId}";
+
+        $query = MDDataStorageConnections::getImportDw2Connection()
+            ->table($table)
+            ->whereBetween('date_id', [$dateFrom, $dateTo])
+            ->selectRaw("count(id) as orderSum, SUM(price_without_vat) as revenue, currency_id")
+            ->groupBy("currency_id");
+
+        $orders = $query->get();
+
+        $revenue = [];
+
+        foreach ($orders as $order){
+            $code = CurrencyNames::getById($order->currency_id);
+            $revenue[$code] = $order->revenue;
+        }
+
+        return $revenue;
+
+    }
 
 
     public function getData() {
