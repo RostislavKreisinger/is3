@@ -6,6 +6,7 @@ use App\Helpers\IO\ErrorReporter;
 use App\Helpers\Monitoring\Onboarding\Provider\PlatformDataProvider;
 use Illuminate\Console\Command;
 use Illuminate\Foundation\Inspiring;
+use Illuminate\Support\Facades\Storage;
 use Monkey\DateTime\DateTimeHelper;
 
 class PlatformOrdersStatsCommand extends Command {
@@ -29,6 +30,17 @@ class PlatformOrdersStatsCommand extends Command {
      * @return mixed
      */
     public function handle() {
+
+        $output = new class(){
+            private $filename;
+            public function __construct() {
+                $this->filename = "export".(new DateTimeHelper())->format("%Y-%m-%d-%h-%i").".csv";
+            }
+
+            public function print($string) {
+                Storage::append($this->filename, $string);
+            }
+        };
 
 
         $errorReporter = new ErrorReporter(false);
@@ -58,10 +70,10 @@ class PlatformOrdersStatsCommand extends Command {
             "TopProductSales"
         ];
 
-        echo $this->getCsvRow($headers);
+        $output->print($this->getCsvRow($headers));
         // echo "UID;email;PID;createdAt;productVariantCount;RevenueCZK-2017;RevenueCZK-2018;RevenueCZK-2019;OrdersCZK-2017;OrdersCZK-2018;OrdersCZK-2019\n";
         foreach ($data["projects"] as $project) {
-            echo $this->getCsvRow([
+            $csvRow =  $this->getCsvRow([
                     $project->user_id,
                     $project->user_email,
                     $project->id,
@@ -79,8 +91,11 @@ class PlatformOrdersStatsCommand extends Command {
                     $project->topProductName,
                     $project->topProductSales
                 ]);
+            $output->print($csvRow);
         }
     }
+
+
 
     /**
      * @param $data

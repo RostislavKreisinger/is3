@@ -91,14 +91,19 @@ class PlatformDataProvider {
         return $projects;
     }
 
-
-    public function getStats(DateTimeHelper $dateFromDth, DateTimeHelper $dateToDth) {
+    /**
+     * @param DateTimeHelper $dateFromDth
+     * @param DateTimeHelper $dateToDth
+     * @param array $errorBag
+     * @return array
+     */
+    public function getStats(DateTimeHelper $dateFromDth, DateTimeHelper $dateToDth, &$errorBag = []) {
 
         $outputData = [];
         $projects = $this->getProjects($dateFromDth, $dateToDth, ['p.weburl']);
 
         $currencyRate = new CurrencyRate();
-        $todayDateId = (new DateTimeHelper())->getMySqlId();
+        $todayDateId = (new DateTimeHelper())->changeDays(-1)->getMySqlId();
 
         foreach ($projects as $project){
             $project->orders = null;
