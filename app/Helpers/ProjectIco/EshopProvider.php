@@ -33,9 +33,12 @@ class EshopProvider {
      */
     public function updateIco(string $ico) {
         $eshop = $this->getEshop();
+        if(empty($ico)){
+            $ico = null;
+        }
         MDDatabaseConnections::getImportSupportConnection()
             ->table("project_ico")->where("id", "=", $eshop->id)
-            ->update(["ico" => $ico]);
+            ->update(["ico" => $ico, "skip_until_at" => null]);
     }
 
     /**
