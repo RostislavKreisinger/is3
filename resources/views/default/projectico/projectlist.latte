@@ -4,22 +4,26 @@
         <th>Eshop AID</th>
         <th>Obchodni podminky</th>
         <th>ICO</th>
+        <th style="width: 80px;"></th>
     </tr>
     </thead>
     <tbody>
     {foreach $projects as $project}
-        <tr>
-            <td>{$project->id}</td>
+        <tr data-pid="{$project->eshop_id}">
+            <td>{$project->eshop_id}</td>
             <td>
-                <a class="disabled" target="_blank" href="{$project->web_url}">{$project->web_url}</a>
+                <a class="eshop-link" class="disabled" target="_blank" href="{$project->web_url}">{$project->web_url}</a>
             </td>
             <td>
                 <div class="input-group input-group-sm">
-                    <input type="text" class="form-control ico" placeholder="ICO" aria-label="ICO" aria-describedby="skip">
+                    <input type="text" class="form-control ico" placeholder="ICO" aria-label="ICO" aria-describedby="skip" >
                     <div class="input-group-append">
-                        <button class="btn btn-warning" type="button" id="skip">Skip</button>
+                        <button class="btn btn-warning skip" type="button">Skip</button>
                     </div>
                 </div>
+            </td>
+            <td class="info">
+                <span class="text"></span>
             </td>
         </tr>
     {/foreach}
@@ -27,10 +31,64 @@
 </table>
 
 <script>
+    function text(element, text){
+        element.find(".info .text").html(text).show();
+    }
+
+    function info(element, text){
+        text(element, text);
+        setTimeout(function(){
+            element.find(".info .text").hide();
+        }, 2000);
+    }
+
+    function checkUrl(link){
+        let sites = ["obchodni-podminky", "obchodne-podmienky"];
+        link = link.replace(/\/+$/,'');
+
+        if(/\.sk/.test(link)){
+            return link + "/obchodne-podmienky";
+        }
+        return link + "/obchodni-podminky"
+    }
+
+    let baseUrl = {$baseUrl};
     $(document).ready(function(){
-        $(".ico").keypress($.debounce(250, function(e) {
-            console.log($(this).val());
+
+        $(".eshop-link").each(function(index, element){
+            let link = checkUrl(element.href);
+            element.href = link;
+            // $(element).text(link);
+        });
+
+        $(".ico").on('keyup paste', $.debounce(250, function(e) {
+            let tr = $(this).closest("tr");
+            let url = baseUrl + "/" + tr.data("pid") + "/ico";
+            let data = {
+                "ico": $(this).val()
+            };
+            $.post(url, data, function(){
+                info(tr, "<b style='color:green'>Saved</b>");
+            }).fail(function(response, body){
+                info(tr, "<b style='color:red'>"+response.responseJSON.message+"</b>");
+            });
         }));
 
+        $(".skip").on('click', function(e) {
+            let tr = $(this).closest("tr");
+            let url = baseUrl + "/" + tr.data("pid") + "/skip";
+            $.post(url, {}, function(){
+                text(tr, "<b style='color:orange'>Skipped</b>");
+            }).fail(function(response, body){
+                info(tr, "<b style='color:red'>"+response.responseJSON.message+"</b>");
+            });
+        });
+
+        $(".eshop-link").click(function(){
+            let link = this.href;
+            something = window.open(link, "eshop", "toolbar=yes,top=100,left=100,width=800,height=800");
+            something.focus();
+            return false;
+        });
     });
 </script>

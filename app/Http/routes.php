@@ -12,8 +12,8 @@ Route::group(['prefix' => 'open'], function () {
     Route::group(['prefix' => 'project-ico'], function () {
         Route::get('/', \App\Http\Controllers\ProjectIco\ProjectListController::getMethodAction());
         Route::group(['prefix' => '{projectAID}'], function (){
-            Route::post('/', \App\Http\Controllers\ProjectIco\ProjectListController::getMethodAction("postIco"));
-            Route::post('/', \App\Http\Controllers\ProjectIco\ProjectListController::getMethodAction("postSkip"));
+            Route::post('/ico', \App\Http\Controllers\ProjectIco\ProjectListController::getMethodAction("postIco"));
+            Route::post('/skip', \App\Http\Controllers\ProjectIco\ProjectListController::getMethodAction("postSkip"));
         });
     });
 

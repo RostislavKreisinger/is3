@@ -34,7 +34,7 @@ class EshopProvider {
     public function updateIco(string $ico) {
         $eshop = $this->getEshop();
         MDDatabaseConnections::getImportSupportConnection()
-            ->table("project_ico")->where("eshop_id", "=", $eshop->id)
+            ->table("project_ico")->where("id", "=", $eshop->id)
             ->update(["ico" => $ico]);
     }
 
@@ -45,7 +45,7 @@ class EshopProvider {
         $eshop = $this->getEshop();
         $date = (new DateTimeHelper())->changeDays(+7)->mysqlFormat();
         MDDatabaseConnections::getImportSupportConnection()
-            ->table("project_ico")->where("eshop_id", "=", $eshop->id)
+            ->table("project_ico")->where("id", "=", $eshop->id)
             ->update(["skip_until_at" => $date]);
     }
 
@@ -55,7 +55,9 @@ class EshopProvider {
      */
     private function getEshop() {
         if($this->eshop === null){
-            $eshop = MDDatabaseConnections::getImportSupportConnection()->table("project_ico")->where("eshop_id", "=", $eshopID)->first();
+            $eshop = MDDatabaseConnections::getImportSupportConnection()
+                ->table("project_ico")
+                ->where("eshop_id", "=", $this->eshopId)->first();
             if ($eshop === null) {
                 throw new Exception("Eshop does not exists");
             }

@@ -5,8 +5,10 @@ namespace App\Http\Controllers\ProjectIco;
 
 use App\Helpers\ProjectIco\EshopProvider;
 use Illuminate\Database\Query\Builder;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Exception;
+use Illuminate\Support\Facades\URL;
 use Monkey\Connections\MDDatabaseConnections;
 use Monkey\Helpers\Strings;
 use Monkey\View\View;
@@ -30,24 +32,25 @@ class ProjectListController extends AController {
              ->get()
         ;
         View::share("projects", $projects);
+        View::share("baseUrl", URL::to('open/project-ico'));
     }
 
     public function postIco(Request $request) {
         try {
             $data = $this->_postIco($request);
         } catch (Throwable $exception) {
-            vde($exception);
+            return JsonResponse::create(["message" => $exception->getMessage()], 400);
         }
-        vde($data);
+        return JsonResponse::create();
     }
 
     public function postSkip(Request $request) {
         try {
             $data = $this->_postSkip($request);
         } catch (Throwable $exception) {
-            vde($exception);
+            return JsonResponse::create(["message" => $exception->getMessage()], 400);
         }
-        vde($data);
+        return JsonResponse::create();
     }
 
     /**
@@ -60,6 +63,7 @@ class ProjectListController extends AController {
         if ($ico === null) {
             throw new Exception("Missing attribute ico");
         }
+        throw new Exception("Missing attribute ico");
         $provider = new EshopProvider($eshopID);
         $provider->updateIco($ico);
     }
@@ -85,8 +89,8 @@ class ProjectListController extends AController {
         if ($eshopAID === null) {
             throw new Exception("Missing attribute projectAID");
         }
-
-        return Strings::alpha2id($eshopAID);
+        // $eshopAID = Strings::alpha2id($eshopAID);
+        return $eshopAID;
     }
 
 
