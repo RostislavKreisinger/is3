@@ -10,7 +10,6 @@ use Illuminate\Http\Request;
 use Exception;
 use Illuminate\Support\Facades\URL;
 use Monkey\Connections\MDDatabaseConnections;
-use Monkey\Helpers\Strings;
 use Monkey\View\View;
 use Throwable;
 
@@ -20,6 +19,7 @@ class ProjectListController extends AController {
 
         $limit = $request->get("limit", 5);
         $limit = min($limit, 20);
+        $limit = max(1, $limit);
         $projects = MDDatabaseConnections::getImportSupportConnection()
             ->table("project_ico")
             ->where(function (Builder $where){
@@ -63,7 +63,6 @@ class ProjectListController extends AController {
         if ($ico === null) {
             throw new Exception("Missing attribute ico");
         }
-        throw new Exception("Missing attribute ico");
         $provider = new EshopProvider($eshopID);
         $provider->updateIco($ico);
     }

@@ -1,59 +1,76 @@
+
 <table class="table">
     <thead>
     <tr>
         <th>Eshop AID</th>
         <th>Obchodni podminky</th>
         <th>ICO</th>
-        <th style="width: 80px;"></th>
+        <th style="min-width: 80px;"></th>
     </tr>
     </thead>
     <tbody>
-    {foreach $projects as $project}
-        <tr data-pid="{$project->eshop_id}">
-            <td>{$project->eshop_id}</td>
-            <td>
-                <a class="eshop-link" class="disabled" target="_blank" href="{$project->web_url}">{$project->web_url}</a>
-            </td>
-            <td>
-                <div class="input-group input-group-sm">
-                    <input type="text" class="form-control ico" placeholder="ICO" aria-label="ICO" aria-describedby="skip" >
-                    <div class="input-group-append">
-                        <button class="btn btn-warning skip" type="button">Skip</button>
-                    </div>
-                </div>
-            </td>
-            <td class="info">
-                <span class="text"></span>
+    {if count($projects) === 0}
+        <tr class="table" style="text-align: center">
+            <td colspan="4">
+                <p>Vse je hotovo. Odmenu si muzes vybrat v Coca-Cola lednici.</p>
+                <img src="https://i.giphy.com/media/l0MYxef0mpdcnQnvi/200.webp">
             </td>
         </tr>
-    {/foreach}
+    {else}
+        {foreach $projects as $project}
+            <tr data-pid="{$project->eshop_id}">
+                <td>{$project->eshop_id}</td>
+                <td>
+                    <a class="eshop-link" class="disabled" target="_blank" href="{$project->web_url}">{$project->web_url}</a>
+                </td>
+                <td>
+                    <div class="input-group input-group-sm">
+                        <input type="text" class="form-control ico" placeholder="ICO" aria-label="ICO" aria-describedby="skip" >
+                        <div class="input-group-append">
+                            <button class="btn btn-warning skip" type="button">Skip</button>
+                        </div>
+                    </div>
+                </td>
+                <td class="info">
+                    <span class="text"></span>
+                </td>
+            </tr>
+        {/foreach}
+        <tr>
+            <td colspan="4" style="text-align: center">
+                <a href="{$baseUrl}" class="btn btn-primary">Next</a>
+            </td>
+        </tr>
+    {/if}
     </tbody>
 </table>
 
 <script>
-    function text(element, text){
-        element.find(".info .text").html(text).show();
-    }
 
-    function info(element, text){
-        text(element, text);
-        setTimeout(function(){
-            element.find(".info .text").hide();
-        }, 2000);
-    }
-
-    function checkUrl(link){
-        let sites = ["obchodni-podminky", "obchodne-podmienky"];
-        link = link.replace(/\/+$/,'');
-
-        if(/\.sk/.test(link)){
-            return link + "/obchodne-podmienky";
-        }
-        return link + "/obchodni-podminky"
-    }
-
-    let baseUrl = {$baseUrl};
     $(document).ready(function(){
+
+        function text(element, text){
+            element.find(".info .text").html(text).show();
+        }
+
+        function info(element, string){
+            text(element, string);
+            setTimeout(function(){
+                element.find(".info .text").hide();
+            }, 2000);
+        }
+
+        function checkUrl(link){
+            let sites = ["obchodni-podminky", "obchodne-podmienky"];
+            link = link.replace(/\/+$/,'');
+
+            if(/\.sk/.test(link)){
+                return link + "/obchodne-podmienky";
+            }
+            return link + "/obchodni-podminky"
+        }
+
+        let baseUrl = {$baseUrl};
 
         $(".eshop-link").each(function(index, element){
             let link = checkUrl(element.href);
@@ -67,10 +84,11 @@
             let data = {
                 "ico": $(this).val()
             };
+            console.log(data);
             $.post(url, data, function(){
                 info(tr, "<b style='color:green'>Saved</b>");
             }).fail(function(response, body){
-                info(tr, "<b style='color:red'>"+response.responseJSON.message+"</b>");
+                text(tr, "<b style='color:red'>"+response.responseJSON.message+"</b>");
             });
         }));
 
@@ -80,7 +98,7 @@
             $.post(url, {}, function(){
                 text(tr, "<b style='color:orange'>Skipped</b>");
             }).fail(function(response, body){
-                info(tr, "<b style='color:red'>"+response.responseJSON.message+"</b>");
+                text(tr, "<b style='color:red'>"+response.responseJSON.message+"</b>");
             });
         });
 
