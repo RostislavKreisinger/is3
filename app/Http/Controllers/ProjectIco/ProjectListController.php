@@ -17,22 +17,48 @@ class ProjectListController extends AController {
 
     public function getIndex(Request $request) {
 
+        $justSkipped = (bool) $request->exists("skipped");
+
         $limit = $request->get("limit", 5);
         $limit = min($limit, 20);
         $limit = max(1, $limit);
-        $projects = MDDatabaseConnections::getImportSupportConnection()
-            ->table("project_ico")
-            ->where(function (Builder $where){
+        $projectsQuery = MDDatabaseConnections::getImportSupportConnection()->table("project_ico");
+
+        if($justSkipped === false) {
+            $projectsQuery->where(function (Builder $where) {
                 $where->whereRaw("skip_until_at < NOW()");
                 $where->orWhereNull("skip_until_at");
-            })
-            ->whereNull("ico")
-            ->orderByRaw("RAND()")
-            ->take($limit)
-             ->get()
-        ;
+            });
+        }else{
+            $projectsQuery->whereNotNull("skip_until_at");
+        }
+        $projectsQuery->whereNull("ico");
+        $projectsQuery->orderByRaw("RAND()");
+        $projectsQuery->take($limit);
+
+        $projects = $projectsQuery->get();
+
         View::share("projects", $projects);
         View::share("baseUrl", URL::to('open/project-ico'));
+
+
+        $showStats = (bool) $request->exists("stats");
+        View::share("showStats", $showStats);
+        if($showStats){
+            $statsQuery = MDDatabaseConnections::getImportSupportConnection()->table("project_ico");
+            $data = $statsQuery->selectRaw("COUNT(*) as `all`, SUM(IF(p.ico is not null, 1, 0)) as ico, SUM(IF( p.skip_until_at is not null, 1, 0)) as skipped")->first();
+            $stats = (object) [
+                "all" => $data->all,
+                "ico" => $data->ico,
+                "skipped" => $data->skipped,
+                "done" => $data->ico + $data->skipped,
+                "left" => $data->all - $data->ico - $data->skipped,
+            ];
+            View::share("stats", $showStats);
+        }
+
+
+
     }
 
     public function postIco(Request $request) {

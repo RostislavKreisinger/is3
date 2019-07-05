@@ -45,6 +45,16 @@
     </tbody>
 </table>
 
+{if $showStats}
+<table class="table">
+    <tr><th>All</th><td>{$stats->all}</td></tr>
+    <tr><th>Ico</th><td>{$stats->ico}</td></tr>
+    <tr><th>Skipped</th><td>{$stats->skipped}</td></tr>
+    <tr><th>Done</th><td>{$stats->done}</td></tr>
+    <tr><th>Left</th><td>{$stats->left}</td></tr>
+</table>
+{/if}
+
 <script>
 
     $(document).ready(function(){
