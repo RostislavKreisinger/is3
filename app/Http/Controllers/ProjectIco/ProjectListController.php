@@ -54,7 +54,7 @@ class ProjectListController extends AController {
                 "done" => $data->ico + $data->skipped,
                 "left" => $data->all - $data->ico - $data->skipped,
             ];
-            View::share("stats", $showStats);
+            View::share("stats", $stats);
         }
 
 
