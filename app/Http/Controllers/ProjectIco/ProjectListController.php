@@ -46,7 +46,7 @@ class ProjectListController extends AController {
         View::share("showStats", $showStats);
         if($showStats){
             $statsQuery = MDDatabaseConnections::getImportSupportConnection()->table("project_ico");
-            $data = $statsQuery->selectRaw("COUNT(*) as `all`, SUM(IF(p.ico is not null, 1, 0)) as ico, SUM(IF( p.skip_until_at is not null, 1, 0)) as skipped")->first();
+            $data = $statsQuery->selectRaw("COUNT(*) as `all`, SUM(IF(ico is not null, 1, 0)) as ico, SUM(IF( skip_until_at is not null, 1, 0)) as skipped")->first();
             $stats = (object) [
                 "all" => $data->all,
                 "ico" => $data->ico,
