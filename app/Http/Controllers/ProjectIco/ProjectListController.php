@@ -53,6 +53,7 @@ class ProjectListController extends AController {
                 "skipped" => $data->skipped,
                 "done" => $data->ico + $data->skipped,
                 "left" => $data->all - $data->ico - $data->skipped,
+                "percent" => round((($data->ico + $data->skipped)/$data->all)*100, 2)
             ];
             View::share("stats", $stats);
         }
