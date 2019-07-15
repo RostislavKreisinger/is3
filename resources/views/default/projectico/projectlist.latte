@@ -12,7 +12,8 @@
     {if count($projects) === 0}
         <tr class="table" style="text-align: center">
             <td colspan="4">
-                <p>Vse je hotovo. Odmenu si muzes vybrat v Coca-Cola lednici.</p>
+{*                <p>Vse je hotovo. Odmenu si muzes vybrat v Coca-Cola lednici.</p>*}
+                <p><h2>HOTOVO</h2></p>
                 <img src="https://i.giphy.com/media/l0MYxef0mpdcnQnvi/200.webp">
             </td>
         </tr>
@@ -29,6 +30,9 @@
                         <div class="input-group-append">
                             <button class="btn btn-warning skip" type="button">Skip</button>
                         </div>
+                    </div>
+                    <div class="note">
+                        note: <i>{$project->note}</i>
                     </div>
                 </td>
                 <td class="info">

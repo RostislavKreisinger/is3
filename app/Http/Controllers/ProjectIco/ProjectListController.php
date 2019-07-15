@@ -24,6 +24,8 @@ class ProjectListController extends AController {
         $limit = max(1, $limit);
         $projectsQuery = MDDatabaseConnections::getImportSupportConnection()->table("project_ico");
 
+        // vde(MDDatabaseConnections::getImportSupportConnection()->getMySQLServer()->getDSN());
+
         if($justSkipped === false) {
             $projectsQuery->where(function (Builder $where) {
                 $where->whereRaw("skip_until_at < NOW()");
