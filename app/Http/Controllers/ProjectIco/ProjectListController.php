@@ -34,7 +34,11 @@ class ProjectListController extends AController {
         }else{
             $projectsQuery->whereNotNull("skip_until_at");
         }
-        $projectsQuery->whereNull("ico");
+        $projectsQuery->where(function (Builder $where){
+            $where->orWhereNull("ico");
+            $where->orWhereNull("nationality");
+            $where->orWhereNull("is_self_employed");
+        });
         $projectsQuery->orderByRaw("RAND()");
         $projectsQuery->take($limit);
 
@@ -48,14 +52,14 @@ class ProjectListController extends AController {
         View::share("showStats", $showStats);
         if($showStats){
             $statsQuery = MDDatabaseConnections::getImportSupportConnection()->table("project_ico");
-            $data = $statsQuery->selectRaw("COUNT(*) as `all`, SUM(IF(ico is not null, 1, 0)) as ico, SUM(IF( skip_until_at is not null, 1, 0)) as skipped")->first();
+            $data = $statsQuery->selectRaw("COUNT(*) as `all`, SUM(IF(ico is not null AND nationality is not null AND is_self_employed is not null, 1, 0)) as filled, SUM(IF( skip_until_at is not null, 1, 0)) as skipped")->first();
             $stats = (object) [
                 "all" => $data->all,
-                "ico" => $data->ico,
+                "filled" => $data->filled,
                 "skipped" => $data->skipped,
-                "done" => $data->ico + $data->skipped,
-                "left" => $data->all - $data->ico - $data->skipped,
-                "percent" => round((($data->ico + $data->skipped)/$data->all)*100, 2)
+                "done" => $data->filled + $data->skipped,
+                "left" => $data->all - $data->filled - $data->skipped,
+                "percent" => round((($data->filled + $data->skipped)/$data->all)*100, 2)
             ];
             View::share("stats", $stats);
         }
@@ -88,12 +92,23 @@ class ProjectListController extends AController {
      */
     private function _postIco(Request $request) {
         $eshopID = $this->getProjectId($request);
-        $ico = $request->get("ico", null);
-        if ($ico === null) {
-            throw new Exception("Missing attribute ico");
-        }
         $provider = new EshopProvider($eshopID);
-        $provider->updateIco($ico);
+
+        $ico = $request->get("ico", null);
+        if ($ico !== null) {
+            $provider->updateIco($ico);
+        }
+
+        $nationality = $request->get("nationality", null);
+        if ($nationality !== null) {
+            $provider->updateNationality($nationality);
+        }
+
+        $is_self_employed = $request->get("is_self_employed", null);
+        if ($is_self_employed !== null) {
+            $provider->updateIsSelfEmployed($is_self_employed);
+        }
+
     }
 
     /**

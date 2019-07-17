@@ -5,6 +5,8 @@
         <th>Eshop AID</th>
         <th>Obchodni podminky</th>
         <th>ICO</th>
+        <th>Country</th>
+        <th>OSVC</th>
         <th style="min-width: 80px;"></th>
     </tr>
     </thead>
@@ -22,17 +24,46 @@
             <tr data-pid="{$project->eshop_id}">
                 <td>{$project->eshop_id}</td>
                 <td>
-                    <a class="eshop-link" class="disabled" target="_blank" href="{$project->web_url}">{$project->web_url}</a>
+                    <div>
+                        <a class="eshop-link" class="disabled" target="_blank" href="{$project->web_url}">{$project->web_url}</a>
+                    </div>
+                    <div class="note" n:if="!empty($project->note)">
+                        note: <i>{$project->note}</i>
+                    </div>
                 </td>
                 <td>
                     <div class="input-group input-group-sm">
-                        <input type="text" class="form-control ico" placeholder="ICO" aria-label="ICO" aria-describedby="skip" >
+                        <input type="text" class="form-control ico" placeholder="ICO" aria-label="ICO" aria-describedby="skip" value="{$project->ico}" >
                         <div class="input-group-append">
                             <button class="btn btn-warning skip" type="button">Skip</button>
                         </div>
                     </div>
-                    <div class="note">
-                        note: <i>{$project->note}</i>
+
+                </td>
+                <td>
+                    <div class="btn-group btn-group-toggle nationality" data-toggle="buttons">
+                        <label class="btn btn-outline-primary btn-sm">
+                            <input type="radio" name="nationality" id="nationality1" autocomplete="off" value="cz"> CZ
+                        </label>
+                        <label class="btn btn-outline-primary btn-sm">
+                            <input type="radio" name="nationality" id="nationality2" autocomplete="off" value="sk"> SK
+                        </label>
+                        <label class="btn btn-outline-primary btn-sm">
+                            <input type="radio" name="nationality" id="nationality3" autocomplete="off" value="none"> none
+                        </label>
+                    </div>
+                </td>
+                <td>
+                    <div class="btn-group btn-group-toggle is_self_employed" data-toggle="buttons">
+                        <label class="btn btn-outline-primary btn-sm">
+                            <input type="radio" name="is_self_employed" id="is_self_employed1" autocomplete="off" value="0"> company
+                        </label>
+                        <label class="btn btn-outline-primary btn-sm">
+                            <input type="radio" name="is_self_employed" id="is_self_employed2" autocomplete="off" value="1"> OSVC
+                        </label>
+                        <label class="btn btn-outline-primary btn-sm">
+                            <input type="radio" name="is_self_employed" id="is_self_employed3" autocomplete="off" value="-1"> none
+                        </label>
                     </div>
                 </td>
                 <td class="info">
@@ -41,7 +72,7 @@
             </tr>
         {/foreach}
         <tr>
-            <td colspan="4" style="text-align: center">
+            <td colspan="6" style="text-align: center">
                 <a href="#" class="btn btn-primary" onclick="window.location.reload()">Next</a>
             </td>
         </tr>
@@ -52,7 +83,7 @@
 {if $showStats}
 <table class="table">
     <tr><th>All</th><td>{$stats->all}</td></tr>
-    <tr><th>Ico</th><td>{$stats->ico}</td></tr>
+    <tr><th>Filled</th><td>{$stats->filled}</td></tr>
     <tr><th>Skipped</th><td>{$stats->skipped}</td></tr>
     <tr><th>Done</th><td>{$stats->done} ({$stats->percent}%)</td></tr>
     <tr><th>Left</th><td>{$stats->left}</td></tr>
@@ -111,6 +142,44 @@
             let url = baseUrl + "/" + tr.data("pid") + "/skip";
             $.post(url, {}, function(){
                 text(tr, "<b style='color:orange'>Skipped</b>");
+            }).fail(function(response, body){
+                text(tr, "<b style='color:red'>"+response.responseJSON.message+"</b>");
+            });
+        });
+
+        $(".is_self_employed input").on('change', function(e) {
+            // console.log("is_self_employed change", this, this.value);
+            let data = {
+                is_self_employed: this.value
+            };
+            let input = $(this);
+
+            let tr = $(this).closest("tr");
+            let url = baseUrl + "/" + tr.data("pid") + "/ico";
+
+            $.post(url, data, function(){
+                info(tr, "<b style='color:green'>Saved</b>");
+                input.closest(".btn-group").find(".active").removeClass("active");
+                input.closest(".btn").addClass("active");
+            }).fail(function(response, body){
+                text(tr, "<b style='color:red'>"+response.responseJSON.message+"</b>");
+            });
+        });
+
+        $(".nationality input").on('change', function(e) {
+            // console.log("is_self_employed change", this, this.value);
+            let data = {
+                nationality: this.value
+            };
+            let input = $(this);
+
+            let tr = $(this).closest("tr");
+            let url = baseUrl + "/" + tr.data("pid") + "/ico";
+
+            $.post(url, data, function(){
+                info(tr, "<b style='color:green'>Saved</b>");
+                input.closest(".btn-group").find(".active").removeClass("active");
+                input.closest(".btn").addClass("active");
             }).fail(function(response, body){
                 text(tr, "<b style='color:red'>"+response.responseJSON.message+"</b>");
             });

@@ -42,6 +42,31 @@ class EshopProvider {
     }
 
     /**
+     * @param string $nationality
+     * @throws Exception
+     */
+    public function updateNationality(string $nationality) {
+        $eshop = $this->getEshop();
+        if(empty($nationality)){
+            $nationality = null;
+        }
+        MDDatabaseConnections::getImportSupportConnection()
+            ->table("project_ico")->where("id", "=", $eshop->id)
+            ->update(["nationality" => $nationality, "skip_until_at" => null]);
+    }
+
+    /**
+     * @param int $is_self_employed
+     * @throws Exception
+     */
+    public function updateIsSelfEmployed(int $is_self_employed) {
+        $eshop = $this->getEshop();
+        MDDatabaseConnections::getImportSupportConnection()
+            ->table("project_ico")->where("id", "=", $eshop->id)
+            ->update(["is_self_employed" => $is_self_employed, "skip_until_at" => null]);
+    }
+
+    /**
      * @throws Exception
      */
     public function skip() {
