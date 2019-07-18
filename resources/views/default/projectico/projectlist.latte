@@ -40,29 +40,43 @@
                     </div>
 
                 </td>
+{*                <td>*}
+{*                    <div class="btn-group btn-group-toggle nationality" data-toggle="buttons">*}
+{*                        <label class="btn btn-outline-primary btn-sm">*}
+{*                            <input type="radio" name="nationality" id="nationality1" autocomplete="off" value="cz"> CZ*}
+{*                        </label>*}
+{*                        <label class="btn btn-outline-primary btn-sm">*}
+{*                            <input type="radio" name="nationality" id="nationality2" autocomplete="off" value="sk"> SK*}
+{*                        </label>*}
+{*                        <label class="btn btn-outline-primary btn-sm">*}
+{*                            <input type="radio" name="nationality" id="nationality3" autocomplete="off" value="none"> none*}
+{*                        </label>*}
+{*                    </div>*}
+{*                </td>*}
                 <td>
                     <div class="btn-group btn-group-toggle nationality" data-toggle="buttons">
-                        <label class="btn btn-outline-primary btn-sm">
-                            <input type="radio" name="nationality" id="nationality1" autocomplete="off" value="cz"> CZ
+                        <label n:class="btn, btn-outline-primary, btn-sm, ($project->nationality == 'cz')?active">
+                            <input type="radio" name="nationality" id="nationality1" autocomplete="off" n:attr="checked => $project->nationality == 'cz'" value="cz"> CZ
                         </label>
-                        <label class="btn btn-outline-primary btn-sm">
-                            <input type="radio" name="nationality" id="nationality2" autocomplete="off" value="sk"> SK
+                        <label n:class="btn, btn-outline-primary, btn-sm, ($project->nationality == 'sk')?active">
+                            <input type="radio" name="nationality" id="nationality2" autocomplete="off" n:attr="checked => $project->nationality == 'sk'" value="sk"> SK
                         </label>
-                        <label class="btn btn-outline-primary btn-sm">
-                            <input type="radio" name="nationality" id="nationality3" autocomplete="off" value="none"> none
+                        <label n:class="btn, btn-outline-primary, btn-sm, ($project->nationality == 'none')?active">
+                            <input type="radio" name="nationality" id="nationality3" autocomplete="off" n:attr="checked => $project->nationality == 'none'" value="none"> none
                         </label>
                     </div>
                 </td>
+
                 <td>
                     <div class="btn-group btn-group-toggle is_self_employed" data-toggle="buttons">
-                        <label class="btn btn-outline-primary btn-sm">
-                            <input type="radio" name="is_self_employed" id="is_self_employed1" autocomplete="off" value="0"> company
+                        <label n:class="btn, btn-outline-primary, btn-sm, ($project->is_self_employed == 0)?active">
+                            <input type="radio" name="is_self_employed" id="is_self_employed1" autocomplete="off" n:attr="checked => $project->is_self_employed == 0" value="0"> company
                         </label>
-                        <label class="btn btn-outline-primary btn-sm">
-                            <input type="radio" name="is_self_employed" id="is_self_employed2" autocomplete="off" value="1"> OSVC
+                        <label n:class="btn, btn-outline-primary, btn-sm, ($project->is_self_employed == 1)?active">
+                            <input type="radio" name="is_self_employed" id="is_self_employed2" autocomplete="off" n:attr="checked => $project->is_self_employed == 1" value="1"> OSVC
                         </label>
-                        <label class="btn btn-outline-primary btn-sm">
-                            <input type="radio" name="is_self_employed" id="is_self_employed3" autocomplete="off" value="-1"> none
+                        <label n:class="btn, btn-outline-primary, btn-sm, ($project->is_self_employed == -1)?active">
+                            <input type="radio" name="is_self_employed" id="is_self_employed3" autocomplete="off" n:attr="checked => $project->is_self_employed == -1" value="-1"> none
                         </label>
                     </div>
                 </td>
