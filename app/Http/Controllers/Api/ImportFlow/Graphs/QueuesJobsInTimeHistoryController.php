@@ -10,15 +10,18 @@ namespace App\Http\Controllers\Api\ImportFlow\Graphs;
 
 
 use App\Http\Controllers\Api\Controller;
+use Illuminate\Support\Facades\Input;
 use Monkey\Connections\MDImportFlowConnections;
 
 class QueuesJobsInTimeHistoryController extends Controller {
 
     public function getIndex() {
+        $dayCount = Input::get("day_count", 2);
+        $dayCount = min($dayCount, 30);
 
         $builder = MDImportFlowConnections::getGearmanConnection()
             ->table('gearman_queue_size_stats')
-            ->take(2*24)
+            ->take($dayCount*24)
             ->orderBy('created_at', 'desc')
             ->groupBy(MDImportFlowConnections::getGearmanConnection()->raw('HOUR(`created_at`), DATE(`created_at`)'))
             ->select([

@@ -2,6 +2,7 @@
 <div id="chart-import-flow-queues-jobs-in-time-history" class="chart" style="position: fixed; bottom: 1%; left: 1%; right: 1%; top: 1%; "></div>
 <script>
     window.chartImportFlowQueuesJobsInTimeHistoryUrl = "{action 'Api\ImportFlow\Graphs\QueuesJobsInTimeHistoryController'}";
+    var dayCount = {$dayCount};
     // window.chartImportFlowQueuesUrl = "http://localhost/import-support-v3.monkeydata.com/public/api/import-flow/graphs/queues-status";
 </script>
 <script>
@@ -114,7 +115,7 @@
         function reloadChartImportFlowQueuesJobsInTimeHistory(){
             var ajax = new MDAjax({
                 url: window.chartImportFlowQueuesJobsInTimeHistoryUrl,
-                data: {},
+                data: { day_count: dayCount },
                 timeout: 30000,
                 beforeSend: function (xhr) {},
                 success: function (data) {
