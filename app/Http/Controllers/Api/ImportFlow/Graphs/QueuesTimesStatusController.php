@@ -21,25 +21,25 @@ class QueuesTimesStatusController extends Controller {
 FROM (
 SELECT id, 'import' as `type`, active, TIMESTAMPDIFF(SECOND,DATE_SUB(start_at,INTERVAL -2 HOUR),NOW()) as run_time
 FROM if_import
-WHERE active not in (0,3)
+WHERE active not in (0, 3, 6)
 AND ttl > 0
 AND deleted_at IS NULL
 UNION
 SELECT id, 'etl' as `type`, active, TIMESTAMPDIFF(SECOND,DATE_SUB(start_at,INTERVAL -2 HOUR),NOW()) as run_time
 FROM if_etl
-WHERE active not in (0,3)
+WHERE active not in (0, 3, 6)
 AND ttl > 0
 AND deleted_at IS NULL
 UNION
 SELECT id, 'calc' as `type`, active, TIMESTAMPDIFF(SECOND,DATE_SUB(start_at,INTERVAL -2 HOUR),NOW()) as run_time
 FROM if_calc
-WHERE active not in (0,3)
+WHERE active not in (0, 3, 6)
 AND ttl > 0
 AND deleted_at IS NULL
 UNION
 SELECT id, 'output' as `type`, active, TIMESTAMPDIFF(SECOND,DATE_SUB(start_at,INTERVAL -2 HOUR),NOW()) as run_time
 FROM if_output
-WHERE active not in (0,3)
+WHERE active not in (0, 3, 6)
 AND ttl > 0
 AND deleted_at IS NULL
 ) as u

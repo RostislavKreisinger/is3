@@ -19,6 +19,7 @@
             <label for="af_cb_5">
                 <input class="form-control" type="checkbox" id="af_cb_5" value="5" name="cb_active" checked> 5
             </label>
+            <input class="btn btn-primary" id="filter_button" type="submit" value="Filter">
         </form>
         <div id="import-flow-active-flows"></div>
     </div>
@@ -104,9 +105,12 @@
                     dataType: 'number'
                 },
                 {
-                    caption: 'Delay count',
+                    caption: 'Delays',
                     dataField: 'delay_count',
-                    dataType: 'number'
+                    dataType: 'number',
+                    headerCellTemplate: function (header, info) {
+                        $(header).html(info.column.caption).attr('title', 'Delay count');
+                    }
                 },
                 {
                     caption: 'RunTime',
@@ -146,8 +150,11 @@
                     dataField: 'unique'
                 },
                 {
-                    caption: 'Difficulty',
-                    dataField: 'control_pool.workload_difficulty'
+                    caption: 'Diff',
+                    dataField: 'control_pool.workload_difficulty',
+                    headerCellTemplate: function (header, info) {
+                        $(header).html(info.column.caption).attr('title', 'Difficulty');
+                    }
                 },
                 {
                     caption: 'Hostname',
@@ -180,29 +187,27 @@
             }
         });
 
-        var inputTimeout;
-        $("#af_date_from, #af_date_to, input[name=cb_active]").change(function () {
-            clearTimeout(inputTimeout);
-            inputTimeout = setTimeout(function () {
-                if (!$(dateFromInput).val()) {
-                    $(dateFromInput).val(dayAgo.toISOString().split('T')[0]);
-                }
+        $("#filter_button").click(function (e) {
+            e.preventDefault();
 
-                if (!$(dateToInput).val()) {
-                    $(dateToInput).val(now.toISOString().split('T')[0]);
-                }
+            if (!$(dateFromInput).val()) {
+                $(dateFromInput).val(dayAgo.toISOString().split('T')[0]);
+            }
 
-                var actives = [];
+            if (!$(dateToInput).val()) {
+                $(dateToInput).val(now.toISOString().split('T')[0]);
+            }
 
-                $("input[name=cb_active]:checked").each(function() {
-                    actives.push($(this).val());
-                });
+            let actives = [];
 
-                window.flowsGrid.dxDataGrid('instance').option(
-                    'dataSource',
-                        {$baseUrl} + "/open/import-flow/table/active-flows?date_from=" + $('#af_date_from').val() + "&date_to=" + $('#af_date_to').val() + "&active=" + actives.join(',')
-                );
-            }, 500);
+            $("input[name=cb_active]:checked").each(function() {
+                actives.push($(this).val());
+            });
+
+            window.flowsGrid.dxDataGrid('instance').option(
+                'dataSource',
+                    {$baseUrl} + "/open/import-flow/table/active-flows?date_from=" + $('#af_date_from').val() + "&date_to=" + $('#af_date_to').val() + "&active=" + actives.join(',')
+            );
         });
     });
 </script>

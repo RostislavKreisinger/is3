@@ -11,6 +11,7 @@ use App\Http\Controllers\Homepage\ResourcesController;
 use App\Http\Controllers\Homepage\TestedNotRunningProjectsController;
 use App\Http\Controllers\OrderAlert\IndexController;
 use Illuminate\Support\Collection;
+use Monkey\Config\Application\ProjectEndpointBaseUrl;
 use Monkey\Connections\MDDatabaseConnections;
 use Monkey\Connections\MDImportFlowConnections;
 use Monkey\DateTime\DateTimeHelper;
@@ -277,16 +278,16 @@ View::share('poolList', $this->getPoolList());
             AND c.resource_id = ?
             AND c.deleted_at IS NULL
         ) as `status`
-        WHERE `status`.iactive != 0
-        OR `status`.eactive != 0
-        OR `status`.aactive != 0
-        OR `status`.oactive != 0;
+        WHERE `status`.iactive NOT IN (0, 6)
+        OR `status`.eactive NOT IN (0, 6)
+        OR `status`.aactive NOT IN (0, 6)
+        OR `status`.oactive NOT IN (0, 6);
 SQL;
         return MDImportFlowConnections::getImportFlowConnection()->select($sql, array($projectId, $resourceId));
     }
 
     private function getFlowStatusLink($uniqueId, $type) {
-        return "https://import-flow.monkeydata.com/management/{$type}/?unique={$uniqueId}";
+        return ProjectEndpointBaseUrl::getInstance()->getImportFlowUrl() . "/management/{$type}/?unique={$uniqueId}";
     }
 
     /**
