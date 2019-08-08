@@ -56,7 +56,7 @@ then
     runCommand "composer install"
 fi
 
-runCommand "npm set registry http://npm.monkeydata.cloud:5080"
+#runCommand "npm set registry http://npm.monkeydata.cloud:5080"
 
 runCommand "npm install" "build/graphs"
 
