@@ -12,6 +12,7 @@ namespace App\Http\Controllers\Api\ImportFlow\Graphs;
 use App\Http\Controllers\Api\Controller;
 use Illuminate\Support\Facades\Input;
 use Monkey\Connections\MDImportFlowConnections;
+use Monkey\DateTime\DateTimeHelper;
 
 class QueuesJobsInTimeHistoryController extends Controller {
 
@@ -38,9 +39,12 @@ class QueuesJobsInTimeHistoryController extends Controller {
         */
 
         $data = array();
+        $dth = new DateTimeHelper();
 
         foreach ($result as $row) {
-            $obj = $this->getEmptyObject($row->created_at);
+            $dth = new DateTimeHelper($row->created_at);
+            $dth->changeHours(+2);
+            $obj = $this->getEmptyObject($dth->getTimestamp()*1000);
             $obj->value = roundFirstDecNumber($row->avg, 0);
             $obj->min = $row->min;
             $obj->max = $row->max;

@@ -40,7 +40,12 @@
                     },
                     font: {
                         size: '1em'
-                    }
+                    },
+                   format:{
+                        formatter: function(value){
+                            return moment(value.getTime()).format("YYYY-MM-DD hh:mm:ss");
+                        }
+                   }
                 }
             },
             commonSeriesSettings: {
@@ -100,14 +105,15 @@
                 enabled: true,
                 shared: true,
                 customizeTooltip: function(point){
-                    var date = mdDate.clone(point.argument);
+                    var date =  moment(point.argument);//mdDate.clone(point.argument);
                     var pointsTable = '<table>';
                     $.each(point.points, function(index, current){
                         var pointHtml = "<tr style='color: " + current.point.getColor() + "; font-weight: bold;'><td>"+current.seriesName+"</td><td style='padding-left: 10px;'>"+current.value+"</td></tr>";
                         pointsTable += pointHtml;
                     });
                     pointsTable += '</table>';
-                    return { html: '<div>' + date.getFormatDate('y-m-d h:i:s') + '</div><div>' + pointsTable + '</div>' };
+                    return { html: '<div>' + date.format('YYYY-MM-DD hh:mm:ss') + '</div><div>' + pointsTable + '</div>' };
+                    // return { html: '<div>' + date.getFormatDate('y-m-d h:i:s') + '</div><div>' + pointsTable + '</div>' };
                 }
             },
         });
