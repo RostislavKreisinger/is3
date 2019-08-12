@@ -10,15 +10,19 @@ namespace App\Http\Controllers\Api\ImportFlow\Graphs;
 
 
 use App\Http\Controllers\Api\Controller;
+use Illuminate\Support\Facades\Input;
 use Monkey\Connections\MDImportFlowConnections;
+use Monkey\DateTime\DateTimeHelper;
 
 class QueuesJobsInTimeHistoryController extends Controller {
 
     public function getIndex() {
+        $dayCount = Input::get("day_count", 2);
+        $dayCount = min($dayCount, 30);
 
         $builder = MDImportFlowConnections::getGearmanConnection()
             ->table('gearman_queue_size_stats')
-            ->take(2*24)
+            ->take($dayCount*24)
             ->orderBy('created_at', 'desc')
             ->groupBy(MDImportFlowConnections::getGearmanConnection()->raw('HOUR(`created_at`), DATE(`created_at`)'))
             ->select([
@@ -35,9 +39,12 @@ class QueuesJobsInTimeHistoryController extends Controller {
         */
 
         $data = array();
+        $dth = new DateTimeHelper();
 
         foreach ($result as $row) {
-            $obj = $this->getEmptyObject($row->created_at);
+            $dth = new DateTimeHelper($row->created_at);
+            $dth->changeHours(+2);
+            $obj = $this->getEmptyObject($dth->getTimestamp()*1000);
             $obj->value = roundFirstDecNumber($row->avg, 0);
             $obj->min = $row->min;
             $obj->max = $row->max;

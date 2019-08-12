@@ -2,6 +2,7 @@
 <div id="chart-import-flow-queues-jobs-in-time-history" class="chart" style="position: fixed; bottom: 1%; left: 1%; right: 1%; top: 1%; "></div>
 <script>
     window.chartImportFlowQueuesJobsInTimeHistoryUrl = "{action 'Api\ImportFlow\Graphs\QueuesJobsInTimeHistoryController'}";
+    var dayCount = {$dayCount};
     // window.chartImportFlowQueuesUrl = "http://localhost/import-support-v3.monkeydata.com/public/api/import-flow/graphs/queues-status";
 </script>
 <script>
@@ -39,7 +40,12 @@
                     },
                     font: {
                         size: '1em'
-                    }
+                    },
+                   format:{
+                        formatter: function(value){
+                            return moment(value.getTime()).format("YYYY-MM-DD hh:mm:ss");
+                        }
+                   }
                 }
             },
             commonSeriesSettings: {
@@ -99,14 +105,15 @@
                 enabled: true,
                 shared: true,
                 customizeTooltip: function(point){
-                    var date = mdDate.clone(point.argument);
+                    var date =  moment(point.argument);//mdDate.clone(point.argument);
                     var pointsTable = '<table>';
                     $.each(point.points, function(index, current){
                         var pointHtml = "<tr style='color: " + current.point.getColor() + "; font-weight: bold;'><td>"+current.seriesName+"</td><td style='padding-left: 10px;'>"+current.value+"</td></tr>";
                         pointsTable += pointHtml;
                     });
                     pointsTable += '</table>';
-                    return { html: '<div>' + date.getFormatDate('y-m-d h:i:s') + '</div><div>' + pointsTable + '</div>' };
+                    return { html: '<div>' + date.format('YYYY-MM-DD hh:mm:ss') + '</div><div>' + pointsTable + '</div>' };
+                    // return { html: '<div>' + date.getFormatDate('y-m-d h:i:s') + '</div><div>' + pointsTable + '</div>' };
                 }
             },
         });
@@ -114,7 +121,7 @@
         function reloadChartImportFlowQueuesJobsInTimeHistory(){
             var ajax = new MDAjax({
                 url: window.chartImportFlowQueuesJobsInTimeHistoryUrl,
-                data: {},
+                data: { day_count: dayCount },
                 timeout: 30000,
                 beforeSend: function (xhr) {},
                 success: function (data) {
