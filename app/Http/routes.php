@@ -86,7 +86,6 @@ Route::group(['middleware' => 'web'], function () {
         Route::group(['prefix' => 'button'], function () {
             Route::group(['prefix' => 'resource'], function () {
                 Route::group(['prefix' => 'other'], function () {
-                    Route::get('/clear-stack', App\Http\Controllers\Button\Resource\Other\ClearStackButtonController::getMethodAction());
                     Route::get('/unconnect', App\Http\Controllers\Button\Resource\Other\UnconnectButtonController::getMethodAction());
                     Route::get('/shift-next-check-date', App\Http\Controllers\Button\Resource\Other\ShiftNextCheckDateButtonController::getMethodAction());
                     Route::get('/update-orders', App\Http\Controllers\Button\Resource\Other\UpdateOrdersButtonController::getMethodAction());
@@ -96,8 +95,6 @@ Route::group(['middleware' => 'web'], function () {
                 });
 
                 Route::get('/b1-reset-automat-test', App\Http\Controllers\Button\Resource\B1_ResetAutomatTestButtonController::getMethodAction());
-                Route::get('/b5-reset-history', App\Http\Controllers\Button\Resource\B5_ResetHistoryButtonController::getMethodAction());
-                Route::get('/b5-reactive-history', App\Http\Controllers\Button\Resource\B5_ReactivateHistoryButtonController::getMethodAction());
                 Route::get('/b6-reset-daily', App\Http\Controllers\Button\Resource\B6_ResetDailyButtonController::getMethodAction());
             });
         });
@@ -215,7 +212,6 @@ Route::group(['middleware' => 'web'], function () {
         });
 
         Route::group(['prefix' => 'homepage'], function () {
-            Route::get('importv2', \App\Http\Controllers\Homepage\Importv2Controller::getMethodAction());
             Route::get('import-flow', \App\Http\Controllers\Homepage\ImportFlowController::getMethodAction());
             Route::get('import-flow-stats', \App\Http\Controllers\Homepage\ImportFlowStatsController::getMethodAction());
             Route::get('if-control-pool', \App\Http\Controllers\Homepage\ImportFlowControlPoolController::getMethodAction());

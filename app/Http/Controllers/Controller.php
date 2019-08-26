@@ -330,19 +330,7 @@ SQL;
     }
 
     protected function initPoolList() {
-        $this->getHistoryPool();
         $this->getTesterPool();
-        $this->getDailyPool();
-    }
-
-    protected function getHistoryPool() {
-        $this->getPoolList()->setHistoryPool(ProjectRepository::getHistoryPool());
-        return $this->getPoolList()->getHistoryPool();
-    }
-
-    protected function getDailyPool() {
-        $this->getPoolList()->setDailyPool(ProjectRepository::getDailyPool());
-        return $this->getPoolList()->getDailyPool();
     }
 
     protected function getTesterPool() {
