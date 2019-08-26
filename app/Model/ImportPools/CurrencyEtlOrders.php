@@ -1,36 +1,20 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 namespace App\Model\ImportPools;
 
-use App\Model\ImportPools\Model;
-
-
-
 /**
- * Description of Acl
- *
+ * Class CurrencyEtlOrders
+ * @package App\Model\ImportPools
  * @author Tomas
  * @property integer $id
- * @property string $key
- * @method static \Illuminate\Database\Query\Builder|\App\Model\Acl whereId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Model\Acl whereKey($value)
+ * @property integer $order_id
+ * @property integer $project_id
+ * @property integer $currency_etl_catalog_id
+ * @property integer $active
  * @mixin \Eloquent
  */
 class CurrencyEtlOrders extends Model {
-    
-    // use \Illuminate\Database\Eloquent\SoftDeletes;
-    
     public $timestamps = false;
 
     protected $table = 'currency_etl_orders';
-    
-    
-    
-    
 }

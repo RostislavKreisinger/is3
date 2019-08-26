@@ -1,5 +1,8 @@
 <?php
 
+use Monkey\Connections\MDDatabaseConnections;
+use Monkey\Connections\MDDataStorageConnections;
+
 return [
 
     /*
@@ -26,7 +29,7 @@ return [
     |
     */
 
-    'default' => \Monkey\Connections\MDDatabaseConnections::getImportSupportConnection(),
+    'default' => MDDatabaseConnections::getImportSupportConnection(),
 
     /*
     |--------------------------------------------------------------------------
@@ -45,28 +48,28 @@ return [
     */
 
     'connections' => [
-        'mysql-import-support' => \Monkey\Connections\MDDatabaseConnections::getImportSupportConnection(),
-        \Monkey\Connections\MDDatabaseConnections::getImportSupportConnection()->getName() => \Monkey\Connections\MDDatabaseConnections::getImportSupportConnection(),
+        'mysql-import-support' => MDDatabaseConnections::getImportSupportConnection(),
+        MDDatabaseConnections::getImportSupportConnection()->getName() => MDDatabaseConnections::getImportSupportConnection(),
 
-        'mysql-master-app' => \Monkey\Connections\MDDatabaseConnections::getMasterAppConnection(),
-        'mysql-select-app' => \Monkey\Connections\MDDatabaseConnections::getMasterAppConnection(),
-        \Monkey\Connections\MDDatabaseConnections::getMasterAppConnection()->getName() => \Monkey\Connections\MDDatabaseConnections::getMasterAppConnection(),
+        'mysql-master-app' => MDDatabaseConnections::getMasterAppConnection(),
+        'mysql-select-app' => MDDatabaseConnections::getMasterAppConnection(),
+        MDDatabaseConnections::getMasterAppConnection()->getName() => MDDatabaseConnections::getMasterAppConnection(),
 
-        'mysql-import-pools' => \Monkey\Connections\MDDatabaseConnections::getPoolsConnection(),
-        \Monkey\Connections\MDDatabaseConnections::getPoolsConnection()->getName() => \Monkey\Connections\MDDatabaseConnections::getPoolsConnection(),
+        'mysql-import-pools' => MDDatabaseConnections::getPoolsConnection(),
+        MDDatabaseConnections::getPoolsConnection()->getName() => MDDatabaseConnections::getPoolsConnection(),
 
-        'mysql-import' => \Monkey\Connections\MDDatabaseConnections::getImportConnection(),
-        'mysql-select-import' => \Monkey\Connections\MDDatabaseConnections::getImportConnection(),
-        \Monkey\Connections\MDDatabaseConnections::getImportConnection()->getName() => \Monkey\Connections\MDDatabaseConnections::getImportConnection(),
+        'mysql-import' => MDDatabaseConnections::getImportConnection(),
+        'mysql-select-import' => MDDatabaseConnections::getImportConnection(),
+        MDDatabaseConnections::getImportConnection()->getName() => MDDatabaseConnections::getImportConnection(),
 
-        'mysql-import-dw' => \Monkey\Connections\MDDatabaseConnections::getImportDwConnection(),
-        \Monkey\Connections\MDDatabaseConnections::getImportDwConnection()->getName() => \Monkey\Connections\MDDatabaseConnections::getImportDwConnection(),
+        'mysql-import-dw' => MDDataStorageConnections::getImportDwConnection(),
+        MDDataStorageConnections::getImportDwConnection()->getName() => MDDataStorageConnections::getImportDwConnection(),
 
-        'mysql-import-anal' => \Monkey\Connections\MDDatabaseConnections::getImportAnalConnection(),
-        \Monkey\Connections\MDDatabaseConnections::getImportAnalConnection()->getName() => \Monkey\Connections\MDDatabaseConnections::getImportAnalConnection(),
+        'mysql-import-anal' => MDDatabaseConnections::getImportAnalConnection(),
+        MDDatabaseConnections::getImportAnalConnection()->getName() => MDDatabaseConnections::getImportAnalConnection(),
 
-        'mysql-app-support' => \Monkey\Connections\MDDatabaseConnections::getAppSupportConnection(),
-        \Monkey\Connections\MDDatabaseConnections::getAppSupportConnection()->getName() => \Monkey\Connections\MDDatabaseConnections::getAppSupportConnection(),
+        'mysql-app-support' => MDDatabaseConnections::getAppSupportConnection(),
+        MDDatabaseConnections::getAppSupportConnection()->getName() => MDDatabaseConnections::getAppSupportConnection(),
 
     ],
 
