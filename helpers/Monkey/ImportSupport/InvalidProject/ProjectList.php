@@ -37,8 +37,6 @@ class ProjectList implements Iterator, Countable {
             $project = $this->addProject(new Project($row->project_id, $row->project_name));
             $resource = new Resource($row->resource_id);
             $resource->setResourceSetting($row->resource_setting);
-            $resource->setImportPrepareNew($row->import_prepare_new);
-            $resource->setImportPrepareStart($row->import_prepare_start);
             $project->addResource($resource);
         }
     }

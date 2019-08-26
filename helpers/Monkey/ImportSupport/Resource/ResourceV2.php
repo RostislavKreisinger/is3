@@ -9,6 +9,7 @@
 namespace Monkey\ImportSupport\Resource;
 
 use Monkey\Connections\MDDatabaseConnections;
+use Monkey\Connections\MDImportFlowConnections;
 use Monkey\ImportSupport\Resource;
 
 /**
@@ -58,15 +59,7 @@ class ResourceV2 extends Resource {
 
     public function getStateDaily() {
         $importPrepareNew = $this->getResourceStats()->getImportPrepareNew();
-        if ($importPrepareNew === null) {
-            $importPrepareNew = MDDatabaseConnections::getPoolsConnection()
-                    ->table('monkeydata_pools.import_prepare_new')
-                    ->select('*')
-                    ->where('project_id', '=', $this->getProject_id())
-                    ->where('resource_id', '=', $this->getResource()->id)
-                    ->first();
-            $this->getResourceStats()->setImportPrepareNew($importPrepareNew);
-        }
+
         if (is_null($importPrepareNew)) {
             return Resource::STATUS_MISSING_RECORD;
         }
@@ -88,7 +81,7 @@ class ResourceV2 extends Resource {
     public function getStateDailyImportFlow() {
         $importFlowDaily = $this->getResourceStats()->getImportFlowDaily();
         if ($importFlowDaily === null) {
-            $importFlowDaily = MDDatabaseConnections::getImportFlowConnection()
+            $importFlowDaily = MDImportFlowConnections::getImportFlowConnection()
                                                      ->table('if_daily as ifd')
                                                      ->leftJoin('if_import as ifi', 'ifi.id', '=','ifd.if_import_id')
                                                      ->select(['ifd.id','ifd.active', 'ifd.ttl', 'ifi.unique','ifd.next_run_date', 'ifd.start_at', 'ifd.finish_at'])
@@ -119,7 +112,7 @@ class ResourceV2 extends Resource {
     public function getStateHistoryImportFlow() {
         $importFlowHistory = $this->getResourceStats()->getImportFlowHistory();
         if ($importFlowHistory === null) {
-            $importFlowHistory = MDDatabaseConnections::getImportFlowConnection()
+            $importFlowHistory = MDImportFlowConnections::getImportFlowConnection()
                                                        ->table('if_history as ifh')
                                                        ->leftJoin('if_import as ifi', 'ifi.id', '=','ifh.if_import_id')
                                                        ->select(['ifh.id','ifh.active', 'ifh.ttl', 'ifi.unique', 'ifh.start_at', 'ifh.finish_at', 'ifh.date_from', 'ifh.date_to', \DB::raw('IF(ifh.date_to <= ifh.date_from, 1, 0) as date_check')])
@@ -155,15 +148,6 @@ class ResourceV2 extends Resource {
 
     public function getStateHistory() {
         $importPrepareStart = $this->getResourceStats()->getImportPrepareStart();
-        if ($importPrepareStart === null) {
-            $importPrepareStart = MDDatabaseConnections::getPoolsConnection()
-                    ->table('monkeydata_pools.import_prepare_start')
-                    ->select(['*', \DB::raw('IF(date_to <= date_from, 1, 0) as date_check ')])
-                    ->where('project_id', '=', $this->getProject_id())
-                    ->where('resource_id', '=', $this->getResource()->id)
-                    ->first();
-            $this->getResourceStats()->setImportPrepareStart($importPrepareStart);
-        }
 
         if (is_null($importPrepareStart)) {
             return Resource::STATUS_MISSING_RECORD;
