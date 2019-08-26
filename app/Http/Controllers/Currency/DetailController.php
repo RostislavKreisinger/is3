@@ -20,7 +20,7 @@ class DetailController extends Controller {
         $currencyEtlCatalog = CurrencyEtlCatalog::find($currency_id);
         $orders = CurrencyEtlOrders::where('currency_etl_catalog_id', '=', $currency_id)
                     ->groupBy('project_id')
-                    ->select(['project_id', CurrencyEtlOrders::getBuilder()->raw('COUNT(`id`) as count')])
+                    ->select(['project_id', CurrencyEtlOrders::getQuery()->raw('COUNT(`id`) as count')])
                     ->get();
         $this->getView()->addParameter('currency', $currencyEtlCatalog);
         $this->getView()->addParameter('orders', $orders);
