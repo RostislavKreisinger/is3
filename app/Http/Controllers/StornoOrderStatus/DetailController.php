@@ -25,7 +25,7 @@ class DetailController extends Controller {
             return $this->redirectToRoot();
         }
         $currencyEtlCatalog = CurrencyEtlCatalog::find($currency_id);
-        $orders = DB::connection('mysql-select-app')
+        $orders = DB::connection('mysql-import-pools')
                     ->table('monkeydata_pools.currency_etl_orders as ceo')
                     ->where('currency_etl_catalog_id', '=', $currency_id)
                     ->groupBy('project_id')
