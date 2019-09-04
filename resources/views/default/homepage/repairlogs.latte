@@ -12,6 +12,23 @@
         </div>
         <script>
             $(function () {
+                const repairLogStore = new DevExpress.data.DataSource({
+                    load: function(options) {
+                        var d = $.Deferred(), params = {};
+                        ["skip", "take", "sort", "filter"].forEach(function(i) {
+                            if (i in options && options[i] !== null) {
+                                params[i] = JSON.stringify(options[i]);
+                            }
+                        });
+                        $.getJSON({$baseUrl} + "/open/import-flow/table/repair-logs", params)
+                            .done(function(result) {
+                                d.resolve(result.data, {
+                                    totalCount: result.total
+                                });
+                            });
+                        return d.promise();
+                    }
+                });
                 $("#repair-log").dxDataGrid({
                     columnAutoWidth: true,
                     columns: [
@@ -45,11 +62,12 @@
                             dataField: 'created_at'
                         }
                     ],
-                    dataSource: {$baseUrl} + "/open/import-flow/table/repair-logs",
+                    dataSource: repairLogStore,
                     filterRow: {
                         visible: true
                     },
-                    hoverStateEnabled: true
+                    hoverStateEnabled: true,
+                    remoteOperations: true
                 });
             });
         </script>
