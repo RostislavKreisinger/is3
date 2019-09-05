@@ -2,11 +2,16 @@
 
 namespace App\Model\Logs;
 
+
+use Illuminate\Database\Eloquent\SoftDeletes;
+
 /**
  * Class RepairLog
  * @package App\Model\Logs
  */
 class RepairLog extends Log {
+    use SoftDeletes;
+
     /**
      * The table associated with the model.
      *
