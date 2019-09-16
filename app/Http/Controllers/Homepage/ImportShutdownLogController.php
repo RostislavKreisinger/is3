@@ -6,7 +6,7 @@ namespace App\Http\Controllers\Homepage;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Project\DetailController;
 use App\Http\Controllers\Project\Resource\DetailController as ResourceDetailController;
-use App\Model\ShutdownLog;
+use App\Model\Logs\ShutdownLog;
 use Exception;
 use Illuminate\Database\Eloquent\Collection;
 
