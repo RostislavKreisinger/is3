@@ -194,7 +194,9 @@ class StepPoolDataCalculator
      */
     public function setAverageFlowRuntime(int $sumFlowRuntime, int $countFlows): StepPoolDataCalculator
     {
-        $this->averageFlowRuntime = (int)floor($sumFlowRuntime / $countFlows);
+        if($countFlows > 0){
+            $this->averageFlowRuntime = (int)floor($sumFlowRuntime / $countFlows);
+        }
         return $this;
     }
 
