@@ -23,7 +23,6 @@ class Kernel extends ConsoleKernel {
      */
     protected $commands = [
         Commands\FillStornoOrderStatuses::class,
-        Commands\GaDeleteAndStartHistory::class,
         InsideTokenRefresherCommand::class,
         BrokenFlowsCommand::class,
         Commands\Inspire::class,

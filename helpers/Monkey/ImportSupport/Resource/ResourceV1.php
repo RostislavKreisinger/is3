@@ -58,15 +58,7 @@ class ResourceV1 extends Resource {
 
     public function getStateDaily() {
         $importPrepareNew = $this->getResourceStats()->getImportPrepareNew();
-        if ($importPrepareNew === null) {
-            $importPrepareNew = MDDatabaseConnections::getPoolsConnection()
-                    ->table('monkeydata_pools.import_prepare_new')
-                    ->select('*')
-                    ->where('project_id', '=', $this->getProject_id())
-                    ->where('resource_id', '=', $this->getResource()->id)
-                    ->first();
-            $this->getResourceStats()->setImportPrepareNew($importPrepareNew);
-        }
+
         if (is_null($importPrepareNew)) {
             return Resource::STATUS_MISSING_RECORD;
         }
@@ -87,15 +79,6 @@ class ResourceV1 extends Resource {
 
     public function getStateHistory() {
         $importPrepareStart = $this->getResourceStats()->getImportPrepareStart();
-        if ($importPrepareStart === null) {
-            $importPrepareStart = MDDatabaseConnections::getPoolsConnection()
-                    ->table('monkeydata_pools.import_prepare_start')
-                    ->select(['*', \DB::raw('IF(date_to <= date_from, 1, 0) as date_check ')])
-                    ->where('project_id', '=', $this->getProject_id())
-                    ->where('resource_id', '=', $this->getResource()->id)
-                    ->first();
-            $this->getResourceStats()->setImportPrepareStart($importPrepareStart);
-        }
 
         if (is_null($importPrepareStart)) {
             return Resource::STATUS_MISSING_RECORD;

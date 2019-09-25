@@ -1,32 +1,21 @@
 <?php
 
-namespace App\Model;
+namespace App\Model\Logs;
 
 
 use Illuminate\Database\Connection;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Monkey\Connections\Extension\LaravelMySqlConnection;
 use Monkey\Connections\MDDatabaseConnections;
 
 /**
- * Class ShutdownLog
- * @package App\Model
+ * Class Log
+ * @package App\Model\Logs
  */
-class ShutdownLog extends Model {
-    use SoftDeletes;
-
+abstract class Log extends Model {
     /**
-     * @var string $table
-     */
-    protected $table = 'if_shutdown_log';
-
-    /**
-     * @var bool $timestamps
-     */
-    public $timestamps = false;
-
-    /**
+     * Get the database connection for the model.
+     *
      * @return Connection|LaravelMySqlConnection
      */
     public function getConnection() {

@@ -7,6 +7,7 @@ use App\Http\Controllers\Homepage\BrokenFlowController;
 use App\Http\Controllers\Homepage\ImportFlowController;
 use App\Http\Controllers\Homepage\ImportFlowControlPoolController;
 use App\Http\Controllers\Homepage\ImportFlowStatsController;
+use App\Http\Controllers\Homepage\RepairLogsController;
 use App\Http\Controllers\Homepage\ResourcesController;
 use App\Http\Controllers\Homepage\TestedNotRunningProjectsController;
 use App\Http\Controllers\OrderAlert\IndexController;
@@ -47,13 +48,14 @@ View::share('poolList', $this->getPoolList());
     protected function prepareMenu() {
         $menu = $this->getMenu();
 
-        $menu->addMenuItem(new Menu("Import-flow", URL::action(ImportFlowController::getMethodAction())));
-        $menu->addMenuItem(new Menu("Import-flow stats", URL::action(ImportFlowStatsController::getMethodAction())));
+        $menu->addMenuItem(new Menu("Import Flow", URL::action(ImportFlowController::getMethodAction())));
+        $menu->addMenuItem(new Menu("Import Flow stats", URL::action(ImportFlowStatsController::getMethodAction())));
         $menu->addMenuItem(new Menu("Order Alert", URL::action(IndexController::getMethodAction())));
         $menu->addMenuItem(new Menu("IF Control Pool", URL::action(ImportFlowControlPoolController::getMethodAction())));
         $menu->addMenuItem(new Menu("Resources", URL::action(ResourcesController::getMethodAction())));
         $menu->addMenuItem(new Menu("Broken flows", URL::action(BrokenFlowController::getMethodAction())));
         $menu->addMenuItem(new Menu("Tested not running", URL::action(TestedNotRunningProjectsController::getMethodAction())));
+        $menu->addMenuItem(new Menu("Repair log", URL::action(RepairLogsController::getMethodAction())));
 
         return $menu;
     }
@@ -330,19 +332,7 @@ SQL;
     }
 
     protected function initPoolList() {
-        $this->getHistoryPool();
         $this->getTesterPool();
-        $this->getDailyPool();
-    }
-
-    protected function getHistoryPool() {
-        $this->getPoolList()->setHistoryPool(ProjectRepository::getHistoryPool());
-        return $this->getPoolList()->getHistoryPool();
-    }
-
-    protected function getDailyPool() {
-        $this->getPoolList()->setDailyPool(ProjectRepository::getDailyPool());
-        return $this->getPoolList()->getDailyPool();
     }
 
     protected function getTesterPool() {
