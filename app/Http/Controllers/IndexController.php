@@ -8,14 +8,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Model\ImportPools\CurrencyEtlCatalog;
-use App\Model\Resource;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Input;
-use Monkey\Helpers\Strings;
-use Monkey\ImportSupport\InvalidProject\ProjectRepository;
-use Monkey\View\View;
-
 /**
  * Description of HomepageController
  *

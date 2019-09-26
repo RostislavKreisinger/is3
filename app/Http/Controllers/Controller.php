@@ -42,7 +42,7 @@ class Controller extends BaseViewController {
 
     public function __construct() {
         parent::__construct();
-        View::share('poolList', $this->getPoolList());
+View::share('poolList', $this->getPoolList());
     }
 
     protected function prepareMenu() {
