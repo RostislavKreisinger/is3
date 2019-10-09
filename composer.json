@@ -31,7 +31,7 @@
         "nilportugues/serializer": "^1.4.0",
         "monkey/oauth2-client": "^1.0.1",
         "monkey/oauth2-api": "^1.2.2",
-        "monkey/slack": "dev-feature/is-41 as 1.6.0",
+        "monkey/slack": "dev-release/release-19-10-09a as 1.6.0",
         "monkey/curl": "^1.6.0"
     },
     "require-dev": {
