@@ -121,7 +121,7 @@ class GraphRowData
     /**
      * @var int
      */
-    private $actualActivePart = -1;
+    private $actualActivePart = 0;
 
 
 
