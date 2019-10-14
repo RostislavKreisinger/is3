@@ -135,7 +135,8 @@ class StepPoolDataMiner
      */
     private function getSelectPart(){
 
-        $select[] = "u.`unique` as `unique`, u.project_id";
+        $select[] = "u.`unique` as `unique`";
+        $select[] = "u.project_id";
         foreach(self::steps as $alias => $name) {
             $select[] = "{$name}.time_to_start as {$alias}_time_to_start";
             $select[] = "{$name}.runtime as {$alias}_runtime";
