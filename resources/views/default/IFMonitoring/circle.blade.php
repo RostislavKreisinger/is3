@@ -137,7 +137,7 @@
 
 
 
-<div style="float: left;width: 500px;padding: 50px;">
+<div style="float: left;width: 532px;padding: 50px;">
 
     @php
     $oldSize = 0;
