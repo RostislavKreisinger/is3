@@ -104,6 +104,11 @@ class GraphRowData
     private $unique;
 
     /**
+     * @var int
+     */
+    private $projectId;
+
+    /**
      * @var bool
      */
     private $average = false;
@@ -123,17 +128,17 @@ class GraphRowData
      */
     private $actualActivePart = 0;
 
-
-
     /**
      * GraphRowData constructor.
+     * @param int $projectId
      * @param string $unique
      * @param int $flowRuntime
      * @param int $maxFlowRuntime
      * @param bool $isAverageFlow
      */
-    public function __construct(string $unique, int $flowRuntime, int $maxFlowRuntime, $isAverageFlow = false)
+    public function __construct(int $projectId, string $unique, int $flowRuntime, int $maxFlowRuntime, $isAverageFlow = false)
     {
+        $this->setProjectId($projectId);
         $this->setAverage($isAverageFlow);
         $this->setUnique($unique);
         $this->setFlowRuntime($flowRuntime);
@@ -673,6 +678,24 @@ class GraphRowData
         $this->outputTimeToRun = $outputTimeToRun;
         return $this;
     }
+
+    /**
+     * @return int
+     */
+    public function getProjectId(): int{
+        return $this->projectId;
+    }
+
+    /**
+     * @param int $projectId
+     * @return GraphRowData
+     */
+    public function setProjectId(int $projectId): GraphRowData{
+        $this->projectId = $projectId;
+        return $this;
+    }
+
+
 
     /**
      * @return int

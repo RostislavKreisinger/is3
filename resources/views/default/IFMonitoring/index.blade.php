@@ -63,7 +63,7 @@
 <div class="flow-graph">
 @foreach ($graph as $row)
     <div class="graph-row">
-        <div class="flow-unique">{{ $row->getUnique() }} - {{ $row->getFlowRuntime() }}</div>
+        <div class="flow-unique">PID: {{ $row->getProjectId() }} {{ $row->getUnique() }} - {{ $row->getFlowRuntime() }}</div>
         <div class="flow-row {{ $row->getUnique() }}" style="width: {{$row->getFlowRuntimePercent()}}%;">
 
             <div class="flow-segment flow-time-to-start import-step" style="width: {{$row->getImportTimeToRunPercent()}}%;"></div>
