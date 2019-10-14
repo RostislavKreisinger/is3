@@ -180,7 +180,7 @@
     $flowName = ($row->isAverage()?"Average":$row->getUnique());
     @endphp
     <div class="pie-cover" id="{{$row->getUnique()}}">
-        <div class="pie-label">{{$flowName}} - {{$row->getFlowRuntime()}}s</div>
+        <div class="pie-label">PID: {{ $row->getProjectId() }} {{$flowName}} - {{$row->getFlowRuntime()}}s</div>
 
         <div class="pie" style="--size: {{$row->getGraphSize()}};--boc: {{$boc}};">
 
