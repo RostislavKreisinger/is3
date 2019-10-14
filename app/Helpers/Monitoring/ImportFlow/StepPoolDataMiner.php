@@ -11,6 +11,7 @@ namespace App\Helpers\Monitoring\ImportFlow;
 
 use App\Helpers\Monitoring\ImportFlow\Connection\MyConnections;
 use Monkey\Connections\MDImportFlowConnections;
+use Monkey\DateTime\DateTimeHelper;
 use Monkey\Environment\Environment;
 
 class StepPoolDataMiner
@@ -99,6 +100,7 @@ class StepPoolDataMiner
      * @return string
      */
     private function getInterSelect( string $alias, string $stepName, array $additionalSelect = []){
+        $now = (new DateTimeHelper())->mysqlFormat();
         $additional = "";
         foreach($additionalSelect as $name => $selectAlias){
             $additional .= ", {$alias}.{$name} as {$selectAlias}";
@@ -106,8 +108,8 @@ class StepPoolDataMiner
 
         $select = "
             SELECT {$alias}.`unique`,{$alias}.created_at as `start`, {$alias}.active, {$alias}.delay_count, '{$stepName}' as step {$additional},
-            TIME_TO_SEC(TIMEDIFF(COALESCE({$alias}.start_at, NOW()), {$alias}.created_at)) as time_to_start,
-            TIME_TO_SEC(TIMEDIFF( COALESCE({$alias}.finish_at, NOW()), COALESCE({$alias}.start_at, NOW()))) as runtime
+            TIME_TO_SEC(TIMEDIFF(COALESCE({$alias}.start_at, '{$now}'), {$alias}.created_at)) as time_to_start,
+            TIME_TO_SEC(TIMEDIFF( COALESCE({$alias}.finish_at, '{$now}'), COALESCE({$alias}.start_at, '{$now}'))) as runtime
             FROM if_{$stepName} as {$alias}
         ";
         return $select;
@@ -134,6 +136,7 @@ class StepPoolDataMiner
      * @return string
      */
     private function getSelectPart(){
+        $now = (new DateTimeHelper())->mysqlFormat();
 
         $select[] = "u.`unique` as `unique`";
         $select[] = "u.project_id";
@@ -143,7 +146,7 @@ class StepPoolDataMiner
             $select[] = "{$name}.active as {$alias}_active";
             $select[] = "{$name}.delay_count as {$alias}_delay_count";
         }
-        $select[] = "TIME_TO_SEC(TIMEDIFF(NOW(), COALESCE(import.init_flow, etl.start, calc.start, output.start))) as flow_runtime";
+        $select[] = 'TIME_TO_SEC(TIMEDIFF("'.$now.'", COALESCE(import.init_flow, etl.start, calc.start, output.start))) as flow_runtime';
 
         return implode(", \n", $select);
     }
