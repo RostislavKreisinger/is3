@@ -121,9 +121,9 @@ class StepPoolDataMiner
         $subQueries = [];
         foreach(self::steps as $alias => $name){
             $subQueries[] = "
-                SELECT {$alias}.`unique`
+                SELECT {$alias}.`unique`, {$alias}.project_id
                 FROM if_{$name} as {$alias}
-                WHERE {$alias}.active != 0
+                WHERE {$alias}.active != 0 AND {$alias}.active != 6 AND {$alias}.deleted_at IS NULL 
             ";
         }
 
@@ -135,7 +135,7 @@ class StepPoolDataMiner
      */
     private function getSelectPart(){
 
-        $select[] = "u.`unique` as `unique`";
+        $select[] = "u.`unique` as `unique`, u.project_id";
         foreach(self::steps as $alias => $name) {
             $select[] = "{$name}.time_to_start as {$alias}_time_to_start";
             $select[] = "{$name}.runtime as {$alias}_runtime";
@@ -151,7 +151,7 @@ class StepPoolDataMiner
 
 /**
  * SELECT
-u.`unique` as `unique`,
+u.`unique` as `unique`, u.project_id,
 COALESCE(imp.step,etl.step,calc.step,outp.step) as `step`,
 imp.time_to_start as import_time_to_start, imp.runtime as import_runtime,
 etl.time_to_start as etl_time_to_start, etl.runtime as etl_runtime,
@@ -165,21 +165,21 @@ calc.active as cActive, calc.delay_count as cDelayC,
 outp.active as oActive, outp.delay_count as oDelayC,
 "|" as `||`
 FROM (
-SELECT i.`unique`
+SELECT i.`unique`, i.`project_id`
 FROM if_import as i
-WHERE i.active != 0
+WHERE i.active != 0 AND i.active != 6  AND i.deleted_at IS NULL
 UNION
-SELECT e.`unique`
+SELECT e.`unique`, e.`project_id`
 FROM if_etl as e
-WHERE e.active != 0
+WHERE e.active != 0 AND e.active != 6  AND e.deleted_at IS NULL
 UNION
-SELECT c.`unique`
+SELECT c.`unique`, c.`project_id`
 FROM if_calc as c
-WHERE c.active != 0
+WHERE c.active != 0 AND c.active != 6  AND c.deleted_at IS NULL
 UNION
-SELECT o.`unique`
+SELECT o.`unique`, o.`project_id`
 FROM if_output as o
-WHERE o.active != 0
+WHERE o.active != 0 AND o.active != 6  AND o.deleted_at IS NULL
 ) as u
 LEFT JOIN (
 SELECT i.`unique`,i.created_at as `start`, i.active, i.delay_count, "import" as step, i.created_at as init_flow,

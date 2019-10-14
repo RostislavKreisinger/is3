@@ -68,7 +68,7 @@ class StepPoolDataCalculator
      */
     private function getGraphRowData(\stdClass $row, bool $isAverage = false){
 
-        $graphRow = new GraphRowData($row->unique, $row->flow_runtime, $this->getMaximalFlowRunTime(), $isAverage);
+        $graphRow = new GraphRowData($row->project_id, $row->unique, $row->flow_runtime, $this->getMaximalFlowRunTime(), $isAverage);
 
         $graphRow->setImportTimeToRun((int)$row->i_time_to_start);
         $graphRow->setImportTimeToRunPercent($graphRow->getPercent($row->flow_runtime, (int)$row->i_time_to_start));
@@ -108,6 +108,7 @@ class StepPoolDataCalculator
         $this->setCountFlows(count($data));
         $averageRow = new \stdClass();
         $averageRow->unique = "average";
+        $averageRow->project_id = 0;
         $averageRow->i_time_to_start = 0;
         $averageRow->i_time_to_start_c = 0;
         $averageRow->i_runtime = 0;
