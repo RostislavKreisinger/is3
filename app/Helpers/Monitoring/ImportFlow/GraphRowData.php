@@ -150,7 +150,7 @@ class GraphRowData
         if($base == 0){
             return 0;
         }
-        return round( $part / ($base / 200) ) + 30;
+        return round( $part / ($base / 500) ) + 30;
     }
 
     public function getPercent($base, $part, $round = 0){
