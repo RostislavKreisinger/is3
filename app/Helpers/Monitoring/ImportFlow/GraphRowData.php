@@ -623,6 +623,18 @@ class GraphRowData
     }
 
     /**
+     * @param int $time
+     * @return string
+     */
+    public function formatSeconds(int $time):string{
+        $hours = floor($time / 3600);
+        $restTime = $time % 3600;
+        $minutes = floor($restTime / 60);
+        $seconds = $restTime % 60;
+        return ($hours !== 0 ? $hours.' h ' : '').($minutes !== 0 ? $minutes.' m ' : '').$seconds.' s';
+    }
+
+    /**
      * @param int $importTimeToRun
      * @return GraphRowData
      */

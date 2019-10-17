@@ -1,17 +1,27 @@
 <script type="application/javascript">
+    var tmp = "average";
     function mouseOver(unique) {
         document.getElementById(unique).style.display = "block";
-        if(unique != "average"){
-            document.getElementById("average").style.display = "none";
+        if(unique != tmp){
+            document.getElementById(tmp).style.display = "none";
         }
 
     }
 
     function mouseOut(unique) {
         document.getElementById(unique).style.display = "none";
-        if(unique != "average") {
-            document.getElementById("average").style.display = "block";
+        if(unique != tmp) {
+            document.getElementById(tmp).style.display = "block";
         }
+    }
+
+    function mouseClick(unique) {
+        document.getElementById(unique).style.display = "block";
+
+        if(unique != tmp) {
+            document.getElementById(tmp).style.display = "none";
+        }
+        tmp = unique;
     }
 </script>
 
@@ -155,7 +165,9 @@
     @endphp
 
     <div class="cylinder {{$avg}}" style="--size: {{$row->getGraphSize()}};--z: {{$z}};--margin: {{$margin}};--color: {{$color}};"
-         onmouseover="mouseOver('{{$row->getUnique()}}')" onmouseout="mouseOut('{{$row->getUnique()}}')">
+         onmouseover="mouseOver('{{$row->getUnique()}}')"
+         onmouseout="mouseOut('{{$row->getUnique()}}')"
+         onclick="mouseClick('{{$row->getUnique()}}')">
 
 
         <div>
@@ -180,38 +192,43 @@
     $flowName = ($row->isAverage()?"Average":$row->getUnique());
     @endphp
     <div class="pie-cover" id="{{$row->getUnique()}}">
-        <div class="pie-label">PID: {{ $row->getProjectId() }} "{{$flowName}}": {{$row->getFlowRuntime()}}s</div>
+        <div class="pie-label">PID: {{ $row->getProjectId() }} "{{$flowName}}": {{$row->formatSeconds($row->getFlowRuntime())}}</div>
 
-        <div class="pie" style="--size: {{$row->getGraphSize()}};--boc: {{$boc}};">
+        <div class="pie" style="--size: 300;--boc: {{$boc}};">
 
 
-            <div class="pie__segment" data-label="{{$row->getImportTimeToRun()}}" style="--offset: {{$row->getImportTimeToStartOffset()}}; --value: {{$row->getImportTimeToStartValue()}}; --bg: {{$tmp[0]}};--over50: {{$row->isBiggerThan180($row->getImportTimeToStartValue())}};"></div>
-            <div class="pie__segment" data-label="{{$row->getImportStepRuntime()}}" style="--offset: {{$row->getImportRuntimeOffset()}}; --value: {{$row->getImportRuntimeValue()}}; --bg: {{$tmp[1]}};--over50: {{$row->isBiggerThan180($row->getImportRuntimeValue())}};"></div>
+            <div class="pie__segment" data-label="{{$row->formatSeconds($row->getImportTimeToRun())}}" style="--offset: {{$row->getImportTimeToStartOffset()}}; --value: {{$row->getImportTimeToStartValue()}}; --bg: {{$tmp[0]}};--over50: {{$row->isBiggerThan180($row->getImportTimeToStartValue())}};"></div>
+            <div class="pie__segment" data-label="{{$row->formatSeconds($row->getImportStepRuntime())}}" style="--offset: {{$row->getImportRuntimeOffset()}}; --value: {{$row->getImportRuntimeValue()}}; --bg: {{$tmp[1]}};--over50: {{$row->isBiggerThan180($row->getImportRuntimeValue())}};"></div>
 
-            <div class="pie__segment" data-label="{{$row->getEtlTimeToRun()}}" style="--offset: {{$row->getEtlTimeToStartOffset()}}; --value: {{$row->getEtlTimeToStartValue()}}; --bg: {{$tmp[2]}};--over50: {{$row->isBiggerThan180($row->getEtlTimeToStartValue())}};"></div>
-            <div class="pie__segment" data-label="{{$row->getEtlStepRuntime()}}" style="--offset: {{$row->getEtlRuntimeOffset()}}; --value: {{$row->getEtlRuntimeValue()}}; --bg: {{$tmp[3]}};--over50: {{$row->isBiggerThan180($row->getEtlRuntimeValue())}};"></div>
+            <div class="pie__segment" data-label="{{$row->formatSeconds($row->getEtlTimeToRun())}}" style="--offset: {{$row->getEtlTimeToStartOffset()}}; --value: {{$row->getEtlTimeToStartValue()}}; --bg: {{$tmp[2]}};--over50: {{$row->isBiggerThan180($row->getEtlTimeToStartValue())}};"></div>
+            <div class="pie__segment" data-label="{{$row->formatSeconds($row->getEtlStepRuntime())}}" style="--offset: {{$row->getEtlRuntimeOffset()}}; --value: {{$row->getEtlRuntimeValue()}}; --bg: {{$tmp[3]}};--over50: {{$row->isBiggerThan180($row->getEtlRuntimeValue())}};"></div>
 
-            <div class="pie__segment" data-label="{{$row->getCalcTimeToRun()}}" style="--offset: {{$row->getCalcTimeToStartOffset()}}; --value: {{$row->getCalcTimeToStartValue()}}; --bg: {{$tmp[4]}};--over50: {{$row->isBiggerThan180($row->getCalcTimeToStartValue())}};"></div>
-            <div class="pie__segment" data-label="{{$row->getCalcStepRuntime()}}" style="--offset: {{$row->getCalcRuntimeOffset()}}; --value: {{$row->getCalcRuntimeValue()}}; --bg: {{$tmp[5]}};--over50: {{$row->isBiggerThan180($row->getCalcRuntimeValue())}};"></div>
+            <div class="pie__segment" data-label="{{$row->formatSeconds($row->getCalcTimeToRun())}}" style="--offset: {{$row->getCalcTimeToStartOffset()}}; --value: {{$row->getCalcTimeToStartValue()}}; --bg: {{$tmp[4]}};--over50: {{$row->isBiggerThan180($row->getCalcTimeToStartValue())}};"></div>
+            <div class="pie__segment" data-label="{{$row->formatSeconds($row->getCalcStepRuntime())}}" style="--offset: {{$row->getCalcRuntimeOffset()}}; --value: {{$row->getCalcRuntimeValue()}}; --bg: {{$tmp[5]}};--over50: {{$row->isBiggerThan180($row->getCalcRuntimeValue())}};"></div>
 
-            <div class="pie__segment" data-label="{{$row->getOutputTimeToRun()}}" style="--offset: {{$row->getOutputTimeToStartOffset()}}; --value: {{$row->getOutputTimeToStartValue()}}; --bg: {{$tmp[6]}};--over50: {{$row->isBiggerThan180($row->getOutputTimeToStartValue())}};"></div>
-            <div class="pie__segment" data-label="{{$row->getOutputStepRuntime()}}" style="--offset: {{$row->getOutputRuntimeOffset()}}; --value: {{$row->getOutputRuntimeValue()}}; --bg: {{$tmp[7]}};--over50: {{$row->isBiggerThan180($row->getOutputRuntimeValue())}};"></div>
+            <div class="pie__segment" data-label="{{$row->formatSeconds($row->getOutputTimeToRun())}}" style="--offset: {{$row->getOutputTimeToStartOffset()}}; --value: {{$row->getOutputTimeToStartValue()}}; --bg: {{$tmp[6]}};--over50: {{$row->isBiggerThan180($row->getOutputTimeToStartValue())}};"></div>
+            <div class="pie__segment" data-label="{{$row->formatSeconds($row->getOutputStepRuntime())}}" style="--offset: {{$row->getOutputRuntimeOffset()}}; --value: {{$row->getOutputRuntimeValue()}}; --bg: {{$tmp[7]}};--over50: {{$row->isBiggerThan180($row->getOutputRuntimeValue())}};"></div>
         </div>
     </div>
 @endforeach
 
     <div class="pie-legend">
-        <div style="--bcg:#FFFC00;"><div>Average: {{$averageRow->getFlowRuntime()}} s</div></div>
-        <div style="--bcg:{{$colorSet[0][0]}};"><div>Import Time to Start: {{$averageRow->getImportTimeToRun()}} s</div></div>
-        <div style="--bcg:{{$colorSet[0][1]}};"><div>Import run time: {{$averageRow->getImportStepRuntime()}} s</div></div>
-        <div style="--bcg:{{$colorSet[0][2]}};"><div>Etl Time to Start: {{$averageRow->getEtlTimeToRun()}} s</div></div>
-        <div style="--bcg:{{$colorSet[0][3]}};"><div>Etl run time: {{$averageRow->getEtlStepRuntime()}} s</div></div>
-        <div style="--bcg:{{$colorSet[0][4]}};"><div>Calc Time to Start: {{$averageRow->getCalcTimeToRun()}} s</div></div>
-        <div style="--bcg:{{$colorSet[0][5]}};"><div>Calc run time: {{$averageRow->getCalcStepRuntime()}} s</div></div>
-        <div style="--bcg:{{$colorSet[0][6]}};"><div>Output Time to Start: {{$averageRow->getOutputTimeToRun()}} s</div></div>
-        <div style="--bcg:{{$colorSet[0][7]}};"><div>Output run time: {{$averageRow->getOutputStepRuntime()}} s</div></div>
+        <div style="--bcg:#FFFC00;"><div>Average: {{$averageRow->formatSeconds($averageRow->getFlowRuntime())}}</div></div>
+        <div style="--bcg:{{$colorSet[0][0]}};"><div>Import Time to Start: {{$averageRow->formatSeconds($averageRow->getImportTimeToRun())}}</div></div>
+        <div style="--bcg:{{$colorSet[0][1]}};"><div>Import run time: {{$averageRow->formatSeconds($averageRow->getImportStepRuntime())}}</div></div>
+        <div style="--bcg:{{$colorSet[0][2]}};"><div>Etl Time to Start: {{$averageRow->formatSeconds($averageRow->getEtlTimeToRun())}}</div></div>
+        <div style="--bcg:{{$colorSet[0][3]}};"><div>Etl run time: {{$averageRow->formatSeconds($averageRow->getEtlStepRuntime())}}</div></div>
+        <div style="--bcg:{{$colorSet[0][4]}};"><div>Calc Time to Start: {{$averageRow->formatSeconds($averageRow->getCalcTimeToRun())}}</div></div>
+        <div style="--bcg:{{$colorSet[0][5]}};"><div>Calc run time: {{$averageRow->formatSeconds($averageRow->getCalcStepRuntime())}}</div></div>
+        <div style="--bcg:{{$colorSet[0][6]}};"><div>Output Time to Start: {{$averageRow->formatSeconds($averageRow->getOutputTimeToRun())}}</div></div>
+        <div style="--bcg:{{$colorSet[0][7]}};"><div>Output run time: {{$averageRow->formatSeconds($averageRow->getOutputStepRuntime())}}</div></div>
         <div style="--bcg:white;"><div>Flow count: {{$flowsCount}}</div></div>
     </div>
+
+    <div>
+        <a href="https://import-support.monkeydata.cloud/homepage/import-flow-stats">Import flow stats</a>
+    </div>
+
 
 </div>
 
