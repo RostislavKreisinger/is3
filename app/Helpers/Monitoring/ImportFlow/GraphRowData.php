@@ -631,7 +631,7 @@ class GraphRowData
         $restTime = $time % 3600;
         $minutes = floor($restTime / 60);
         $seconds = $restTime % 60;
-        return ($hours !== 0 ? $hours.' h ' : '').($minutes !== 0 ? $minutes.' m ' : '').$seconds.' s';
+        return ($hours != 0 ? $hours.' h ' : '').($minutes != 0 ? $minutes.' m ' : '').$seconds.' s';
     }
 
     /**
