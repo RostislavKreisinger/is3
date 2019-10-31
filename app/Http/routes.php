@@ -139,6 +139,12 @@ Route::group(['middleware' => 'web'], function () {
         });
 
         Route::group(['prefix' => 'database'], function () {
+            Route::group(['prefix' => 'universal'], function () {
+                Route::get('/database-selector/{database?}', App\Http\Controllers\Database\Universal\DatabaseSelectorController::getMethodAction());
+                Route::post('/database-selector/{database?}', App\Http\Controllers\Database\Universal\DatabaseSelectorController::postMethodAction());
+//                Route::get('/show-import-data/{project_id}/{resource_id}/{table_id?}/{count?}', App\Http\Controllers\Database\Universal\ShowImportDataController::getMethodAction());
+//                Route::post('/show-import-data/{project_id}/{resource_id}/{table_id?}/{count?}', App\Http\Controllers\Database\Universal\ShowImportDataController::postMethodAction());
+            });
             Route::get('/database-selector/{project_id?}/{resource_id?}', App\Http\Controllers\Database\DatabaseSelectorController::getMethodAction());
             Route::post('/database-selector/{project_id?}/{resource_id?}', App\Http\Controllers\Database\DatabaseSelectorController::postMethodAction());
             Route::get('/show-import-data/{project_id}/{resource_id}/{table_id?}/{count?}', App\Http\Controllers\Database\ShowImportDataController::getMethodAction());

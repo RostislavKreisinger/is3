@@ -1,0 +1,229 @@
+
+<div class="controlls">
+    <div class="save-button">
+        <button id="run" class="btn" onclick="send()">Run</button>
+        <button id="copy" class="btn">url</button>
+    </div>
+    <div class="menu">
+        <script>
+            var tables = [];
+        </script>
+
+        <a n:foreach="$databases as $database" n:class="btn, a, btn-table-query, $database == $selectedDatabase? 'active'" href="{action 'Database\Universal\DatabaseSelectorController', ["database" => $database]}">{$database}</a>
+
+{*        {if isset($tableSelect)}*}
+{*            <button n:foreach="$tableSelect as $table" class="btn btn-table-query {first} active {/first}" onclick="replaceInEditor({$table->getId()})">*}
+{*                <script>*}
+{*                    tables[{$table->getId()}] = "{$table->query[0]|noescape}";*}
+{*                </script>*}
+{*                {$table->getDbTableName()}*}
+{*            </button>*}
+{*        {else}*}
+{*            <button class="btn" onclick="insertToQueryAtCursor('monkeydata')">monkeydata</button>*}
+{*            <button class="btn" onclick="insertToQueryAtCursor('monkeydata_import')">monkeydata_import</button>*}
+{*            <button class="btn" onclick="insertToQueryAtCursor('monkeydata_import_dw')">monkeydata_import_dw</button>*}
+{*            <button class="btn" onclick="insertToQueryAtCursor('monkeydata_import_anal')">monkeydata_import_anal</button>*}
+{*        {/if}*}
+        
+        {*
+        {if isset($tables)}
+            <br>
+            <button n:foreach="$tables as $table" class="btn" onclick="insertToQueryAtCursor({$table->getQueryName()})">
+                {$table->getDbTableName()}
+            </button>
+        {/if}
+        *}
+        
+    </div>
+    <div class="clear"></div>
+</div>
+
+<div class="query">
+    <div class="content">
+        <pre class="queryText" id="editor" data-query='{isset $query}'>{isset $query|noescape}</pre>
+    </div>
+</div>
+<div class="result">
+    <div class="content"></div>
+</div>
+
+<script>
+    
+    ace.require("ace/ext/language_tools");
+
+    var editor = ace.edit("editor");
+    editor.session.setMode("ace/mode/mdmysql");
+    // editor.setTheme("ace/theme/tomorrow");
+    editor.setTheme("ace/theme/mdtheme");
+    editor.setAutoScrollEditorIntoView(true);
+    editor.setOption("maxLines", 100);
+    editor.setOption("minLines", 10);
+    editor.setOption("fontSize", 13);
+    editor.$blockScrolling = Infinity;
+
+    editor.setOption("highlightActiveLine", false);
+    editor.setOption("showPrintMargin", false);
+    editor.setOptions({
+        enableBasicAutocompletion: true,
+        enableSnippets: true,
+        enableLiveAutocompletion: false
+    });
+
+    ace.config.loadModule('ace/ext/language_tools', function () {
+        editor.setOptions({
+            enableBasicAutocompletion: true,
+            enableSnippets: true
+        })
+
+        var snippetManager = ace.require("ace/snippets").snippetManager;
+        var config = ace.require("ace/config");
+        
+        ace.config.loadModule("ace/snippets/mdmysql", function (m) {
+            
+            if (m) {
+                snippetManager.files.javascript = m;
+                m.snippets = new Array();
+                var snippets = JSON.parse({isset($snippets)?"'$snippets'":'null'|noescape});
+                for (i in snippets) {
+                    m.snippets.push(snippets[i]);
+                }
+                snippetManager.register(m.snippets, m.scope);
+            }
+            
+        });
+
+    });
+
+</script>
+
+<script>
+
+    function windowResize(onlyResult) {
+        if (onlyResult === undefined) {
+            onlyResult = false;
+        }
+        var w = window.innerWidth;
+        var h = window.innerHeight;
+        var controls = $(".controlls").outerHeight()
+        var tolerance = 12;
+        var queryHeight = $(".query").outerHeight()
+        var minQueryHeight = 50;
+        if (!onlyResult) {
+            $(".query").resizable("option", {
+                'maxWidth': w,
+                'minWidth': w,
+                'minHeight': minQueryHeight,
+                'maxHeight': h - controls - minQueryHeight
+            });
+        }
+
+        $(".result").height(h - (controls + tolerance + queryHeight));
+
+    }
+
+    function resize() {
+        windowResize(true);
+    }
+
+    $(window).bind('keydown', function (event) {
+        if (event.ctrlKey || event.metaKey) {
+            switch (String.fromCharCode(event.which).toLowerCase()) {
+                case 's':
+                    send();
+                    event.preventDefault();
+                    break;
+            }
+        }
+    }).resize(function () {
+        windowResize();
+    });
+    var tolerance = 12;
+    var w = window.innerWidth;
+    var h = window.innerHeight;
+
+
+
+
+
+    function insertAtCursor(tmpEditor, myValue) {
+        var pos = tmpEditor.getCursorPosition();
+        tmpEditor.session.insert(pos, myValue);
+    }
+
+    function insertToQueryAtCursor(myValue) {
+        insertAtCursor(editor, myValue);
+        editor.focus();
+    }
+    
+    function replaceInEditor(id){
+        var myValue = tables[id];
+        editor.session.setValue(myValue);
+        editor.focus();
+        send();
+    }
+
+
+    $(document).ready(function () {
+        $(".query").height(h * 0.2).resizable({
+            'maxWidth': w,
+            'minWidth': w,
+            'minHeight': 50,
+            'maxHeight': h - 50
+        }).resize(function () {
+            resize();
+        });
+        windowResize();
+
+        $(".query").on('keydown', '.queryText', function (e) {
+            var keyCode = e.keyCode || e.which;
+            if (keyCode == 120) {
+                send();
+                e.preventDefault();
+            }
+        });
+        
+        $(".btn-table-query").click(function(){
+            $(".btn-table-query").removeClass('active');
+            $(this).addClass('active');
+        });
+    });
+
+    function send() {
+        var button = $('#run');
+        var query = editor.getValue();//$(".queryText").val();
+        button.addClass('loading');
+        $.post('', {
+            _token: '{csrf_token()|noescape}',
+            query: query
+        }, function (data) {
+            button.removeClass('loading');
+            $(".result .content").html(data);
+        }).fail(function(response){
+            button.removeClass('loading');
+            $(".result .content").html(response.responseText);
+        });
+    }
+
+
+    
+</script>
+
+
+{if isset($query) }
+<script>
+    send();
+</script>
+{/if}
+
+<script>
+    new Clipboard('#copy', {
+        text: function (trigger) {
+            var text = editor.getValue().replace(/\s\s+/g, ' ');
+            var url = '{Request::url()|noescape}?query=' + encodeURIComponent(text);
+            return url;
+        }
+    });
+
+
+</script>
+
