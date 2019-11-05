@@ -6,7 +6,6 @@ use App\Http\Controllers\Database\AController;
 use DB;
 use Exception;
 use Illuminate\Support\Facades\Input;
-use Monkey\Connections\MDDatabaseConnections;
 use Monkey\Connections\MDOrderAlertConnections;
 use Monkey\Vardump\VardumpQuery;
 use Monkey\View\View;
@@ -14,7 +13,10 @@ use Monkey\View\View;
 class DatabaseSelectorController extends AController {
 
 
-    const ENABLED_DATABASE = ['monkeydata', 'md_order_alert_dw'];
+    const ENABLED_DATABASE = [
+//        'monkeydata',
+        'md_order_alert_dw'
+    ];
 
 
     public function getIndex($database = null) {
@@ -65,8 +67,8 @@ class DatabaseSelectorController extends AController {
         switch ($database) {
             case "md_order_alert_dw":
                 return MDOrderAlertConnections::getOrderAlertDwConnection();
-            case "monkeydata":
-                return MDDatabaseConnections::getMasterAppConnection();
+//            case "monkeydata":
+//                return MDDatabaseConnections::getMasterAppConnection();
 
         }
         throw new Exception("Unexpected database name");
