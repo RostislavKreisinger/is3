@@ -5,8 +5,8 @@
                 {view $button->getView()}
             {/foreach}
         </div>
-        {ifset $resourceDetail}
-            <div class="button-list">
+        <div class="button-list">
+            {ifset $resourceDetail}
                 {if $resourceDetail->active > 1}
                     <div class="col-lg-2">
                         <form action="" method="post">
@@ -35,7 +35,16 @@
                         </form>
                     </div>
                 {/if}
-            </div>
-        {/ifset}
+            {else}
+                <div class="col-lg-2">
+                    <form action="" method="post">
+                        {csrf_field()|noescape}
+                        {method_field("PUT")|noescape}
+                        <input type="hidden" name="action" value="deactivate">
+                        <input type="submit" class="btn btn-outline btn-default btn-block" title="Attempts to set resource setting's active to 10 and TTL to 0" value="Attempt to Deactivate">
+                    </form>
+                </div>
+            {/ifset}
+        </div>
     </div>
 </div>

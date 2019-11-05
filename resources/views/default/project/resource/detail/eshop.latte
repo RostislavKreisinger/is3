@@ -65,6 +65,8 @@
                     </tbody>
                 </table>
             </div>
+        {else}
+            <div class="alert-danger">Resource Detail not found<span class="fa fa-exclamation"></span></div>
         {/ifset}
         {ifset $eshopType}
             {if $eshopType->import_version == 3 && false}
