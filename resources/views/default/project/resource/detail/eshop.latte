@@ -66,7 +66,9 @@
                 </table>
             </div>
         {else}
-            <div class="alert-danger">Resource Detail not found<span class="fa fa-exclamation"></span></div>
+            <div class="row">
+                <div class="col-lg-12 alert-danger">Resource Detail not found<span class="fa fa-exclamation"></span></div>
+            </div>
         {/ifset}
         {ifset $eshopType}
             {if $eshopType->import_version == 3 && false}
