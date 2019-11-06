@@ -41,6 +41,8 @@ use Illuminate\Database\Eloquent\Builder;
  * @method static Builder|IFDailyPool whereTtl($value)
  * @method static Builder|IFDailyPool whereUpdatedAt($value)
  * @mixin Eloquent
+ * @property-read string $period
+ * @property-read IFImportPool $importPool
  */
 class IFDailyPool extends IFPeriodPool {
     /**
