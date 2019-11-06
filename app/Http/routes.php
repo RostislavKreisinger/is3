@@ -47,6 +47,7 @@ Route::group(['prefix' => 'open'], function () {
             Route::get('resources', 'ResourcesController@index');
             Route::get('eshop-types', 'EshopTypesController@index');
             Route::get('broken-flows', 'BrokenFlowsController@index');
+            Route::get('error-daily-history', 'ErrorDailyHistoryController@index');
             Route::get('tested-not-running-projects', 'TestedNotRunningProjectsController@index');
             Route::get('repair-logs', 'RepairLogsController@index');
         });

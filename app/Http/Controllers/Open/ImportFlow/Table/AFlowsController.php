@@ -61,13 +61,13 @@ abstract class AFlowsController extends Controller {
 
     /**
      * @param array $results
+     * @param bool $includeUserUrl
      * @return array
      */
-    protected function addUrls(array $results): array {
+    protected function addUrls(array $results, bool $includeUserUrl = false): array {
         for ($i = 0; $i < count($results); $i++) {
             $results[$i]->project_url = '';
             $results[$i]->resource_url = '';
-            $results[$i]->user_url = '';
 
             $results[$i]->project_url = action(DetailController::routeMethod('getIndex'), [
                 'project_id' => $results[$i]->project_id
@@ -77,10 +77,14 @@ abstract class AFlowsController extends Controller {
                 'resource_id' => $results[$i]->resource_id
             ]);
 
-            if (isset($results[$i]->project)) {
-                $results[$i]->user_url = action(UserController::routeMethod('getIndex'), [
-                    'user_id' => $results[$i]->project->user_id
-                ]);
+            if ($includeUserUrl) {
+                $results[$i]->user_url = '';
+
+                if (isset($results[$i]->project)) {
+                    $results[$i]->user_url = action(UserController::routeMethod('getIndex'), [
+                        'user_id' => $results[$i]->project->user_id
+                    ]);
+                }
             }
         }
 

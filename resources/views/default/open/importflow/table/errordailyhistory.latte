@@ -1,0 +1,53 @@
+<div class="panel panel-danger">
+    <div class="panel-heading">Daily and history records in error state</div>
+    <div class="panel-body" id="import-flow-error-daily-history"></div>
+</div>
+<script>
+    $(function () {
+        $("#import-flow-error-daily-history").dxDataGrid({
+            columnAutoWidth: true,
+            columns: [
+                {
+                    caption: 'Period',
+                    dataField: 'period',
+                    lookup: {
+                        dataSource: ['Daily', 'History']
+                    }
+                },
+                {
+                    caption: 'PID',
+                    cellTemplate: function (cellElement, cellInfo) {
+                        cellElement.html('<a href="' + cellInfo.data.project_url + '">' + cellInfo.value + '</a>');
+                    },
+                    dataField: 'project_id',
+                    dataType: 'number',
+                    selectedFilterOperation: 'contains'
+                },
+                {
+                    caption: 'Resource',
+                    cellTemplate: function (cellElement, cellInfo) {
+                        cellElement.html('<a href="' + cellInfo.data.resource_url + '">' + cellInfo.value + '</a>');
+                    },
+                    dataField: 'resource_id',
+                    dataType: 'number'
+                },
+                {
+                    caption: 'TTL',
+                    dataField: 'ttl',
+                    dataType: 'number'
+                },
+                {
+                    caption: 'Updated',
+                    dataField: 'updated_at'
+                }
+            ],
+            dataSource: {$baseUrl} + "/open/import-flow/table/error-daily-history",
+            filterRow: {
+                visible: true
+            },
+            paging: {
+                pageSize: 20
+            }
+        });
+    });
+</script>
