@@ -17,8 +17,6 @@ class ErrorDailyHistoryController extends AFlowsController {
      */
     public function index(): array {
         $errorFlowService = new ErrorFlowService;
-        $errorFlows = $errorFlowService->getDaily()->all();
-        $errorFlows = array_merge($errorFlows, $errorFlowService->getHistory()->all());
-        return $this->addUrls($errorFlows);
+        return $this->addUrls($errorFlowService->getDailyAndHistory()->all());
     }
 }

@@ -25,4 +25,11 @@ class ErrorFlowService {
     public function getHistory(): Collection {
         return IFHistoryPool::whereActive(3)->get();
     }
+
+    /**
+     * @return IFDailyPool[]|IFHistoryPool[]|Collection
+     */
+    public function getDailyAndHistory(): Collection {
+        return $this->getDaily()->merge($this->getHistory());
+    }
 }
