@@ -105,6 +105,8 @@ class DetailController extends Controller {
 
         if ($resourceDetail !== null) {
             $sqls .= $this->getResourceDetailSql($resourceDetail, $resource->tbl_setting);
+        } else {
+            $sqls .= "Record in {$resource->tbl_setting} is missing!";
         }
 
         $this->getView()->addParameter('rsexport', $sqls);
