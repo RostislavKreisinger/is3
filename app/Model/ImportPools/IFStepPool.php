@@ -59,6 +59,14 @@ abstract class IFStepPool extends IFPool {
     }
 
     /**
+     * @param Builder $query
+     * @return Builder
+     */
+    public function scopeNotDelayed(Builder $query): Builder {
+        return $query->where('delay_count', 0);
+    }
+
+    /**
      * @return BelongsTo
      */
     public function controlPool(): BelongsTo {

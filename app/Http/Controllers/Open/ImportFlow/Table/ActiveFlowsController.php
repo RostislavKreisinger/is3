@@ -62,7 +62,7 @@ class ActiveFlowsController extends AFlowsController {
             }
         }
 
-        $this->addUrls($results);
+        $this->addUrls($results, true);
         $this->calculateRuntimes($results);
         return $results;
     }
