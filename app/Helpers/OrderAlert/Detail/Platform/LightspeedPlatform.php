@@ -35,8 +35,8 @@ class LightspeedPlatform extends ABasePlatform {
      */
     public function getRawOrders(int $storeId): Collection {
         return MDOrderAlertConnections::getOrderAlertDwConnection()->table("f_order_eshop_" . $storeId)
-            ->leftJoin('d_ls_order_status', 'f_order_eshop_' . $storeId . '.status_id', '=', 'd_ls_order_status.id')
-            ->get(['f_order_eshop_' . $storeId . '.*', 'd_ls_order_status.status', 'd_ls_order_status.title']);
+//            ->leftJoin('d_ls_order_status', 'f_order_eshop_' . $storeId . '.status_id', '=', 'd_ls_order_status.id')
+            ->get(['f_order_eshop_' . $storeId . '.*'/*, 'd_ls_order_status.status', 'd_ls_order_status.title'*/]);
     }
 
     /**

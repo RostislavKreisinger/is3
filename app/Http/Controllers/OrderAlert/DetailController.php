@@ -51,7 +51,7 @@ class DetailController extends BaseController {
             $orderJSON = json_decode($orderRaw->json, true);
             $order = array();
 
-            if (property_exists($orderRaw, 'title')) {
+            if (property_exists($orderRaw, 'title') && $orderRaw->title !== null) {
                 $translatedOrderStatus = $platform->translateOrderStatus($orderRaw->title);
                 if ($translatedOrderStatus !== null) {
                     $order['statusTitle'] = $translatedOrderStatus;
