@@ -2,8 +2,15 @@
 
 namespace App\Model;
 
+
+use Carbon\Carbon;
+use Eloquent;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Query\Builder as QueryBuilder;
 
 /**
  * App\Model\Project
@@ -27,48 +34,45 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property int|null $module_masks_id_api
  * @property int|null $module_masks_id_inside neni nastaveno pro projekty, ktere nejsou v md_inside
  * @property int|null $module_masks_id_original
- * @property \Carbon\Carbon|null $created_at
- * @property \Carbon\Carbon|null $updated_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
  * @property string|null $deleted_at
- * @property-read \App\Model\EshopType|null $eshopTypeName
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Model\ResourceSetting[] $resourceSettings
- * @property-read \App\Model\User|null $user
+ * @property-read EshopType|null $eshopTypeName
+ * @property-read Collection|ResourceSetting[] $resourceSettings
+ * @property-read User|null $user
  * @method static bool|null forceDelete()
- * @method static \Illuminate\Database\Query\Builder|\App\Model\Project onlyTrashed()
+ * @method static QueryBuilder|Project onlyTrashed()
  * @method static bool|null restore()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Project whereBusinessAreaId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Project whereConfirmed($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Project whereCountryId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Project whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Project whereCurrencyId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Project whereDeletedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Project whereEshopTypeId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Project whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Project whereModuleMasksId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Project whereModuleMasksIdApi($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Project whereModuleMasksIdInside($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Project whereModuleMasksIdOriginal($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Project whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Project wherePicture($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Project whereProjectTypeId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Project whereProjectTypeInfo($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Project whereTestProject($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Project whereTimezoneId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Project whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Project whereUrl($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Project whereUserId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Project whereWeburl($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Model\Project withTrashed()
- * @method static \Illuminate\Database\Query\Builder|\App\Model\Project withoutTrashed()
- * @mixin \Eloquent
+ * @method static Builder|Project whereBusinessAreaId($value)
+ * @method static Builder|Project whereConfirmed($value)
+ * @method static Builder|Project whereCountryId($value)
+ * @method static Builder|Project whereCreatedAt($value)
+ * @method static Builder|Project whereCurrencyId($value)
+ * @method static Builder|Project whereDeletedAt($value)
+ * @method static Builder|Project whereEshopTypeId($value)
+ * @method static Builder|Project whereId($value)
+ * @method static Builder|Project whereModuleMasksId($value)
+ * @method static Builder|Project whereModuleMasksIdApi($value)
+ * @method static Builder|Project whereModuleMasksIdInside($value)
+ * @method static Builder|Project whereModuleMasksIdOriginal($value)
+ * @method static Builder|Project whereName($value)
+ * @method static Builder|Project wherePicture($value)
+ * @method static Builder|Project whereProjectTypeId($value)
+ * @method static Builder|Project whereProjectTypeInfo($value)
+ * @method static Builder|Project whereTestProject($value)
+ * @method static Builder|Project whereTimezoneId($value)
+ * @method static Builder|Project whereUpdatedAt($value)
+ * @method static Builder|Project whereUrl($value)
+ * @method static Builder|Project whereUserId($value)
+ * @method static Builder|Project whereWeburl($value)
+ * @method static QueryBuilder|Project withTrashed()
+ * @method static QueryBuilder|Project withoutTrashed()
+ * @mixin Eloquent
  */
-class Project extends Model {
+class Project extends MasterModel {
+    use SoftDeletes;
 
-    use \Illuminate\Database\Eloquent\SoftDeletes;
-
-    protected $connection = 'mysql-master-app';
     protected $table = 'project';
-    
     protected $guarded = [];
     
     public function getResources() {
@@ -80,13 +84,7 @@ class Project extends Model {
      * @return HasMany
      */
     public function resourceSettings(int $resourceId = null): HasMany {
-        $builder = $this->hasMany(ResourceSetting::class);
-
-        if (!is_null($resourceId)) {
-            $builder->where('resource_id', '=', $resourceId);
-        }
-
-        return $builder;
+        return $this->hasMany(ResourceSetting::class);
     }
 
     /**
@@ -94,13 +92,6 @@ class Project extends Model {
      */
     public function user() {
         return $this->belongsTo(User::class);
-    }
-
-    /**
-     * @return User
-     */
-    public function getUser() {
-        return $this->user()->first();
     }
 
     /**

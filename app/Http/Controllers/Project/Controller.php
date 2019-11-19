@@ -31,7 +31,7 @@ class Controller extends BaseController {
         if ($project !== null) {
             $resources = new Menu($project->name, '#');
             $resources->setOpened(true);
-            $projectResources = $project->getResources(); // ->get();
+            $projectResources = $project->resourceSettings;
 
             foreach ($projectResources as $resource) {
                 // vde($resource);
@@ -45,11 +45,11 @@ class Controller extends BaseController {
                 }
                 $resources->addMenuItem($menuItem);
             }
-            if (count($projectResources) == 0) {
+            if ($projectResources->isEmpty()) {
                 $resources->addMenuItem(new Menu("-- EMPTY --", ""));
             }
             $menu->addMenuItem($resources);
-            $projectUser = $project->getUser();
+            $projectUser = $project->user;
 
             if (empty($projectUser)) {
                 throw new ProjectUserMissingException($project->id, $project->user_id);

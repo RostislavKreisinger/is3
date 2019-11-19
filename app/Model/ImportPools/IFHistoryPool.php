@@ -38,6 +38,7 @@ namespace App\Model\ImportPools;
  * @method static \Illuminate\Database\Eloquent\Builder|IFHistoryPool whereTtl($value)
  * @method static \Illuminate\Database\Eloquent\Builder|IFHistoryPool whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property-read \App\Model\ImportPools\IFImportPool $importPool
  */
 class IFHistoryPool extends IFPeriodPool {
     /**

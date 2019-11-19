@@ -88,42 +88,6 @@
     </ul>
 </div>
 
-{*<table id="table-resource" class="table">*}
-    {*<thead>*}
-    {*<th>*}
-        {*Is history*}
-    {*</th>*}
-    {*<th>*}
-        {*Step*}
-    {*</th>*}
-    {*<th>*}
-        {*Final state*}
-    {*</th>*}
-    {*<th>*}
-        {*In gearman*}
-    {*</th>*}
-    {*<th>*}
-        {*Unique*}
-    {*</th>*}
-    {*<th>*}
-        {*Start at*}
-    {*</th>*}
-    {*<th>*}
-        {*Finish at*}
-    {*</th>*}
-    {*<th>*}
-        {*Updated at*}
-    {*</th>*}
-    {*<th>*}
-        {*Action*}
-    {*</th>*}
-    {*</thead>*}
-    {*<tbody>*}
-    {*<tr>*}
-        {*<td colspan="5" style="text-align: center"> loading...</td>*}
-    {*</tr>*}
-    {*</tbody>*}
-{*</table>*}
 <div id="missing-resource" class="text-color-green" style="padding: 10px; display: none">
     Successfully downloaded
 </div>
@@ -339,14 +303,6 @@
                     dataField: 'hostname',
                     caption: 'Host',
                     width: 100
-                },
-                {
-                    dataField: 'refresh_link',
-                    caption: 'Action',
-                    name: 'action',
-                    cellTemplate: function(cellElement, cellInfo){
-                        cellElement.html("<a href='" + cellInfo.value + "'>Refresh</a>");
-                    }
                 }
             ],
             summary: {

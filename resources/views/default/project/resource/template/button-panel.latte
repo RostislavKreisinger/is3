@@ -1,13 +1,13 @@
 <div class="row buttons">
     <div class="col-lg-12">
         <div class="button-list">
-            {foreach $resource->getButtons()->getTestButtons() as $button }
+            {foreach $buttons as $button}
                 {view $button->getView()}
             {/foreach}
         </div>
         <div class="button-list">
-            {ifset $resourceDetail}
-                {if $resourceDetail->active > 1}
+            {ifset $resourceSetting}
+                {if $resourceSetting->active > 1}
                     <div class="col-lg-2">
                         <form action="" method="post">
                             {csrf_field()|noescape}
@@ -25,7 +25,7 @@
                         </form>
                     </div>
                 {/if}
-                {if $resourceDetail->active < 4 && $user->can("project.resource.button.delete.unconnect")}
+                {if $resourceSetting->active < 4 && $user->can("project.resource.button.delete.unconnect")}
                     <div class="col-lg-2">
                         <form action="" method="post">
                             {csrf_field()|noescape}

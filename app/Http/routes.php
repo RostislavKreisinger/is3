@@ -112,11 +112,7 @@ Route::group(['middleware' => 'web'], function () {
             Route::group(['prefix' => 'resource'], function () {
                 Route::group(['prefix' => 'other'], function () {
                     Route::get('/unconnect', App\Http\Controllers\Button\Resource\Other\UnconnectButtonController::getMethodAction());
-                    Route::get('/shift-next-check-date', App\Http\Controllers\Button\Resource\Other\ShiftNextCheckDateButtonController::getMethodAction());
                     Route::get('/update-orders', App\Http\Controllers\Button\Resource\Other\UpdateOrdersButtonController::getMethodAction());
-                });
-                Route::group(['prefix' => 'other'], function () {
-                    Route::get('/error-send', App\Http\Controllers\Button\Resource\Error\SendErrorTestButtonController::getMethodAction());
                 });
 
                 Route::get('/b1-reset-automat-test', App\Http\Controllers\Button\Resource\B1_ResetAutomatTestButtonController::getMethodAction());

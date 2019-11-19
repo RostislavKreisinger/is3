@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Http\Controllers\Project\Resource;
 
 
@@ -8,18 +7,20 @@ use App\Exceptions\ProjectUserMissingException;
 use App\Http\Controllers\Project\Controller;
 use App\Http\Controllers\Project\DetailController as ProjectDetailController;
 use App\Http\Controllers\User\DetailController as UserDetailController;
-use App\Model\Currency;
 use App\Model\EshopType;
-use App\Model\ImportSupport\ResourceError;
+use App\Model\Project;
 use App\Model\ResourceSetting;
-use Eloquent;
+use App\Model\Resource;
 use Exception;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Monkey\Breadcrump\BreadcrumbItem;
 use Monkey\Config\Application\ProjectEndpointBaseUrl;
 use Monkey\Connections\MDDatabaseConnections;
-use Monkey\ImportSupport\Project;
+use Monkey\ImportSupport\Resource\Button\B00_ShowButton;
+use Monkey\ImportSupport\Resource\Button\ButtonList;
 use Monkey\View\ViewFinder;
 use stdClass;
 
@@ -30,78 +31,57 @@ use stdClass;
  */
 class DetailController extends Controller {
     /**
-     * @var Project
-     */
-    private $project;
-
-    /**
-     * @var Resource
-     */
-    private $resource;
-
-    /**
      * @param $projectId
      * @param $resourceId
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      * @throws Exception
      */
     public function getIndex($projectId, $resourceId) {
-        $this->project = $project = Project::find($projectId);
-        $this->resource = $resource = $project->getResource($resourceId);
+        $project = Project::with(['resourceSettings' => function (HasMany $query) use ($resourceId) {
+            $query->where('resource_id', $resourceId);
+        }])->find($projectId);
+        /**
+         * @var ResourceSetting $resourceSetting
+         * @var Resource $resource
+         */
+        $resourceSetting = $project->resourceSettings->where('resource_id', $resourceId)->first();
+        $resource = $resourceSetting->resource;
 
         if (request()->getMethod() === 'PUT') {
-            if ($this->findAction()) {
+            if ($this->findAction($resourceSetting)) {
                 return back()->with(['message' => 'Success!']);
             }
         }
 
-        $resourceErrors = $resource->getResourceErrors($project->id);
+        $viewName = "default.project.resource.detail.{$resource->codename}";
 
-        $viewName = 'default.project.resource.detail.' . $resource->codename;
         if (ViewFinder::existView($viewName)) {
             $this->getView()->setBody($viewName);
         }
 
-        $currencyId = 4;
-        if(is_null($resource->getResourceStats()) && $resource->getResourceStats()->getResourceSetting() ){
-            $currencyId = $resource->getResourceStats()->getResourceSetting()->currency_id;
-        }
-        $resourceCurrency = Currency::find($currencyId);
-        $resourceDetail = $resource->getResourceDetail();
+        $resourceDetail = $resourceSetting->connectionData()->first();
 
-        if ($resourceDetail === null) {
-//            throw new Exception("Missing resource detail for project {$project->id} and resource {$resource->id}");
-        } else {
+        if ($resourceDetail !== null) {
             if ($resource->id == 4) {
                 $this->getView()->addParameter('eshopType', EshopType::find($resourceDetail->eshop_type_id));
             }
 
-            $this->getView()->addParameter('resourceDetail', $resourceDetail);
+            $this->getView()->addParameter('resourceDetail', get_object_vars($resourceDetail));
         }
-        // $this->getView()->addParameter('importFlowStatus', $this->getImportFlowStatusForProject($projectId, $resource));
-
-
-        $connectionDetail = array();
-
-        if ($this->getUser()->can('project.resource.connection_detail')) {
-            $connectionDetail = $resource->getConnectionDetail();
-        }
-
-        $resourceSettings = $project->resourceSettings($resourceId)->first();
 
         $this->getView()->addParameter('project', $project);
         $this->getView()->addParameter('resource', $resource);
+        $this->getView()->addParameter('resourceSetting', $resourceSetting);
+        $this->getView()->addParameter('buttons', $this->getButtons($projectId, $resourceId));
         $this->getView()->addParameter('ifBaseUrl', ProjectEndpointBaseUrl::getInstance()->getImportFlowUrl());
 
-        $this->getView()->addParameter('resourceCurrency', $resourceCurrency);
-        $this->getView()->addParameter('connectionDetail', $connectionDetail);
-        $this->getView()->addParameter('resourceErrors', $resourceErrors);
-        $this->getView()->addParameter('historyInterval', $resourceSettings->custom_import_history_interval / (24 * 60 * 60));
+        $this->getView()->addParameter('resourceCurrency', $resourceSetting->currency);
+        $this->getView()->addParameter('historyInterval', $resourceSetting->custom_import_history_interval / (24 * 60 * 60));
 
         $sqls = $this->getSqlFromModel($project);
-        $sqls .= $this->getSqlFromModel($project->getUser());
-        $sqls .= $this->getSqlFromModel($project->getUser()->getClient());
-        $sqls .= $this->getSqlFromModel($resourceSettings);
+        $sqls .= $this->getSqlFromModel($project->user);
+        $sqls .= $this->getSqlFromModel($project->user->client);
+        $sqls .= $this->getSqlFromModel($resourceSetting);
 
         if ($resourceDetail !== null) {
             $sqls .= $this->getResourceDetailSql($resourceDetail, $resource->tbl_setting);
@@ -119,28 +99,37 @@ class DetailController extends Controller {
     }
 
     /**
+     * @param int $projectId
+     * @param int $resourceId
+     * @return ButtonList
+     */
+    private function getButtons(int $projectId, int $resourceId): ButtonList {
+        $buttons = new ButtonList();
+
+        if (Auth::user()->can('project.resource.button.test.show_data')) {
+            $buttons->addButton(new B00_ShowButton($projectId, $resourceId));
+        }
+
+        return $buttons;
+    }
+
+    /**
      * @param array $parameters
      * @return void
      */
     protected function breadcrumbAfterAction($parameters = array()) {
+        $userId = Project::whereId($parameters['project_id'])->first(['user_id'])->user_id;
         $breadcrumbs = parent::breadcrumbAfterAction();
-        $breadcrumbs->addBreadcrumbItem(new BreadcrumbItem('user', 'User', \Monkey\action(UserDetailController::class, ['user_id' => $this->project->user_id])));
-        $breadcrumbs->addBreadcrumbItem(new BreadcrumbItem('project', 'Project', \Monkey\action(ProjectDetailController::class, ['project_id' => $this->project->id])));
-        $breadcrumbs->addBreadcrumbItem(new BreadcrumbItem('resource', 'Resource', \Monkey\action(self::class, ['project_id' => $this->project->id, 'resource_id' => $this->resource->id])));
+        $breadcrumbs->addBreadcrumbItem(new BreadcrumbItem('user', 'User', \Monkey\action(UserDetailController::class, ['user_id' => $userId])));
+        $breadcrumbs->addBreadcrumbItem(new BreadcrumbItem('project', 'Project', \Monkey\action(ProjectDetailController::class, ['project_id' => $parameters['project_id']])));
+        $breadcrumbs->addBreadcrumbItem(new BreadcrumbItem('resource', 'Resource', \Monkey\action(self::class, ['project_id' => $parameters['project_id'], 'resource_id' => $parameters['resource_id']])));
     }
 
     /**
-     * @return Collection|static[]
-     */
-    protected function getErrors() {
-        return ResourceError::all();
-    }
-
-    /**
-     * @param Eloquent $model
+     * @param Model $model
      * @return string
      */
-    private function getSqlFromModel(Eloquent $model): string {
+    private function getSqlFromModel(Model $model): string {
         $sql = "INSERT INTO `" . $model->getTable() . "` SET ";
         $values = [];
 
@@ -182,51 +171,49 @@ class DetailController extends Controller {
         return $sql;
     }
 
-    private function activate() {
-        /**
-         * @var ResourceSetting $resourceSetting
-         */
-        $resourceSetting = $this->project->resourceSettings($this->resource->id)->first();
+    /**
+     * @param ResourceSetting $resourceSetting
+     */
+    private function activate(ResourceSetting $resourceSetting) {
         $resourceSetting->activate()->save();
     }
 
-    private function deactivate() {
+    /**
+     * @param ResourceSetting $resourceSetting
+     */
+    private function deactivate(ResourceSetting $resourceSetting) {
         if (!Auth::user()->can('project.resource.button.delete.unconnect')) {
             return;
         }
 
-        /**
-         * @var ResourceSetting $resourceSetting
-         */
-        $resourceSetting = $this->project->resourceSettings($this->resource->id)->first();
         $resourceSetting->deactivate()->save();
     }
 
-    private function test() {
-        /**
-         * @var ResourceSetting $resourceSetting
-         */
-        $resourceSetting = $this->project->resourceSettings($this->resource->id)->first();
+    /**
+     * @param ResourceSetting $resourceSetting
+     */
+    private function test(ResourceSetting $resourceSetting) {
         $resourceSetting->test()->save();
     }
 
     /**
+     * @param ResourceSetting $resourceSetting
      * @return bool
      */
-    private function findAction(): bool {
+    private function findAction(ResourceSetting $resourceSetting): bool {
         $found = false;
 
         switch (request()->input('action')) {
             case 'activate':
-                $this->activate();
+                $this->activate($resourceSetting);
                 $found = true;
                 break;
             case 'deactivate':
-                $this->deactivate();
+                $this->deactivate($resourceSetting);
                 $found = true;
                 break;
             case 'test':
-                $this->test();
+                $this->test($resourceSetting);
                 $found = true;
                 break;
         }

@@ -1,6 +1,6 @@
 <div class="table-responsive">
-    <h4 id="caption-daily" class="resource-subcaption {$resource->getStateDailyImportFlow()}">Daily import <span>[{$resource->getStateDailyImportFlow()}]</span></h4>
-    {var $dailySetting = $resource->getResourceStats()->getImportFlowDaily()}
+    <h4 id="caption-daily" class="resource-subcaption {*{$resource->getStateDailyImportFlow()}*}">Daily import <span>[{*{$resource->getStateDailyImportFlow()}*}]</span></h4>
+    {var $dailySetting = $resourceSetting->dailyPool}
     <span id="missing-daily" style="display: none"> Missing record </span>
     <table id="table-daily" class="table table-hover" style="display: none">
         <tbody>
