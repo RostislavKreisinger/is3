@@ -7,7 +7,10 @@ use App\Http\Controllers\Controller;
 use App\Model\ImportPools\IFControlPool;
 use App\Model\ImportPools\IFDailyPool;
 use App\Model\ImportPools\IFHistoryPool;
+use App\Model\ImportPools\IFPeriodPool;
 use Exception;
+use Illuminate\Http\RedirectResponse;
+use Monkey\Constants\ImportFlow\Pools\Pools;
 use Monkey\ImportSupport\Project;
 use stdClass;
 
@@ -16,64 +19,92 @@ use stdClass;
  * @package App\Http\Controllers\Project\Resource
  */
 class ImportFlowStatusController extends Controller {
+    /**
+     * @param int $projectId
+     * @param int $resourceId
+     * @return array
+     */
+    public function getIndex($projectId, $resourceId): array {
+        $results = [];
+        $dailyPool = IFDailyPool::whereProjectId($projectId)->whereResourceId($resourceId)->first();
+        $historyPool = IFHistoryPool::whereProjectId($projectId)->whereResourceId($resourceId)->first();
+
+        if ($dailyPool instanceof IFDailyPool) {
+            $results["daily"] = $dailyPool;
+        } else {
+            $results["daily"] = new stdClass();
+        }
+
+        if ($historyPool instanceof IFHistoryPool) {
+            $results["history"] = $historyPool;
+        } else {
+            $results["history"] = new stdClass();
+        }
+
+        $results["daily"]->status = $this->getPeriodStatusName($dailyPool);
+        $results["history"]->status = $this->getPeriodStatusName($historyPool);
+        return $results;
+    }
 
     /**
-     *
-     * @var Project
+     * @param $projectId
+     * @param $resourceId
+     * @return array
+     * @throws Exception
      */
-    private $project;
-
-    /**
-     *
-     * @var Resource
-     */
-    private $resource;
+    public function getResourceInfo($projectId, $resourceId): array {
+        return [
+            'resource' => $this->getImportFlowStatusForProject($projectId, Project::find($projectId)->getResource($resourceId))
+        ];
+    }
 
     /**
      * @param int $projectId
      * @param int $resourceId
      * @return array
-     * @throws Exception
      */
-    public function getIndex($projectId, $resourceId): array {
-        $project = Project::find($projectId);
-        $resource = $project->getResource($resourceId);
-
-        $results = [];
-        $dailyStatus = $resource->getStateDailyImportFlow();
-
-        if (($daily = $resource->getResourceStats()->getImportFlowDaily()) instanceof IFDailyPool) {
-            $results["daily"] = $daily;
-        } else {
-            $results["daily"] = new stdClass();
-        }
-
-        $results["daily"]->status = $dailyStatus;
-        $historyStatus = $resource->getStateHistoryImportFlow();
-
-        if (($history = $resource->getResourceStats()->getImportFlowHistory()) instanceof IFHistoryPool) {
-            $results["history"] = $history;
-        } else {
-            $results["history"] = new stdClass();
-        }
-
-        $results["history"]->status = $historyStatus;
-        return $results;
+    public function activateDaily(int $projectId, int $resourceId): array {
+        $dailyPool = IFDailyPool::whereProjectId($projectId)
+            ->whereResourceId($resourceId)->first();
+        return $this->activatePool($dailyPool);
     }
 
-    public function getResourceInfo($projectId, $resourceId) {
-        $this->project = $project = Project::find($projectId);
-        $this->resource = $resource = $project->getResource($resourceId);
+    /**
+     * @param int $projectId
+     * @param int $resourceId
+     * @return array
+     */
+    public function activateHistory(int $projectId, int $resourceId): array {
+        $historyPool = IFHistoryPool::whereProjectId($projectId)
+            ->whereResourceId($resourceId)->first();
+        return $this->activatePool($historyPool);
+    }
 
-        $results["resource"] = $this->getImportFlowStatusForProject($projectId, $this->resource);
-        return $results;
+    /**
+     * @param IFPeriodPool $pool
+     * @return array
+     */
+    private function activatePool(IFPeriodPool $pool): array {
+        if ($pool->importPool === null || $pool->importPool->active === Pools::INACTIVE) {
+            $pool->activate()->save();
+
+            return [
+                'status' => 'success',
+                'message' => 'Pool was activated'
+            ];
+        } else {
+            return [
+                'status' => 'warning',
+                'message' => "Import step with unique {$pool->unique} was not finished yet"
+            ];
+        }
     }
 
     /**
      * @param int $projectId
      * @param int $resourceId
      * @param string $unique
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
     public function raiseDifficulty(int $projectId, int $resourceId, string $unique) {
         $controlPool = IFControlPool::whereUnique($unique)->first();
@@ -86,12 +117,35 @@ class ImportFlowStatusController extends Controller {
      * @param int $projectId
      * @param int $resourceId
      * @param string $unique
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
     public function reduceDifficulty(int $projectId, int $resourceId, string $unique) {
         $controlPool = IFControlPool::whereUnique($unique)->first();
         $controlPool->reduceDifficulty();
         $message = 'Successfully decreased difficulty of flow!';
         return back()->with('message', $message);
+    }
+
+    /**
+     * @param IFPeriodPool|null $pool
+     * @return string
+     */
+    private function getPeriodStatusName(?IFPeriodPool $pool): string {
+        if ($pool === null) {
+            return 'missing';
+        }
+
+        switch ($pool->active) {
+            case 0:
+                return 'inactive';
+            case 1:
+                return 'active';
+            case 2:
+            case 5:
+                return 'running';
+            case 3:
+            default:
+                return 'error';
+        }
     }
 }

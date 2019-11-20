@@ -1,51 +1,63 @@
 <div class="table-responsive">
-    <h4 id="caption-daily" class="resource-subcaption {*{$resource->getStateDailyImportFlow()}*}">Daily import <span>[{*{$resource->getStateDailyImportFlow()}*}]</span></h4>
+    <h4 id="caption-daily" class="resource-subcaption">Daily import <span>[]</span></h4>
     {var $dailySetting = $resourceSetting->dailyPool}
-    <span id="missing-daily" style="display: none"> Missing record </span>
-    <table id="table-daily" class="table table-hover" style="display: none">
-        <tbody>
-        <tr>
-            <td>Id</td>
-            <td>
-                <span id="id-daily"></span>
-            </td>
-        </tr>
-        <tr>
-            <td>Active</td>
-            <td>
-                <span id="active-daily"></span>
-            </td>
-        </tr>
-        <tr>
-            <td>Ttl</td>
-            <td>
-                <span id="ttl-daily"></span>
-            </td>
-        </tr>
-        <tr>
-            <td>Unique</td>
-            <td>
-                <span id="unique-daily"></span>
-            </td>
-        </tr>
-        <tr>
-            <td>Next run date</td>
-            <td>
-                <span id="next_run_date-daily" class="font-bold"></span>
-            </td>
-        </tr>
-        <tr>
-            <td>Start at</td>
-            <td>
-                <span id="start_at-daily"></span>
-            </td>
-        </tr>
-        <tr>
-            <td>Finish at</td>
-            <td>
-                <span id="finish_at-daily"></span>
-            </td>
-        </tr>
-        </tbody>
-    </table>
+    <p class="btn-group">
+        <button class="btn btn-success" id="activation-button-daily" onclick="activateDaily({csrf_token()})">Activate</button>
+    </p>
+    <p id="result-daily" class="alert display-none"></p>
+    <div class="row">
+        <span id="missing-daily" style="display: none">Missing record</span>
+        <table id="table-daily" class="table table-hover" style="display: none">
+            <tbody>
+            <tr>
+                <td>ID</td>
+                <td>
+                    <span id="id-daily"></span>
+                </td>
+            </tr>
+            <tr>
+                <td>Active</td>
+                <td>
+                    <span id="active-daily"></span>
+                </td>
+            </tr>
+            <tr>
+                <td>TTL</td>
+                <td>
+                    <span id="ttl-daily"></span>
+                </td>
+            </tr>
+            <tr>
+                <td>Unique</td>
+                <td>
+                    <span id="unique-daily"></span>
+                </td>
+            </tr>
+            <tr>
+                <td>Next run date</td>
+                <td>
+                    <span id="next_run_date-daily" class="font-bold"></span>
+                </td>
+            </tr>
+            <tr>
+                <td>Start at</td>
+                <td>
+                    <span id="start_at-daily"></span>
+                </td>
+            </tr>
+            <tr>
+                <td>Finish at</td>
+                <td>
+                    <span id="finish_at-daily"></span>
+                </td>
+            </tr>
+            <tr>
+                <td>Updated at</td>
+                <td>
+                    <span id="updated_at-daily"></span>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
