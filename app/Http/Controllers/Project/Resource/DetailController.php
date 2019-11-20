@@ -40,6 +40,7 @@ class DetailController extends Controller {
         $project = Project::with(['resourceSettings' => function (HasMany $query) use ($resourceId) {
             $query->where('resource_id', $resourceId);
         }])->find($projectId);
+
         /**
          * @var ResourceSetting $resourceSetting
          * @var Resource $resource

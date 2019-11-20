@@ -31,21 +31,21 @@ class Controller extends BaseController {
         if ($project !== null) {
             $resources = new Menu($project->name, '#');
             $resources->setOpened(true);
-            $projectResources = $project->resourceSettings;
+            $resourceSettings = $project->resourceSettings;
 
-            foreach ($projectResources as $resource) {
+            foreach ($resourceSettings as $resourceSetting) {
                 // vde($resource);
                 $menuItem = new Menu(
-                    Tr::_($resource->btf_name),
-                    action(DetailController::routeMethod('getIndex'), ['project_id' => $project->id, 'resource_id' => $resource->id])
+                    Tr::_($resourceSetting->resource->btf_name),
+                    action(DetailController::routeMethod('getIndex'), ['project_id' => $project->id, 'resource_id' => $resourceSetting->resource_id])
                 );
 
-                if (!$resource->isValid()) {
+                if (!$resourceSetting->isValid()) {
                     $menuItem->addClass('invalid');
                 }
                 $resources->addMenuItem($menuItem);
             }
-            if ($projectResources->isEmpty()) {
+            if ($resourceSettings->isEmpty()) {
                 $resources->addMenuItem(new Menu("-- EMPTY --", ""));
             }
             $menu->addMenuItem($resources);
