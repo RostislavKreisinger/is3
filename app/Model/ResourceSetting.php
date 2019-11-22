@@ -67,6 +67,18 @@ class ResourceSetting extends MasterModel {
     protected $guarded = [];
 
     /**
+     * The "booting" method of the model.
+     *
+     * @return void
+     */
+    protected static function boot() {
+        parent::boot();
+        static::addGlobalScope('resource_id', function (Builder $builder) {
+            $builder->whereNotIn('resource_id', [1, 19]);
+        });
+    }
+
+    /**
      * @return QueryBuilder
      */
     public function connectionData() {

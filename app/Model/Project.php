@@ -37,7 +37,7 @@ use Illuminate\Database\Query\Builder as QueryBuilder;
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property string|null $deleted_at
- * @property-read EshopType|null $eshopTypeName
+ * @property-read EshopType|null $eshopType
  * @property-read Collection|ResourceSetting[] $resourceSettings
  * @property-read User|null $user
  * @method static bool|null forceDelete()
@@ -68,6 +68,8 @@ use Illuminate\Database\Query\Builder as QueryBuilder;
  * @method static QueryBuilder|Project withTrashed()
  * @method static QueryBuilder|Project withoutTrashed()
  * @mixin Eloquent
+ * @property-read Currency|null $currency
+ * @property-read ProjectType|null $projectType
  */
 class Project extends MasterModel {
     use SoftDeletes;
@@ -77,6 +79,20 @@ class Project extends MasterModel {
     
     public function getResources() {
         return $this->belongsToMany(Resource::class, "resource_setting", "project_id", "resource_id");
+    }
+
+    /**
+     * @return BelongsTo
+     */
+    public function currency(): BelongsTo {
+        return $this->belongsTo(Currency::class);
+    }
+
+    /**
+     * @return BelongsTo
+     */
+    public function projectType(): BelongsTo {
+        return $this->belongsTo(ProjectType::class);
     }
 
     /**
@@ -97,7 +113,7 @@ class Project extends MasterModel {
     /**
      * @return BelongsTo
      */
-    public function eshopTypeName(): BelongsTo {
-        return $this->belongsTo(EshopType::class, 'eshop_type_id')->select(['id', 'name']);
+    public function eshopType(): BelongsTo {
+        return $this->belongsTo(EshopType::class, 'eshop_type_id');
     }
 }

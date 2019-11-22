@@ -38,7 +38,7 @@ abstract class AFlowsController extends Controller {
     protected function prepareBuilder(Builder $builder, array $activeFilter = [1, 2, 5]): Builder {
         return $builder->whereActiveIn($activeFilter)->with([
             'project' => function (BelongsTo $query) {
-                $query->with('eshopTypeName')->select(['id', 'user_id', 'eshop_type_id']);
+                $query->with('eshopType')->select(['id', 'user_id', 'eshop_type_id']);
             },
             'resource' => function (BelongsTo $query) {
                 $query->select(['id', 'name']);

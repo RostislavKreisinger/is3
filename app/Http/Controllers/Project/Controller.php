@@ -8,7 +8,8 @@ use App\Http\Controllers\Controller as BaseController;
 use App\Http\Controllers\Project\Resource\DetailController;
 use App\Http\Controllers\Project\DetailController as ProjectDetailController;
 use Exception;
-use Monkey\ImportSupport\Project;
+use App\Model\Project;
+use Monkey\Constants\ImportFlow\Resource\ResourceSetting;
 use Monkey\Menu\Menu;
 use Monkey\Menu\MenuList;
 use Monkey\View\View;
@@ -28,13 +29,13 @@ class Controller extends BaseController {
     protected function prepareMenu($project = null) {
         View::share('project', $project);
         $menu = $this->getMenu();
+
         if ($project !== null) {
             $resources = new Menu($project->name, '#');
             $resources->setOpened(true);
             $resourceSettings = $project->resourceSettings;
 
             foreach ($resourceSettings as $resourceSetting) {
-                // vde($resource);
                 $menuItem = new Menu(
                     Tr::_($resourceSetting->resource->btf_name),
                     action(DetailController::routeMethod('getIndex'), ['project_id' => $project->id, 'resource_id' => $resourceSetting->resource_id])
@@ -56,21 +57,26 @@ class Controller extends BaseController {
             }
 
             $userProjects = new Menu('Projects', '#');
-            foreach ($projectUser->getProjects() as $userProject) {
-                if ($project->id == $userProject->id) continue;
+
+            foreach ($projectUser->projects->where('id', '!=', $project->id) as $userProject) {
                 $menuItem = new Menu(
                     $userProject->name,
                     action(ProjectDetailController::routeMethod('getIndex'), ['project_id' => $userProject->id])
                 );
+
                 $menuItem->setTitle($userProject->id);
-                if (!$userProject->isValid()) {
+
+                if ($userProject->resourceSettings->where('active', ResourceSetting::ERROR)->count() > 0) {
                     $menuItem->addClass('invalid');
                 }
+
                 $userProjects->addMenuItem($menuItem);
             }
-            if (count($userProjects->getList()) == 0) {
+
+            if (count($userProjects->getList()) === 0) {
                 $userProjects->addMenuItem(new Menu("-- EMPTY --", null));
             }
+
             $menu->addMenuItem($userProjects);
         }
 

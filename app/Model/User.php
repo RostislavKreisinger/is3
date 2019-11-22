@@ -6,11 +6,11 @@ namespace App\Model;
 use Carbon\Carbon;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Query\Builder as QueryBuilder;
-use Monkey\ImportSupport\Project as ImportSupportProject;
 
 /**
  * App\Model\User
@@ -53,6 +53,8 @@ use Monkey\ImportSupport\Project as ImportSupportProject;
  * @property bool|null $is_agency
  * @property int|null $agency_id
  * @property string|null $agency_url
+ * @property-read Client $client
+ * @property-read Collection|Project[] $projects
  * @method static bool|null forceDelete()
  * @method static QueryBuilder|User onlyTrashed()
  * @method static bool|null restore()
@@ -97,35 +99,12 @@ use Monkey\ImportSupport\Project as ImportSupportProject;
  * @method static QueryBuilder|User withTrashed()
  * @method static QueryBuilder|User withoutTrashed()
  * @mixin Eloquent
- * @property-read \Illuminate\Database\Eloquent\Collection|\Monkey\ImportSupport\Project[] $builderProjects
- * @property-read \App\Model\Client $client
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Model\Project[] $projects
  */
 class User extends MasterModel {
     use SoftDeletes;
 
     protected $table = 'user';
     protected $guarded = [];
-    
-    /**
-     * @var ImportSupportProject
-     */
-    protected $projects;
-    
-    /**
-     * @var Client
-     */
-    protected $client;
-    
-    /**
-     * @return ImportSupportProject[]
-     */
-    public function getProjects() {
-        if($this->projects === null){
-            $this->projects = $this->builderProjects()->get();
-        }
-        return $this->projects;
-    }
 
     /**
      * @return HasOne
@@ -139,21 +118,5 @@ class User extends MasterModel {
      */
     public function projects(): HasMany {
         return $this->hasMany(Project::class);
-    }
-
-    
-    public function builderProjects() {
-        return $this->hasMany(ImportSupportProject::class, 'user_id');
-    }
-    
-    /**
-     * 
-     * @return Client
-     */
-    public function getClient() {
-        if($this->client === null){
-            $this->client = $this->hasMany(Client::class, 'user_id')->first();
-        }
-        return $this->client;
     }
 }

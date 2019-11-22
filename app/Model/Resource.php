@@ -88,7 +88,7 @@ class Resource extends MasterModel {
 
     protected static function boot() {
         parent::boot();
-        static::addGlobalScope('id', function(Builder $builder) {
+        static::addGlobalScope('id', function (Builder $builder) {
             $builder->whereNotIn('resource.id', [1, 19]);
         });
     }

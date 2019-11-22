@@ -10,16 +10,22 @@
 
 <div class="row">
     <div class="row">
-    <div class="col-lg-6 col-md-6">
-        {view 'default.project.resource.template.button-panel'}
-        {ifset $resourceDetail}
-            <div class="table-responsive">
-                <table class="table table-hover">
-                    <tbody>
+        <div class="col-lg-6 col-md-6">
+            {view 'default.project.resource.template.button-panel'}
+            {ifset $resourceDetail}
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <tbody>
                         <tr>
                             <td>created_at</td>
                             <td>
                                 <span>{n $resourceSetting->created_at}</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>currency</td>
+                            <td>
+                                <span>{n $resourceCurrency->code}</span>
                             </td>
                         </tr>
                         <tr>
@@ -50,92 +56,81 @@
                                 </td>
                             </tr>
                         {/if}
-                    </tbody>
-                </table>
-            </div>
-        {else}
-            <div class="row">
-                <div class="col-lg-12 alert-danger">Resource Detail not found<span class="fa fa-exclamation"></span></div>
-            </div>
-        {/ifset}
-        {ifset $eshopType}
-            {if $eshopType->import_version == 3 && false}
-                <div class="row" style="margin-top: 20px" n:if="$user->can('project.resource.import_flow.list')">
-                    <div class="col-lg-12">
-                        <h4>Import Flow</h4>
-                        {view 'default.project.resource.template.import-flow-statuses-panel'}
+                        </tbody>
+                    </table>
+                </div>
+            {else}
+                <div class="row">
+                    <div class="col-lg-12 alert-danger">Resource Setting not found<span class="fa fa-exclamation"></span></div>
+                </div>
+            {/ifset}
+            {ifset $eshopType}
+                {if $eshopType->import_version == 3 && false}
+                    <div class="row" style="margin-top: 20px" n:if="$user->can('project.resource.import_flow.list')">
+                        <div class="col-lg-12">
+                            <h4>Import Flow</h4>
+                            {view 'default.project.resource.template.import-flow-statuses-panel'}
+                        </div>
                     </div>
-                </div>
-            {/if}
-        {/ifset}
-    </div>
+                {/if}
+            {/ifset}
+        </div>
 
 
-    <div class="col-lg-6 col-md-6">
-        <ul class="nav nav-tabs">
-            {ifset $resourceDetail}
-                <li class="active">
-                    <a href="#detail" data-toggle="tab" aria-expanded="true">Connection detail</a>
+        <div class="col-lg-6 col-md-6">
+            <ul class="nav nav-tabs">
+                {ifset $resourceDetail}
+                    <li class="active">
+                        <a href="#detail" data-toggle="tab" aria-expanded="true">Connection detail</a>
+                    </li>
+                {/ifset}
+                <li>
+                    <a href="#export" data-toggle="tab" aria-expanded="true">Export</a>
                 </li>
-            {/ifset}
-            <li>
-                <a href="#export" data-toggle="tab" aria-expanded="true">Export</a>
-            </li>
-            <li>
-                <a href="#flow-generator" data-toggle="tab" aria-expanded="true">Flow Generator</a>
-            </li>
-        </ul>
-        <div class="tab-content">
-            {ifset $resourceDetail}
-                <div class="tab-pane active in" id="detail">
-                    {if Monkey\View\ViewFinder::existView("default.project.resource.detail.eshop.$eshopType->code")}
-                        {view "default.project.resource.detail.eshop.$eshopType->code"}
-                    {else}
+                <li>
+                    <a href="#flow-generator" data-toggle="tab" aria-expanded="true">Flow Generator</a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                {ifset $resourceDetail}
+                    <div class="tab-pane active in" id="detail">
                         {view "default.project.resource.detail.eshop.default"}
-                    {/if}
-                </div>
-            {/ifset}
-            <div class="tab-pane" id="export">
+                    </div>
+                {/ifset}
+                <div class="tab-pane" id="export">
                 <textarea id="rsexport" title="SQL of this resource setting" readonly class="form-control"
                           style="resize: none; user-select: all;" rows="5"
                           onclick="$(this).select()">{n $rsexport }</textarea>
-            </div>
-            <div class="tab-pane" id="flow-generator">
-                {if $user->can('project.resource.button.repair.generate')}
-                    <form method="post" class="well form-inline" id="flow-generator-form">
-                        {csrf_field()|noescape}
-                        <label for="flow-generator-date-from" title="Date from">
-                            <input type="date" name="date-from" id="flow-generator-date-from" class="form-control">
-                        </label>
-                        <label for="flow-generator-date-to" title="Date to">
-                            <input type="date" name="date-to" id="flow-generator-date-to" class="form-control">
-                        </label>
-                        <label for="flow-generator-split" title="Split range by selected amount of days">
-                            <select name="split" id="flow-generator-split" class="form-control">
-                                <option>1</option>
-                                <option>2</option>
-                                <option>7</option>
-                                <option>14</option>
-                                <option>30</option>
-                            </select>
-                        </label>
-                        <input type="submit" value="Generate" class="btn btn-default">
-                    </form>
-                {else}
-                    <div class="col-lg-12 alert-warning">
-                        You have insufficient permissions to generate flows!
-                    </div>
-                {/if}
+                </div>
+                <div class="tab-pane" id="flow-generator">
+                    {if $user->can('project.resource.button.repair.generate')}
+                        <form method="post" class="well form-inline" id="flow-generator-form">
+                            {csrf_field()|noescape}
+                            <label for="flow-generator-date-from" title="Date from">
+                                <input type="date" name="date-from" id="flow-generator-date-from" class="form-control">
+                            </label>
+                            <label for="flow-generator-date-to" title="Date to">
+                                <input type="date" name="date-to" id="flow-generator-date-to" class="form-control">
+                            </label>
+                            <label for="flow-generator-split" title="Split range by selected amount of days">
+                                <select name="split" id="flow-generator-split" class="form-control">
+                                    <option>1</option>
+                                    <option>2</option>
+                                    <option>7</option>
+                                    <option>14</option>
+                                    <option>30</option>
+                                </select>
+                            </label>
+                            <input type="submit" value="Generate" class="btn btn-default">
+                        </form>
+                    {else}
+                        <div class="col-lg-12 alert-warning">
+                            You have insufficient permissions to generate flows!
+                        </div>
+                    {/if}
+                </div>
             </div>
         </div>
-    </div>
-    </div>
-    <div class="row">
-        {ifset $eshopType}
-            {if $eshopType->import_version == 2}
-                {view 'default.project.resource.template.pools-panel'}
-            {/if}
-        {/ifset}
     </div>
 </div>
 

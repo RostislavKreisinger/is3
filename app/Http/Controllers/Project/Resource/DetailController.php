@@ -37,9 +37,7 @@ class DetailController extends Controller {
      * @throws Exception
      */
     public function getIndex($projectId, $resourceId) {
-        $project = Project::with(['resourceSettings' => function (HasMany $query) use ($resourceId) {
-            $query->where('resource_id', $resourceId);
-        }])->find($projectId);
+        $project = Project::with(['resourceSettings'])->find($projectId);
 
         /**
          * @var ResourceSetting $resourceSetting
@@ -63,10 +61,6 @@ class DetailController extends Controller {
         $resourceDetail = $resourceSetting->connectionData()->first();
 
         if ($resourceDetail !== null) {
-            if ($resource->id == 4) {
-                $this->getView()->addParameter('eshopType', EshopType::find($resourceDetail->eshop_type_id));
-            }
-
             $this->getView()->addParameter('resourceDetail', get_object_vars($resourceDetail));
         }
 
@@ -75,6 +69,10 @@ class DetailController extends Controller {
         $this->getView()->addParameter('resourceSetting', $resourceSetting);
         $this->getView()->addParameter('buttons', $this->getButtons($projectId, $resourceId));
         $this->getView()->addParameter('ifBaseUrl', ProjectEndpointBaseUrl::getInstance()->getImportFlowUrl());
+
+        if ($resource->id == 4) {
+            $this->getView()->addParameter('eshopType', $project->eshopType);
+        }
 
         $this->getView()->addParameter('resourceCurrency', $resourceSetting->currency);
         $this->getView()->addParameter('historyInterval', $resourceSetting->custom_import_history_interval / (24 * 60 * 60));
