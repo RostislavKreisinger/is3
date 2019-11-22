@@ -64,8 +64,7 @@ class ImportFlowStatusController extends Controller {
      * @return array
      */
     public function activateDaily(int $projectId, int $resourceId): array {
-        $dailyPool = IFDailyPool::whereProjectId($projectId)
-            ->whereResourceId($resourceId)->first();
+        $dailyPool = IFDailyPool::whereProjectId($projectId)->whereResourceId($resourceId)->first();
         return $this->activatePool($dailyPool);
     }
 
@@ -75,8 +74,7 @@ class ImportFlowStatusController extends Controller {
      * @return array
      */
     public function activateHistory(int $projectId, int $resourceId): array {
-        $historyPool = IFHistoryPool::whereProjectId($projectId)
-            ->whereResourceId($resourceId)->first();
+        $historyPool = IFHistoryPool::whereProjectId($projectId)->whereResourceId($resourceId)->first();
         return $this->activatePool($historyPool);
     }
 
@@ -130,7 +128,7 @@ class ImportFlowStatusController extends Controller {
      * @param IFPeriodPool|null $pool
      * @return string
      */
-    private function getPeriodStatusName(?IFPeriodPool $pool): string {
+    private function getPeriodStatusName($pool): string {
         if ($pool === null) {
             return 'missing';
         }
