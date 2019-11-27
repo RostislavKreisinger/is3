@@ -5,7 +5,7 @@ namespace App\Model\ImportPools;
 
 use App\Model\Project;
 use App\Model\Resource;
-use Illuminate\Database\Eloquent\Model;
+use Awobaz\Compoships\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Monkey\Connections\Extension\LaravelMySqlConnection;

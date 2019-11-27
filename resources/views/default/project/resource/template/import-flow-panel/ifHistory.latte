@@ -1,11 +1,15 @@
 <div class="table-responsive">
-    <h4 id="caption-history" class="resource-subcaption {$resource->getStateHistoryImportFlow()}">History import <span>[{$resource->getStateHistoryImportFlow()}]</span></h4>
-    {var $historySetting = $resource->getResourceStats()->getImportFlowHistory()}
+    <h4 id="caption-history" class="resource-subcaption">History import <span>[]</span></h4>
+    {var $historySetting = $resourceSetting->historyPoool}
+    <p class="btn-group">
+        <button class="btn btn-success" id="activation-button-history" onclick="activateHistory({csrf_token()})">Activate</button>
+    </p>
+    <p id="result-history" class="alert display-none"></p>
     <span id="missing-history" style="display: none"> Missing record </span>
     <table id="table-history" class="table table-hover" style="display: none">
         <tbody>
         <tr>
-            <td>Id</td>
+            <td>ID</td>
             <td>
                 <span id="id-history"></span>
             </td>
@@ -17,7 +21,7 @@
             </td>
         </tr>
         <tr>
-            <td>Ttl</td>
+            <td>TTL</td>
             <td>
                 <span id="ttl-history"></span>
             </td>
@@ -52,8 +56,12 @@
                 <span id="finish_at-history"></span>
             </td>
         </tr>
-
-
+        <tr>
+            <td>Updated at</td>
+            <td>
+                <span id="updated_at-history"></span>
+            </td>
+        </tr>
         </tbody>
     </table>
 </div>

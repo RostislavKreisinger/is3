@@ -7,6 +7,7 @@ use App\Model\Project;
 use App\Model\Resource;
 use Eloquent;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Monkey\Constants\ImportFlow\Pools\Pools;
 
 /**
  * Class IFPeriodPool
@@ -35,6 +36,15 @@ abstract class IFPeriodPool extends IFPool {
      * @var string $unique
      */
     protected $unique;
+
+    /**
+     * @return IFPeriodPool
+     */
+    public function activate(): IFPeriodPool {
+        $this->active = Pools::ACTIVE;
+        $this->ttl = Pools::TTL_DEFAULT;
+        return $this;
+    }
 
     /**
      * @return HasOne
