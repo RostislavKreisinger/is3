@@ -3,11 +3,17 @@
 namespace App\Model;
 
 
+use App\Model\ImportPools\IFDailyPool;
+use App\Model\ImportPools\IFHistoryPool;
+use Awobaz\Compoships\Compoships;
+use Awobaz\Compoships\Database\Eloquent\Relations\HasOne;
 use Carbon\Carbon;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Query\Builder as QueryBuilder;
+use Monkey\Constants\ImportFlow\Resource\ResourceSetting as ResourceSettingConstants;
 
 /**
  * Class ResourceSetting
@@ -31,7 +37,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property-read Project|null $project
  * @property-read Resource|null $resourceName
  * @method static bool|null forceDelete()
- * @method static \Illuminate\Database\Query\Builder|ResourceSetting onlyTrashed()
+ * @method static QueryBuilder|ResourceSetting onlyTrashed()
  * @method static bool|null restore()
  * @method static Builder|ResourceSetting whereActive($value)
  * @method static Builder|ResourceSetting whereCreatedAt($value)
@@ -48,17 +54,43 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static Builder|ResourceSetting whereTtl($value)
  * @method static Builder|ResourceSetting whereUpdatedAt($value)
  * @method static Builder|ResourceSetting whereWorkloadDifficulty($value)
- * @method static \Illuminate\Database\Query\Builder|ResourceSetting withTrashed()
- * @method static \Illuminate\Database\Query\Builder|ResourceSetting withoutTrashed()
+ * @method static QueryBuilder|ResourceSetting withTrashed()
+ * @method static QueryBuilder|ResourceSetting withoutTrashed()
  * @mixin Eloquent
+ * @property-read Resource|null $resource
+ * @property-read Currency|null $currency
  */
-class ResourceSetting extends Model {
-    protected $connection = 'mysql-master-app';
+class ResourceSetting extends MasterModel {
+    use Compoships, SoftDeletes;
+
     protected $table = 'resource_setting';
-    
     protected $guarded = [];
 
-    use SoftDeletes;
+    /**
+     * The "booting" method of the model.
+     *
+     * @return void
+     */
+    protected static function boot() {
+        parent::boot();
+        static::addGlobalScope('resource_id', function (Builder $builder) {
+            $builder->whereNotIn('resource_id', [1, 19]);
+        });
+    }
+
+    /**
+     * @return QueryBuilder
+     */
+    public function connectionData() {
+        return $this->getConnection()->table($this->resource->tbl_setting)->where('resource_setting_id', $this->id);
+    }
+
+    /**
+     * @return BelongsTo
+     */
+    public function currency(): BelongsTo {
+        return $this->belongsTo(Currency::class);
+    }
 
     /**
      * @return BelongsTo
@@ -70,17 +102,30 @@ class ResourceSetting extends Model {
     /**
      * @return BelongsTo
      */
-    public function resourceName(): BelongsTo {
-        return $this->belongsTo(Resource::class, 'resource_id')
-            ->select(['id', 'name']);
+    public function resource(): BelongsTo {
+        return $this->belongsTo(Resource::class);
+    }
+
+    /**
+     * @return HasOne
+     */
+    public function dailyPool() {
+        return $this->hasOne(IFDailyPool::class, ['project_id', 'resource_id'], ['project_id', 'resource_id']);
+    }
+
+    /**
+     * @return HasOne
+     */
+    public function historyPool() {
+        return $this->hasOne(IFHistoryPool::class, ['project_id', 'resource_id'], ['project_id', 'resource_id']);
     }
 
     /**
      * @return ResourceSetting
      */
     public function activate(): ResourceSetting {
-        $this->setAttribute('active', 1);
-        $this->setAttribute('ttl', 6);
+        $this->setAttribute('active', ResourceSettingConstants::ACTIVE);
+        $this->setAttribute('ttl', ResourceSettingConstants::TTL_TESTED);
         return $this;
     }
 
@@ -88,8 +133,8 @@ class ResourceSetting extends Model {
      * @return ResourceSetting
      */
     public function deactivate(): ResourceSetting {
-        $this->setAttribute('active', 10);
-        $this->setAttribute('ttl', 0);
+        $this->setAttribute('active', ResourceSettingConstants::MANUAL);
+        $this->setAttribute('ttl', ResourceSettingConstants::TTL_EXHAUSTED);
         return $this;
     }
 
@@ -97,8 +142,15 @@ class ResourceSetting extends Model {
      * @return ResourceSetting
      */
     public function test(): ResourceSetting {
-        $this->setAttribute('active', 0);
-        $this->setAttribute('ttl', 5);
+        $this->setAttribute('active', ResourceSettingConstants::TESTING);
+        $this->setAttribute('ttl', ResourceSettingConstants::TTL_DEFAULT);
         return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isValid(): bool {
+        return $this->active !== ResourceSettingConstants::ERROR && $this->ttl > ResourceSettingConstants::TTL_EXHAUSTED;
     }
 }

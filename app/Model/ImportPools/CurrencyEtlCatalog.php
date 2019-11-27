@@ -1,22 +1,21 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 namespace App\Model\ImportPools;
 
-use App\Model\ImportPools\Model;
-use Illuminate\Database\Eloquent\Builder;
 
-
-
-class CurrencyEtlCatalog extends Model {
-    
-    // use \Illuminate\Database\Eloquent\SoftDeletes;
-    
+/**
+ * Class CurrencyEtlCatalog
+ *
+ * @package App\Model\ImportPools
+ * @property int $id
+ * @property string|null $ISO3
+ * @property int|null $currency_names_id
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\ImportPools\CurrencyEtlCatalog whereCurrencyNamesId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\ImportPools\CurrencyEtlCatalog whereISO3($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\ImportPools\CurrencyEtlCatalog whereId($value)
+ * @mixin \Eloquent
+ */
+class CurrencyEtlCatalog extends PoolModel {
     public $timestamps = false;
 
     protected $table = 'currency_etl_catalog';
@@ -28,8 +27,4 @@ class CurrencyEtlCatalog extends Model {
     public static function getToResolve() {
         return self::whereNull('currency_names_id')->get();
     }
-    
-    
-    
-    
 }

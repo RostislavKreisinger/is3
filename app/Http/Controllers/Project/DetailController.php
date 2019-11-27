@@ -1,18 +1,16 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 namespace App\Http\Controllers\Project;
+
 
 use App\Exceptions\ProjectUserMissingException;
 use App\Http\Controllers\User\DetailController as UserDetailController;
-use App\Model\Currency;
+use App\Model\Project;
+use Exception;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Http\RedirectResponse;
 use Monkey\Breadcrump\BreadcrumbItem;
-use Monkey\ImportSupport\Project;
+use Monkey\Breadcrump\Breadcrumbs;
 
 /**
  * Description of HomepageController
@@ -20,17 +18,23 @@ use Monkey\ImportSupport\Project;
  * @author Tomas
  */
 class DetailController extends Controller {
-    
+    /**
+     * @var Project $project
+     */
     private $project;
 
+    /**
+     * @param int $projectId
+     * @return RedirectResponse
+     * @throws Exception
+     */
     public function getIndex($projectId) {
-        $this->project = $project = Project::find($projectId);
+        $this->project = $project = Project::with(['resourceSettings' => function (HasMany $hasMany) {
+            $hasMany->with(['resource']);
+        }])->find($projectId);
+
         $this->getView()->addParameter('project', $project);
-        $currency = Currency::find($project->currency_id);
-        if($currency){
-            $currency = $currency->code;
-        }
-        $this->getView()->addParameter('currencyCode', $currency);
+        $this->getView()->addParameter('currencyCode', $project->currency->code);
 
         try {
             $this->prepareMenu($project);
@@ -39,10 +43,13 @@ class DetailController extends Controller {
         }
     }
 
+    /**
+     * @param array $parameters
+     * @return Breadcrumbs|void
+     */
     protected function breadcrumbAfterAction($parameters = array()) {
         $breadcrumbs = parent::breadcrumbAfterAction();
         $breadcrumbs->addBreadcrumbItem(new BreadcrumbItem('user', 'User', \Monkey\action(UserDetailController::class, ['user_id' => $this->project->user_id ])));
         $breadcrumbs->addBreadcrumbItem(new BreadcrumbItem('project', 'Project', \Monkey\action(self::class, ['project_id' =>$this->project->id ])));
     }
-
 }
