@@ -17,43 +17,31 @@
                         <tbody>
                         {ifset $resourceDetail}
                             <tr>
+                                <td>created_at</td>
+                                <td>
+                                        <span>{n $resourceSetting->created_at}</span>
+                                </td>
+                            </tr>
+                            <tr>
                                 <td>currency</td>
                                 <td>
                                     <span>{n $resourceCurrency->code}</span>
                                 </td>
                             </tr>
                             <tr>
-                                    <td>created_at</td>
-                                <td>
-                                        <span>{n $resourceDetail->created_at}</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>last_import</td>
-                                <td>
-                                    <span>{n $resourceDetail->last_import_at}</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>last_successful_import</td>
-                                <td>
-                                    <span>{n $resourceDetail->last_successful_import_at}</span>
-                                </td>
-                            </tr>
-                            <tr>
                                 <td>next check date</td>
                                 <td>
-                                    <span>{n $resourceDetail->next_check_date}</span>
+                                    <span>{n $resourceSetting->next_check_date}</span>
                                 </td>
                             </tr>
-                            {if $resourceDetail->active == 3}
+                            {if $resourceSetting->active == 3}
                                 <tr class="alert-danger">
                                     <td>active</td>
                                     <td>
                                         <span>ERROR</span>
                                     </td>
                                 </tr>
-                            {elseif $resourceDetail->active > 4}
+                            {elseif $resourceSetting->active > 4}
                                 <tr class="alert-warning">
                                     <td>active</td>
                                     <td>
@@ -64,10 +52,14 @@
                                 <tr class="alert-info">
                                     <td>active</td>
                                     <td>
-                                        <span>{n $resourceDetail->active}</span>
+                                        <span>{n $resourceSetting->active}</span>
                                     </td>
                                 </tr>
                             {/if}
+                        {else}
+                            <tr class="alert-danger">
+                                <td colspan="2">Resource Setting not found<span class="fa fa-exclamation"></span></td>
+                            </tr>
                         {/ifset}
                         </tbody>
                     </table>
@@ -77,32 +69,26 @@
     </div>
     <div class="col-lg-6 col-md-6">
         <ul class="nav nav-tabs">
-            <li class="active" n:if="count($connectionDetail)">
+            <li class="active" n:if="count($resourceDetail)">
                 <a href="#connection-detail" data-toggle="tab" aria-expanded="true">Connection detail</a>
-            </li>
-            <li class="">
-                <a href="#errors" data-toggle="tab" aria-expanded="true">Errors</a>
             </li>
             <li>
                 <a href="#export" data-toggle="tab" aria-expanded="true">Export</a>
             </li>
         </ul>
         <div class="tab-content">
-            <div class="tab-pane active in" id="connection-detail"  n:if="count($connectionDetail)">
+            <div class="tab-pane active in" id="connection-detail"  n:if="count($resourceDetail)">
                 <h4>Connection detail</h4>
                 <div class="table-responsive">
                     <table class="table table-hover">
                         <tbody>
-                            <tr n:foreach="$connectionDetail as $key => $value">
+                            <tr n:foreach="$resourceDetail as $key => $value">
                                 <th>{$key}</th>
                                 <td>{$value}</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
-            </div>
-            <div class="tab-pane" id="errors">
-                {view 'default.project.resource.template.error-panel'}
             </div>
             <div class="tab-pane" id="export">
                 <textarea id="rsexport" title="SQL of this resource setting" readonly class="form-control"
@@ -127,13 +113,3 @@
         {/if}
     </div>
 </div>
-
-<script>
-    window.onbeforeunload = function () {
-        $.ajax({
-            url: '{action Button\Resource\Other\ShiftNextCheckDateButtonController::class, ['project_id' => $resource->getProject_id(), 'resource_id' => $resource->id, 'next_check_date' => 'now' ]}'
-        });
-    };
-</script>
-
-

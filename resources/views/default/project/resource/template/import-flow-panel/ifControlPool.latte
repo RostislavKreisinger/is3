@@ -28,7 +28,8 @@
                         <th>Id</th>
                         <th>Active</th>
                         <th>Ttl</th>
-                        <th>Date From</th>
+                        <th>Delays</th>
+                        <th>Date from</th>
                         <th>Date to</th>
                         <th>Start at</th>
                         <th>Finish at</th>
@@ -47,13 +48,10 @@
     </div>
 </div>
 
-<div id="importFlowControlPoolDataGrid" style="height: 500px; margin-bottom: 50px; margin-top: 10px;"></div>
-
+<div id="importFlowControlPoolDataGrid" style="height: 500px; margin-bottom: 50px; margin-top: 10px; width: 100%;"></div>
 
 <script>
-
     $(function () {
-
         var ControlPoolData = null;
 
         var Render = {
@@ -64,10 +62,22 @@
 
                 this.fillHeader(object.unique);
                 this.clearTable();
-                this.fillTable('Import', object.ifi);
-                this.fillTable('Etl', object.ife);
-                this.fillTable('Calc', object.ifc);
-                this.fillTable('Output', object.ifo);
+
+                if (object.import_pool) {
+                    this.fillTable('Import', object.import_pool);
+                }
+
+                if (object.etl_pool) {
+                    this.fillTable('Etl', object.etl_pool);
+                }
+
+                if (object.calc_pool) {
+                    this.fillTable('Calc', object.calc_pool);
+                }
+
+                if (object.output_pool) {
+                    this.fillTable('Output', object.output_pool);
+                }
             },
             fillHeader: function (name) {
                 $("#if-modal-header").html(name);
@@ -92,6 +102,9 @@
                                 this.parseData(data.ttl, 'number') +
                             "</td>" +
                             "<td>" +
+                                this.parseData(data.delay_count, 'number') +
+                            "</td>" +
+                            "<td>" +
                                 this.parseData(data.date_from, 'datetime') +
                             "</td>" +
                             "<td>" +
@@ -103,10 +116,11 @@
                             "<td>" +
                                 this.parseData(data.finish_at, 'datetime') +
                             "</td>" +
-                        "</tr>");
+                        "</tr>"
+                    );
             },
             parseData:function (value, type) {
-                if(value === null || value === undefined) {
+                if (value === null || value === undefined) {
                     return '-';
                 }
 
@@ -118,20 +132,14 @@
                     default:
                         return value;
                 }
-
             }
-
         };
 
         window.dxDataGridFunctions = {
             getInfoAboutUniqueStatus: function (unique) {
-                var object = getControlPoolData(unique);
-
-                Render.init(object);
+                Render.init(getControlPoolData(unique));
             }
         };
-
-
 
         $("#importFlowControlPoolDataGrid").dxDataGrid({
             dataSource: [],
@@ -146,125 +154,70 @@
             filterRow: {
                 visible: true
             },
-            allowColumnReordering: true,
             allowColumnResizing: true,
             columnAutoWidth: true,
             columns: [
                 {
                     dataField: 'is_history_status',
                     caption: 'Type',
-                    name: 'is_history',
                     width: 80
                 },
                 {
                     dataField: 'date_from',
                     caption: 'Date From',
-                    name: 'date_from',
-                    dataType: 'date',
-                    format: "shortDateShortTime",
-                    editorOptions: { type: "datetime" },
-                    width: 160
+                    width: 90
                 },
                 {
                     dataField: 'date_to',
                     caption: 'Date To',
-                    name: 'date_to',
-                    dataType: 'date',
-                    format: "shortDateShortTime",
-                    editorOptions: { type: "datetime" },
-                    width: 160
+                    width: 90
                 },
                 {
                     dataField: 'run_time',
                     caption: 'Run Time',
-                    name: 'run_time',
-                    dataType: 'date',
-                    format: "shortDateShortTime",
-                    editorOptions: { type: "datetime" },
-                    width: 160
-
+                    width: 150
                 },
                 {
                     dataField: 'unique',
                     caption: 'Unique',
-                    name: 'unique',
                     cellTemplate: function (cellEmenent, cellInfo) {
-                        cellEmenent.html("<a href='#' data-toggle='modal' data-target='#myModal' onclick=\"window.dxDataGridFunctions.getInfoAboutUniqueStatus(" +
-                            "'" + cellInfo.value + "'" +
-                            ")\"> " + cellInfo.value + "</a>");
-                    },
-                    width: 200
+                        cellEmenent.html(
+                            '<a href="#" data-toggle="modal" data-target="#myModal" '
+                            + 'onclick="window.dxDataGridFunctions.getInfoAboutUniqueStatus(' + "'" + cellInfo.value + "'" + ')">'
+                            + cellInfo.value + '</a>'
+                        );
+                    }
                 },
                 {
-                    dataField: 'in_repair_status',
-                    caption: 'Repaired',
-                    name: 'in_repair',
-                    width: 100
+                    dataField: 'in_repair',
+                    dataType: 'boolean',
+                    caption: 'In repair',
+                    width: 80
+                },
+                {
+                    dataField: 'workload_difficulty',
+                    dataType: 'number',
+                    caption: 'Difficulty',
+                    width: 70
+                },
+                {
+                    dataField: 'created_at',
+                    caption: 'Created at',
+                    width: 150
                 },
                 {
                     dataField: 'updated_at',
                     caption: 'Updated at',
-                    name: 'updated_at',
-                    width: 180,
                     sortIndex: 0,
-                    sortOrder: 'desc'
-                },
-                {
-                    dataField: 'unique',
-                    caption: 'IF Import',
-                    name: 'action',
-                    allowFiltering: false,
-                    cellTemplate: function (cellElement, cellInfo) {
-                        var content = '<a href="' + {$ifBaseUrl} + '/management/';
-
-                        if (cellInfo.data.is_history === 2) {
-                            content += "Tester/?project=" + {n $resource->getProject_id()} + "&resource=" + {n $resource->id} + '">Tester';
-                        } else {
-                            content += "Import/?unique=" + cellInfo.value + '">Import';
-                        }
-
-                        content += "</a>";
-                        cellElement.html(content);
-                    },
-                    width: 80
-                },
-                {
-                    dataField: 'unique',
-                    caption: 'IF Etl',
-                    name: 'action',
-                    allowFiltering: false,
-                    cellTemplate: function (cellElement, cellInfo) {
-                        cellElement.html('<a href="' + {$ifBaseUrl} + '/management/Etl/?unique=' + cellInfo.value + '">Etl</a>');
-                    },
-                    width: 80
-                },
-                {
-                    dataField: 'unique',
-                    caption: 'IF Calc',
-                    name: 'action',
-                    allowFiltering: false,
-                    cellTemplate: function (cellElement, cellInfo) {
-                        cellElement.html('<a href="' + {$ifBaseUrl} + '/management/Calc/?unique=' + cellInfo.value + '">Calc</a>');
-                    },
-                    width: 80
-                },
-                {
-                    dataField: 'unique',
-                    caption: 'IF Output',
-                    name: 'action',
-                    allowFiltering: false,
-                    cellTemplate: function (cellElement, cellInfo) {
-                        cellElement.html('<a href="' + {$ifBaseUrl} + '/management/Output/?unique=' + cellInfo.value + '">Output</a>');
-                    },
-                    width: 80
+                    sortOrder: 'desc',
+                    width: 150
                 },
                 {
                     dataField: 'show_data_link',
                     caption: 'Show Data',
-                    name: 'action',
                     allowFiltering: false,
                     cellTemplate: function (cellElement, cellInfo) {
-                        cellElement.html("<a target='_blank' href='" + cellInfo.value + "'>Show</a>");
+                        cellElement.html('<a target="_blank" href="' + cellInfo.value + '">Show</a>');
                     },
                     width: 100
                 }

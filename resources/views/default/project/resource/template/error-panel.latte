@@ -6,9 +6,6 @@
     <div class="row error" n:foreach="$resourceErrors as $error">
         <div class="col-md-1 text-align-right">
             <a n:if="$user->can('project.resource.error.edit')" href="{action 'Admin\Error\DetailController', ['error_id' => $error->id]}"> <i class="fa fa-pencil-square"></i></a>
-            <a n:if="$user->can('project.resource.error.send')" {if !$error->sent} href="{action 'Button\Resource\Error\SendErrorTestButtonController', ['error_id' => $error->id, 'project_id'=>$project->id]}" {/if}>
-                <i class="fa fa-envelope" {if $error->sent} style="color: #0F0"  title="Error has been sent" {/if}></i>
-            </a>
         </div>
         <div class="col-md-11">
             <div class="ask">{n $error->error}</div>

@@ -64,16 +64,44 @@
             });
     }
 
-    function getDailyHistory() {
+    function getCurrentLocation() {
         var currentLocation = window.location.href;
 
         if (!currentLocation.endsWith('/')) {
             currentLocation += '/';
         }
 
-        $.get(currentLocation + "daily-history", function (data) {
+        return currentLocation;
+    }
+
+    function getDailyHistory() {
+        $.get(getCurrentLocation() + "daily-history", function (data) {
             renderDaily(data.daily);
             renderHistory(data.history);
+        });
+    }
+
+    function showMessage(poolType, message) {
+        const messageBox = $('#result-' + poolType);
+        resetResult(messageBox);
+        messageBox.addClass('alert-' + message.status);
+        messageBox.text(message.message);
+        messageBox.show();
+    }
+
+    function activateDaily(token) {
+        activatePool('daily', token);
+    }
+
+    function activateHistory(token) {
+        activatePool('history', token);
+    }
+
+    function activatePool(poolType, token) {
+        let postData = {'_method': 'PUT', '_token': token};
+
+        $.post(getCurrentLocation() + "importflowstatus/activate-" + poolType, postData, function (data) {
+            showMessage(poolType, data);
         });
     }
 
@@ -83,6 +111,10 @@
 
     function resetCaption(element) {
         $(element).removeClass('done active running missing error deactive');
+    }
+
+    function resetResult(element) {
+        $(element).removeClass('alert-success alert-warning alert-error');
     }
 
     function setCaptionStatus(element, status) {
@@ -105,14 +137,14 @@
     }
 
     function resetBlocks(block, object) {
-        var target = $("#tab-" + block);
+        const target = $("#tab-" + block);
         resetClass(target);
         target.addClass("state-" + object.status);
 
         var missing = $("#missing-" + block);
         var table = $("#table-" + block);
         var isEmpty = false;
-        if (object.length == 0) {
+        if (object.length === 0) {
             missing.show();
             table.hide();
             isEmpty = true;

@@ -19,7 +19,7 @@ class StuckFlowsController extends AFlowsController {
         $results = [];
 
         foreach (static::IF_STEP_POOLS as $stepPool) {
-            $data = $this->prepareBuilder($stepPool::whereOlderThan($time))->get();
+            $data = $this->prepareBuilder($stepPool::whereOlderThan($time)->notDelayed())->get();
 
             if ($data->count() > 0) {
                 array_push($results, ...$data);

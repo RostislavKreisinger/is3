@@ -12,7 +12,6 @@ use App\Http\Controllers\Homepage\ResourcesController;
 use App\Http\Controllers\Homepage\TestedNotRunningProjectsController;
 use App\Http\Controllers\OrderAlert\IndexController;
 use Illuminate\Support\Collection;
-use Monkey\Config\Application\ProjectEndpointBaseUrl;
 use Monkey\Connections\MDDatabaseConnections;
 use Monkey\Connections\MDImportFlowConnections;
 use Monkey\DateTime\DateTimeHelper;
@@ -120,8 +119,6 @@ View::share('poolList', $this->getPoolList());
                 } else if ($this->getNdDigitFromNumber(4, $state) !== 0) {
                     $type = "Output";
                 }
-
-                $status->refresh_link = $this->getFlowStatusLink($status->unique, $type);
 
                 $uniques[$status->unique] = $this->getFlowStatusKey($status);
                 $flowStatus[$this->getFlowStatusKey($status)] = $status;
@@ -286,10 +283,6 @@ View::share('poolList', $this->getPoolList());
         OR `status`.oactive NOT IN (0, 6);
 SQL;
         return MDImportFlowConnections::getImportFlowConnection()->select($sql, array($projectId, $resourceId));
-    }
-
-    private function getFlowStatusLink($uniqueId, $type) {
-        return ProjectEndpointBaseUrl::getInstance()->getImportFlowUrl() . "/management/{$type}/?unique={$uniqueId}";
     }
 
     /**

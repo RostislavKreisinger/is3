@@ -21,7 +21,7 @@ class DetailController extends Controller {
     
     public function getIndex($userId) {
         $user = User::find($userId);
-        $client = $user->getClient();
+        $client = $user->client;
         $tariffOrders = $client->getTariffOrders();
         $tariff = $client->getTariff();
         $this->getView()->addParameter('user', $user);
