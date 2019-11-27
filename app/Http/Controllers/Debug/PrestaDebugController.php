@@ -118,7 +118,7 @@ class PrestaDebugController extends Controller {
         }
 
         if ($active || $inactive) {
-            $differencesBuilder = ResourceSettingDifference::byResourceSettingId($project->resourceSettings($resource_id)->first()->id)
+            $differencesBuilder = ResourceSettingDifference::byResourceSettingId($project->resourceSettings->where('resource_id', $resource_id)->first()->id)
                 ->byEndpoint($endpoint);
 
             if (!$active || !$inactive) {

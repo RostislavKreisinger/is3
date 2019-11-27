@@ -1,16 +1,10 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 namespace App\Model\ImportSupport;
 
-use App\Model\Model;
 
-
+use Eloquent;
+use Illuminate\Database\Query\Builder;
 
 /**
  * Description of Acl
@@ -18,27 +12,21 @@ use App\Model\Model;
  * @author Tomas
  * @property integer $id
  * @property string $key
- * @method static \Illuminate\Database\Query\Builder|\App\Model\Acl whereId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Model\Acl whereKey($value)
- * @mixin \Eloquent
+ * @method static Builder|Acl whereId($value)
+ * @method static Builder|Acl whereKey($value)
+ * @mixin Eloquent
  */
-class Acl extends Model {
-    
-    // use \Illuminate\Database\Eloquent\SoftDeletes;
-    
+class Acl extends ISModel {
     protected $table = 'acl';
-    
-    
+
     public function getPath() {
         $path = explode('.', $this->key);
         unset($path[count($path)-1]);
         return implode('.', $path);
     }
     
-    
     public function getEnd() {
         $path = explode('.', $this->key);
         return $path[count($path)-1];
     }
-    
 }

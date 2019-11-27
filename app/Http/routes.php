@@ -47,6 +47,7 @@ Route::group(['prefix' => 'open'], function () {
             Route::get('resources', 'ResourcesController@index');
             Route::get('eshop-types', 'EshopTypesController@index');
             Route::get('broken-flows', 'BrokenFlowsController@index');
+            Route::get('error-daily-history', 'ErrorDailyHistoryController@index');
             Route::get('tested-not-running-projects', 'TestedNotRunningProjectsController@index');
             Route::get('repair-logs', 'RepairLogsController@index');
         });
@@ -112,11 +113,7 @@ Route::group(['middleware' => 'web'], function () {
             Route::group(['prefix' => 'resource'], function () {
                 Route::group(['prefix' => 'other'], function () {
                     Route::get('/unconnect', App\Http\Controllers\Button\Resource\Other\UnconnectButtonController::getMethodAction());
-                    Route::get('/shift-next-check-date', App\Http\Controllers\Button\Resource\Other\ShiftNextCheckDateButtonController::getMethodAction());
                     Route::get('/update-orders', App\Http\Controllers\Button\Resource\Other\UpdateOrdersButtonController::getMethodAction());
-                });
-                Route::group(['prefix' => 'other'], function () {
-                    Route::get('/error-send', App\Http\Controllers\Button\Resource\Error\SendErrorTestButtonController::getMethodAction());
                 });
 
                 Route::get('/b1-reset-automat-test', App\Http\Controllers\Button\Resource\B1_ResetAutomatTestButtonController::getMethodAction());
@@ -172,6 +169,8 @@ Route::group(['middleware' => 'web'], function () {
                         Route::get('/daily-history', App\Http\Controllers\Project\Resource\ImportFlowStatusController::getMethodAction('getIndex'));
                         Route::group(['prefix' => 'importflowstatus'], function () {
                             Route::get('/', App\Http\Controllers\Project\Resource\ImportFlowStatusController::getMethodAction('getResourceInfo'));
+                            Route::put('activate-daily', 'App\Http\Controllers\Project\Resource\ImportFlowStatusController@activateDaily');
+                            Route::put('activate-history', 'App\Http\Controllers\Project\Resource\ImportFlowStatusController@activateHistory');
                             Route::put('{unique}/raise_difficulty', 'App\Http\Controllers\Project\Resource\ImportFlowStatusController@raiseDifficulty');
                             Route::put('{unique}/reduce_difficulty', 'App\Http\Controllers\Project\Resource\ImportFlowStatusController@reduceDifficulty');
                         });

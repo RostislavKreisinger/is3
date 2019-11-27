@@ -26,6 +26,8 @@ use App\Model\ImportSupport\User as UserModel;
  * @method static \Illuminate\Database\Query\Builder|\App\User whereUpdatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\User whereDeletedAt($value)
  * @mixin \Eloquent
+ * @property string|null $last_visit
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereLastVisit($value)
  */
 class User extends UserModel {
     
