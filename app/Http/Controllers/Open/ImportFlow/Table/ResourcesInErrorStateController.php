@@ -33,16 +33,15 @@ class ResourcesInErrorStateController extends Controller {
             ->where('resource.active', 1)
             ->where('resource_setting.active', 3)
             ->orderBy('resource_setting.updated_at', 'desc')
-            ->get([
+            ->selectRaw('COALESCE(eshop_type.name, resource.name) AS resource_name')
+            ->addSelect([
                 'resource_setting.active',
                 'user.id',
                 'eshop_type_id',
                 'project_id',
                 'resource_id',
-                'ttl',
-                'eshop_type.name',
-                'resource.name AS resource_name'
-            ]);
+                'ttl'
+            ])->get();
 
         for ($i = 0; $i < count($resources); $i++) {
             $resources[$i]->project_url = action(DetailController::routeMethod('getIndex'), [

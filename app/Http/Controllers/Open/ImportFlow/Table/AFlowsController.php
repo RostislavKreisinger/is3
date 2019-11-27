@@ -37,11 +37,17 @@ abstract class AFlowsController extends Controller {
      */
     protected function prepareBuilder(Builder $builder, array $activeFilter = [1, 2, 5]): Builder {
         return $builder->whereActiveIn($activeFilter)->with([
-            'project' => function (BelongsTo $query) {
-                $query->with('eshopType')->select(['id', 'user_id', 'eshop_type_id']);
-            },
-            'resource' => function (BelongsTo $query) {
-                $query->select(['id', 'name']);
+            'resourceSetting' => function (BelongsTo $query) {
+                $query->with([
+                    'project' => function (BelongsTo $query) {
+                        $query->with(['eshopType' => function (BelongsTo $query) {
+                            $query->select(['id', 'name']);
+                        }])->select(['id', 'user_id', 'eshop_type_id']);
+                    },
+                    'resource' => function (BelongsTo $query) {
+                        $query->select(['id', 'name']);
+                    }
+                ])->select(['id', 'project_id', 'resource_id']);
             }
         ])->select([
             'active',
@@ -77,12 +83,19 @@ abstract class AFlowsController extends Controller {
                 'resource_id' => $results[$i]->resource_id
             ]);
 
+            if ($results[$i]->resourceSetting === null) {
+                $results[$i]->resource_name = 'Unknown';
+            } else {
+                $project = $results[$i]->resourceSetting->project;
+                $results[$i]->resource_name = $project->eshopType->name ?? $results[$i]->resourceSetting->resource->name;
+            }
+
             if ($includeUserUrl) {
                 $results[$i]->user_url = '';
 
-                if (isset($results[$i]->project)) {
+                if (isset($results[$i]->resourceSetting->project)) {
                     $results[$i]->user_url = action(UserController::routeMethod('getIndex'), [
-                        'user_id' => $results[$i]->project->user_id
+                        'user_id' => $results[$i]->resourceSetting->project->user_id
                     ]);
                 }
             }

@@ -3,8 +3,7 @@
 namespace App\Model\ImportPools;
 
 
-use App\Model\Project;
-use App\Model\Resource;
+use App\Model\ResourceSetting;
 use Awobaz\Compoships\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -26,15 +25,8 @@ abstract class IFPool extends Model {
     /**
      * @return BelongsTo
      */
-    public function project(): BelongsTo {
-        return $this->belongsTo(Project::class);
-    }
-
-    /**
-     * @return BelongsTo
-     */
-    public function resource(): BelongsTo {
-        return $this->belongsTo(Resource::class);
+    public function resourceSetting(): BelongsTo {
+        return $this->belongsTo(ResourceSetting::class, ['project_id', 'resource_id'], ['project_id', 'resource_id']);
     }
 
     /**

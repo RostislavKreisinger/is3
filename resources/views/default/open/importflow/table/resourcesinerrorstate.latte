@@ -1,8 +1,6 @@
 <div class="panel panel-danger">
     <div class="panel-heading">Resources in error state</div>
-    <div class="panel-body">
-        <div id="import-flow-error-resources"></div>
-    </div>
+    <div class="panel-body" id="import-flow-error-resources"></div>
 </div>
 <script>
     $(function () {
@@ -20,12 +18,9 @@
                 {
                     caption: 'Resource',
                     cellTemplate: function (cellElement, cellInfo) {
-                        var eshopTypeName = cellInfo.data.name ? cellInfo.data.name : 'Eshop';
-                        var notEshopName = cellInfo.data.resource_name ? cellInfo.data.resource_name : 'Unknown';
-                        var resourceName = cellInfo.data.resource_id === 4 ? eshopTypeName : notEshopName;
-                        cellElement.html('<a href="' + cellInfo.data.resource_url + '">' + resourceName + '</a>');
+                        cellElement.html('<a href="' + cellInfo.data.resource_url + '">' + cellInfo.value + '</a>');
                     },
-                    dataField: 'resource_id',
+                    dataField: 'resource_name',
                     selectedFilterOperation: 'contains'
                 },
                 {

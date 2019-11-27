@@ -39,17 +39,9 @@
                 {
                     caption: 'Resource',
                     cellTemplate: function (cellElement, cellInfo) {
-                        var resourceName = 'Unknown';
-
-                        if (cellInfo.data.resource_id === 4) {
-                            resourceName = cellInfo.data.project && cellInfo.data.project.eshop_type_name ? cellInfo.data.project.eshop_type_name.name : 'Eshop';
-                        } else if (cellInfo.data.resource) {
-                            resourceName = cellInfo.data.resource.name;
-                        }
-
-                        cellElement.html('<a href="' + cellInfo.data.resource_url + '">' + resourceName + '</a>');
+                        cellElement.html('<a href="' + cellInfo.data.resource_url + '">' + cellInfo.value + '</a>');
                     },
-                    dataField: 'resource_id',
+                    dataField: 'resource_name',
                     selectedFilterOperation: 'contains'
                 },
                 {
