@@ -7,13 +7,11 @@ use App\Exceptions\ProjectUserMissingException;
 use App\Http\Controllers\Project\Controller;
 use App\Http\Controllers\Project\DetailController as ProjectDetailController;
 use App\Http\Controllers\User\DetailController as UserDetailController;
-use App\Model\EshopType;
 use App\Model\Project;
-use App\Model\ResourceSetting;
 use App\Model\Resource;
+use App\Model\ResourceSetting;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Monkey\Breadcrump\BreadcrumbItem;
@@ -67,7 +65,7 @@ class DetailController extends Controller {
         $this->getView()->addParameter('project', $project);
         $this->getView()->addParameter('resource', $resource);
         $this->getView()->addParameter('resourceSetting', $resourceSetting);
-        $this->getView()->addParameter('buttons', $this->getButtons($projectId, $resourceId));
+        $this->getView()->addParameter('buttons', $this->getButtons($projectId, $resourceId)->getList());
         $this->getView()->addParameter('ifBaseUrl', ProjectEndpointBaseUrl::getInstance()->getImportFlowUrl());
 
         if ($resource->id == 4) {
@@ -129,7 +127,7 @@ class DetailController extends Controller {
      * @return string
      */
     private function getSqlFromModel(Model $model): string {
-        $sql = "INSERT INTO `" . $model->getTable() . "` SET ";
+        $sql = "INSERT INTO `{$model->getTable()}` SET ";
         $values = [];
 
         foreach ($model->getAttributes() as $name => $value) {
